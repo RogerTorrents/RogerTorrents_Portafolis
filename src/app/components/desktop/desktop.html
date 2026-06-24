@@ -1,0 +1,30 @@
+@if (desktopApps() && desktopApps().length > 0) {
+  <div class="screenHeight uk-flex uk-flex-column" (pointerdown)="onDesktopPointerDown($event)">
+    <div class="desktop-container">
+      @for (app of desktopApps(); track app.id) {
+        <app-icon
+          [app]="app"
+          [attr.data-app-id]="app.id"
+          [class.selected]="esSeleccionada(app.id)"
+          [class.dragging]="esArrossegant(app.id)"
+          [style.left.px]="posicionsIcones()[app.id]?.x"
+          [style.top.px]="posicionsIcones()[app.id]?.y"
+          (pointerdown)="onIconaPointerDown($event, app)"
+          (dblclick)="openApp(app)"
+          (click)="tapApp(app)">
+        </app-icon>
+      }
+    </div>
+  </div>
+} @else {
+  <div class="loading">Carregant...</div>
+}
+
+@if (seleccionant()) {
+  <div class="selection-rect"
+    [style.left.px]="rectSeleccio().x"
+    [style.top.px]="rectSeleccio().y"
+    [style.width.px]="rectSeleccio().width"
+    [style.height.px]="rectSeleccio().height">
+  </div>
+}

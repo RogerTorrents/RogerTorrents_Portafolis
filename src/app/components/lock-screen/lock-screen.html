@@ -1,0 +1,5 @@
+<div class="lock-screen" role="dialog" aria-label="Lock Screen" (click)="onUnlock()" tabindex="0">
+  <div class="time">{{ time | date: 'HH:mm' }}</div>
+  <div class="message">{{ ts.t('lock_message') }}</div>
+  <button class="unlock" (click)="onUnlock(); $event.stopPropagation()">{{ ts.t('unlock') }}</button>
+</div>

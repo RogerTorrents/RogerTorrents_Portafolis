@@ -1,0 +1,24 @@
+.lock-screen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  color: white;
+}
+.lock-screen .time {
+  font-size: 4rem;
+  font-weight: 600;
+}
+.lock-screen .message { font-size: 1rem; opacity: 0.9 }
+.unlock {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: white;
+}

@@ -1,0 +1,7 @@
+/* Global styles and theme imports */
+@import "./theme/variables.css";
+@import "./theme/style.css";
+
+html, body {
+  overflow: hidden;
+}

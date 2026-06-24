@@ -1,0 +1,33 @@
+<div class="taskbar taskbar-bottom">
+	<div class="taskbar-left">
+		<button class="start-btn" (click)="showStart()">☰</button>
+		<button class="search-btn" title="Search">🔍</button>
+
+		<div class="running-apps">
+			@for (win of openWindows(); track win.id) {
+				<button class="task-icon" (click)="toggleWindow(win.id)" aria-pressed="{{ win.active }}">
+					<div class="icon-glyph">🟦</div>
+					<div class="icon-label">{{ win.title }}</div>
+				</button>
+			}
+		</div>
+	</div>
+
+	<div class="taskbar-right">
+		@if (settings().wifiEnabled) {
+			<button class="quick">📶</button>
+		} @else {
+			<button class="quick">🚫</button>
+		}
+
+		@if (settings().isMute) {
+			<button class="quick">🔇</button>
+		} @else {
+			<button class="quick">🔊</button>
+		}
+
+		<div class="clock">{{ time() | date: 'HH:mm' }}</div>
+
+		<button class="quick">⚙️</button>
+	</div>
+</div>

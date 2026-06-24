@@ -1,0 +1,16 @@
+<!-- Main application shell: OS-style UI.
+     Placeholder content removed per request. See .context/os-shell for styles and behaviors. -->
+
+@if (lock()) {
+  <app-lock-screen (unlock)="unlock()"></app-lock-screen>
+}
+@if (!lock()) {
+  <app-desktop></app-desktop>
+  <app-taskbar></app-taskbar>
+  <!-- Window wrappers for apps (registered with WindowManagerService) -->
+  <app-window-wrapper id="sobre-mi" title="Sobre mi"></app-window-wrapper>
+  <app-window-wrapper id="habilitats" title="Habilitats"></app-window-wrapper>
+  <app-window-wrapper id="contactar" title="Contactar"></app-window-wrapper>
+}
+
+<router-outlet />

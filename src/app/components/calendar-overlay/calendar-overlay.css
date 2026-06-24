@@ -1,0 +1,2 @@
+.calendar-root { position: absolute; right: 16px; top: 56px; color: var(--color-white) }
+.calendar-box { background: rgba(0,0,0,0.6); padding:8px; border-radius:6px }
