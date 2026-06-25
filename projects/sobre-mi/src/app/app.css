@@ -1,0 +1,31 @@
+.app-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+}
+.placeholder-content {
+  text-align: center;
+  color: #888;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+.placeholder-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+.placeholder-content h2 {
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: #aaa;
+  margin: 0 0 0.5rem;
+}
+.placeholder-content p {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #666;
+  max-width: 320px;
+  margin: 0 auto;
+  line-height: 1.5;
+}

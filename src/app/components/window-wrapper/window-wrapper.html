@@ -1,10 +1,25 @@
-<div class="window-wrapper" [class.maximized]="state()?.state === 'maximized'" [class.active]="state()?.active" [style.left.px]="state()?.x" [style.top.px]="state()?.y" [style.width.px]="state()?.width" [style.height.px]="state()?.height" [style.zIndex]="state()?.z" [style.display]="state()?.visible ? 'block' : 'none'">
+<div class="window-wrapper"
+  [class.maximized]="state()?.state === 'maximized'"
+  [class.active]="state()?.active"
+  [class.anim-opening]="state()?.animState === 'opening'"
+  [class.anim-closing]="state()?.animState === 'closing'"
+  [style.left.px]="state()?.x"
+  [style.top.px]="state()?.y"
+  [style.width.px]="state()?.width"
+  [style.height.px]="state()?.height"
+  [style.zIndex]="state()?.z"
+  [style.display]="(state()?.visible || state()?.animState === 'closing') ? 'block' : 'none'"
+  [style.transformOrigin]="getAnimOrigin()">
   <div class="window-header" (pointerdown)="onHeaderPointerDown($event)" (dblclick)="maximize()">
     <div class="title">{{ state()?.title ?? title }}</div>
     <div class="controls">
-      <button aria-label="Minimitzar" title="Minimitzar" (click)="minimize(); $event.stopPropagation()">&#x2015;</button>
-      <button aria-label="Maximitzar" title="Maximitzar" (click)="maximize(); $event.stopPropagation()">&#9723;</button>
-      <button class="btn-tancar" aria-label="Tancar" title="Tancar" (click)="close(); $event.stopPropagation()">&#10005;</button>
+      <button [attr.aria-label]="ts.t('minimize')" [title]="ts.t('minimize')" (click)="minimize(); $event.stopPropagation()">&#x2015;</button>
+      @if (state()?.state === 'maximized') {
+        <button [attr.aria-label]="ts.t('restore')" [title]="ts.t('restore')" (click)="maximize(); $event.stopPropagation()"><span class="icon-restore">&#9723;&#9723;</span></button>
+      } @else {
+        <button [attr.aria-label]="ts.t('maximize')" [title]="ts.t('maximize')" (click)="maximize(); $event.stopPropagation()">&#9723;</button>
+      }
+      <button class="btn-tancar" [attr.aria-label]="ts.t('close')" [title]="ts.t('close')" (click)="close(); $event.stopPropagation()">&#10005;</button>
     </div>
   </div>
   <div class="window-content">
@@ -19,3 +34,27 @@
   <div class="resize-handle resize-sw" (pointerdown)="onResizePointerDown($event, 'sw')"></div>
   <div class="resize-handle resize-se" (pointerdown)="onResizePointerDown($event, 'se')"></div>
 </div>
+
+@if (snapZone(); as zone) {
+  <div class="snap-preview"
+    [class.snap-left]="zone === 'left'"
+    [class.snap-right]="zone === 'right'"
+    [class.snap-full]="zone === 'maximize'">
+  </div>
+}
+
+@if (showSnapAssist()) {
+  <div class="snap-assist-overlay"
+    [class.assist-left]="snapAssistSide() === 'left'"
+    [class.assist-right]="snapAssistSide() === 'right'"
+    (click)="tancarSnapAssist()">
+    <div class="snap-assist-grid" (click)="$event.stopPropagation()">
+      @for (win of altresFinestres(); track win.id) {
+        <button class="snap-assist-item" (click)="seleccionarSnapAssist(win.id)">
+          <span class="snap-assist-icon">{{ win.icon || '📄' }}</span>
+          <span class="snap-assist-title">{{ win.title }}</span>
+        </button>
+      }
+    </div>
+  </div>
+}

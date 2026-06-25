@@ -8,9 +8,24 @@
   <app-desktop></app-desktop>
   <app-taskbar></app-taskbar>
   <!-- Window wrappers for apps (registered with WindowManagerService) -->
-  <app-window-wrapper id="sobre-mi" title="Sobre mi"></app-window-wrapper>
-  <app-window-wrapper id="habilitats" title="Habilitats"></app-window-wrapper>
-  <app-window-wrapper id="contactar" title="Contactar"></app-window-wrapper>
+  <app-window-wrapper id="sobre-mi" [title]="ts.t('app_sobre_mi')">
+    <div class="app-placeholder">
+      <span class="app-placeholder-icon">👤</span>
+      <p>{{ ts.t('placeholder_sobre_mi') }}</p>
+    </div>
+  </app-window-wrapper>
+  <app-window-wrapper id="habilitats" [title]="ts.t('app_habilitats')">
+    <div class="app-placeholder">
+      <span class="app-placeholder-icon">⚙️</span>
+      <p>{{ ts.t('placeholder_habilitats') }}</p>
+    </div>
+  </app-window-wrapper>
+  <app-window-wrapper id="contactar" [title]="ts.t('app_contactar')">
+    <div class="app-placeholder">
+      <span class="app-placeholder-icon">✉️</span>
+      <p>{{ ts.t('placeholder_contactar') }}</p>
+    </div>
+  </app-window-wrapper>
 }
 
 <router-outlet />

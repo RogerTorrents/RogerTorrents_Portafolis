@@ -1,6 +1,8 @@
 .taskbar-bottom {
 	height: 40px !important;
 	background: rgba(0, 0, 0, 0.55);
+	user-select: none;
+	-webkit-user-select: none;
 	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
@@ -15,52 +17,375 @@
 	padding: 0 8px;
 }
 
-.taskbar-left, .taskbar-right { display:flex; align-items:center; gap:8px }
+.taskbar-left, .taskbar-right { display: flex; align-items: center; gap: 4px; }
+.taskbar-right { position: relative; }
 
-.start-btn, .search-btn, .quick, .task-icon { background: transparent; border: none; padding:6px; border-radius:4px; cursor:pointer }
-.running-apps { display:flex; gap:6px; align-items:center }
-.task-icon { display:flex; flex-direction:column; align-items:center; font-size:0.75rem }
-.icon-glyph { font-size:1.1rem }
-.clock { min-width:56px; text-align:center }
-
-.taskbar-icon {
-	color: var(--color-white);
-	width: 45px;
-	margin-right: 5px;
+.start-btn, .search-btn, .quick, .task-icon {
+	background: transparent;
+	border: none;
+	padding: 6px;
+	border-radius: 4px;
+	cursor: pointer;
+	color: #e0e0e0;
+}
+.start-btn:hover, .search-btn:hover, .quick:hover, .task-icon:hover {
+	background: rgba(255, 255, 255, 0.1);
 }
 
-.taskbar-quick-icon {
-	color: var(--color-white);
-	width: 30px;
-	margin-right: 5px;
+.running-apps { display: flex; gap: 4px; align-items: center; }
+.task-wrapper { position: relative; }
+.task-icon {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 10px;
+	border-radius: 4px;
+	font-size: 0.75rem;
+	position: relative;
+}
+.task-icon .icon-glyph { font-size: 1rem; flex-shrink: 0; }
+.task-icon .icon-label {
+	font-family: 'Segoe UI', system-ui, sans-serif;
+	font-weight: 400;
+	white-space: nowrap;
+	color: #ccc;
+}
+.task-icon.task-visible {
+	background: rgba(255, 255, 255, 0.08);
+}
+.task-icon.task-visible::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 25%;
+	width: 50%;
+	height: 2px;
+	background: #0078d4;
+	border-radius: 1px;
+}
+.task-icon.task-active {
+	background: rgba(255, 255, 255, 0.12);
+}
+.task-icon.task-active .icon-label { color: #e0e0e0; }
+.task-icon.task-dragging {
+	z-index: 10;
+	opacity: 0.85;
+	cursor: grabbing;
 }
 
-.taskbar-quick-icon:hover,
-.taskbar-icon:hover {
-	color: var(--color-white);
-	cursor: pointer !important;
-	background-color: rgba(255, 255, 255, 0.1) !important;
+/* Idioma */
+.idioma-wrapper { position: relative; }
+.idioma-btn {
+	font-family: 'Segoe UI', system-ui, sans-serif !important;
+	font-size: 0.65rem !important;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+}
+.idioma-popup {
+	position: absolute;
+	bottom: 44px;
+	right: 0;
+	width: 160px;
+	background: rgba(30, 30, 30, 0.95);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 8px;
+	padding: 6px;
+	z-index: 2000;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+.idioma-item {
+	display: block;
+	width: 100%;
+	padding: 8px 12px;
+	background: transparent;
+	border: none;
+	color: #ccc;
+	font-family: 'Segoe UI', system-ui, sans-serif;
+	font-size: 0.8rem;
+	text-align: left;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.idioma-item:hover { background: rgba(255, 255, 255, 0.08); }
+.idioma-item.idioma-actiu {
+	color: #fff;
+	background: rgba(0, 120, 215, 0.3);
 }
 
-.taskbar-icon-active {
-	height: 90% !important;
-	border-bottom: 1px solid #ccc;
-	border-color: var(--color-blue) !important;
+/* Rellotge + data */
+.clock-area {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 2px 8px;
+	border-radius: 4px;
+	line-height: 1.2;
+}
+.clock-area:hover { background: rgba(255, 255, 255, 0.1); }
+.clock-time {
+	font-size: 0.75rem;
+	color: #e0e0e0;
+	font-family: 'Segoe UI', system-ui, sans-serif;
+	font-weight: 400;
+}
+.clock-date {
+	font-size: 0.65rem;
+	color: #b0b0b0;
+	font-family: 'Segoe UI', system-ui, sans-serif;
+	font-weight: 400;
 }
 
-.onDesktop {
-	background-color: rgba(255, 255, 255, 0.3) !important;
+/* Volum popup */
+.volum-wrapper { position: relative; }
+.volum-popup {
+	position: absolute;
+	bottom: 44px;
+	right: 0;
+	width: 220px;
+	background: rgba(30, 30, 30, 0.95);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 8px;
+	padding: 14px;
+	z-index: 2000;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+.volum-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: #e0e0e0;
+	font-size: 0.8rem;
+	margin-bottom: 10px;
+	font-family: 'Segoe UI', system-ui, sans-serif;
+}
+.volum-slider {
+	width: 100%;
+	height: 4px;
+	-webkit-appearance: none;
+	appearance: none;
+	background: rgba(255, 255, 255, 0.15);
+	border-radius: 2px;
+	outline: none;
+	cursor: pointer;
+}
+.volum-slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background: #0078d4;
+	cursor: pointer;
+}
+.volum-slider::-moz-range-thumb {
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background: #0078d4;
+	border: none;
+	cursor: pointer;
 }
 
-.onDesktop:hover {
-	background-color: rgba(255, 255, 255, 0.5) !important;
+/* Calendari popup */
+.calendari-popup {
+	position: absolute;
+	bottom: 44px;
+	right: 0;
+	width: 300px;
+	background: rgba(30, 30, 30, 0.95);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 8px;
+	padding: 16px;
+	z-index: 2000;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+	font-family: 'Segoe UI', system-ui, sans-serif;
+	color: #e0e0e0;
+}
+.calendari-hora { text-align: center; padding-bottom: 12px; }
+.calendari-hora-gran {
+	font-size: 2rem;
+	font-weight: 300;
+	letter-spacing: 1px;
+}
+.calendari-hora-data {
+	font-size: 0.8rem;
+	color: #a0a0a0;
+	margin-top: 2px;
+}
+.calendari-separador {
+	height: 1px;
+	background: rgba(255, 255, 255, 0.1);
+	margin-bottom: 12px;
+}
+.calendari-nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+	font-size: 0.85rem;
+	font-weight: 600;
+}
+.calendari-nav button {
+	background: transparent;
+	border: none;
+	color: #e0e0e0;
+	cursor: pointer;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 0.7rem;
+}
+.calendari-nav button:hover { background: rgba(255, 255, 255, 0.1); }
+
+.calendari-grid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	text-align: center;
+	gap: 2px;
+}
+.calendari-dia-setmana {
+	font-size: 0.65rem;
+	color: #888;
+	padding: 4px 0;
+	font-weight: 600;
+}
+.calendari-dia {
+	font-size: 0.75rem;
+	padding: 6px 0;
+	border-radius: 50%;
+	cursor: default;
+	aspect-ratio: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.calendari-dia:hover { background: rgba(255, 255, 255, 0.08); }
+.calendari-dia.fora-mes { color: #555; }
+.calendari-dia.avui {
+	background: #0078d4;
+	color: #fff;
+	font-weight: 700;
+}
+
+/* Preview de finestra al hover */
+.task-preview {
+	position: absolute;
+	bottom: 44px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 210px;
+	background: rgba(30, 30, 30, 0.95);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 6px;
+	overflow: hidden;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+	z-index: 2000;
+	animation: preview-in 0.12s ease-out;
+}
+@keyframes preview-in {
+	from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+	to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+.preview-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 8px;
+	background: rgba(255, 255, 255, 0.04);
+}
+.preview-title {
+	font-size: 0.7rem;
+	color: #bbb;
+	font-family: 'Segoe UI', system-ui, sans-serif;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.preview-close {
+	width: 20px;
+	height: 20px;
+	border: none;
+	background: transparent;
+	color: #999;
+	font-size: 0.65rem;
+	cursor: pointer;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+.preview-close:hover {
+	background: #c42b1c;
+	color: #fff;
+}
+.preview-body {
+	height: 120px;
+	background: #1e1e1e;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+.preview-body:hover { background: #252525; }
+.preview-icon {
+	font-size: 2.5rem;
+	opacity: 0.4;
+}
+
+/* Menú contextual */
+.context-menu {
+	position: fixed;
+	min-width: 140px;
+	background: rgba(30, 30, 30, 0.95);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 6px;
+	padding: 4px;
+	z-index: 3000;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+	animation: preview-in 0.1s ease-out;
+}
+.context-item {
+	display: block;
+	width: 100%;
+	padding: 7px 14px;
+	background: transparent;
+	border: none;
+	color: #ddd;
+	font-family: 'Segoe UI', system-ui, sans-serif;
+	font-size: 0.8rem;
+	text-align: left;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.context-item:hover { background: rgba(255, 255, 255, 0.08); }
+.context-item-danger:hover { background: #c42b1c; color: #fff; }
+.context-separator {
+	height: 1px;
+	background: rgba(255, 255, 255, 0.08);
+	margin: 3px 6px;
 }
 
 .desktop-container {
 	height: calc(100% - 40px) !important;
 }
 
-@media (max-width:650px) {
-	.taskbar-bottom { height:56px }
-	.icon-glyph { font-size:1.4rem }
+@media (max-width: 650px) {
+	.taskbar-bottom { height: 56px; }
+	.icon-glyph { font-size: 1.4rem; }
+	.calendari-popup { width: 260px; }
+	.task-preview { display: none; }
 }

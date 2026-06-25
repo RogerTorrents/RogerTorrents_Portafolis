@@ -3,6 +3,7 @@ import { Injectable, computed, signal, Signal } from '@angular/core';
 export type WindowState = {
   id: string;
   title: string;
+  icon: string;
   x: number;
   y: number;
   width: number;
@@ -11,26 +12,26 @@ export type WindowState = {
   state: 'normal' | 'minimized' | 'maximized';
   visible: boolean;
   active: boolean;
+  animState: 'opening' | 'closing' | '';
   restoreBounds?: { x: number; y: number; width: number; height: number };
 };
 
 @Injectable({ providedIn: 'root' })
 export class WindowManagerService {
-  // Registre reactiu de finestres
   private readonly _finestres = signal<Record<string, WindowState>>({});
   private readonly _topZ = signal(100);
+  private readonly _animTimeouts = new Map<string, any>();
+  private _windowCount = 0;
+  private readonly _cascade = 30;
 
-  // Retorna una senyal (computed) per a una finestra concreta
   getWindowSignal(id: string): Signal<WindowState | undefined> {
     return computed(() => this._finestres()[id]);
   }
 
-  // Retorna totes les finestres (objecte)
   get finestres() {
     return this._finestres;
   }
 
-  // Registra una finestra amb estat per defecte si no existeix
   registerWindow(id: string, title = 'Finestra', props?: Partial<WindowState>) {
     if (this._finestres()[id]) return;
     const z = this._topZ() + 1;
@@ -38,33 +39,54 @@ export class WindowManagerService {
     const def: WindowState = {
       id,
       title,
-      x: 120,
-      y: 80,
+      icon: '',
+      x: 120 + this._windowCount * this._cascade,
+      y: 80 + this._windowCount * this._cascade,
       width: 640,
       height: 360,
       z,
       state: 'normal',
       visible: false,
       active: false,
+      animState: '',
     };
     this._finestres.update(f => ({ ...f, [id]: { ...def, ...props } }));
+    this._windowCount++;
   }
 
-  // Obre (o registra i obre) una finestra
-  openWindow(id: string, title?: string) {
+  openWindow(id: string, title?: string, icon?: string) {
+    this.clearAnim(id);
     if (!this._finestres()[id]) this.registerWindow(id, title ?? id);
-    this._finestres.update(f => ({ ...f, [id]: { ...f[id], visible: true, state: 'normal', active: true } }));
+    const patch: Partial<WindowState> = { visible: true, state: 'normal', active: true, animState: '' };
+    if (icon) patch.icon = icon;
+    this._finestres.update(f => ({ ...f, [id]: { ...f[id], ...patch } }));
     this.bringToFront(id);
+  }
+
+  restoreWindow(id: string) {
+    this.clearAnim(id);
+    if (!this._finestres()[id]) return;
+    this.patchWindow(id, { visible: true, state: 'normal', active: true, animState: 'opening' });
+    this.bringToFront(id);
+    this._animTimeouts.set(id, setTimeout(() => {
+      this.patchWindow(id, { animState: '' });
+      this._animTimeouts.delete(id);
+    }, 200));
   }
 
   closeWindow(id: string) {
     if (!this._finestres()[id]) return;
-    this._finestres.update(f => ({ ...f, [id]: { ...f[id], visible: false, active: false } }));
+    this.patchWindow(id, { visible: false, active: false });
   }
 
   minimizeWindow(id: string) {
     if (!this._finestres()[id]) return;
-    this._finestres.update(f => ({ ...f, [id]: { ...f[id], state: 'minimized', visible: false, active: false } }));
+    this.clearAnim(id);
+    this.patchWindow(id, { animState: 'closing' });
+    this._animTimeouts.set(id, setTimeout(() => {
+      this.patchWindow(id, { state: 'minimized', visible: false, active: false, animState: '' });
+      this._animTimeouts.delete(id);
+    }, 150));
   }
 
   maximizeWindow(id: string) {
@@ -108,7 +130,6 @@ export class WindowManagerService {
     this.bringToFront(id);
   }
 
-  // Porta la finestra al davant i actualitza z-index i focus
   bringToFront(id: string) {
     if (!this._finestres()[id]) return;
     const z = this._topZ() + 1;
@@ -123,21 +144,33 @@ export class WindowManagerService {
     });
   }
 
-  // Mou la finestra a coordenades noves
+  updateTitle(id: string, title: string) {
+    if (!this._finestres()[id]) return;
+    this._finestres.update(f => ({ ...f, [id]: { ...f[id], title } }));
+  }
+
   moveWindow(id: string, x: number, y: number) {
     if (!this._finestres()[id]) return;
     this._finestres.update(f => ({ ...f, [id]: { ...f[id], x, y } }));
   }
 
-  // Canvia la mida d'una finestra
   resizeWindow(id: string, width: number, height: number) {
     if (!this._finestres()[id]) return;
     this._finestres.update(f => ({ ...f, [id]: { ...f[id], width, height } }));
   }
 
-  // Canvia la mida i posició alhora (per redimensionar des de costats esquerre/superior)
   resizeMoveWindow(id: string, x: number, y: number, width: number, height: number) {
     if (!this._finestres()[id]) return;
     this._finestres.update(f => ({ ...f, [id]: { ...f[id], x, y, width, height } }));
+  }
+
+  private patchWindow(id: string, patch: Partial<WindowState>) {
+    if (!this._finestres()[id]) return;
+    this._finestres.update(f => ({ ...f, [id]: { ...f[id], ...patch } }));
+  }
+
+  private clearAnim(id: string) {
+    const t = this._animTimeouts.get(id);
+    if (t) { clearTimeout(t); this._animTimeouts.delete(id); }
   }
 }

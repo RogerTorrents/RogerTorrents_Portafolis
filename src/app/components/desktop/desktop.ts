@@ -1,5 +1,6 @@
 import { Component, computed, signal, OnDestroy } from '@angular/core';
 import { WindowManagerService } from '../../services/window-manager.service';
+import { TranslationService } from '../../services/translation.service';
 import { AppIcon } from '../base/app-icon/app-icon';
 
 @Component({
@@ -10,14 +11,16 @@ import { AppIcon } from '../base/app-icon/app-icon';
   styleUrls: ['./desktop.css']
 })
 export class Desktop implements OnDestroy {
-  apps = [
-    { id: 'sobre-mi', name: 'Sobre mi', icon: '👤', showInDesktop: true },
-    { id: 'habilitats', name: 'Habilitats', icon: '⚙️', showInDesktop: true },
-    { id: 'contactar', name: 'Contactar', icon: '✉️', showInDesktop: true },
+  private readonly appDefs = [
+    { id: 'sobre-mi', nameKey: 'app_sobre_mi', icon: '👤', showInDesktop: true },
+    { id: 'habilitats', nameKey: 'app_habilitats', icon: '⚙️', showInDesktop: true },
+    { id: 'contactar', nameKey: 'app_contactar', icon: '✉️', showInDesktop: true },
   ];
 
   isMobile = computed(() => window.innerWidth <= 650);
-  desktopApps = computed(() => this.apps.filter(a => a.showInDesktop));
+  desktopApps = computed(() =>
+    this.appDefs.filter(a => a.showInDesktop).map(a => ({ ...a, name: this.ts.t(a.nameKey) }))
+  );
 
   onTaskbarApps = computed(() => {
     const wins = Object.values(this.wm.finestres() || {});
@@ -30,7 +33,7 @@ export class Desktop implements OnDestroy {
   private readonly gridPadding = 10;
 
   posicionsIcones = signal<Record<string, { x: number; y: number }>>(
-    this.apps.reduce((acc, app, i) => ({
+    this.appDefs.reduce((acc: Record<string, { x: number; y: number }>, app, i) => ({
       ...acc,
       [app.id]: this.snapToGrid(this.gridPadding, this.gridPadding + i * this.gridH)
     }), {} as Record<string, { x: number; y: number }>)
@@ -52,7 +55,7 @@ export class Desktop implements OnDestroy {
   // Selecció rectangular
   private iniciSeleccio = { x: 0, y: 0 };
 
-  constructor(private readonly wm: WindowManagerService) {}
+  constructor(private readonly wm: WindowManagerService, readonly ts: TranslationService) {}
 
   private snapToGrid(x: number, y: number): { x: number; y: number } {
     const maxX = Math.floor((window.innerWidth - this.gridPadding - this.gridW) / this.gridW) * this.gridW + this.gridPadding;
@@ -67,7 +70,7 @@ export class Desktop implements OnDestroy {
 
   openApp(app: any) {
     if (Date.now() - this.lastDragTime < 200) return;
-    this.wm.openWindow(app.id, app.name);
+    this.wm.openWindow(app.id, app.name, app.icon);
   }
 
   tapApp(app: any) {

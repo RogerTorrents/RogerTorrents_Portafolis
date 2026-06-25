@@ -4,6 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:all": "concurrently \"ng serve\" \"ng serve sobre-mi --port 4201\" \"ng serve habilitats --port 4202\" \"ng serve contactar --port 4203\"",
+    "start:sobre-mi": "ng serve sobre-mi --port 4201",
+    "start:habilitats": "ng serve habilitats --port 4202",
+    "start:contactar": "ng serve contactar --port 4203",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -24,6 +28,7 @@
     "@angular/build": "^22.0.4",
     "@angular/cli": "^22.0.4",
     "@angular/compiler-cli": "^22.0.0",
+    "concurrently": "^10.0.3",
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",

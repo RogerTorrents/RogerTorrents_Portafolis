@@ -16,7 +16,7 @@ export class App {
   protected readonly title = signal('RogerTorrents-portafolis');
   protected readonly lock = signal(true);
 
-  constructor(private readonly ts: TranslationService) {}
+  constructor(readonly ts: TranslationService) {}
 
   protected unlock(): void {
     this.lock.set(false);

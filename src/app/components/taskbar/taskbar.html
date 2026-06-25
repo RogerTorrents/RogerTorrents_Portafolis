@@ -1,33 +1,124 @@
 <div class="taskbar taskbar-bottom">
 	<div class="taskbar-left">
 		<button class="start-btn" (click)="showStart()">☰</button>
-		<button class="search-btn" title="Search">🔍</button>
+		<button class="search-btn" [title]="ts.t('search')">🔍</button>
 
 		<div class="running-apps">
 			@for (win of openWindows(); track win.id) {
-				<button class="task-icon" (click)="toggleWindow(win.id)" aria-pressed="{{ win.active }}">
-					<div class="icon-glyph">🟦</div>
-					<div class="icon-label">{{ win.title }}</div>
-				</button>
+				<div class="task-wrapper"
+					(mouseenter)="mostrarPreview(win.id)"
+					(mouseleave)="amagarPreview()">
+					<button class="task-icon"
+						[attr.data-task-id]="win.id"
+						[class.task-active]="win.visible && win.active"
+						[class.task-visible]="win.visible"
+						[class.task-dragging]="idArrossegant() === win.id"
+						[style.transform]="idArrossegant() === win.id ? 'translateX(' + offsetArrossegar() + 'px)' : ''"
+						(pointerdown)="onTaskPointerDown($event, win.id)"
+						(click)="toggleWindow(win.id)"
+						(contextmenu)="obrirContextMenu($event, win.id)">
+						<span class="icon-glyph">{{ win.icon || '📄' }}</span>
+						<span class="icon-label">{{ win.title }}</span>
+					</button>
+					@if (previewId() === win.id && !idArrossegant()) {
+						<div class="task-preview"
+							(mouseenter)="mostrarPreview(win.id)"
+							(mouseleave)="amagarPreview()">
+							<div class="preview-header">
+								<span class="preview-title">{{ win.icon || '📄' }} {{ win.title }}</span>
+								<button class="preview-close" (click)="tancarDesDePreview(win.id); $event.stopPropagation()">✕</button>
+							</div>
+							<div class="preview-body" (click)="focusWindow(win.id)">
+								<span class="preview-icon">{{ win.icon || '📄' }}</span>
+							</div>
+						</div>
+					}
+				</div>
 			}
 		</div>
 	</div>
 
 	<div class="taskbar-right">
-		@if (settings().wifiEnabled) {
-			<button class="quick">📶</button>
-		} @else {
-			<button class="quick">🚫</button>
+		<!-- Idioma -->
+		<div class="idioma-wrapper">
+			<button class="quick idioma-btn" (click)="toggleIdioma($event)" [title]="ts.t('language')">
+				{{ idiomaActual() }}
+			</button>
+			@if (mostrarIdioma()) {
+				<div class="idioma-popup" (pointerdown)="$event.stopPropagation()">
+					@for (lang of idiomes; track lang.codi) {
+						<button class="idioma-item"
+							[class.idioma-actiu]="ts.idioma() === lang.codi"
+							(click)="canviarIdioma(lang.codi)">
+							{{ lang.nom }}
+						</button>
+					}
+				</div>
+			}
+		</div>
+
+		<!-- Volum -->
+		<div class="volum-wrapper">
+			<button class="quick volum-btn" (click)="toggleVolumSlider($event)" [title]="ts.t('volume')">
+				{{ iconaVolum() }}
+			</button>
+			@if (mostrarVolum()) {
+				<div class="volum-popup" (pointerdown)="$event.stopPropagation()">
+					<div class="volum-header">
+						<span>{{ iconaVolum() }}</span>
+						<span>{{ volum() }}%</span>
+					</div>
+					<input type="range" min="0" max="100" [value]="volum()" (input)="onVolumChange($event)" class="volum-slider">
+				</div>
+			}
+		</div>
+
+		<!-- Rellotge + Data -->
+		<button class="clock-area" (click)="toggleCalendari($event)">
+			<div class="clock-time">{{ time() | date: 'HH:mm' }}</div>
+			<div class="clock-date">{{ time() | date: 'dd/MM/yyyy' }}</div>
+		</button>
+
+		<!-- Calendari popup -->
+		@if (mostrarCalendari()) {
+			<div class="calendari-popup" (pointerdown)="$event.stopPropagation()">
+				<div class="calendari-hora">
+					<div class="calendari-hora-gran">{{ time() | date: 'HH:mm:ss' }}</div>
+					<div class="calendari-hora-data">{{ time() | date: 'EEEE, d MMMM yyyy' }}</div>
+				</div>
+				<div class="calendari-separador"></div>
+				<div class="calendari-nav">
+					<button (click)="mesAnterior()">◀</button>
+					<span>{{ nomMes() }} {{ anyCalendari() }}</span>
+					<button (click)="mesSeguent()">▶</button>
+				</div>
+				<div class="calendari-grid">
+					@for (ds of diesSetmana(); track ds) {
+						<div class="calendari-dia-setmana">{{ ds }}</div>
+					}
+					@for (d of diesCalendari(); track $index) {
+						<div class="calendari-dia"
+							[class.fora-mes]="!d.actual"
+							[class.avui]="d.avui">
+							{{ d.dia }}
+						</div>
+					}
+				</div>
+			</div>
 		}
-
-		@if (settings().isMute) {
-			<button class="quick">🔇</button>
-		} @else {
-			<button class="quick">🔊</button>
-		}
-
-		<div class="clock">{{ time() | date: 'HH:mm' }}</div>
-
-		<button class="quick">⚙️</button>
 	</div>
 </div>
+
+@if (contextMenuId()) {
+	<div class="context-menu"
+		[style.left.px]="contextMenuPos().x"
+		[style.top.px]="contextMenuPos().y">
+		<button class="context-item" (click)="obrirDesDeMenu(contextMenuId())">
+			{{ ts.t('open') }}
+		</button>
+		<div class="context-separator"></div>
+		<button class="context-item context-item-danger" (click)="tancarDesDeMenu(contextMenuId())">
+			{{ ts.t('close') }}
+		</button>
+	</div>
+}
