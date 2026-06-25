@@ -22,7 +22,7 @@
       <button class="btn-tancar" [attr.aria-label]="ts.t('close')" [title]="ts.t('close')" (click)="close(); $event.stopPropagation()">&#10005;</button>
     </div>
   </div>
-  <div class="window-content">
+  <div class="window-content" #windowContent [style.zoom]="zoomNivell()">
     <ng-content></ng-content>
   </div>
   <div class="resize-handle resize-n" (pointerdown)="onResizePointerDown($event, 'n')"></div>

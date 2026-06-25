@@ -1,6 +1,8 @@
 <!-- Main application shell: OS-style UI.
      Placeholder content removed per request. See .context/os-shell for styles and behaviors. -->
 
+<app-voronoi-fons></app-voronoi-fons>
+
 @if (lock()) {
   <app-lock-screen (unlock)="unlock()"></app-lock-screen>
 }
@@ -25,6 +27,9 @@
       <span class="app-placeholder-icon">✉️</span>
       <p>{{ ts.t('placeholder_contactar') }}</p>
     </div>
+  </app-window-wrapper>
+  <app-window-wrapper id="fons-depantalla" [title]="ts.t('app_fons_depantalla')" [initialWidth]="460" [initialHeight]="640" [initialY]="60">
+    <app-fons-depantalla></app-fons-depantalla>
   </app-window-wrapper>
 }
 

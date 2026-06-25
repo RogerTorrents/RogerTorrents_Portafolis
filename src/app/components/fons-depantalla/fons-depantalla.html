@@ -1,0 +1,40 @@
+<div class="fons-app">
+  <section class="info-seccio">
+    <h2>{{ ts.t('voronoi_titol') }}</h2>
+    <p class="descripcio">{{ ts.t('voronoi_desc') }}</p>
+  </section>
+
+  <section class="controls-seccio">
+    <div class="control-grup">
+      <label for="slider-punts">{{ ts.t('voronoi_punts') }}: {{ nombrePuntsLocal() }}</label>
+      <input
+        id="slider-punts"
+        type="range"
+        [min]="8"
+        [max]="80"
+        [step]="1"
+        [value]="nombrePuntsLocal()"
+        (input)="onPuntsCanvi($any($event.target).valueAsNumber)" />
+    </div>
+    <div class="control-grup">
+      <label for="color-base">{{ ts.t('voronoi_color') }}</label>
+      <input
+        id="color-base"
+        type="color"
+        [value]="colorBase()"
+        (input)="onColorCanvi($any($event.target).value)" />
+    </div>
+  </section>
+
+  <section class="preview-seccio">
+    <h3>{{ ts.t('voronoi_previsualitzacio') }}</h3>
+    <div class="preview-caixa">
+      <canvas #previewCanvas width="320" height="200"></canvas>
+    </div>
+  </section>
+
+  <section class="accions-seccio">
+    <button class="btn-acceptar" (click)="acceptar()">{{ ts.t('voronoi_acceptar') }}</button>
+    <button class="btn-restaurar" (click)="restaurar()">{{ ts.t('voronoi_restaurar') }}</button>
+  </section>
+</div>

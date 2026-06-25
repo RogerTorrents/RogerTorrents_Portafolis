@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, Signal, signal, computed } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, Signal, signal, computed, ElementRef, viewChild, HostListener } from '@angular/core';
 import { WindowManagerService, WindowState } from '../../services/window-manager.service';
 import { TranslationService } from '../../services/translation.service';
 
@@ -8,9 +8,12 @@ import { TranslationService } from '../../services/translation.service';
   templateUrl: './window-wrapper.html',
   styleUrls: ['./window-wrapper.css']
 })
-export class WindowWrapper implements OnInit, OnChanges {
+export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
   @Input() id = '';
   @Input() title = '';
+  @Input() initialWidth = 0;
+  @Input() initialHeight = 0;
+  @Input() initialY = 0;
 
   state!: Signal<WindowState | undefined>;
 
@@ -26,6 +29,9 @@ export class WindowWrapper implements OnInit, OnChanges {
   snapZone = signal<'' | 'left' | 'right' | 'maximize'>('');
   showSnapAssist = signal(false);
   snapAssistSide = signal<'left' | 'right'>('left');
+  zoomNivell = signal(1);
+
+  private readonly contentRef = viewChild<ElementRef<HTMLElement>>('windowContent');
 
   altresFinestres = computed(() => {
     const f = this.wm.finestres();
@@ -36,8 +42,36 @@ export class WindowWrapper implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (!this.id) throw new Error('window-wrapper necessita un `id`');
-    this.wm.registerWindow(this.id, this.title || undefined);
+    const props: Partial<WindowState> = {};
+    if (this.initialWidth > 0) props.width = this.initialWidth;
+    if (this.initialHeight > 0) props.height = this.initialHeight;
+    if (this.initialY > 0) props.y = this.initialY;
+    this.wm.registerWindow(this.id, this.title || undefined, props);
     this.state = this.wm.getWindowSignal(this.id);
+    setTimeout(() => {
+      const el = this.contentRef()?.nativeElement;
+      if (el) el.addEventListener('wheel', this.onContentWheel, { passive: false });
+    });
+  }
+
+  ngOnDestroy(): void {
+    const el = this.contentRef()?.nativeElement;
+    if (el) el.removeEventListener('wheel', this.onContentWheel);
+  }
+
+  private onContentWheel = (ev: WheelEvent): void => {
+    if (!ev.ctrlKey) return;
+    const delta = ev.deltaY > 0 ? -0.1 : 0.1;
+    this.zoomNivell.update(z => Math.round(Math.max(0.5, Math.min(3, z + delta)) * 10) / 10);
+  };
+
+  @HostListener('window:keydown', ['$event'])
+  onZoomKeydown(ev: KeyboardEvent): void {
+    if (!(ev.ctrlKey || ev.metaKey)) return;
+    if (!this.state()?.active) return;
+    if (ev.key === '+' || ev.key === '=') this.zoomNivell.update(z => Math.round(Math.min(3, z + 0.1) * 10) / 10);
+    else if (ev.key === '-') this.zoomNivell.update(z => Math.round(Math.max(0.5, z - 0.1) * 10) / 10);
+    else if (ev.key === '0') this.zoomNivell.set(1);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

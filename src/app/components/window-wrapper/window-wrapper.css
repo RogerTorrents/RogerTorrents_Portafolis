@@ -101,6 +101,7 @@
   height: calc(100% - 32px);
   overflow: auto;
   padding: 1rem;
+  box-sizing: border-box;
   color: #e0e0e0;
   background: #1e1e1e;
 }
