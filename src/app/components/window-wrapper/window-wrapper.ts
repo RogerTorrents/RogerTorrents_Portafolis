@@ -80,6 +80,10 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  onWindowPointerDown() {
+    this.wm.bringToFront(this.id);
+  }
+
   onHeaderPointerDown(ev: PointerEvent) {
     const s = this.wm.getWindowSignal(this.id)();
     if (!s) return;

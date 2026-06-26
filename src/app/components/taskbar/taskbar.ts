@@ -1,4 +1,4 @@
-import { Component, computed, signal, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, computed, signal, OnInit, OnDestroy, HostListener, Output, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { WindowManagerService } from '../../services/window-manager.service';
 import { TranslationService, Idioma } from '../../services/translation.service';
@@ -11,11 +11,15 @@ import { TranslationService, Idioma } from '../../services/translation.service';
   styleUrls: ['./taskbar.css']
 })
 export class Taskbar implements OnInit, OnDestroy {
+  @Output() reiniciar = new EventEmitter<void>();
+
   volum = signal(70);
   isMute = signal(false);
   mostrarVolum = signal(false);
   mostrarIdioma = signal(false);
   mostrarCalendari = signal(false);
+  mostrarStart = signal(false);
+  esPantallaCompleta = signal(!!document.fullscreenElement);
 
   time = signal(new Date());
   private timerId: any;
@@ -96,13 +100,19 @@ export class Taskbar implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.timerId = setInterval(() => this.time.set(new Date()), 1000);
+    document.addEventListener('fullscreenchange', this.onFullscreenChange);
   }
 
   ngOnDestroy(): void {
     clearInterval(this.timerId);
+    document.removeEventListener('fullscreenchange', this.onFullscreenChange);
     document.removeEventListener('pointermove', this.onTaskDragMove);
     document.removeEventListener('pointerup', this.onTaskDragUp);
   }
+
+  private onFullscreenChange = () => {
+    this.esPantallaCompleta.set(!!document.fullscreenElement);
+  };
 
   // Menú contextual (clic dret)
   contextMenuId = signal('');
@@ -133,6 +143,64 @@ export class Taskbar implements OnInit, OnDestroy {
   mostrarPreview(id: string) {
     clearTimeout(this.previewTimeout);
     this.previewId.set(id);
+    requestAnimationFrame(() => this.renderPreviewMirror(id));
+  }
+
+  private renderPreviewMirror(id: string) {
+    const container = document.querySelector('.preview-mirror') as HTMLElement;
+    if (!container) return;
+
+    const wrapper = document.querySelector(
+      `app-window-wrapper[id="${id}"] .window-wrapper`
+    ) as HTMLElement;
+    if (!wrapper) return;
+
+    const wasHidden = wrapper.style.display === 'none';
+    if (wasHidden) {
+      wrapper.style.visibility = 'hidden';
+      wrapper.style.display = 'block';
+    }
+
+    const windowContent = wrapper.querySelector('.window-content') as HTMLElement;
+    if (!windowContent || windowContent.offsetWidth === 0) {
+      if (wasHidden) { wrapper.style.display = 'none'; wrapper.style.visibility = ''; }
+      return;
+    }
+
+    const origW = windowContent.offsetWidth;
+    const origH = windowContent.offsetHeight;
+
+    const maxW = 260;
+    const maxH = 150;
+    const scale = Math.min(maxW / origW, maxH / origH);
+    const previewW = Math.round(origW * scale);
+    const previewH = Math.round(origH * scale);
+
+    const body = container.parentElement!;
+    body.style.height = previewH + 'px';
+
+    const previewEl = body.closest('.task-preview') as HTMLElement;
+    if (previewEl) previewEl.style.width = previewW + 'px';
+
+    const clone = windowContent.cloneNode(true) as HTMLElement;
+    clone.style.width = origW + 'px';
+    clone.style.height = origH + 'px';
+    clone.style.position = 'absolute';
+    clone.style.top = '0';
+    clone.style.left = '0';
+    clone.style.transformOrigin = 'top left';
+    clone.style.transform = `scale(${scale})`;
+    clone.style.overflow = 'hidden';
+    clone.style.pointerEvents = 'none';
+    clone.style.boxSizing = 'border-box';
+
+    container.innerHTML = '';
+    container.appendChild(clone);
+
+    if (wasHidden) {
+      wrapper.style.display = 'none';
+      wrapper.style.visibility = '';
+    }
   }
 
   amagarPreview() {
@@ -214,8 +282,31 @@ export class Taskbar implements OnInit, OnDestroy {
     document.removeEventListener('pointerup', this.onTaskDragUp);
   };
 
-  showStart() {
-    console.log('Start menu');
+  toggleStart(ev: Event) {
+    ev.stopPropagation();
+    this.mostrarVolum.set(false);
+    this.mostrarIdioma.set(false);
+    this.mostrarCalendari.set(false);
+    this.mostrarStart.update(v => !v);
+  }
+
+  pantallaCompleta() {
+    this.mostrarStart.set(false);
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => this.esPantallaCompleta.set(true));
+    } else {
+      document.exitFullscreen().then(() => this.esPantallaCompleta.set(false));
+    }
+  }
+
+  onReiniciar() {
+    this.mostrarStart.set(false);
+    this.reiniciar.emit();
+  }
+
+  tancarPantalla() {
+    this.mostrarStart.set(false);
+    window.open('about:blank', '_self');
   }
 
   // Idioma
@@ -298,6 +389,9 @@ export class Taskbar implements OnInit, OnDestroy {
     }
     if (this.mostrarCalendari() && !target.closest('.calendari-popup') && !target.closest('.clock-area')) {
       this.mostrarCalendari.set(false);
+    }
+    if (this.mostrarStart() && !target.closest('.start-popup') && !target.closest('.start-btn')) {
+      this.mostrarStart.set(false);
     }
     if (this.contextMenuId() && !target.closest('.context-menu')) {
       this.contextMenuId.set('');

@@ -8,7 +8,7 @@
 }
 @if (!lock()) {
   <app-desktop></app-desktop>
-  <app-taskbar></app-taskbar>
+  <app-taskbar (reiniciar)="bloquejar()"></app-taskbar>
   <!-- Window wrappers for apps (registered with WindowManagerService) -->
   <app-window-wrapper id="sobre-mi" [title]="ts.t('app_sobre_mi')">
     <div class="app-placeholder">

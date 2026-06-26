@@ -164,6 +164,35 @@ export class WindowManagerService {
     this._finestres.update(f => ({ ...f, [id]: { ...f[id], x, y, width, height } }));
   }
 
+  clampFinestres(): void {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight - 40;
+    const marge = 80;
+
+    this._finestres.update(f => {
+      const out: Record<string, WindowState> = {};
+      let changed = false;
+      for (const [id, w] of Object.entries(f)) {
+        if (!w.visible || w.state === 'maximized') {
+          out[id] = w;
+          continue;
+        }
+        let { x, y } = w;
+        if (x + w.width < marge) x = marge - w.width;
+        if (x > vw - marge) x = vw - marge;
+        if (y < 0) y = 0;
+        if (y > vh - marge) y = vh - marge;
+        if (x !== w.x || y !== w.y) {
+          out[id] = { ...w, x, y };
+          changed = true;
+        } else {
+          out[id] = w;
+        }
+      }
+      return changed ? out : f;
+    });
+  }
+
   private patchWindow(id: string, patch: Partial<WindowState>) {
     if (!this._finestres()[id]) return;
     this._finestres.update(f => ({ ...f, [id]: { ...f[id], ...patch } }));

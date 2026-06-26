@@ -7,6 +7,7 @@ import { WindowWrapper } from './components/window-wrapper/window-wrapper';
 import { FonsDepantalla } from './components/fons-depantalla/fons-depantalla';
 import { VoronoiFons } from './components/voronoi-fons/voronoi-fons';
 import { TranslationService } from './services/translation.service';
+import { WindowManagerService } from './services/window-manager.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class App implements OnInit, OnDestroy {
   protected readonly title = signal('RogerTorrents-portafolis');
   protected readonly lock = signal(true);
 
-  constructor(readonly ts: TranslationService) {}
+  constructor(readonly ts: TranslationService, private readonly wm: WindowManagerService) {}
 
   ngOnInit(): void {
     window.addEventListener('wheel', this.onWheel, { passive: false });
@@ -34,6 +35,18 @@ export class App implements OnInit, OnDestroy {
 
   protected unlock(): void {
     this.lock.set(false);
+  }
+
+  protected bloquejar(): void {
+    for (const id of Object.keys(this.wm.finestres())) {
+      this.wm.closeWindow(id);
+    }
+    this.lock.set(true);
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    this.wm.clampFinestres();
   }
 
   @HostListener('window:keydown', ['$event'])

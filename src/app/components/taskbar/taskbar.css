@@ -74,6 +74,47 @@
 	cursor: grabbing;
 }
 
+/* Start menu */
+.start-wrapper { position: relative; }
+.start-popup {
+	position: absolute;
+	bottom: 44px;
+	left: 0;
+	width: 200px;
+	background: rgba(30, 30, 30, 0.95);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 8px;
+	padding: 6px;
+	z-index: 2000;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+	animation: preview-in 0.1s ease-out;
+}
+.start-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	padding: 9px 12px;
+	background: transparent;
+	border: none;
+	color: #ccc;
+	font-family: 'Segoe UI', system-ui, sans-serif;
+	font-size: 0.8rem;
+	text-align: left;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.start-item:hover { background: rgba(255, 255, 255, 0.08); }
+.start-item-icon { font-size: 0.95rem; width: 20px; text-align: center; }
+.start-item-danger:hover { background: #c42b1c; color: #fff; }
+.start-separator {
+	height: 1px;
+	background: rgba(255, 255, 255, 0.08);
+	margin: 3px 6px;
+}
+
 /* Idioma */
 .idioma-wrapper { position: relative; }
 .idioma-btn {
@@ -260,13 +301,14 @@
 }
 .calendari-dia {
 	font-size: 0.75rem;
-	padding: 6px 0;
+	width: 28px;
+	height: 28px;
 	border-radius: 50%;
 	cursor: default;
-	aspect-ratio: 1;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	margin: 1px auto;
 }
 .calendari-dia:hover { background: rgba(255, 255, 255, 0.08); }
 .calendari-dia.fora-mes { color: #555; }
@@ -282,7 +324,9 @@
 	bottom: 44px;
 	left: 50%;
 	transform: translateX(-50%);
+	min-width: 120px;
 	width: 210px;
+	max-width: 280px;
 	background: rgba(30, 30, 30, 0.95);
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
@@ -337,12 +381,21 @@
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
+	position: relative;
+	overflow: hidden;
 }
 .preview-body:hover { background: #252525; }
 .preview-icon {
 	font-size: 2.5rem;
 	opacity: 0.4;
 }
+.preview-mirror {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+.preview-mirror:not(:empty) ~ .preview-icon { display: none; }
 
 /* Menú contextual */
 .context-menu {

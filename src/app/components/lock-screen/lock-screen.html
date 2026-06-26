@@ -1,5 +1,30 @@
 <div class="lock-screen" role="dialog" aria-label="Lock Screen" (click)="onUnlock()" tabindex="0">
-  <div class="time">{{ time | date: 'HH:mm' }}</div>
-  <div class="message">{{ ts.t('lock_message') }}</div>
-  <button class="unlock" (click)="onUnlock(); $event.stopPropagation()">{{ ts.t('unlock') }}</button>
+  <div class="idioma-selector">
+    @for (lang of idiomes; track lang.codi) {
+      <button class="idioma-btn"
+        [class.idioma-actiu]="ts.idioma() === lang.codi"
+        (click)="canviarIdioma(lang.codi, $event)">
+        {{ lang.nom }}
+      </button>
+    }
+  </div>
+
+  <div class="lock-contingut">
+    <div class="lock-rellotge">
+      <div class="time">{{ time | date: 'HH:mm' : '' : ts.idioma() }}</div>
+      <div class="date">{{ time | date: dateFmt() : '' : ts.idioma() }}</div>
+    </div>
+
+    <div class="lock-separador"></div>
+
+    <div class="glass-card">
+      <div class="lock-avatar">RT</div>
+      <h1 class="lock-title">{{ ts.t('lock_title') }}</h1>
+      <p class="lock-subtitle">{{ ts.t('lock_subtitle') }}</p>
+      <div class="lock-divider"></div>
+      <p class="lock-desc">{{ ts.t('lock_desc') }}</p>
+    </div>
+
+    <div class="message">{{ ts.t('lock_message') }}</div>
+  </div>
 </div>

@@ -1,6 +1,25 @@
 <div class="taskbar taskbar-bottom">
 	<div class="taskbar-left">
-		<button class="start-btn" (click)="showStart()">☰</button>
+		<div class="start-wrapper">
+			<button class="start-btn" (click)="toggleStart($event)">☰</button>
+			@if (mostrarStart()) {
+				<div class="start-popup" (pointerdown)="$event.stopPropagation()">
+					<button class="start-item" (click)="pantallaCompleta()">
+						<span class="start-item-icon">{{ esPantallaCompleta() ? '⊡' : '⛶' }}</span>
+						{{ esPantallaCompleta() ? ts.t('start_sortir_pantalla_completa') : ts.t('start_pantalla_completa') }}
+					</button>
+					<div class="start-separator"></div>
+					<button class="start-item" (click)="onReiniciar()">
+						<span class="start-item-icon">↻</span>
+						{{ ts.t('start_reiniciar') }}
+					</button>
+					<button class="start-item start-item-danger" (click)="tancarPantalla()">
+						<span class="start-item-icon">⏻</span>
+						{{ ts.t('start_tancar') }}
+					</button>
+				</div>
+			}
+		</div>
 		<button class="search-btn" [title]="ts.t('search')">🔍</button>
 
 		<div class="running-apps">
@@ -29,6 +48,7 @@
 								<button class="preview-close" (click)="tancarDesDePreview(win.id); $event.stopPropagation()">✕</button>
 							</div>
 							<div class="preview-body" (click)="focusWindow(win.id)">
+								<div class="preview-mirror"></div>
 								<span class="preview-icon">{{ win.icon || '📄' }}</span>
 							</div>
 						</div>
@@ -84,7 +104,7 @@
 			<div class="calendari-popup" (pointerdown)="$event.stopPropagation()">
 				<div class="calendari-hora">
 					<div class="calendari-hora-gran">{{ time() | date: 'HH:mm:ss' }}</div>
-					<div class="calendari-hora-data">{{ time() | date: 'EEEE, d MMMM yyyy' }}</div>
+					<div class="calendari-hora-data">{{ time() | date: 'EEEE, d MMMM yyyy' : '' : ts.idioma() }}</div>
 				</div>
 				<div class="calendari-separador"></div>
 				<div class="calendari-nav">

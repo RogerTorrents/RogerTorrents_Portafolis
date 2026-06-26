@@ -1,4 +1,5 @@
 <div class="window-wrapper"
+  (pointerdown)="onWindowPointerDown()"
   [class.maximized]="state()?.state === 'maximized'"
   [class.active]="state()?.active"
   [class.anim-opening]="state()?.animState === 'opening'"

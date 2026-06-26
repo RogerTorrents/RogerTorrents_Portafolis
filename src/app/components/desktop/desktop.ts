@@ -1,4 +1,4 @@
-import { Component, computed, signal, OnDestroy } from '@angular/core';
+import { Component, computed, signal, OnDestroy, HostListener } from '@angular/core';
 import { WindowManagerService } from '../../services/window-manager.service';
 import { TranslationService } from '../../services/translation.service';
 import { AppIcon } from '../base/app-icon/app-icon';
@@ -71,12 +71,17 @@ export class Desktop implements OnDestroy {
 
   openApp(app: any) {
     if (Date.now() - this.lastDragTime < 200) return;
+    this.appsSeleccionades.set(new Set());
     this.wm.openWindow(app.id, app.name, app.icon);
   }
 
   tapApp(app: any) {
     if (Date.now() - this.lastDragTime < 200) return;
-    if (this.isMobile()) this.openApp(app);
+    if (this.isMobile()) {
+      this.openApp(app);
+    } else {
+      this.appsSeleccionades.set(new Set([app.id]));
+    }
   }
 
   esSeleccionada(appId: string): boolean {
@@ -235,6 +240,34 @@ export class Desktop implements OnDestroy {
     b: DOMRect
   ): boolean {
     return !(a.x + a.width < b.left || a.x > b.right || a.y + a.height < b.top || a.y > b.bottom);
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    const maxX = Math.floor((window.innerWidth - this.gridPadding - this.gridW) / this.gridW) * this.gridW + this.gridPadding;
+    const maxY = Math.floor((window.innerHeight - 40 - this.gridPadding - this.gridH) / this.gridH) * this.gridH + this.gridPadding;
+
+    this.posicionsIcones.update(p => {
+      const updated: Record<string, { x: number; y: number }> = {};
+      const ocupades = new Set<string>();
+      let changed = false;
+
+      for (const [id, pos] of Object.entries(p)) {
+        let x = Math.max(this.gridPadding, Math.min(pos.x, maxX));
+        let y = Math.max(this.gridPadding, Math.min(pos.y, maxY));
+        const snapped = this.snapToGrid(x, y);
+        x = snapped.x;
+        y = snapped.y;
+
+        const target = this.trobarLliure({ x, y }, ocupades);
+        ocupades.add(`${target.x},${target.y}`);
+
+        if (target.x !== pos.x || target.y !== pos.y) changed = true;
+        updated[id] = target;
+      }
+
+      return changed ? updated : p;
+    });
   }
 
   ngOnDestroy() {
