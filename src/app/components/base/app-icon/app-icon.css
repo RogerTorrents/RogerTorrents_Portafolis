@@ -21,7 +21,8 @@
   width: 100%;
   box-sizing: border-box;
 }
-.glyph { font-size: 2rem; }
+.glyph { font-size: 2rem; height: 2rem; line-height: 2rem; display: flex; align-items: center; justify-content: center; }
+.glyph-img { width: 2rem; height: 2rem; object-fit: contain; border-radius: 4px; pointer-events: none; display: block; }
 .label {
   font-size: 0.75rem;
   text-align: center;

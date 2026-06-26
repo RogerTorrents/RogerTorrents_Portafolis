@@ -16,6 +16,7 @@ export class Desktop implements OnDestroy {
     { id: 'habilitats', nameKey: 'app_habilitats', icon: '⚙️', showInDesktop: true },
     { id: 'contactar', nameKey: 'app_contactar', icon: '✉️', showInDesktop: true },
     { id: 'fons-depantalla', nameKey: 'app_fons_depantalla', icon: '🎨', showInDesktop: true },
+    { id: 'linkedin', nameKey: 'app_linkedin', icon: 'linkedin/logo.png', showInDesktop: true },
   ];
 
   isMobile = computed(() => window.innerWidth <= 650);

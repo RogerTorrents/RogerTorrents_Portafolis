@@ -52,7 +52,7 @@
     <div class="snap-assist-grid" (click)="$event.stopPropagation()">
       @for (win of altresFinestres(); track win.id) {
         <button class="snap-assist-item" (click)="seleccionarSnapAssist(win.id)">
-          <span class="snap-assist-icon">{{ win.icon || '📄' }}</span>
+          <span class="snap-assist-icon">@if ((win.icon || '').includes('/')) {<img [src]="win.icon" class="snap-assist-img" draggable="false" />} @else {{{ win.icon || '📄' }}}</span>
           <span class="snap-assist-title">{{ win.title }}</span>
         </button>
       }

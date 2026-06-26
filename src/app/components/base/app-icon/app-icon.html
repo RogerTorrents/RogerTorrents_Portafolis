@@ -1,4 +1,10 @@
 <button class="icon" role="button">
-  <div class="glyph">{{ app?.icon }}</div>
+  <div class="glyph">
+    @if (app?.icon?.includes('/')) {
+      <img [src]="app.icon" class="glyph-img" draggable="false" />
+    } @else {
+      {{ app?.icon }}
+    }
+  </div>
   <div class="label">{{ app?.name }}</div>
 </button>

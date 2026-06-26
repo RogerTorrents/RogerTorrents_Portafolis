@@ -200,4 +200,5 @@
   border-color: rgba(0, 120, 215, 0.5);
 }
 .snap-assist-icon { font-size: 1.4rem; }
+.snap-assist-img { width: 1.4rem; height: 1.4rem; object-fit: contain; border-radius: 2px; }
 .snap-assist-title { font-size: 0.85rem; font-weight: 400; }

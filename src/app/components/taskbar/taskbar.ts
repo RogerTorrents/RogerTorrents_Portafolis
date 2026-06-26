@@ -226,6 +226,7 @@ export class Taskbar implements OnInit, OnDestroy {
 
   toggleWindow(id: string) {
     if (Date.now() - this.lastDragTaskTime < 200) return;
+    this.previewId.set('');
     const w = this.wm.getWindowSignal(id)();
     if (!w) return;
     if (w.visible) {

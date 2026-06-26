@@ -6,12 +6,13 @@ import { Taskbar } from './components/taskbar/taskbar';
 import { WindowWrapper } from './components/window-wrapper/window-wrapper';
 import { FonsDepantalla } from './components/fons-depantalla/fons-depantalla';
 import { VoronoiFons } from './components/voronoi-fons/voronoi-fons';
+import { Linkedin } from './components/linkedin/linkedin';
 import { TranslationService } from './services/translation.service';
 import { WindowManagerService } from './services/window-manager.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LockScreen, Desktop, Taskbar, WindowWrapper, FonsDepantalla, VoronoiFons],
+  imports: [RouterOutlet, LockScreen, Desktop, Taskbar, WindowWrapper, FonsDepantalla, VoronoiFons, Linkedin],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

@@ -1,0 +1,30 @@
+<div class="linkedin-app">
+  <div class="linkedin-banner">
+    <img src="linkedin/banner.jpg" alt="Banner" class="banner-img" />
+  </div>
+
+  <div class="linkedin-avatar">
+    <img src="linkedin/perfil.jpg" alt="Roger Torrents" class="avatar-img" />
+  </div>
+
+  <div class="linkedin-cos">
+    <h2 class="linkedin-nom">Roger Torrents Gabalda</h2>
+    <p class="linkedin-titular">{{ ts.t('linkedin_titular') }}</p>
+
+    <div class="linkedin-ubicacio">
+      <svg viewBox="0 0 16 16" width="14" height="14" fill="#999">
+        <path d="M8 0a5.53 5.53 0 0 0-5.5 5.5C2.5 10.65 8 16 8 16s5.5-5.35 5.5-10.5A5.53 5.53 0 0 0 8 0zm0 7.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+      </svg>
+      <span>{{ ts.t('linkedin_ubicacio') }}</span>
+    </div>
+
+    <div class="linkedin-separador"></div>
+
+    <button class="btn-linkedin" (click)="obrirPerfil()">
+      <img src="linkedin/logo.png" alt="LinkedIn" class="btn-logo" />
+      {{ ts.t('linkedin_visitar') }}
+    </button>
+
+    <p class="linkedin-nota">{{ ts.t('linkedin_nota') }}</p>
+  </div>
+</div>

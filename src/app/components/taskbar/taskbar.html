@@ -36,7 +36,7 @@
 						(pointerdown)="onTaskPointerDown($event, win.id)"
 						(click)="toggleWindow(win.id)"
 						(contextmenu)="obrirContextMenu($event, win.id)">
-						<span class="icon-glyph">{{ win.icon || '📄' }}</span>
+						<span class="icon-glyph">@if ((win.icon || '').includes('/')) {<img [src]="win.icon" class="task-glyph-img" draggable="false" />} @else {{{ win.icon || '📄' }}}</span>
 						<span class="icon-label">{{ win.title }}</span>
 					</button>
 					@if (previewId() === win.id && !idArrossegant()) {
@@ -44,12 +44,12 @@
 							(mouseenter)="mostrarPreview(win.id)"
 							(mouseleave)="amagarPreview()">
 							<div class="preview-header">
-								<span class="preview-title">{{ win.icon || '📄' }} {{ win.title }}</span>
+								<span class="preview-title">@if ((win.icon || '').includes('/')) {<img [src]="win.icon" class="preview-title-img" draggable="false" />} @else {{{ win.icon || '📄' }}} {{ win.title }}</span>
 								<button class="preview-close" (click)="tancarDesDePreview(win.id); $event.stopPropagation()">✕</button>
 							</div>
 							<div class="preview-body" (click)="focusWindow(win.id)">
 								<div class="preview-mirror"></div>
-								<span class="preview-icon">{{ win.icon || '📄' }}</span>
+								<span class="preview-icon">@if ((win.icon || '').includes('/')) {<img [src]="win.icon" class="preview-body-img" draggable="false" />} @else {{{ win.icon || '📄' }}}</span>
 							</div>
 						</div>
 					}
