@@ -1,8 +1,9 @@
 # Sistema de Finestres i Barra de Tasques (Responsive OS)
+- Simula el comportament d'un ordinador Windows, amb les seves aplicacions, finestres i funcionalitats
 
 ## 1. Pantalla de Bloqueig (Lock Screen)
 - Estat inicial de la web a tots els dispositius.
-- Mostra l'hora en gran, fons de pantalla dinàmic i selector d'idioma (CA, ES, EN).
+- Mostra l'hora en gran, la data i petita descripció, fons de pantalla dinàmic i selector d'idioma (CA, ES, EN).
 - **Escriptori:** S'elimina en prémer qualsevol tecla o fer clic.
 - **Mòbil:** S'elimina lliscant cap amunt (swipe up) o fent un toc a la pantalla.
 
@@ -27,9 +28,9 @@ El sistema ha de detectar la mida de la pantalla (mitjançant CSS Media Queries 
 
 ### A) En Escriptori (Taskbar Clàssica)
 - Fixada a baix de tot (`bottom: 0`, `width: 100%`).
-- **Esquerra:** Botó d'Inici (Menú Windows amb drets d'autor/crèdits del portafolis).
+- **Esquerra:** Botó d'Inici amb la possibilitat de tancar o fer la pantalla completa.
 - **Centre:** Icones de les aplicacions obertes. Si l'aplicació està en primer pla, la icona es mostra ressaltada. Fent clic a la icona es minimitza o es restaura la finestra.
-- **Dreta:** Àrea de notificació amb la data (DD/MM/AAAA) i l'hora en temps real (HH:MM) que s'actualitza cada minut.
+- **Dreta:** Selector d'idioma (CA, ES, EN), modificació del volum i la data (DD/MM/AAAA) i l'hora en temps real (HH:MM) que s'actualitza cada minut.
 
 ### B) En Mòbil (Dock / Barra de Navegació Mòbil)
 - Fixada a baix de tot, dissenyada per a un accés ràpid amb el polze.
