@@ -19,6 +19,7 @@ export type WindowState = {
 @Injectable({ providedIn: 'root' })
 export class WindowManagerService {
   private readonly _finestres = signal<Record<string, WindowState>>({});
+  private readonly _muntades = signal<Set<string>>(new Set());
   private readonly _topZ = signal(100);
   private readonly _animTimeouts = new Map<string, any>();
   private _windowCount = 0;
@@ -30,6 +31,10 @@ export class WindowManagerService {
 
   get finestres() {
     return this._finestres;
+  }
+
+  get muntades() {
+    return this._muntades;
   }
 
   registerWindow(id: string, title = 'Finestra', props?: Partial<WindowState>) {
@@ -56,6 +61,7 @@ export class WindowManagerService {
 
   openWindow(id: string, title?: string, icon?: string) {
     this.clearAnim(id);
+    this._muntades.update(s => new Set([...s, id]));
     if (!this._finestres()[id]) this.registerWindow(id, title ?? id);
     const patch: Partial<WindowState> = { visible: true, state: 'normal', active: true, animState: '' };
     if (icon) patch.icon = icon;
@@ -76,7 +82,9 @@ export class WindowManagerService {
 
   closeWindow(id: string) {
     if (!this._finestres()[id]) return;
-    this.patchWindow(id, { visible: false, active: false });
+    this.clearAnim(id);
+    this._muntades.update(s => { const n = new Set(s); n.delete(id); return n; });
+    this._finestres.update(f => { const { [id]: _, ...rest } = f; return rest; });
   }
 
   minimizeWindow(id: string) {

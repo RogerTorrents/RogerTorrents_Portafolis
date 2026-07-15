@@ -14,6 +14,7 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
   @Input() initialWidth = 0;
   @Input() initialHeight = 0;
   @Input() initialY = 0;
+  @Input() initialMaximized = false;
 
   state!: Signal<WindowState | undefined>;
 
@@ -47,6 +48,7 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
     if (this.initialHeight > 0) props.height = this.initialHeight;
     if (this.initialY > 0) props.y = this.initialY;
     this.wm.registerWindow(this.id, this.title || undefined, props);
+    if (this.initialMaximized) this.wm.maximizeWindow(this.id);
     this.state = this.wm.getWindowSignal(this.id);
     setTimeout(() => {
       const el = this.contentRef()?.nativeElement;

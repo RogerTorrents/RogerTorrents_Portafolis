@@ -1,9 +1,283 @@
-<div class="app-container">
-  <div class="placeholder-content">
-    <span class="placeholder-icon">👤</span>
-    <h2>Sobre mi</h2>
-    <p>Aquí anirà tot el contingut de Sobre mi: qui soc, la meva trajectòria i experiència professional.</p>
+<div class="sm-app">
+
+  <!-- Selector d'idioma flotant -->
+  <div class="sm-lang">
+    @for (idioma of idiomesDisponibles; track idioma) {
+      <button
+        class="sm-lang__btn"
+        [class.sm-lang__btn--actiu]="ts.idioma() === idioma"
+        (click)="setIdioma(idioma)">
+        {{ idioma.toUpperCase() }}
+      </button>
+    }
+  </div>
+
+  <!-- Navegació lateral discreta -->
+  <nav class="sm-nav" [style.opacity]="opacityNav()">
+    @for (s of navSections; track s.id) {
+      <button
+        class="sm-nav__item"
+        [class.sm-nav__item--actiu]="seccioActiva() === s.id"
+        (click)="scrollToSection(s.id)"
+        [attr.aria-label]="s.num">
+        <span class="sm-nav__label">
+          <span class="sm-nav__num">{{ s.num }}</span>
+          <span class="sm-nav__titol">{{ ts.t(s.labelKey) }}</span>
+        </span>
+        <span class="sm-nav__dot"></span>
+      </button>
+    }
+  </nav>
+
+  <!-- Contenidor principal scrollable -->
+  <div class="sm-contenidor" #contenidor (scroll)="onScroll($event)">
+
+    <!-- ═══════════════════════════════════════════
+         SECCIÓ 1: INTRO — TEXT HORITZONTAL
+    ═══════════════════════════════════════════ -->
+    <section class="sm-intro">
+      <div class="sm-intro__sticky">
+        <div class="sm-intro__grid-bg"></div>
+
+        <!-- Text principal que es mou horitzontalment -->
+        <div class="sm-intro__text-wrap">
+          <div
+            class="sm-intro__text"
+            [style.transform]="translateIntro()">
+            <span class="sm-intro__nom sm-intro__nom--accent">ROGER</span>
+            <span class="sm-intro__nom">TORRENTS</span>
+            <span class="sm-intro__nom sm-intro__nom--accent">GABALDA</span>
+          </div>
+        </div>
+
+        <!-- Subtítol i hint de scroll -->
+        <div class="sm-intro__bottom" [style.opacity]="opacitySubtitol()">
+          <div class="sm-intro__linia-accent"></div>
+          <p class="sm-intro__subtitol">{{ ts.t('subtitol') }}</p>
+          @if (mostrarScrollHint()) {
+            <div class="sm-intro__scroll-hint">
+              <span>{{ ts.t('scroll_hint') }}</span>
+              <div class="sm-intro__arrow-wrap">
+                <div class="sm-intro__arrow"></div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECCIÓ 2: HERO — FOTO + SOBRE MI
+    ═══════════════════════════════════════════ -->
+    <section class="sm-hero" #hero>
+      <div class="sm-hero__layout">
+
+        <!-- Columna esquerra: foto + stats -->
+        <div class="sm-hero__left reveal anim-esq">
+          <div class="sm-hero__foto-frame">
+            <div class="sm-hero__foto-corner sm-hero__foto-corner--tl"></div>
+            <div class="sm-hero__foto-corner sm-hero__foto-corner--br"></div>
+            <div class="sm-hero__foto">
+              <img
+                src="assets/foto-perfil.jpg"
+                alt="Roger Torrents Gabalda"
+                class="sm-hero__img"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+              <div class="sm-hero__foto-placeholder">RT</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Columna dreta: text -->
+        <div class="sm-hero__right">
+          <h2 class="sm-hero__titol reveal">
+            <span class="sm-hero__titol-accent">_</span>{{ ts.t('sobre_mi_titol') }}
+          </h2>
+          <p class="sm-hero__desc reveal">{{ ts.t('sobre_mi_text') }}</p>
+
+          <!-- Tags d'idiomes -->
+          <div class="sm-idiomes reveal">
+            <div class="sm-idioma-item">
+              <span class="sm-idioma-nom">{{ ts.t('idioma_ca') }}</span>
+              <div class="sm-idioma-bar">
+                <div class="sm-idioma-bar__fill sm-idioma-bar__fill--100"></div>
+              </div>
+              <span class="sm-idioma-nivell">{{ ts.t('idioma_ca_nivell') }}</span>
+            </div>
+            <div class="sm-idioma-item">
+              <span class="sm-idioma-nom">{{ ts.t('idioma_es') }}</span>
+              <div class="sm-idioma-bar">
+                <div class="sm-idioma-bar__fill sm-idioma-bar__fill--100"></div>
+              </div>
+              <span class="sm-idioma-nivell">{{ ts.t('idioma_es_nivell') }}</span>
+            </div>
+            <div class="sm-idioma-item">
+              <span class="sm-idioma-nom">{{ ts.t('idioma_en') }}</span>
+              <div class="sm-idioma-bar">
+                <div class="sm-idioma-bar__fill sm-idioma-bar__fill--60"></div>
+              </div>
+              <span class="sm-idioma-nivell">{{ ts.t('idioma_en_nivell') }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECCIÓ 3: EXPERIÈNCIA PROFESSIONAL
+    ═══════════════════════════════════════════ -->
+    <section class="sm-seccio" id="sec-exp">
+      <div class="sm-seccio__header reveal">
+        <span class="sm-seccio__num">01</span>
+        <h2 class="sm-seccio__titol">{{ ts.t('experiencia_titol') }}</h2>
+      </div>
+
+      <div class="sm-exp-list">
+        <div class="sm-exp-bloc sm-exp-bloc--actiu reveal anim-esq">
+          <div class="sm-exp-bloc__head">
+            <div>
+              <h3 class="sm-exp-bloc__titol">{{ ts.t('job1_titol') }}</h3>
+              <p class="sm-exp-bloc__empresa">
+                <span class="sm-exp-bloc__empresa-nom">{{ ts.t('job1_empresa') }}</span>
+                <span class="sm-exp-bloc__dates">{{ ts.t('job1_dates') }}</span>
+              </p>
+            </div>
+            <span class="sm-badge sm-badge--cyan">{{ ts.t('job1_durada') }}</span>
+          </div>
+          <p class="sm-exp-bloc__desc">{{ ts.t('job1_desc') }}</p>
+          <ul class="sm-exp-bloc__bullets">
+            @for (clau of job1BulletKeys; track clau) {
+              <li class="sm-exp-bloc__bullet">{{ ts.t(clau) }}</li>
+            }
+          </ul>
+        </div>
+
+        <div class="sm-exp-bloc reveal anim-esq">
+          <div class="sm-exp-bloc__head">
+            <div>
+              <h3 class="sm-exp-bloc__titol">{{ ts.t('job2_titol') }}</h3>
+              <p class="sm-exp-bloc__empresa">
+                <span class="sm-exp-bloc__empresa-nom">{{ ts.t('job2_empresa') }}</span>
+                <span class="sm-exp-bloc__dates">{{ ts.t('job2_dates') }}</span>
+              </p>
+            </div>
+            <span class="sm-badge">{{ ts.t('job2_durada') }}</span>
+          </div>
+          <p class="sm-exp-bloc__desc">{{ ts.t('job2_desc') }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECCIÓ 4: FORMACIÓ ACADÈMICA
+    ═══════════════════════════════════════════ -->
+    <section class="sm-seccio" id="sec-form">
+      <div class="sm-seccio__header reveal">
+        <span class="sm-seccio__num">02</span>
+        <h2 class="sm-seccio__titol">{{ ts.t('formacio_titol') }}</h2>
+      </div>
+
+      <div class="sm-formacio-grid">
+        @for (edu of educacio; track edu.id) {
+          <div class="sm-edu-item sm-edu-item--{{ edu.color }} reveal anim-escala">
+            <div class="sm-edu-item__img-zona">
+              <img [src]="edu.imgSrc" [alt]="ts.t(edu.instKey)" class="sm-edu-item__img" />
+            </div>
+            @if (edu.enCurs) {
+              <span class="sm-edu-item__dates sm-edu-item__dates--actiu">{{ ts.t('edu1_dates') }}</span>
+            } @else {
+              <span class="sm-edu-item__dates">{{ ts.t(edu.datesKey) }}</span>
+            }
+            <h3 class="sm-edu-item__titol">{{ ts.t(edu.titolKey) }}</h3>
+            <p class="sm-edu-item__inst">{{ ts.t(edu.instKey) }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECCIÓ 5: HABILITATS
+    ═══════════════════════════════════════════ -->
+    <section class="sm-seccio" id="sec-hab">
+      <div class="sm-seccio__header reveal">
+        <span class="sm-seccio__num">03</span>
+        <h2 class="sm-seccio__titol">{{ ts.t('habilitats_titol') }}</h2>
+      </div>
+
+      <div class="sm-habilitats">
+        @for (cat of habilitats; track cat.nomKey) {
+          <div class="sm-hab-grup reveal">
+            <h4 class="sm-hab-grup__nom sm-hab-grup__nom--{{ cat.color }}">
+              {{ ts.t(cat.nomKey) }}
+            </h4>
+            <div class="sm-tags">
+              @for (item of cat.items; track item) {
+                <span class="sm-tag sm-tag--{{ cat.color }}">{{ item }}</span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECCIÓ 6: PERSONAL
+    ═══════════════════════════════════════════ -->
+    <section class="sm-seccio" id="sec-per">
+      <div class="sm-seccio__header reveal">
+        <span class="sm-seccio__num">04</span>
+        <h2 class="sm-seccio__titol">{{ ts.t('personal_titol') }}</h2>
+      </div>
+
+      <div class="sm-personal-list">
+        @for (targeta of targetesPesonals; track targeta.titolKey) {
+          <div class="sm-personal-fila sm-personal-fila--{{ targeta.color }} reveal anim-esq">
+            <div class="sm-personal-fila__esq">
+              <span class="sm-personal-fila__emoji">{{ targeta.emoji }}</span>
+              <h3 class="sm-personal-fila__titol">{{ ts.t(targeta.titolKey) }}</h3>
+            </div>
+            <p class="sm-personal-fila__text">{{ ts.t(targeta.textKey) }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECCIÓ 7: CONTACTE
+    ═══════════════════════════════════════════ -->
+    <section class="sm-seccio sm-seccio--contacte" id="sec-cont">
+      <div class="sm-seccio__header reveal">
+        <span class="sm-seccio__num">05</span>
+        <h2 class="sm-seccio__titol">{{ ts.t('contacte_titol') }}</h2>
+      </div>
+
+      <div class="sm-contacte__list">
+        <a class="sm-contacte__fila reveal anim-dret" href="mailto:rogertorrentsgabalda@gmail.com">
+          <span class="sm-contacte__label">{{ ts.t('email_label') }}</span>
+          <span class="sm-contacte__valor">rogertorrentsgabalda&#64;gmail.com</span>
+          <span class="sm-contacte__arrow">→</span>
+        </a>
+        <a class="sm-contacte__fila reveal anim-dret" href="tel:+34638944390">
+          <span class="sm-contacte__label">{{ ts.t('telefon_label') }}</span>
+          <span class="sm-contacte__valor">638 94 43 90</span>
+          <span class="sm-contacte__arrow">→</span>
+        </a>
+        <div class="sm-contacte__fila reveal anim-dret">
+          <span class="sm-contacte__label">{{ ts.t('adreca_label') }}</span>
+          <span class="sm-contacte__valor">Pas. Consulat del Mar, Sant Pere de Ribes</span>
+        </div>
+        <a class="sm-contacte__fila reveal anim-dret" href="https://rogertorrentsgabalda.dev" target="_blank" rel="noopener">
+          <span class="sm-contacte__label">{{ ts.t('web_label') }}</span>
+          <span class="sm-contacte__valor">rogertorrentsgabalda.dev</span>
+          <span class="sm-contacte__arrow">→</span>
+        </a>
+      </div>
+
+      <div class="sm-footer reveal">
+        <p class="sm-footer__text">Roger Torrents Gabalda &copy; {{ ts.t('subtitol') }}</p>
+      </div>
+    </section>
+
   </div>
 </div>
-
-<router-outlet />

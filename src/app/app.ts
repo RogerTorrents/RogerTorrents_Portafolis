@@ -8,6 +8,7 @@ import { FonsDepantalla } from './components/fons-depantalla/fons-depantalla';
 import { VoronoiFons } from './components/voronoi-fons/voronoi-fons';
 import { Linkedin } from './components/linkedin/linkedin';
 import { TranslationService } from './services/translation.service';
+import { WindowManagerService } from './services/window-manager.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ export class App implements OnInit, OnDestroy {
   protected readonly title = signal('RogerTorrents-portafolis');
   protected readonly lock = signal(true);
 
-  constructor(readonly ts: TranslationService) {}
+  constructor(readonly ts: TranslationService, readonly wm: WindowManagerService) {}
 
   ngOnInit(): void {
     window.addEventListener('wheel', this.onWheel, { passive: false });
