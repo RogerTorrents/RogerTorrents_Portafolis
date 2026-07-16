@@ -14,6 +14,7 @@ L'ecosistema està dissenyat com un Sistema Operatiu modular on la Web Core engl
   ├── sobre-mi ───────> Port 4201
   ├── habilitats ─────> Port 4202
   ├── contactar ──────> Port 4203
+  └── joc-impostor ──────> Port 4204
 
 
 ### 1. El Sistema General (Shell / OS Core)
@@ -38,6 +39,7 @@ L'ecosistema està dissenyat com un Sistema Operatiu modular on la Web Core engl
   - `sobre-mi` -> `http://localhost:4201`
   - `habilitats` -> `http://localhost:4202`
   - `contactar` -> `http://localhost:4203`
+  - `joc-impostor` -> `http://localhost:4204`
 
 ---
 
@@ -58,6 +60,7 @@ L'ecosistema està dissenyat com un Sistema Operatiu modular on la Web Core engl
 - **Sobre Mi:** Llegir `.context/apps/sobre-mi/sobre-mi.md` i `sobre-mi-styles.md`
 - **Habilitats:** Llegir `.context/apps/habilitats/habilitats.md` i `habilitats-styles.md`
 - **Contactar:** Llegir `.context/apps/contactar/contactar.md` i `contactar-styles.md`
+- **Joc Impostor:** Llegir `context/apps/joc-impostor/joc-impostor.md`
 
 ---
 

@@ -4,10 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:all": "concurrently \"ng serve\" \"ng serve sobre-mi --port 4201\" \"ng serve habilitats --port 4202\" \"ng serve contactar --port 4203\" ",
+    "start:all": "concurrently \"ng serve\" \"ng serve sobre-mi --port 4201\" \"ng serve habilitats --port 4202\" \"ng serve contactar --port 4203\" \"ng serve joc-impostor --port 4204\"",
     "start:sobre-mi": "ng serve sobre-mi --port 4201",
     "start:habilitats": "ng serve habilitats --port 4202",
     "start:contactar": "ng serve contactar --port 4203",
+    "start:joc-impostor": "ng serve joc-impostor --port 4204",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

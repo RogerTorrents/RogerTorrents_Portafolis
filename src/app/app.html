@@ -35,6 +35,11 @@
       <app-linkedin></app-linkedin>
     </app-window-wrapper>
   }
+  @if (wm.muntades().has('joc-impostor')) {
+    <app-window-wrapper id="joc-impostor" [title]="ts.t('app_joc_impostor')">
+      <iframe src="http://localhost:4204" title="Joc Impostor"></iframe>
+    </app-window-wrapper>
+  }
 }
 
 <router-outlet />

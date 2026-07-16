@@ -44,6 +44,12 @@
     },
     {
       "path": "./projects/habilitats/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/joc-impostor/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/joc-impostor/tsconfig.spec.json"
     }
   ]
 }

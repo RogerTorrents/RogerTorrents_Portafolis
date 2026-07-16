@@ -249,6 +249,67 @@
           "builder": "@angular/build:unit-test"
         }
       }
+    },
+    "joc-impostor": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/joc-impostor",
+      "sourceRoot": "projects/joc-impostor/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/joc-impostor/src/main.ts",
+            "tsConfig": "projects/joc-impostor/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/joc-impostor/public"
+              }
+            ],
+            "styles": ["projects/joc-impostor/src/styles.css"]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "joc-impostor:build:production"
+            },
+            "development": {
+              "buildTarget": "joc-impostor:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
     }
   }
 }

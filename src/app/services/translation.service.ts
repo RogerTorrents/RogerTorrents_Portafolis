@@ -55,6 +55,8 @@ export class TranslationService {
       start_sortir_pantalla_completa: 'Sortir de pantalla completa',
       start_reiniciar: 'Reiniciar',
       start_tancar: 'Tancar',
+      app_joc_impostor: 'Joc Impostor',
+      placeholder_joc_impostor: 'Aquí anirà tot el contingut de Joc Impostor.',
     },
     es: {
       unlock: 'Desbloquear',
@@ -99,6 +101,8 @@ export class TranslationService {
       start_sortir_pantalla_completa: 'Salir de pantalla completa',
       start_reiniciar: 'Reiniciar',
       start_tancar: 'Cerrar',
+      app_joc_impostor: 'Juego Impostor',
+      placeholder_joc_impostor: 'Aquí irá todo el contenido de Juego Impostor.',
     },
     en: {
       unlock: 'Unlock',
@@ -143,6 +147,8 @@ export class TranslationService {
       start_sortir_pantalla_completa: 'Exit fullscreen',
       start_reiniciar: 'Restart',
       start_tancar: 'Close',
+      app_joc_impostor: 'Impostor Game',
+      placeholder_joc_impostor: 'Here will go all the Impostor Game content.',
     },
   };
 
