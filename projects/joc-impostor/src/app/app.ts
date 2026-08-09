@@ -1,12 +1,17 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { JocService } from './services/joc.service';
+import { Configuracio } from './components/configuracio/configuracio';
+import { Repartiment } from './components/repartiment/repartiment';
+import { Debat } from './components/debat/debat';
+import { Revelacio } from './components/revelacio/revelacio';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [Configuracio, Repartiment, Debat, Revelacio],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('joc-impostor');
+  readonly joc = inject(JocService);
 }

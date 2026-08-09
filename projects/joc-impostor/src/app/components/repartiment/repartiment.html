@@ -1,0 +1,50 @@
+<div class="pagina">
+
+  <header class="capçalera">
+    <div class="titol-wrap">
+      <h2>Repartiment de Rols</h2>
+      <p class="subtitol">Cada jugador ha de tocar el seu nom per veure el rol</p>
+    </div>
+    <div class="progres-badge">
+      <span class="progres-num">{{ haVistos() }}</span>
+      <span class="progres-sep">/</span>
+      <span class="progres-total">{{ total() }}</span>
+    </div>
+  </header>
+
+  <div class="jugadors-llista">
+    @for (jugador of jugadors(); track jugador.nom) {
+      <button
+        class="jugador-btn"
+        [class.vist]="jugador.haVist"
+        (click)="obrirPopup(jugador)"
+        [disabled]="jugador.haVist"
+      >
+        <span class="jugador-nom">{{ jugador.nom }}</span>
+        @if (jugador.haVist) {
+          <span class="badge-vist">✓</span>
+        } @else {
+          <span class="badge-pendent">👆 Toca per revelar</span>
+        }
+      </button>
+    }
+  </div>
+
+  @if (totHanVist()) {
+    <div class="tots-llestos">
+      <span class="llestos-icon">✓</span>
+      Tots llestos! Iniciant el debat...
+    </div>
+  }
+
+</div>
+
+@if (jugadorActiu()) {
+  <app-popup-rol
+    [jugador]="jugadorActiu()!"
+    [potCanviar]="potCanviarActual()"
+    [canvisRestants]="canvisRestantsActuals()"
+    (tancar)="tancarPopup()"
+    (canviarParaulaClick)="onCanviarParaula()"
+  />
+}

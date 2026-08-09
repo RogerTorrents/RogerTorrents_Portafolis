@@ -1,0 +1,305 @@
+:host { display: block; }
+
+.capçalera {
+  text-align: center;
+  padding: 2rem 0 1.5rem;
+}
+
+.logo {
+  font-size: 3.5rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.5));
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--accent-light) 0%, var(--text-1) 60%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitol {
+  color: var(--text-3);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.seccio {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 0.875rem;
+}
+
+.seccio-titol {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comptador {
+  color: var(--text-3);
+  font-weight: 400;
+}
+
+/* Jugadors */
+.jugadors-llista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.jugador-fila {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.input-nom {
+  flex: 1;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.625rem 0.875rem;
+  color: var(--text-1);
+  font-size: 0.95rem;
+  transition: border-color var(--t);
+}
+.input-nom:focus { border-color: var(--accent-light); outline: none; }
+.input-nom::placeholder { color: var(--text-3); }
+.input-nom.input-error { border-color: var(--impostor); }
+
+.btn-eliminar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--impostor-dim);
+  color: var(--impostor);
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background var(--t);
+}
+.btn-eliminar:hover { background: rgba(239, 68, 68, 0.22); }
+
+.btn-afegir {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--accent-dim);
+  color: var(--accent-light);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px dashed var(--border);
+  transition: background var(--t), border-color var(--t);
+}
+.btn-afegir:hover { background: rgba(124, 58, 237, 0.2); border-color: var(--border-hover); }
+
+.avís-error {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--impostor);
+  text-align: center;
+}
+
+/* Stepper d'impostors */
+.control-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.btn-step {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  color: var(--text-1);
+  font-size: 1.4rem;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  transition: background var(--t), border-color var(--t);
+}
+.btn-step:hover:not(:disabled) { background: var(--accent-dim); border-color: var(--border-hover); }
+.btn-step:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.valor-step {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: var(--accent-light);
+  min-width: 2.5rem;
+  text-align: center;
+  line-height: 1;
+}
+
+/* Modus */
+.modus-grup {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.btn-modus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.75rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  font-size: 0.78rem;
+  font-weight: 500;
+  transition: background var(--t), border-color var(--t), color var(--t);
+}
+.btn-modus.actiu {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent-light);
+}
+.btn-modus:hover:not(.actiu) { border-color: var(--border-hover); color: var(--text-1); }
+
+.modus-icon { font-size: 1.25rem; }
+
+/* Opcions modus */
+.opcions-modus {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.camp-label {
+  font-size: 0.78rem;
+  color: var(--text-2);
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+.slider {
+  width: 100%;
+  accent-color: var(--accent);
+  height: 4px;
+}
+
+.select-idioma {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  color: var(--text-1);
+  font-size: 0.9rem;
+}
+
+.info-ribes {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  line-height: 1.5;
+  padding: 0.5rem 0;
+}
+
+/* Toggle */
+.opcio-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.25rem 0;
+}
+
+.toggle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.toggle-label {
+  font-size: 0.9rem;
+  color: var(--text-1);
+  font-weight: 500;
+}
+
+.toggle-desc {
+  font-size: 0.75rem;
+  color: var(--text-3);
+}
+
+.toggle-btn {
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-3);
+  font-size: 0.8rem;
+  font-weight: 600;
+  min-width: 50px;
+  transition: background var(--t), color var(--t), border-color var(--t);
+  flex-shrink: 0;
+}
+.toggle-btn.actiu {
+  background: var(--accent-dim);
+  color: var(--accent-light);
+  border-color: var(--accent);
+}
+
+/* Error API */
+.error-api {
+  width: 100%;
+  background: var(--impostor-dim);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.875rem 1rem;
+  color: var(--impostor);
+  font-size: 0.85rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+.error-icon { flex-shrink: 0; }
+
+/* Botó comenar */
+.btn-comenar {
+  margin-top: 0.5rem;
+  font-size: 1.05rem;
+  padding: 1rem;
+}
+
+/* Spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: gira 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes gira {
+  to { transform: rotate(360deg); }
+}

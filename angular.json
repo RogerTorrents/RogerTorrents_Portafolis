@@ -266,6 +266,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/joc-impostor/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/joc-impostor/src/assets",
+                "output": "assets"
               }
             ],
             "styles": ["projects/joc-impostor/src/styles.css"]

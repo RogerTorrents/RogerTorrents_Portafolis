@@ -1,0 +1,227 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  background: var(--bg-base);
+  gap: 2rem;
+  animation: entrada-overlay 0.25s ease;
+}
+
+@keyframes entrada-overlay {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Nom del jugador */
+.nom-jugador {
+  font-size: clamp(1.75rem, 8vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-1);
+  text-align: center;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+/* Estat pre-revelat */
+.estat-prerevelat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.icona-privacitat {
+  font-size: 2rem;
+  opacity: 0.4;
+}
+
+.missatge-previ {
+  font-size: 0.875rem;
+  color: var(--text-3);
+  max-width: 240px;
+  line-height: 1.5;
+}
+
+.btn-revelar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: var(--radius-lg);
+  background: var(--accent);
+  color: var(--text-1);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background var(--t), transform var(--t);
+  margin-top: 0.5rem;
+}
+.btn-revelar:hover { background: var(--accent-hover); }
+.btn-revelar:active { transform: scale(0.96); }
+
+.ull-icon { font-size: 1.15rem; }
+
+/* Rol revelat */
+.rol-revelat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+  width: 100%;
+}
+
+.etiqueta-rol {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.paraula-contenidor {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Animació de desxifrat — l'element de signatura */
+.paraula-text {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 10vw, 3.5rem);
+  font-weight: 700;
+  text-align: center;
+  word-break: break-word;
+  max-width: 100%;
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  animation: desxifrat 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes desxifrat {
+  0% {
+    opacity: 0;
+    letter-spacing: 0.6em;
+    filter: blur(14px);
+    transform: scale(0.9);
+  }
+  55% {
+    opacity: 0.75;
+    filter: blur(3px);
+    letter-spacing: 0.1em;
+  }
+  100% {
+    opacity: 1;
+    letter-spacing: 0.02em;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+/* Variants de la paraula */
+.paraula-text.jugador {
+  color: var(--jugador-color);
+  background: var(--jugador-dim);
+  text-shadow: 0 0 30px rgba(52, 211, 153, 0.25);
+}
+
+.paraula-text.impostor {
+  color: var(--impostor);
+  background: var(--impostor-dim);
+  animation:
+    desxifrat 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    pols-impostor 2s ease-in-out 0.65s infinite;
+}
+
+@keyframes pols-impostor {
+  0%, 100% {
+    text-shadow: 0 0 20px var(--impostor-glow), 0 0 50px var(--impostor-glow);
+  }
+  50% {
+    text-shadow: 0 0 40px var(--impostor-glow), 0 0 80px rgba(239, 68, 68, 0.2);
+  }
+}
+
+.paraula-text.pista {
+  color: var(--pista-color);
+  background: var(--pista-dim);
+  font-size: clamp(1.2rem, 5vw, 2rem);
+}
+
+/* Hints */
+.hint-impostor, .hint-pista {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  max-width: 260px;
+  line-height: 1.4;
+  margin-top: 0.25rem;
+}
+
+/* Botons d'acció */
+.accions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  width: 100%;
+  max-width: 380px;
+}
+
+.btn-canviar {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: var(--radius);
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: border-color var(--t), color var(--t), background var(--t);
+}
+.btn-canviar:hover {
+  border-color: var(--border-hover);
+  color: var(--text-1);
+  background: var(--bg-card);
+}
+
+.canvis-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--text-3);
+  letter-spacing: 0.02em;
+}
+.canvis-badge.canvis-ultim {
+  color: var(--impostor);
+  background: var(--impostor-dim);
+}
+
+.btn-llest {
+  width: 100%;
+  padding: 1rem;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--text-1);
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background var(--t), transform var(--t);
+}
+.btn-llest:hover { background: var(--accent-hover); }
+.btn-llest:active { transform: scale(0.97); }

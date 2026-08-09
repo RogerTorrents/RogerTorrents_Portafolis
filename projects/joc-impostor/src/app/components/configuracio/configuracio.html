@@ -1,0 +1,161 @@
+<div class="pagina">
+
+  <header class="capçalera">
+    <div class="logo">🕵️</div>
+    <h1>L'Impostor</h1>
+    <p class="subtitol">Joc de deducció social</p>
+  </header>
+
+  <!-- Jugadors -->
+  <section class="seccio">
+    <h2 class="seccio-titol">
+      <span>Jugadors</span>
+      <span class="comptador">{{ jugadors().length }}/20</span>
+    </h2>
+    <div class="jugadors-llista">
+      @for (nom of jugadors(); track $index; let i = $index) {
+        <div class="jugador-fila">
+          <input
+            type="text"
+            class="input-nom"
+            [value]="nom"
+            [placeholder]="'Jugador ' + (i + 1)"
+            (input)="actualitzarNom(i, $event)"
+            maxlength="20"
+            autocomplete="off"
+          />
+          @if (jugadors().length > 2) {
+            <button class="btn-eliminar" (click)="eliminarJugador(i)" aria-label="Eliminar jugador">✕</button>
+          }
+        </div>
+      }
+    </div>
+    @if (jugadors().length < 20) {
+      <button class="btn-afegir" (click)="afegirJugador()">
+        + Afegir jugador
+      </button>
+    }
+  </section>
+
+  <!-- Impostors -->
+  <section class="seccio">
+    <h2 class="seccio-titol">Impostors</h2>
+    <div class="control-stepper">
+      <button class="btn-step" (click)="decrementarImpostors()" [disabled]="nombreImpostors() <= 1">−</button>
+      <span class="valor-step">{{ nombreImpostors() }}</span>
+      <button class="btn-step" (click)="incrementarImpostors()" [disabled]="nombreImpostors() >= maxImpostors()">+</button>
+    </div>
+  </section>
+
+  <!-- Modalitat -->
+  <section class="seccio">
+    <h2 class="seccio-titol">Modalitat</h2>
+    <div class="modus-grup">
+      <button class="btn-modus" [class.actiu]="modus() === 'manual'" (click)="setModus('manual')">
+        <span class="modus-icon">📝</span>
+        Categoria
+      </button>
+      <button class="btn-modus" [class.actiu]="modus() === 'lliure'" (click)="setModus('lliure')">
+        <span class="modus-icon">🎲</span>
+        Lliure IA
+      </button>
+      <button class="btn-modus" [class.actiu]="modus() === 'ribes'" (click)="setModus('ribes')">
+        <span class="modus-icon">🏡</span>
+        Ribes
+      </button>
+    </div>
+
+    @if (modus() === 'manual') {
+      <div class="opcions-modus">
+        <label class="camp-label">Categoria</label>
+        <input
+          type="text"
+          class="input-nom"
+          [class.input-error]="!categoriaValida() && nomsValids()"
+          [value]="categoria()"
+          placeholder="Ex: Animals, Pel·lícules, Esport..."
+          (input)="categoria.set($any($event.target).value)"
+          maxlength="50"
+        />
+        @if (!categoriaValida() && nomsValids()) {
+          <p class="avís-error">Indica una categoria per poder iniciar la partida</p>
+        }
+        <label class="camp-label">Dificultat: {{ dificultat() }}/10</label>
+        <input type="range" min="1" max="10" [value]="dificultat()" class="slider"
+          (input)="dificultat.set(+$any($event.target).value)" />
+        <label class="camp-label">Idioma</label>
+        <select class="select-idioma" [value]="idioma()" (change)="idioma.set($any($event.target).value)">
+          <option value="català">Català</option>
+          <option value="castellà">Castellà</option>
+          <option value="anglès">Anglès</option>
+        </select>
+      </div>
+    }
+
+    @if (modus() === 'lliure') {
+      <div class="opcions-modus">
+        <label class="camp-label">Dificultat: {{ dificultat() }}/10</label>
+        <input type="range" min="1" max="10" [value]="dificultat()" class="slider"
+          (input)="dificultat.set(+$any($event.target).value)" />
+        <label class="camp-label">Idioma</label>
+        <select class="select-idioma" [value]="idioma()" (change)="idioma.set($any($event.target).value)">
+          <option value="català">Català</option>
+          <option value="castellà">Castellà</option>
+          <option value="anglès">Anglès</option>
+        </select>
+        <div class="opcio-toggle">
+          <div class="toggle-info">
+            <span class="toggle-label">Pista per a l'impostor</span>
+            <span class="toggle-desc">L'impostor veu la pista en lloc d'IMPOSTOR</span>
+          </div>
+          <button class="toggle-btn" [class.actiu]="mostrarPista()" (click)="mostrarPista.update(v => !v)">
+            {{ mostrarPista() ? 'Sí' : 'No' }}
+          </button>
+        </div>
+      </div>
+    }
+
+    @if (modus() === 'ribes') {
+      <div class="opcions-modus">
+        <p class="info-ribes">
+          Mode local amb paraules de Sant Pere de Ribes. No cal connexió al servidor.
+        </p>
+      </div>
+    }
+  </section>
+
+  <!-- Opcions avançades -->
+  <section class="seccio">
+    <div class="opcio-toggle">
+      <div class="toggle-info">
+        <span class="toggle-label">Permetre canviar paraula</span>
+        <span class="toggle-desc">El primer jugador pot canviar la paraula si no li agrada</span>
+      </div>
+      <button class="toggle-btn" [class.actiu]="permetCanviarParaula()" (click)="permetCanviarParaula.update(v => !v)">
+        {{ permetCanviarParaula() ? 'Sí' : 'No' }}
+      </button>
+    </div>
+  </section>
+
+  <!-- Error API -->
+  @if (joc.errorApi()) {
+    <div class="error-api">
+      <span class="error-icon">⚠</span>
+      {{ joc.errorApi() }}
+    </div>
+  }
+
+  <!-- Botó d'inici -->
+  <button
+    class="btn-primari btn-comenar"
+    [disabled]="!potIniciar()"
+    (click)="comenarJoc()"
+  >
+    @if (joc.carregant()) {
+      <span class="spinner"></span> Carregant paraules...
+    } @else {
+      Començar Joc
+    }
+  </button>
+
+</div>

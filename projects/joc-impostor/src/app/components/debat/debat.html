@@ -1,0 +1,44 @@
+<div class="pagina">
+
+  <header class="capçalera">
+    <p class="etiqueta-fase">FASE DE DEBAT</p>
+    <h2>Qui és l'Impostor?</h2>
+  </header>
+
+  <!-- Categoria -->
+  <div class="card categoria-card">
+    <p class="card-etiqueta">Categoria</p>
+    <h3 class="categoria-text">{{ dadesRonda().categoria }}</h3>
+    @if (dadesRonda().pista && dadesRonda().pista !== dadesRonda().categoria) {
+      <p class="categoria-pista">{{ dadesRonda().pista }}</p>
+    }
+  </div>
+
+  <!-- Qui comença -->
+  <div class="card comença-card">
+    <p class="card-etiqueta">Comença la ronda</p>
+    <div class="jugador-inicial">{{ jugadorInicial() }}</div>
+    <p class="comença-hint">Ha de ser el primer en descriure la paraula</p>
+  </div>
+
+  <!-- Llista de jugadors -->
+  <div class="card jugadors-card">
+    <p class="card-etiqueta">Jugadors en joc</p>
+    <div class="jugadors-llista">
+      @for (jugador of jugadors(); track jugador.nom) {
+        <div class="jugador-nom" [class.inicial]="jugador.nom === jugadorInicial()">
+          @if (jugador.nom === jugadorInicial()) {
+            <span class="fletxa">▶</span>
+          }
+          {{ jugador.nom }}
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Botó revelació -->
+  <button class="btn-perill btn-revelar-final" (click)="joc.revelarFinal()">
+    Revelar Impostor i Paraula
+  </button>
+
+</div>

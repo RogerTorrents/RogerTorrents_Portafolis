@@ -1,0 +1,142 @@
+:host { display: block; }
+
+.capçalera {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 0 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.titol-wrap h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.subtitol {
+  font-size: 0.78rem;
+  color: var(--text-3);
+  margin-top: 0.2rem;
+}
+
+.progres-badge {
+  display: flex;
+  align-items: baseline;
+  gap: 0.15rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  padding: 0.4rem 0.85rem;
+  flex-shrink: 0;
+}
+
+.progres-num {
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: var(--accent-light);
+  line-height: 1;
+}
+
+.progres-sep {
+  font-size: 0.9rem;
+  color: var(--text-3);
+}
+
+.progres-total {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  font-weight: 500;
+}
+
+/* Llista de jugadors */
+.jugadors-llista {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.jugador-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: background var(--t), border-color var(--t), transform var(--t);
+  text-align: left;
+  min-height: 60px;
+}
+
+.jugador-btn:not(.vist):hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-hover);
+}
+
+.jugador-btn:not(.vist):active {
+  transform: scale(0.98);
+}
+
+.jugador-btn.vist {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.jugador-nom {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.badge-vist {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--jugador-dim);
+  color: var(--jugador-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.badge-pendent {
+  font-size: 0.78rem;
+  color: var(--accent-light);
+  flex-shrink: 0;
+}
+
+/* Tots llestos */
+.tots-llestos {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--jugador-dim);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  border-radius: var(--radius);
+  color: var(--jugador-color);
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  animation: apareix 0.4s ease;
+}
+
+.llestos-icon {
+  font-size: 1.1rem;
+}
+
+@keyframes apareix {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

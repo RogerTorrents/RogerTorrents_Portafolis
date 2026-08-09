@@ -1,0 +1,117 @@
+:host { display: block; }
+
+.capçalera {
+  width: 100%;
+  text-align: center;
+  padding: 2rem 0 1rem;
+}
+
+.etiqueta-fase {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.card {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.card-etiqueta {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.625rem;
+}
+
+/* Categoria */
+.categoria-card { border-color: rgba(124, 58, 237, 0.35); }
+
+.categoria-text {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--accent-light);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.categoria-pista {
+  font-size: 0.85rem;
+  color: var(--text-3);
+  margin-top: 0.4rem;
+  font-style: italic;
+}
+
+/* Comença */
+.comença-card { border-color: rgba(52, 211, 153, 0.2); }
+
+.jugador-inicial {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--jugador-color);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+
+.comença-hint {
+  font-size: 0.78rem;
+  color: var(--text-3);
+}
+
+/* Jugadors */
+.jugadors-llista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.jugador-nom {
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  font-size: 0.95rem;
+  color: var(--text-2);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.jugador-nom.inicial {
+  color: var(--jugador-color);
+  background: var(--jugador-dim);
+  font-weight: 600;
+}
+
+.fletxa {
+  font-size: 0.7rem;
+  color: var(--jugador-color);
+}
+
+/* Botó final */
+.btn-revelar-final {
+  margin-top: 0.5rem;
+  font-size: 1.05rem;
+  padding: 1.1rem;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 30px var(--impostor-glow);
+  transition: background var(--t), transform var(--t), box-shadow var(--t);
+}
+.btn-revelar-final:hover {
+  box-shadow: 0 0 45px var(--impostor-glow);
+}
+.btn-revelar-final:active { transform: scale(0.97); }

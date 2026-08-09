@@ -1,0 +1,151 @@
+:host { display: block; }
+
+.capçalera {
+  width: 100%;
+  text-align: center;
+  padding: 2rem 0 1rem;
+}
+
+.etiqueta-fase {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--impostor);
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.card {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 0.75rem;
+  animation: entra 0.4s ease backwards;
+}
+.card:nth-child(2) { animation-delay: 0.05s; }
+.card:nth-child(3) { animation-delay: 0.12s; }
+.card:nth-child(4) { animation-delay: 0.19s; }
+
+@keyframes entra {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-etiqueta {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Paraula card */
+.paraula-card {
+  border-color: rgba(124, 58, 237, 0.35);
+  text-align: center;
+}
+
+.paraula-gran {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 8vw, 2.75rem);
+  font-weight: 700;
+  color: var(--accent-light);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+  word-break: break-word;
+}
+
+.paraula-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.meta-categoria {
+  font-size: 0.85rem;
+  color: var(--text-2);
+  font-weight: 500;
+}
+.meta-sep { color: var(--text-3); }
+.meta-pista {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  font-style: italic;
+}
+
+/* Impostors */
+.impostors-card { border-color: rgba(239, 68, 68, 0.3); }
+.impostor-etiqueta { color: var(--impostor); }
+
+.punt-impostor {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--impostor);
+  flex-shrink: 0;
+}
+
+/* Jugadors normals */
+.jugadors-card { border-color: rgba(52, 211, 153, 0.2); }
+.jugador-etiqueta { color: var(--jugador-color); }
+
+.punt-jugador {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--jugador-color);
+  flex-shrink: 0;
+}
+
+/* Tags */
+.jugadors-rol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tag-impostor, .tag-jugador {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.tag-impostor {
+  background: var(--impostor-dim);
+  color: var(--impostor);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.tag-jugador {
+  background: var(--jugador-dim);
+  color: var(--jugador-color);
+  border: 1px solid rgba(52, 211, 153, 0.15);
+}
+
+.tag-icon { font-size: 0.85rem; }
+
+/* Botó tornar */
+.btn-tornar {
+  margin-top: 0.5rem;
+  font-size: 1.05rem;
+  padding: 1rem;
+  animation: entra 0.4s ease 0.3s backwards;
+}

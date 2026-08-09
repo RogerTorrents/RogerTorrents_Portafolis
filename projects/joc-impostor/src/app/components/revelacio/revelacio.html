@@ -1,0 +1,58 @@
+<div class="pagina">
+
+  <header class="capçalera">
+    <p class="etiqueta-fase">REVELACIÓ FINAL</p>
+    <h2>El Veredicte</h2>
+  </header>
+
+  <!-- Paraula secreta -->
+  <div class="card paraula-card">
+    <p class="card-etiqueta">La paraula secreta era</p>
+    <div class="paraula-gran">{{ dadesRonda().paraula }}</div>
+    <div class="paraula-meta">
+      <span class="meta-categoria">{{ dadesRonda().categoria }}</span>
+      @if (dadesRonda().pista && dadesRonda().pista !== dadesRonda().categoria) {
+        <span class="meta-sep">·</span>
+        <span class="meta-pista">{{ dadesRonda().pista }}</span>
+      }
+    </div>
+  </div>
+
+  <!-- Impostors -->
+  <div class="card impostors-card">
+    <p class="card-etiqueta impostor-etiqueta">
+      <span class="punt-impostor"></span>
+      @if (impostors().length === 1) { L'Impostor } @else { Els Impostors }
+    </p>
+    <div class="jugadors-rol">
+      @for (jugador of impostors(); track jugador.nom) {
+        <div class="tag-impostor">
+          <span class="tag-icon">🔴</span>
+          {{ jugador.nom }}
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Jugadors normals -->
+  <div class="card jugadors-card">
+    <p class="card-etiqueta jugador-etiqueta">
+      <span class="punt-jugador"></span>
+      Seguidors de la Paraula
+    </p>
+    <div class="jugadors-rol">
+      @for (jugador of jugadorsNormals(); track jugador.nom) {
+        <div class="tag-jugador">
+          <span class="tag-icon">🟢</span>
+          {{ jugador.nom }}
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Tornar a jugar -->
+  <button class="btn-primari btn-tornar" (click)="joc.tornarAJugar()">
+    Tornar a Jugar
+  </button>
+
+</div>

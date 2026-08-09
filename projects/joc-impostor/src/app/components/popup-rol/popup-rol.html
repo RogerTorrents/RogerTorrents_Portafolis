@@ -1,0 +1,52 @@
+<div class="overlay" [class.revelat]="revelat()">
+
+  <div class="nom-jugador">{{ jugador().nom }}</div>
+
+  @if (!revelat()) {
+    <div class="estat-prerevelat">
+      <div class="icona-privacitat">🔒</div>
+      <p class="missatge-previ">Assegura't que ningú més mira la pantalla</p>
+      <button class="btn-revelar" (click)="revelar()">
+        <span class="ull-icon">👁</span>
+        Prem per veure el teu rol
+      </button>
+    </div>
+  } @else {
+    <div class="rol-revelat">
+
+      @if (etiquetaParaula()) {
+        <div class="etiqueta-rol">{{ etiquetaParaula() }}</div>
+      }
+
+      <div class="paraula-contenidor">
+        <div class="paraula-text" [class]="classeParaula()">
+          {{ jugador().paraula }}
+        </div>
+      </div>
+
+      @if (esImpostorPur()) {
+        <p class="hint-impostor">Intenta endevinar la paraula que saben els altres</p>
+      }
+      @if (esImpostorAmbPista()) {
+        <p class="hint-pista">Usa la pista per intentar endevinar la paraula</p>
+      }
+    </div>
+
+    <div class="accions">
+      @if (potCanviar()) {
+        <button class="btn-canviar" (click)="onCanviar()">
+          ↺ Canviar paraula
+          @if (canvisRestants() > 1) {
+            <span class="canvis-badge">{{ canvisRestants() }} restants</span>
+          } @else {
+            <span class="canvis-badge canvis-ultim">últim canvi</span>
+          }
+        </button>
+      }
+      <button class="btn-llest" (click)="onTancar()">
+        ✓ He entès el meu rol
+      </button>
+    </div>
+  }
+
+</div>

@@ -1,1 +1,143 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-base:      #06040f;
+  --bg-surface:   #0e0b21;
+  --bg-card:      #181535;
+  --bg-elevated:  #231f52;
+  --accent:       #7c3aed;
+  --accent-hover: #6d28d9;
+  --accent-light: #a78bfa;
+  --accent-dim:   rgba(124, 58, 237, 0.12);
+  --impostor:       #ef4444;
+  --impostor-hover: #dc2626;
+  --impostor-dim:   rgba(239, 68, 68, 0.12);
+  --impostor-glow:  rgba(239, 68, 68, 0.40);
+  --pista-color:    #f59e0b;
+  --pista-dim:      rgba(245, 158, 11, 0.12);
+  --jugador-color:  #34d399;
+  --jugador-dim:    rgba(52, 211, 153, 0.10);
+  --text-1: #f8fafc;
+  --text-2: #94a3b8;
+  --text-3: #475569;
+  --border:       rgba(124, 58, 237, 0.18);
+  --border-hover: rgba(124, 58, 237, 0.45);
+  --radius:    14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --font-display: 'Space Mono', 'Courier New', monospace;
+  --font-body:    'Space Grotesk', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --t: 0.2s ease;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg-base);
+  color: var(--text-1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+input, button, select, textarea { font-family: inherit; }
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+input:focus-visible, select:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 2px;
+}
+
+/* Layout compartit */
+.pagina {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem 5rem;
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.card {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+
+/* Botons compartits */
+.btn-primari {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: var(--accent);
+  color: var(--text-1);
+  transition: background var(--t), transform var(--t);
+}
+.btn-primari:hover:not(:disabled) { background: var(--accent-hover); }
+.btn-primari:active:not(:disabled) { transform: scale(0.97); }
+.btn-primari:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.btn-perill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  background: var(--impostor);
+  color: var(--text-1);
+  transition: background var(--t), transform var(--t), box-shadow var(--t);
+}
+.btn-perill:hover { background: var(--impostor-hover); }
+.btn-perill:active { transform: scale(0.97); }
+
+.btn-fantasma {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: transparent;
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  transition: border-color var(--t), color var(--t);
+}
+.btn-fantasma:hover { border-color: var(--border-hover); color: var(--text-1); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
