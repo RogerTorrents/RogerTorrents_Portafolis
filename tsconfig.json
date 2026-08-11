@@ -50,6 +50,12 @@
     },
     {
       "path": "./projects/joc-impostor/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/geoexplorer/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/geoexplorer/tsconfig.spec.json"
     }
   ]
 }

@@ -1,0 +1,109 @@
+<div class="geo-categories">
+  <div class="geo-categories-capcalera">
+    <h2>{{ ts.t('categories_personals_titol') }}</h2>
+  </div>
+
+  @if (contingut.categories().length === 0 && !mostrantFormulari()) {
+    <p class="geo-categories-buida">{{ ts.t('categories_personals_buida') }}</p>
+  }
+
+  <ul class="geo-categories-llista">
+    @for (categoria of contingut.categories(); track categoria.id) {
+      <li class="geo-categoria-bloc">
+        <div class="geo-categoria-item">
+          <label class="geo-categoria-visibilitat">
+            <input
+              type="checkbox"
+              [checked]="contingut.categoriesVisibles().has(categoria.id)"
+              (change)="contingut.alternarVisibilitatCategoria(categoria.id)"
+            />
+            <span class="geo-categoria-icona" [style.background]="categoria.color">{{ categoria.icona }}</span>
+            <span class="geo-categoria-nom">{{ categoria.nom }}</span>
+            <span class="geo-categoria-comptador">{{ llocsDe(categoria.id).length }}</span>
+          </label>
+          <div class="geo-categoria-accions">
+            <button type="button" class="geo-link-boto" (click)="contingut.iniciarColocacio(categoria.id)">
+              {{ ts.t('categoria_afegir_lloc') }}
+            </button>
+            <button
+              type="button"
+              class="geo-categoria-eliminar"
+              [attr.aria-label]="ts.t('categoria_eliminar')"
+              (click)="demanarEliminarCategoria(categoria)"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        @if (llocsDe(categoria.id).length > 0) {
+          <ul class="geo-llocs-llista">
+            @for (lloc of llocsDe(categoria.id); track trackLloc($index, lloc)) {
+              <li class="geo-lloc-item">
+                <button type="button" class="geo-lloc-nom" (click)="contingut.enfocarLloc(lloc)">
+                  <svg class="geo-icona-pin" viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M8 14.2s4.6-3.9 4.6-7.6A4.6 4.6 0 0 0 3.4 6.6c0 3.7 4.6 7.6 4.6 7.6Z" />
+                    <circle cx="8" cy="6.6" r="1.5" />
+                  </svg>
+                  {{ lloc.nom }}
+                </button>
+                <button
+                  type="button"
+                  class="geo-lloc-eliminar"
+                  [attr.aria-label]="ts.t('lloc_personal_eliminar')"
+                  (click)="demanarEliminarLloc(lloc)"
+                >
+                  ✕
+                </button>
+              </li>
+            }
+          </ul>
+        }
+      </li>
+    }
+  </ul>
+
+  @if (mostrantFormulari()) {
+    <form class="geo-nova-categoria" (submit)="crear($event)">
+      <input
+        type="text"
+        class="geo-nova-categoria-input"
+        [placeholder]="ts.t('categoria_nom_placeholder')"
+        [value]="nomCategoria()"
+        (input)="onNomInput($event)"
+        required
+      />
+      <div class="geo-selector-fila">
+        @for (color of colors; track color) {
+          <button
+            type="button"
+            class="geo-color-swatch"
+            [class.actiu]="colorSeleccionat() === color"
+            [style.background]="color"
+            (click)="colorSeleccionat.set(color)"
+          ></button>
+        }
+      </div>
+      <div class="geo-selector-fila">
+        @for (icona of icones; track icona) {
+          <button
+            type="button"
+            class="geo-icona-opcio"
+            [class.actiu]="iconaSeleccionada() === icona"
+            (click)="iconaSeleccionada.set(icona)"
+          >
+            {{ icona }}
+          </button>
+        }
+      </div>
+      <div class="geo-nova-categoria-accions">
+        <button type="button" class="geo-link-boto" (click)="cancelarFormulari()">{{ ts.t('colocacio_cancelar') }}</button>
+        <button type="submit" class="geo-boto geo-boto--primari geo-boto--petit">{{ ts.t('categoria_crear') }}</button>
+      </div>
+    </form>
+  } @else {
+    <button type="button" class="geo-link-boto geo-nova-categoria-boto" (click)="obrirFormulari()">
+      {{ ts.t('categories_personals_nova') }}
+    </button>
+  }
+</div>

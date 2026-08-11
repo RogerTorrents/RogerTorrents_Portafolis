@@ -1,0 +1,79 @@
+.geo-instruccio-colocacio {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--geo-bg-elevat);
+  border: 1px solid var(--geo-accent);
+  border-radius: var(--geo-radi);
+  padding: 10px 16px;
+  font-size: 12px;
+  box-shadow: var(--geo-ombra);
+  cursor: crosshair;
+}
+
+.geo-link-boto {
+  background: none;
+  border: none;
+  color: var(--geo-accent);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.geo-formulari-lloc {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 600;
+  width: 300px;
+  max-width: calc(100vw - 32px);
+  background: var(--geo-bg-elevat);
+  border: 1px solid var(--geo-vora);
+  border-top: 3px solid var(--geo-accent);
+  border-radius: var(--geo-radi);
+  padding: 14px;
+  box-shadow: var(--geo-ombra);
+}
+
+.geo-formulari-lloc-input,
+.geo-formulari-lloc-textarea {
+  width: 100%;
+  background: var(--geo-panell);
+  border: 1px solid var(--geo-vora);
+  border-radius: 4px;
+  padding: 8px 10px;
+  color: var(--geo-text);
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+  margin-bottom: 8px;
+  resize: none;
+}
+
+.geo-formulari-lloc-input:focus,
+.geo-formulari-lloc-textarea:focus {
+  border-color: var(--geo-accent);
+}
+
+.geo-formulari-lloc-accions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.geo-formulari-lloc-desar {
+  background: var(--geo-accent);
+  border: 1px solid var(--geo-accent);
+  color: #2a1006;
+  font-weight: 600;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 7px 14px;
+  cursor: pointer;
+}

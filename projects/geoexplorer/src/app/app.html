@@ -1,0 +1,64 @@
+@switch (sessio.pantalla()) {
+  @case ('entrada') {
+    <app-pantalla-entrada></app-pantalla-entrada>
+  }
+  @case ('login') {
+    <app-formulari-login></app-formulari-login>
+  }
+  @case ('registre') {
+    <app-formulari-registre></app-formulari-registre>
+  }
+  @case ('app') {
+    <div class="geo-app">
+      <app-capcalera></app-capcalera>
+
+      <div class="geo-cos">
+        <aside
+          class="geo-lateral"
+          [class.geo-lateral--obert]="geo.filtresObertsMobil()"
+          [style.--amplaria-lateral.px]="amplariaLateral()"
+        >
+          @if (sessio.esAutenticat()) {
+            <!-- El mapa personal és el protagonista: primer i sense fer scroll. -->
+            <app-panell-categories-personals></app-panell-categories-personals>
+            <app-panell-filtres></app-panell-filtres>
+            @if (geo.mostrarPoisOficials()) {
+              <app-llista-resultats></app-llista-resultats>
+            }
+          } @else {
+            <app-panell-filtres></app-panell-filtres>
+            <app-llista-resultats></app-llista-resultats>
+          }
+        </aside>
+
+        <div
+          class="geo-resizer"
+          (pointerdown)="onResizerPointerDown($event)"
+          (pointermove)="onResizerPointerMove($event)"
+          (pointerup)="onResizerPointerUp()"
+        ></div>
+
+        <main class="geo-principal">
+          <app-mapa></app-mapa>
+          <app-formulari-lloc-personal></app-formulari-lloc-personal>
+
+          <button type="button" class="geo-boto-flotant-filtres" (click)="geo.alternarFiltresMobil()">
+            <svg class="geo-icona-filtre" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M2 4h12M4 8h8M6 12h4" stroke-linecap="round" />
+            </svg>
+            {{ ts.t('filtres_obrir_mobil') }}
+          </button>
+        </main>
+      </div>
+
+      @if (geo.filtresObertsMobil()) {
+        <div class="geo-lateral-fons" (click)="geo.alternarFiltresMobil()"></div>
+      }
+
+      <app-detall-poi></app-detall-poi>
+      <app-detall-lloc-personal></app-detall-lloc-personal>
+    </div>
+  }
+}
+
+<app-confirmacio-dialeg></app-confirmacio-dialeg>

@@ -1,0 +1,114 @@
+<header class="geo-capcalera">
+  <div class="geo-marca">
+    <svg class="geo-marca-simbol" viewBox="0 0 32 32" aria-hidden="true">
+      <path class="geo-marca-cim" d="M3 23.5 L12.5 8.5 L16.5 15 L20.5 7.5 L29 23.5 Z" />
+      <path class="geo-marca-corba" d="M1.5 26.5 Q16 22.5 30.5 26.5" />
+      <path class="geo-marca-corba geo-marca-corba--2" d="M4.5 29.5 Q16 26.5 27.5 29.5" />
+    </svg>
+    <div class="geo-marca-text">
+      <span class="geo-marca-titol">{{ ts.t('titol_app') }}</span>
+      <span class="geo-marca-subtitol">{{ ts.t('subtitol_app') }}</span>
+    </div>
+  </div>
+
+  <div class="geo-cerca">
+    <svg class="geo-cerca-icona" viewBox="0 0 16 16" aria-hidden="true">
+      <circle cx="7" cy="7" r="4.5" />
+      <path d="M10.3 10.3 14 14" stroke-linecap="round" />
+    </svg>
+    <input
+      type="text"
+      class="geo-cerca-input"
+      [placeholder]="ts.t('cercar_placeholder')"
+      [value]="geo.filtres().cercaText"
+      (input)="onCercaInput($event)"
+    />
+  </div>
+
+  <div class="geo-coordenades">
+    <button
+      type="button"
+      class="geo-coordenades-boto"
+      [class.actiu]="mostrantCercaCoordenades()"
+      [attr.aria-label]="ts.t('cerca_coordenades_titol')"
+      (click)="alternarCercaCoordenades()"
+    >
+      <svg class="geo-icona-pin" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M8 14.2s4.6-3.9 4.6-7.6A4.6 4.6 0 0 0 3.4 6.6c0 3.7 4.6 7.6 4.6 7.6Z" />
+        <circle cx="8" cy="6.6" r="1.5" />
+      </svg>
+    </button>
+    @if (mostrantCercaCoordenades()) {
+      <form class="geo-coordenades-popover" (submit)="cercarCoordenades($event)">
+        <p class="geo-coordenades-titol">{{ ts.t('cerca_coordenades_titol') }}</p>
+        <label class="geo-coordenades-camp">
+          <span>{{ ts.t('cerca_coordenades_lat') }}</span>
+          <input type="text" inputmode="decimal" placeholder="41.8204" [value]="latText()" (input)="onLatInput($event)" required />
+        </label>
+        <label class="geo-coordenades-camp">
+          <span>{{ ts.t('cerca_coordenades_lng') }}</span>
+          <input type="text" inputmode="decimal" placeholder="1.6976" [value]="lngText()" (input)="onLngInput($event)" required />
+        </label>
+        @if (errorCoordenades()) {
+          <p class="geo-coordenades-error">{{ errorCoordenades() }}</p>
+        }
+        <button type="submit" class="geo-coordenades-anar">{{ ts.t('cerca_coordenades_boto') }}</button>
+      </form>
+    }
+  </div>
+
+  <div class="geo-controls">
+    <label class="geo-select-grup">
+      <span class="geo-select-label">{{ ts.t('selector_regio_label') }}</span>
+      <select class="geo-select" [value]="geo.regioActiva().id" (change)="onCanviRegio($event)">
+        @for (regio of geo.regions; track regio.id) {
+          <option [value]="regio.id">{{ ts.t(regio.nomClau) }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="geo-select-grup">
+      <span class="geo-select-label">{{ ts.t('capes_base_label') }}</span>
+      <select class="geo-select" [value]="geo.capaBase()" (change)="onCanviCapa($event)">
+        @for (capa of capes; track capa) {
+          <option [value]="capa">{{ ts.t('capa_' + capa) }}</option>
+        }
+      </select>
+    </label>
+
+    <div class="geo-idiomes">
+      @for (idioma of idiomes; track idioma) {
+        <button
+          type="button"
+          class="geo-idioma-boto"
+          [class.actiu]="ts.idioma() === idioma"
+          (click)="ts.establirIdioma(idioma)"
+        >
+          {{ idioma.toUpperCase() }}
+        </button>
+      }
+    </div>
+
+    <div class="geo-usuari">
+      @if (sessio.esAutenticat()) {
+        <button type="button" class="geo-usuari-boto" (click)="menuUsuariObert.set(!menuUsuariObert())">
+          <span class="geo-usuari-avatar">{{ sessio.usuari()?.nom?.charAt(0)?.toUpperCase() }}</span>
+          <span class="geo-usuari-nom">{{ sessio.usuari()?.nom }}</span>
+        </button>
+        @if (menuUsuariObert()) {
+          <div class="geo-usuari-menu">
+            <button type="button" (click)="sessio.tancarSessio(); menuUsuariObert.set(false)">
+              {{ ts.t('menu_tancar_sessio') }}
+            </button>
+          </div>
+        }
+      } @else {
+        <div class="geo-convidat-badge">
+          <span>{{ ts.t('menu_convidat') }}</span>
+          <button type="button" class="geo-link-login" (click)="sessio.anarA('login')">{{ ts.t('entrada_login') }}</button>
+          <button type="button" class="geo-link-registre" (click)="sessio.anarA('registre')">{{ ts.t('entrada_registre') }}</button>
+        </div>
+      }
+    </div>
+  </div>
+</header>

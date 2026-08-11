@@ -1,0 +1,93 @@
+.geo-resultats {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--geo-vora);
+}
+
+.geo-resultats-capcalera {
+  padding: 12px 16px 4px;
+  font-size: 11px;
+  font-family: var(--geo-font-mono);
+  color: var(--geo-text-suau);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.geo-sense-resultats {
+  padding: 12px 16px;
+  font-size: 12px;
+  color: var(--geo-text-suau);
+}
+
+.geo-llista {
+  list-style: none;
+  margin: 0;
+  padding: 4px 8px 16px;
+}
+
+.geo-item-poi {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: transparent;
+  border: 1px solid transparent;
+  border-left: 2px solid transparent;
+  border-radius: 3px;
+  padding: 8px 8px 8px 7px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.geo-item-poi:hover {
+  background: var(--geo-panell);
+}
+
+.geo-item-poi.actiu {
+  border-left-color: var(--geo-accent);
+  background: var(--geo-accent-suau);
+}
+
+.geo-item-icona {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-size: 12px;
+  color: #2a1006;
+  flex-shrink: 0;
+}
+
+.geo-item-icona--pic {
+  background: #e8622f;
+}
+.geo-item-icona--refugi {
+  background: #4fa3c7;
+}
+.geo-item-icona--llac {
+  background: #3f9e8f;
+}
+.geo-item-icona--parking {
+  background: #9a86c9;
+}
+
+.geo-item-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.geo-item-nom {
+  font-size: 13px;
+  color: var(--geo-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.geo-item-meta {
+  font-size: 11px;
+  color: var(--geo-text-suau);
+}

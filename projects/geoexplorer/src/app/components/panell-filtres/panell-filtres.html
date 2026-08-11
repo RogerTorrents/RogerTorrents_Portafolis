@@ -1,0 +1,91 @@
+<div class="geo-filtres">
+  @if (sessio.esAutenticat()) {
+    <!-- Mode autenticat: el mapa personal és el protagonista i el contingut
+         oficial és opcional, darrere d'un interruptor. Un cop activat, es
+         mostren els mateixos filtres que en mode convidat. -->
+    <section class="geo-seccio">
+      <label class="geo-checkbox geo-checkbox--principal">
+        <input
+          type="checkbox"
+          [checked]="geo.mostrarPoisOficials()"
+          (change)="geo.alternarMostrarPoisOficials()"
+        />
+        <span>
+          <strong>{{ ts.t('mostrar_pois_oficials') }}</strong>
+          <small>{{ ts.t('mostrar_pois_oficials_desc') }}</small>
+        </span>
+      </label>
+    </section>
+  }
+
+  @if (mostrarContingutFiltres()) {
+    <div class="geo-filtres-capcalera" [class.geo-filtres-capcalera--oficials]="sessio.esAutenticat()">
+      <h2>{{ ts.t(sessio.esAutenticat() ? 'punts_oficials_titol' : 'filtres_titol') }}</h2>
+      <button type="button" class="geo-link-boto" (click)="geo.netejarFiltres()">{{ ts.t('filtres_netejar') }}</button>
+    </div>
+
+    <section class="geo-seccio">
+      <h3>{{ ts.t('categoria_titol') }}</h3>
+      <div class="geo-chips">
+        @for (categoria of categories; track categoria) {
+          <button
+            type="button"
+            class="geo-chip"
+            [class.actiu]="categoriaActiva(categoria)"
+            (click)="geo.alternarCategoria(categoria)"
+          >
+            <span class="geo-chip-icona">{{ iconaCategoria(categoria) }}</span>
+            {{ ts.t('cat_' + categoria) }}
+          </button>
+        }
+      </div>
+    </section>
+
+    @if (mostrarFiltreAltitud()) {
+      <section class="geo-seccio">
+        <h3>{{ ts.t('altitud_titol') }}</h3>
+        <div class="geo-hipsometrica" aria-hidden="true"></div>
+        <div class="geo-rang-valors">
+          <span>{{ altitudMinMostrat() }} m</span>
+          <span>{{ altitudMaxMostrat() }} m</span>
+        </div>
+        <input
+          type="range"
+          class="geo-slider"
+          [min]="altitudAbsMin"
+          [max]="altitudAbsMax"
+          step="50"
+          [value]="altitudMinMostrat()"
+          (input)="onAltitudMinInput($event)"
+        />
+        <input
+          type="range"
+          class="geo-slider"
+          [min]="altitudAbsMin"
+          [max]="altitudAbsMax"
+          step="50"
+          [value]="altitudMaxMostrat()"
+          (input)="onAltitudMaxInput($event)"
+        />
+      </section>
+    }
+
+    @if (mostrarFiltreDificultat()) {
+      <section class="geo-seccio">
+        <h3>{{ ts.t('dificultat_titol') }}</h3>
+        <div class="geo-chips">
+          @for (dificultat of dificultats; track trackDificultat($index, dificultat)) {
+            <button
+              type="button"
+              class="geo-chip geo-chip--petit"
+              [class.actiu]="geo.filtres().dificultats.has(dificultat)"
+              (click)="geo.alternarDificultat(dificultat)"
+            >
+              {{ ts.t('dif_' + dificultat) }}
+            </button>
+          }
+        </div>
+      </section>
+    }
+  }
+</div>

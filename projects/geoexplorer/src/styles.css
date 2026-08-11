@@ -1,0 +1,175 @@
+@import 'leaflet/dist/leaflet.css';
+@import 'leaflet.markercluster/dist/MarkerCluster.css';
+@import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+/*
+ * Sistema visual "carta topogràfica": blau nit sobre les muntanyes com a
+ * base, taronja senyal de fita de sender (balisa GR/PR) com a accent —
+ * deliberadament NO el parell "fons gairebé negre + verd/violeta únic" que
+ * és el default genèric. Tipografia condensada tipus segell topogràfic
+ * (Big Shoulders Display) + IBM Plex Sans/Mono per a UI i dades (llegibles,
+ * amb caràcter d'instrument tècnic).
+ */
+:root {
+  --geo-bg: #101823;
+  --geo-bg-elevat: #17212e;
+  --geo-panell: #1e2c3f;
+  --geo-panell-alt: #263a52;
+  --geo-vora: #33465c;
+  --geo-text: #eef2ef;
+  --geo-text-suau: #8fa2b8;
+
+  /* Accent de signatura: taronja balisa de sender (GR/PR). */
+  --geo-accent: #e8622f;
+  --geo-accent-fosc: #c14f22;
+  --geo-accent-suau: rgba(232, 98, 47, 0.16);
+
+  /* Paleta de suport, inspirada en el tintat hipsomètric dels mapes topogràfics. */
+  --geo-taronja: #d1a13c;
+  --geo-vermell: #d8564f;
+  --geo-blau: #4fa3c7;
+  --geo-lila: #9a86c9;
+  --geo-verd: #6ba86f;
+  --geo-teal: #3f9e8f;
+
+  --geo-font-titol: 'Big Shoulders Display', 'Segoe UI', sans-serif;
+  --geo-font-cos: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  --geo-font-mono: 'IBM Plex Mono', monospace;
+
+  --geo-radi: 6px;
+  --geo-ombra: 0 14px 32px rgba(3, 7, 12, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--geo-bg);
+  color: var(--geo-text);
+  font-family: var(--geo-font-cos);
+  overflow: hidden;
+}
+
+app-root {
+  display: block;
+  height: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--geo-accent);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--geo-vora);
+  border-radius: 4px;
+}
+
+.leaflet-container {
+  background: #0c141e;
+  font-family: var(--geo-font-cos);
+}
+
+/* Marcador de contingut oficial: fita clavada al terreny (forma de pin real,
+   no un quadrat girat 45° — es llegeix com "un lloc al mapa" a primer cop
+   d'ull, sense necessitat de desxifrar un símbol). */
+.geo-marcador-icona {
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.geo-marcador-simbol {
+  fill: #eef2ef;
+  font-size: 9px;
+  font-weight: 600;
+  font-family: var(--geo-font-mono);
+}
+
+/* Marcador de contingut personal: balisa rodona, per contrastar amb el pin oficial. */
+.geo-marcador-personal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(16, 24, 35, 0.55);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  font-size: 12px;
+}
+
+.leaflet-container.geo-cursor-colocacio {
+  cursor: crosshair;
+}
+
+.geo-marcador-cercat {
+  position: relative;
+  width: 22px;
+  height: 22px;
+}
+
+.geo-marcador-cercat-pols {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(79, 163, 199, 0.35);
+  animation: geo-cercat-pols 1.6s ease-out infinite;
+}
+
+.geo-marcador-cercat-punt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--geo-blau);
+  border: 2px solid rgba(16, 24, 35, 0.6);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes geo-cercat-pols {
+  from {
+    transform: scale(0.4);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.geo-cluster-icona {
+  background: var(--geo-accent);
+  border: 2px solid rgba(16, 24, 35, 0.55);
+  border-radius: 50%;
+  color: #241005;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--geo-font-mono);
+  font-weight: 600;
+}

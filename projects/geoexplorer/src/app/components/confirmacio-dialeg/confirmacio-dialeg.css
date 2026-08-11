@@ -1,0 +1,66 @@
+.geo-confirmacio-fons {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2000;
+}
+
+.geo-confirmacio {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2001;
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  background: var(--geo-bg-elevat);
+  border: 1px solid var(--geo-vora);
+  border-top: 3px solid var(--geo-vermell);
+  border-radius: var(--geo-radi);
+  padding: 20px;
+  box-shadow: var(--geo-ombra);
+}
+
+.geo-confirmacio-missatge {
+  margin: 0 0 18px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--geo-text);
+}
+
+.geo-confirmacio-accions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.geo-confirmacio-cancelar,
+.geo-confirmacio-confirmar {
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--geo-font-titol);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.geo-confirmacio-cancelar {
+  background: none;
+  border: 1px solid var(--geo-vora);
+  color: var(--geo-text);
+}
+
+.geo-confirmacio-cancelar:hover {
+  border-color: var(--geo-text-suau);
+}
+
+.geo-confirmacio-confirmar {
+  background: var(--geo-vermell);
+  border: 1px solid var(--geo-vermell);
+  color: #2a0a0a;
+}
+
+.geo-confirmacio-confirmar:hover {
+  filter: brightness(1.1);
+}

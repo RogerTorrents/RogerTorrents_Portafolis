@@ -18,6 +18,7 @@ export class Desktop implements OnDestroy {
     { id: 'fons-depantalla', nameKey: 'app_fons_depantalla', icon: '🎨', showInDesktop: true },
     { id: 'linkedin', nameKey: 'app_linkedin', icon: 'linkedin/logo.png', showInDesktop: true },
     { id: 'joc-impostor', nameKey: 'app_joc_impostor', icon: '🕵️', showInDesktop: true },
+    { id: 'geoexplorer', nameKey: 'app_geoexplorer', icon: 'geoexplorer/logo.svg', showInDesktop: true },
   ];
 
   isMobile = computed(() => window.innerWidth <= 650);

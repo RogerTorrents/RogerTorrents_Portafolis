@@ -1,0 +1,127 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.geo-formulari-pantalla {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--geo-bg);
+}
+
+.geo-entrada-corbes {
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  background-image: radial-gradient(circle at 82% 18%, transparent 0 90px, rgba(232, 98, 47, 0.1) 91px 93px, transparent 94px),
+    radial-gradient(circle at 82% 18%, transparent 0 140px, rgba(232, 98, 47, 0.06) 141px 143px, transparent 144px);
+  background-repeat: no-repeat;
+}
+
+.geo-formulari-caixa {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 360px;
+  background: var(--geo-bg-elevat);
+  border: 1px solid var(--geo-vora);
+  border-top: 3px solid var(--geo-accent);
+  border-radius: var(--geo-radi);
+  padding: 28px;
+  box-shadow: var(--geo-ombra);
+}
+
+.geo-tornar {
+  background: none;
+  border: none;
+  color: var(--geo-text-suau);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0 0 16px;
+}
+
+.geo-tornar:hover {
+  color: var(--geo-accent);
+}
+
+.geo-formulari-caixa h2 {
+  margin: 0 0 20px;
+  font-family: var(--geo-font-titol);
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.005em;
+}
+
+.geo-camp {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.geo-camp span {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--geo-text-suau);
+}
+
+.geo-camp input {
+  background: var(--geo-panell);
+  border: 1px solid var(--geo-vora);
+  border-radius: 4px;
+  padding: 10px 12px;
+  color: var(--geo-text);
+  font-size: 14px;
+  outline: none;
+}
+
+.geo-camp input:focus {
+  border-color: var(--geo-accent);
+}
+
+.geo-formulari-error {
+  background: rgba(216, 86, 79, 0.1);
+  border: 1px solid rgba(216, 86, 79, 0.4);
+  color: var(--geo-vermell);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+  margin: 0 0 14px;
+}
+
+.geo-formulari-boto {
+  width: 100%;
+  background: var(--geo-accent);
+  border: 1px solid var(--geo-accent);
+  color: #2a1006;
+  font-family: var(--geo-font-titol);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  border-radius: 4px;
+  padding: 11px;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.geo-formulari-peu {
+  margin: 18px 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--geo-text-suau);
+}
+
+.geo-link-boto {
+  background: none;
+  border: none;
+  color: var(--geo-accent);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}

@@ -1,0 +1,32 @@
+@if (contingut.enModeColocacio()) {
+  @if (contingut.coordenadesPendents() === null) {
+    <div class="geo-instruccio-colocacio">
+      <span>📍 {{ ts.t('colocacio_instruccio') }}</span>
+      <button type="button" class="geo-link-boto" (click)="contingut.cancelarColocacio()">{{ ts.t('colocacio_cancelar') }}</button>
+    </div>
+  } @else {
+    <div class="geo-formulari-lloc">
+      <form (submit)="desar($event)">
+        <input
+          type="text"
+          class="geo-formulari-lloc-input"
+          [placeholder]="ts.t('lloc_personal_nom')"
+          [value]="nom()"
+          (input)="onNomInput($event)"
+          required
+        />
+        <textarea
+          class="geo-formulari-lloc-textarea"
+          [placeholder]="ts.t('lloc_personal_descripcio')"
+          [value]="descripcio()"
+          (input)="onDescripcioInput($event)"
+          rows="2"
+        ></textarea>
+        <div class="geo-formulari-lloc-accions">
+          <button type="button" class="geo-link-boto" (click)="cancelar()">{{ ts.t('colocacio_cancelar') }}</button>
+          <button type="submit" class="geo-formulari-lloc-desar">{{ ts.t('lloc_personal_desar') }}</button>
+        </div>
+      </form>
+    </div>
+  }
+}

@@ -40,6 +40,11 @@
       <iframe src="http://localhost:4204" title="Joc Impostor"></iframe>
     </app-window-wrapper>
   }
+  @if (wm.muntades().has('geoexplorer')) {
+    <app-window-wrapper id="geoexplorer" [title]="ts.t('app_geoexplorer')" [initialMaximized]="true">
+      <iframe src="http://localhost:4205" title="GeoExplorer"></iframe>
+    </app-window-wrapper>
+  }
 }
 
 <router-outlet />

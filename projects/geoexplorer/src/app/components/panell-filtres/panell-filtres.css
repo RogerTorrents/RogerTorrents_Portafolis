@@ -1,0 +1,160 @@
+.geo-filtres {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 16px;
+}
+
+.geo-filtres-capcalera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.geo-filtres-capcalera--oficials {
+  border-top: 1px solid var(--geo-vora);
+  padding-top: 14px;
+}
+
+.geo-filtres-capcalera h2 {
+  margin: 0;
+  font-family: var(--geo-font-titol);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.01em;
+  color: var(--geo-text);
+}
+
+.geo-link-boto {
+  background: none;
+  border: none;
+  color: var(--geo-accent);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.geo-seccio h3 {
+  margin: 0 0 8px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--geo-text-suau);
+}
+
+.geo-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Fita de sender: una franja de color a l'esquerra, com una balisa pintada
+   en un tram de camí, en lloc del "pill" arrodonit genèric. */
+.geo-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--geo-panell);
+  border: 1px solid var(--geo-vora);
+  border-left: 3px solid var(--geo-vora);
+  color: var(--geo-text-suau);
+  border-radius: 3px;
+  padding: 6px 12px 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.geo-chip--petit {
+  padding: 5px 10px 5px 9px;
+  font-size: 11px;
+}
+
+.geo-chip.actiu {
+  border-color: var(--geo-vora);
+  border-left-color: var(--geo-accent);
+  color: var(--geo-text);
+  background: var(--geo-accent-suau);
+}
+
+.geo-chip-icona {
+  font-size: 11px;
+}
+
+/* Franja de tintat hipsomètric: la mateixa lògica de color que fan servir
+   els mapes topogràfics per representar l'altitud (verd a la vall, ocre a
+   mitja muntanya, taronja i blanc al cim) — de referència visual per al
+   rang de sota, no interactiva. */
+.geo-hipsometrica {
+  height: 5px;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  background: linear-gradient(
+    90deg,
+    #5c8f5f 0%,
+    #6ba86f 20%,
+    #d1a13c 50%,
+    var(--geo-accent) 78%,
+    #e9e2d3 100%
+  );
+}
+
+.geo-rang-valors {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--geo-font-mono);
+  font-size: 11px;
+  color: var(--geo-text-suau);
+  margin-bottom: 4px;
+}
+
+.geo-slider {
+  width: 100%;
+  accent-color: var(--geo-accent);
+  margin-bottom: 6px;
+}
+
+.geo-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--geo-text);
+  cursor: pointer;
+}
+
+.geo-checkbox input {
+  accent-color: var(--geo-accent);
+}
+
+.geo-checkbox--principal {
+  align-items: flex-start;
+  background: var(--geo-panell);
+  border: 1px solid var(--geo-vora);
+  border-radius: var(--geo-radi);
+  padding: 12px;
+}
+
+.geo-checkbox--principal input {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.geo-checkbox--principal span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.geo-checkbox--principal strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.geo-checkbox--principal small {
+  font-size: 11px;
+  color: var(--geo-text-suau);
+  line-height: 1.4;
+}

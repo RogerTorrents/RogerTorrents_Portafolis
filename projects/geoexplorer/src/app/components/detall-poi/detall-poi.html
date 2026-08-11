@@ -1,0 +1,84 @@
+@if (geo.poiSeleccionat(); as poi) {
+  <div class="geo-detall-fons" (click)="tancar()"></div>
+  <aside class="geo-detall">
+    <button type="button" class="geo-detall-tancar" [attr.aria-label]="ts.t('detall_tancar')" (click)="tancar()">✕</button>
+
+    <div class="geo-detall-imatge geo-detall-imatge--{{ poi.tipus }}">
+      @if (poi.imatges.length > 0) {
+        <img [src]="poi.imatges[0]" [alt]="poi.nom" />
+      } @else {
+        <span class="geo-detall-imatge-icona">{{ iconaCategoria(poi) }}</span>
+      }
+    </div>
+
+    <div class="geo-detall-cos">
+      <h2 class="geo-detall-nom">{{ poi.nom }}</h2>
+
+      <div class="geo-detall-badges">
+        <span class="geo-badge">{{ ts.t('cat_' + poi.tipus) }}</span>
+
+        @if (esPic(poi)) {
+          <span class="geo-badge">{{ poi.altitud }} m</span>
+          <span class="geo-badge geo-badge--dificultat">{{ ts.t('dif_' + poi.dificultat) }}</span>
+        }
+        @if (esRefugi(poi)) {
+          <span class="geo-badge">{{ poi.altitud }} m</span>
+          <span class="geo-badge" [class.geo-badge--ok]="poi.obert" [class.geo-badge--error]="!poi.obert">
+            {{ ts.t(poi.obert ? 'detall_estat_obert' : 'detall_estat_tancat') }}
+          </span>
+        }
+        @if (esLlac(poi)) {
+          <span class="geo-badge">{{ poi.altitud }} m</span>
+        }
+        @if (esParking(poi)) {
+          <span class="geo-badge">{{ ts.t(poi.gratuit ? 'detall_gratuit' : 'detall_pagament') }}</span>
+        }
+      </div>
+
+      <p class="geo-detall-descripcio">{{ poi.descripcio }}</p>
+
+      @if (esRefugi(poi)) {
+        <div class="geo-detall-dades">
+          <div>
+            <span class="geo-detall-dada-label">{{ ts.t('detall_contacte') }}</span>
+            <span class="geo-detall-dada-valor">{{ poi.telefon ?? '—' }}</span>
+          </div>
+          <div>
+            <span class="geo-detall-dada-label">{{ ts.t('categoria_titol') }}</span>
+            <span class="geo-detall-dada-valor">{{ ts.t(poi.guardat ? 'detall_guardat' : 'detall_lliure') }}</span>
+          </div>
+        </div>
+
+        @if (poi.serveis.length > 0) {
+          <h3 class="geo-detall-subtitol">{{ ts.t('serveis_titol') }}</h3>
+          <div class="geo-chips-detall">
+            @for (servei of poi.serveis; track servei) {
+              <span class="geo-badge">{{ ts.t('serv_' + servei) }}</span>
+            }
+          </div>
+        }
+      }
+
+      @if (esParking(poi)) {
+        <div class="geo-detall-dades">
+          <div>
+            <span class="geo-detall-dada-label">{{ ts.t('detall_preu') }}</span>
+            <span class="geo-detall-dada-valor">{{ ts.t(poi.gratuit ? 'detall_gratuit' : 'detall_pagament') }}</span>
+          </div>
+          <div>
+            <span class="geo-detall-dada-label">{{ ts.t('detall_capacitat') }}</span>
+            <span class="geo-detall-dada-valor">{{ ts.t('capacitat_' + poi.capacitat) }}</span>
+          </div>
+        </div>
+      }
+
+      <a class="geo-boto geo-boto--primari geo-boto--com-arribar" [href]="urlGoogleMaps()" target="_blank" rel="noopener">
+        <svg class="geo-icona-pin" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 14.2s4.6-3.9 4.6-7.6A4.6 4.6 0 0 0 3.4 6.6c0 3.7 4.6 7.6 4.6 7.6Z" />
+          <circle cx="8" cy="6.6" r="1.5" />
+        </svg>
+        {{ ts.t('detall_com_arribar') }}
+      </a>
+    </div>
+  </aside>
+}

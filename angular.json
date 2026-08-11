@@ -24,7 +24,9 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.css"]
+            "styles": [
+              "src/styles.css"
+            ]
           },
           "configurations": {
             "production": {
@@ -85,7 +87,9 @@
                 "input": "projects/sobre-mi/public"
               }
             ],
-            "styles": ["projects/sobre-mi/src/styles.css"]
+            "styles": [
+              "projects/sobre-mi/src/styles.css"
+            ]
           },
           "configurations": {
             "production": {
@@ -146,7 +150,9 @@
                 "input": "projects/contactar/public"
               }
             ],
-            "styles": ["projects/contactar/src/styles.css"]
+            "styles": [
+              "projects/contactar/src/styles.css"
+            ]
           },
           "configurations": {
             "production": {
@@ -207,7 +213,9 @@
                 "input": "projects/habilitats/public"
               }
             ],
-            "styles": ["projects/habilitats/src/styles.css"]
+            "styles": [
+              "projects/habilitats/src/styles.css"
+            ]
           },
           "configurations": {
             "production": {
@@ -273,7 +281,9 @@
                 "output": "assets"
               }
             ],
-            "styles": ["projects/joc-impostor/src/styles.css"]
+            "styles": [
+              "projects/joc-impostor/src/styles.css"
+            ]
           },
           "configurations": {
             "production": {
@@ -307,6 +317,79 @@
             },
             "development": {
               "buildTarget": "joc-impostor:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
+    },
+    "geoexplorer": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/geoexplorer",
+      "sourceRoot": "projects/geoexplorer/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/geoexplorer/src/main.ts",
+            "tsConfig": "projects/geoexplorer/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/geoexplorer/public"
+              }
+            ],
+            "styles": [
+              "projects/geoexplorer/src/styles.css"
+            ],
+            "allowedCommonJsDependencies": [
+              "leaflet",
+              "leaflet.markercluster"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "600kB",
+                  "maximumError": "1.2MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kB",
+                  "maximumError": "10kB"
+                }
+              ],
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/geoexplorer/src/environments/environment.ts",
+                  "with": "projects/geoexplorer/src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "geoexplorer:build:production"
+            },
+            "development": {
+              "buildTarget": "geoexplorer:build:development"
             }
           },
           "defaultConfiguration": "development"

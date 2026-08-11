@@ -1,0 +1,43 @@
+@if (contingut.llocSeleccionat(); as lloc) {
+  <div class="geo-detall-fons" (click)="tancar()"></div>
+  <aside class="geo-detall">
+    <button type="button" class="geo-detall-tancar" [attr.aria-label]="ts.t('detall_tancar')" (click)="tancar()">✕</button>
+
+    <div class="geo-detall-imatge" [style.background]="categoriaDelLloc()?.color ?? 'var(--geo-panell)'">
+      <span class="geo-detall-imatge-icona">{{ categoriaDelLloc()?.icona ?? '📍' }}</span>
+    </div>
+
+    <div class="geo-detall-cos">
+      <h2 class="geo-detall-nom">{{ lloc.nom }}</h2>
+
+      @if (categoriaDelLloc(); as categoria) {
+        <div class="geo-detall-badges">
+          <span class="geo-badge">{{ categoria.icona }} {{ categoria.nom }}</span>
+        </div>
+      }
+
+      @if (lloc.descripcio) {
+        <p class="geo-detall-descripcio">{{ lloc.descripcio }}</p>
+      }
+
+      <div class="geo-detall-dades">
+        <div>
+          <span class="geo-detall-dada-label">{{ ts.t('detall_coordenades') }}</span>
+          <span class="geo-detall-dada-valor">{{ lloc.coordenades[0].toFixed(5) }}, {{ lloc.coordenades[1].toFixed(5) }}</span>
+        </div>
+      </div>
+
+      <a class="geo-boto geo-boto--primari geo-boto--com-arribar" [href]="urlGoogleMaps()" target="_blank" rel="noopener">
+        <svg class="geo-icona-pin" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 14.2s4.6-3.9 4.6-7.6A4.6 4.6 0 0 0 3.4 6.6c0 3.7 4.6 7.6 4.6 7.6Z" />
+          <circle cx="8" cy="6.6" r="1.5" />
+        </svg>
+        {{ ts.t('detall_com_arribar') }}
+      </a>
+
+      <button type="button" class="geo-boto geo-boto--eliminar" (click)="eliminar()">
+        {{ ts.t('lloc_personal_eliminar') }}
+      </button>
+    </div>
+  </aside>
+}

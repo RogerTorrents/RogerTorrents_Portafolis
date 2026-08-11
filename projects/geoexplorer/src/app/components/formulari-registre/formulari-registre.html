@@ -1,0 +1,46 @@
+<div class="geo-formulari-pantalla">
+  <div class="geo-entrada-corbes" aria-hidden="true"></div>
+
+  <div class="geo-formulari-caixa">
+    <button type="button" class="geo-tornar" (click)="sessio.anarA('entrada')">{{ ts.t('tornar') }}</button>
+
+    <h2>{{ ts.t('registre_titol') }}</h2>
+
+    <form (submit)="enviar($event)">
+      <label class="geo-camp">
+        <span>{{ ts.t('registre_nom') }}</span>
+        <input type="text" autocomplete="name" [value]="nom()" (input)="onNomInput($event)" required />
+      </label>
+
+      <label class="geo-camp">
+        <span>{{ ts.t('login_email') }}</span>
+        <input type="email" autocomplete="email" [value]="email()" (input)="onEmailInput($event)" required />
+      </label>
+
+      <label class="geo-camp">
+        <span>{{ ts.t('login_contrasenya') }}</span>
+        <input
+          type="password"
+          autocomplete="new-password"
+          minlength="8"
+          [value]="contrasenya()"
+          (input)="onContrasenyaInput($event)"
+          required
+        />
+      </label>
+
+      @if (sessio.errorSessio()) {
+        <p class="geo-formulari-error">{{ sessio.errorSessio() }}</p>
+      }
+
+      <button type="submit" class="geo-formulari-boto" [disabled]="sessio.carregant()">
+        {{ sessio.carregant() ? ts.t('carregant_mapa') : ts.t('registre_boto') }}
+      </button>
+    </form>
+
+    <p class="geo-formulari-peu">
+      {{ ts.t('registre_ja_tens_compte') }}
+      <button type="button" class="geo-link-boto" (click)="sessio.anarA('login')">{{ ts.t('registre_iniciar_sessio') }}</button>
+    </p>
+  </div>
+</div>

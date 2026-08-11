@@ -1,0 +1,35 @@
+<div class="geo-resultats">
+  <div class="geo-resultats-capcalera">
+    <span>{{ geo.poisFiltrats().length }} {{ ts.t('resultats_titol') }}</span>
+  </div>
+
+  @if (geo.carregantPois()) {
+    <p class="geo-sense-resultats">{{ ts.t('carregant_mapa') }}</p>
+  } @else if (geo.poisFiltrats().length === 0) {
+    <p class="geo-sense-resultats">{{ ts.t('sense_resultats') }}</p>
+  }
+
+  <ul class="geo-llista">
+    @for (poi of geo.poisFiltrats(); track trackPoi($index, poi)) {
+      <li>
+        <button
+          type="button"
+          class="geo-item-poi"
+          [class.actiu]="geo.poiSeleccionat()?.id === poi.id"
+          (click)="geo.seleccionarPoi(poi)"
+        >
+          <span class="geo-item-icona geo-item-icona--{{ poi.tipus }}">{{ iconaCategoria(poi.tipus) }}</span>
+          <span class="geo-item-info">
+            <span class="geo-item-nom">{{ poi.nom }}</span>
+            <span class="geo-item-meta">
+              {{ ts.t('cat_' + poi.tipus) }}
+              @if (altitud(poi) !== null) {
+                · {{ altitud(poi) }} m
+              }
+            </span>
+          </span>
+        </button>
+      </li>
+    }
+  </ul>
+</div>

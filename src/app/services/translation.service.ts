@@ -57,6 +57,8 @@ export class TranslationService {
       start_tancar: 'Tancar',
       app_joc_impostor: 'Joc Impostor',
       placeholder_joc_impostor: 'Aquí anirà tot el contingut de Joc Impostor.',
+      app_geoexplorer: 'GeoExplorer',
+      placeholder_geoexplorer: 'Explora punts d\'interès de muntanya i senderisme.',
     },
     es: {
       unlock: 'Desbloquear',
@@ -103,6 +105,8 @@ export class TranslationService {
       start_tancar: 'Cerrar',
       app_joc_impostor: 'Juego Impostor',
       placeholder_joc_impostor: 'Aquí irá todo el contenido de Juego Impostor.',
+      app_geoexplorer: 'GeoExplorer',
+      placeholder_geoexplorer: 'Explora puntos de interés de montaña y senderismo.',
     },
     en: {
       unlock: 'Unlock',
@@ -149,6 +153,8 @@ export class TranslationService {
       start_tancar: 'Close',
       app_joc_impostor: 'Impostor Game',
       placeholder_joc_impostor: 'Here will go all the Impostor Game content.',
+      app_geoexplorer: 'GeoExplorer',
+      placeholder_geoexplorer: 'Explore mountain and hiking points of interest.',
     },
   };
 

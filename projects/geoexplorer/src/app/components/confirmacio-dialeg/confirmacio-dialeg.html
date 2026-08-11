@@ -1,0 +1,14 @@
+@if (confirmacio.missatge(); as missatge) {
+  <div class="geo-confirmacio-fons" (click)="confirmacio.cancelar()"></div>
+  <div class="geo-confirmacio" role="alertdialog" aria-modal="true">
+    <p class="geo-confirmacio-missatge">{{ missatge }}</p>
+    <div class="geo-confirmacio-accions">
+      <button type="button" class="geo-confirmacio-cancelar" (click)="confirmacio.cancelar()">
+        {{ ts.t('confirmacio_cancelar') }}
+      </button>
+      <button type="button" class="geo-confirmacio-confirmar" (click)="confirmacio.confirmar()">
+        {{ ts.t('confirmacio_confirmar') }}
+      </button>
+    </div>
+  </div>
+}

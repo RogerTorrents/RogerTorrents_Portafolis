@@ -1,0 +1,242 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.geo-entrada {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--geo-bg);
+}
+
+/* Corbes de nivell autèntiques: el·lipses girades i descentrades (no cercles
+   perfectes concèntrics) al voltant de dos "cims" — la mateixa convenció que
+   fan servir els mapes topogràfics reals, amb una cota escrita al costat. */
+.geo-entrada-contorns {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.geo-contorn {
+  fill: none;
+  stroke: var(--geo-accent);
+  stroke-width: 1.1;
+  opacity: 0.16;
+}
+
+.geo-contorn--alt {
+  stroke: var(--geo-blau);
+  opacity: 0.13;
+}
+
+.geo-contorn-cota {
+  font-family: var(--geo-font-mono);
+  font-size: 13px;
+  fill: var(--geo-text-suau);
+  opacity: 0.3;
+  letter-spacing: 0.04em;
+}
+
+.geo-contorn-cota--alt {
+  text-anchor: start;
+}
+
+.geo-entrada-traça {
+  position: absolute;
+  top: 8%;
+  left: 0;
+  width: 100%;
+  height: 34%;
+  overflow: visible;
+}
+
+/* L'animació de dibuix (dashoffset 1→0) i d'aparició de la fita es fan amb
+   `.animate()` (Web Animations API) des de `pantalla-entrada.ts`, no amb
+   `@keyframes` — vegeu el comentari al component per saber per què. Aquest
+   bloc només fixa l'estat INICIAL (abans que JS hi entri en joc). */
+.geo-traça-linia {
+  stroke: url(#geoTraçaGradient);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0.75;
+}
+
+.geo-traça-fita {
+  fill: var(--geo-accent);
+  stroke: var(--geo-bg);
+  stroke-width: 1.5;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .geo-traça-linia,
+  .geo-traça-fita {
+    stroke-dashoffset: 0;
+    opacity: 0.6;
+  }
+}
+
+.geo-entrada-contingut {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  padding: 32px;
+  max-width: 520px;
+  text-align: center;
+}
+
+.geo-entrada-marca {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.geo-entrada-eyebrow {
+  margin: 0;
+  font-family: var(--geo-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--geo-accent);
+}
+
+.geo-entrada-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.geo-entrada-simbol {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+}
+
+.geo-marca-cim {
+  fill: var(--geo-accent);
+}
+
+.geo-marca-corba {
+  fill: none;
+  stroke: var(--geo-text-suau);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.55;
+}
+
+.geo-marca-corba--2 {
+  opacity: 0.3;
+}
+
+.geo-entrada-marca h1 {
+  margin: 0;
+  font-family: var(--geo-font-titol);
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 0.005em;
+  color: var(--geo-text);
+}
+
+.geo-entrada-subtitol {
+  margin: 0;
+  color: var(--geo-text-suau);
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 380px;
+}
+
+.geo-entrada-opcions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.geo-opcio {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  border-radius: var(--geo-radi);
+  padding: 16px 18px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+  border-left-width: 4px;
+  border-left-style: solid;
+}
+
+.geo-opcio:hover {
+  transform: translateY(-1px);
+}
+
+.geo-opcio--primaria {
+  background: var(--geo-accent);
+  border: 1px solid var(--geo-accent);
+  border-left-color: #2a1006;
+  color: #2a1006;
+}
+
+.geo-opcio--primaria .geo-opcio-titol {
+  font-family: var(--geo-font-titol);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.01em;
+}
+
+.geo-opcio--primaria .geo-opcio-desc {
+  font-size: 12px;
+  color: #401a0a;
+}
+
+.geo-entrada-secundaries {
+  display: flex;
+  gap: 10px;
+}
+
+.geo-opcio--secundaria {
+  flex: 1;
+  background: var(--geo-panell);
+  border: 1px solid var(--geo-vora);
+  border-left-color: var(--geo-vora);
+  color: var(--geo-text);
+}
+
+.geo-opcio--secundaria:hover {
+  border-left-color: var(--geo-accent);
+}
+
+.geo-opcio--secundaria .geo-opcio-titol {
+  font-family: var(--geo-font-titol);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+}
+
+.geo-opcio--secundaria .geo-opcio-desc {
+  font-size: 11px;
+  color: var(--geo-text-suau);
+}
+
+@media (max-width: 480px) {
+  .geo-entrada-marca h1 {
+    font-size: 40px;
+  }
+  .geo-entrada-secundaries {
+    flex-direction: column;
+  }
+}
