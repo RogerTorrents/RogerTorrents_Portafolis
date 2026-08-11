@@ -19,6 +19,7 @@ export class Desktop implements OnDestroy {
     { id: 'linkedin', nameKey: 'app_linkedin', icon: 'linkedin/logo.png', showInDesktop: true },
     { id: 'joc-impostor', nameKey: 'app_joc_impostor', icon: '🕵️', showInDesktop: true },
     { id: 'geoexplorer', nameKey: 'app_geoexplorer', icon: 'geoexplorer/logo.svg', showInDesktop: true },
+    { id: 'mes-que-un-joc', nameKey: 'app_mes_que_un_joc', icon: '⚽', showInDesktop: true },
   ];
 
   isMobile = computed(() => window.innerWidth <= 650);
@@ -37,10 +38,7 @@ export class Desktop implements OnDestroy {
   private readonly gridPadding = 10;
 
   posicionsIcones = signal<Record<string, { x: number; y: number }>>(
-    this.appDefs.reduce((acc: Record<string, { x: number; y: number }>, app, i) => ({
-      ...acc,
-      [app.id]: this.snapToGrid(this.gridPadding, this.gridPadding + i * this.gridH)
-    }), {} as Record<string, { x: number; y: number }>)
+    this.calcularPosicionsInicials()
   );
 
   // Selecció rectangular
@@ -60,6 +58,27 @@ export class Desktop implements OnDestroy {
   private iniciSeleccio = { x: 0, y: 0 };
 
   constructor(private readonly wm: WindowManagerService, readonly ts: TranslationService) {}
+
+  /**
+   * Posició inicial de cada icona, amb resolució de col·lisions (`trobarLliure`).
+   * Sense això, en pantalles amb poca alçada la columna única d'icones
+   * (x fixa, y = índex * gridH) es clampa totes les icones que sobrepassen
+   * `maxY` al mateix punt, fent que la darrera icona quedi literalment
+   * sobre de l'anterior en lloc de buscar un forat lliure proper.
+   */
+  private calcularPosicionsInicials(): Record<string, { x: number; y: number }> {
+    const posicions: Record<string, { x: number; y: number }> = {};
+    const ocupades = new Set<string>();
+    for (let i = 0; i < this.appDefs.length; i++) {
+      const target = this.trobarLliure(
+        this.snapToGrid(this.gridPadding, this.gridPadding + i * this.gridH),
+        ocupades
+      );
+      posicions[this.appDefs[i].id] = target;
+      ocupades.add(`${target.x},${target.y}`);
+    }
+    return posicions;
+  }
 
   private snapToGrid(x: number, y: number): { x: number; y: number } {
     const maxX = Math.floor((window.innerWidth - this.gridPadding - this.gridW) / this.gridW) * this.gridW + this.gridPadding;

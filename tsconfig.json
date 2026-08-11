@@ -56,6 +56,12 @@
     },
     {
       "path": "./projects/geoexplorer/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/mes-que-un-joc/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/mes-que-un-joc/tsconfig.spec.json"
     }
   ]
 }

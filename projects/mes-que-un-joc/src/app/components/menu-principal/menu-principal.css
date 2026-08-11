@@ -1,0 +1,142 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.pagina {
+  min-height: 100vh;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.75rem 1.5rem 3.5rem;
+}
+
+.capcalera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+}
+
+.marca { display: flex; align-items: center; gap: 0.6rem; }
+.marca-punt {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--blau), var(--grana));
+  flex: none;
+}
+.marca h1 {
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.estrelles-totals {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: var(--fons-superficie);
+  border: 1px solid var(--vora);
+  font-family: var(--font-marca);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.icona-estel { width: 1rem; height: 1rem; fill: var(--or); }
+.max { color: var(--text-3); font-weight: 600; }
+
+.selector-epoca {
+  margin-bottom: 2rem;
+  animation: mqj-desplegar 0.4s ease both;
+}
+.etiqueta-epoca {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-3);
+  margin-bottom: 0.6rem;
+}
+
+.pestanyes {
+  display: flex;
+  gap: 0.5rem;
+  background: var(--fons-superficie);
+  border: 1px solid var(--vora);
+  border-radius: var(--radius);
+  padding: 0.3rem;
+  overflow-x: auto;
+}
+
+.pestanya {
+  flex: 1;
+  white-space: nowrap;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-2);
+  font-family: var(--font-marca);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transition: background var(--t), color var(--t);
+}
+.pestanya.activa {
+  background: linear-gradient(120deg, var(--blau), var(--grana));
+  color: var(--text-1);
+}
+
+.graella-jocs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.targeta-joc {
+  position: relative;
+  overflow: hidden;
+  padding: 1.15rem 1.15rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  animation: mqj-desplegar 0.4s ease both;
+}
+.franja { position: absolute; inset: 0 0 auto 0; height: 5px; }
+
+.capcalera-joc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.4rem 0 0.85rem;
+}
+.icona-joc { font-size: 1.7rem; line-height: 1; }
+
+.estels-joc { display: flex; gap: 0.15rem; }
+.mini-estel { width: 0.8rem; height: 0.8rem; fill: var(--or); }
+.mini-estel.buit { fill: none; stroke: var(--text-3); stroke-width: 1.5px; }
+
+.nom-joc {
+  font-size: 1.02rem;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.desc-joc {
+  color: var(--text-2);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  flex: 1;
+  margin-bottom: 1.1rem;
+}
+
+.btn-jugar { width: 100%; }
+
+@media (max-width: 860px) {
+  .graella-jocs { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 520px) {
+  .pagina { padding: 1.25rem 1rem 3rem; }
+  .graella-jocs { grid-template-columns: 1fr; }
+}

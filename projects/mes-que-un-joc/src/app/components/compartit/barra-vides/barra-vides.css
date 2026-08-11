@@ -1,0 +1,21 @@
+.vides {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.cor {
+  width: 1.35rem;
+  height: 1.35rem;
+  fill: var(--grana-viu);
+  filter: drop-shadow(0 0 6px rgba(209, 0, 90, 0.5));
+  transition: fill var(--t), opacity var(--t), transform var(--t);
+}
+
+.cor.buit {
+  fill: none;
+  stroke: var(--text-3);
+  stroke-width: 1.5px;
+  filter: none;
+  opacity: 0.6;
+  transform: scale(0.92);
+}

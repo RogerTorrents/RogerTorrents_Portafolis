@@ -1,0 +1,65 @@
+@if (motor.estat() === 'jugant' && esquerra() && dreta()) {
+  <div class="pantalla-joc">
+    <app-capsalera-joc
+      [titol]="ts.t('joc1_nom')"
+      [vides]="motor.vides()"
+      [rondaActual]="motor.rondaActual()"
+      [totalRondes]="motor.totalRondes"
+      (tornar)="tornarMenu()"
+    />
+
+    <main class="cos">
+      <p class="pregunta">{{ ts.t('qui_ha_jugat_mes') }}</p>
+
+      <div class="duel">
+        <button
+          type="button"
+          class="targeta targeta-jugador"
+          [class.seleccionada]="seleccio() === 'esquerra'"
+          [class.encertada]="seleccio() && correcte() && seleccio() === 'esquerra'"
+          [class.errada]="seleccio() === 'esquerra' && correcte() === false"
+          [disabled]="seleccio() !== null"
+          (click)="respondre('esquerra')"
+        >
+          <app-foto-jugador [jugadorId]="esquerra()!.id" [nom]="esquerra()!.nom" mida="lg" />
+          <span class="nom">{{ esquerra()!.nom }}</span>
+          <span class="posicio">{{ ts.t('posicio_' + esquerra()!.posicio) }}</span>
+          <span class="minuts">{{ esquerra()!.minutsClub.toLocaleString('ca-ES') }}</span>
+          <span class="etiqueta-minuts">{{ ts.t('minuts_al_barca') }}</span>
+        </button>
+
+        <span class="vs">VS</span>
+
+        <button
+          type="button"
+          class="targeta targeta-jugador"
+          [class.seleccionada]="seleccio() === 'dreta'"
+          [class.encertada]="seleccio() && correcte() && seleccio() === 'dreta'"
+          [class.errada]="seleccio() === 'dreta' && correcte() === false"
+          [disabled]="seleccio() !== null"
+          (click)="respondre('dreta')"
+        >
+          <app-foto-jugador [jugadorId]="dreta()!.id" [nom]="dreta()!.nom" mida="lg" />
+          <span class="nom">{{ dreta()!.nom }}</span>
+          <span class="posicio">{{ ts.t('posicio_' + dreta()!.posicio) }}</span>
+          <span class="minuts">{{ seleccio() ? dreta()!.minutsClub.toLocaleString('ca-ES') : ts.t('minuts_amagats') }}</span>
+          <span class="etiqueta-minuts">{{ ts.t('minuts_al_barca') }}</span>
+        </button>
+      </div>
+
+      @if (seleccio() !== null) {
+        <div class="feedback" [class.feedback--ok]="correcte()" [class.feedback--ko]="correcte() === false">
+          <span>{{ correcte() ? ts.t('correcte') : ts.t('incorrecte') }}</span>
+          <button type="button" class="btn-primari" (click)="seguent()">{{ ts.t('seguent') }}</button>
+        </div>
+      }
+    </main>
+  </div>
+} @else {
+  <app-resultat-joc
+    [guanyat]="motor.estat() === 'guanyat'"
+    [estrelles]="motor.estrellesGuanyades()"
+    (reintentar)="reiniciar()"
+    (tornar)="tornarMenu()"
+  />
+}

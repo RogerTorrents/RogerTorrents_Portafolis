@@ -1,0 +1,22 @@
+.icona-titol {
+  flex: none;
+  width: 1.6rem;
+  height: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icona-titol img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.trofeu-reserva {
+  width: 100%;
+  height: 100%;
+  fill: var(--or);
+  opacity: 0.85;
+}

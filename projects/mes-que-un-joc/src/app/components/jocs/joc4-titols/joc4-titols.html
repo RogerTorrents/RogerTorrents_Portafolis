@@ -1,0 +1,64 @@
+@if (motor.estat() === 'jugant' && temporada()) {
+  <div class="pantalla-joc">
+    <app-capsalera-joc
+      [titol]="ts.t('joc4_nom')"
+      [vides]="motor.vides()"
+      [rondaActual]="motor.rondaActual()"
+      [totalRondes]="motor.totalRondes"
+      (tornar)="tornarMenu()"
+    />
+
+    <main class="cos">
+      <div class="targeta capcalera-temporada">
+        <span class="temporada">{{ ts.t('temporada') }} {{ temporada()!.id }}</span>
+        <span class="etiqueta-plantilla">{{ ts.t('plantilla_destacada') }}</span>
+        @for (fila of filesPlantilla(); track fila.posicio) {
+          <ul class="fila-jugadors">
+            @for (jugador of fila.jugadors; track jugador.id) {
+              <li>
+                <app-foto-jugador [jugadorId]="jugador.id" [nom]="jugador.nom" mida="sm" />
+                <span>{{ jugador.nom }}</span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <p class="pregunta">{{ ts.t('selecciona_titols') }}</p>
+
+      <div class="titols">
+        @for (titol of totsElsTitols; track titol.id) {
+          <button
+            type="button"
+            class="chip-titol"
+            [class.seleccionat]="seleccionats().has(titol.id)"
+            [class.encertat]="confirmat() && estaGuanyat(titol.id) && seleccionats().has(titol.id)"
+            [class.oblidat]="confirmat() && estaGuanyat(titol.id) && !seleccionats().has(titol.id)"
+            [class.erroni]="confirmat() && !estaGuanyat(titol.id) && seleccionats().has(titol.id)"
+            [disabled]="confirmat()"
+            (click)="alternar(titol.id)"
+          >
+            <app-icona-titol [titolId]="titol.id" [nom]="ts.t(titol.nomKey)" />
+            <span>{{ ts.t(titol.nomKey) }}</span>
+          </button>
+        }
+      </div>
+
+      @if (!confirmat()) {
+        <button type="button" class="btn-primari btn-confirmar" (click)="confirmar()">{{ ts.t('confirmar') }}</button>
+      } @else {
+        <div class="feedback" [class.feedback--ok]="esCorrecte()" [class.feedback--ko]="!esCorrecte()">
+          <span>{{ esCorrecte() ? ts.t('correcte') : ts.t('incorrecte') }}</span>
+          <button type="button" class="btn-primari" (click)="seguent()">{{ ts.t('seguent') }}</button>
+        </div>
+      }
+    </main>
+  </div>
+} @else {
+  <app-resultat-joc
+    [guanyat]="motor.estat() === 'guanyat'"
+    [estrelles]="motor.estrellesGuanyades()"
+    (reintentar)="reiniciar()"
+    (tornar)="tornarMenu()"
+  />
+}

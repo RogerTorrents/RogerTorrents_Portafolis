@@ -59,6 +59,8 @@ export class TranslationService {
       placeholder_joc_impostor: 'Aquí anirà tot el contingut de Joc Impostor.',
       app_geoexplorer: 'GeoExplorer',
       placeholder_geoexplorer: 'Explora punts d\'interès de muntanya i senderisme.',
+      app_mes_que_un_joc: 'Més que un joc',
+      placeholder_mes_que_un_joc: 'Posa a prova els teus coneixements sobre la història del FC Barcelona.',
     },
     es: {
       unlock: 'Desbloquear',
@@ -107,6 +109,8 @@ export class TranslationService {
       placeholder_joc_impostor: 'Aquí irá todo el contenido de Juego Impostor.',
       app_geoexplorer: 'GeoExplorer',
       placeholder_geoexplorer: 'Explora puntos de interés de montaña y senderismo.',
+      app_mes_que_un_joc: 'Més que un joc',
+      placeholder_mes_que_un_joc: 'Pon a prueba tus conocimientos sobre la historia del FC Barcelona.',
     },
     en: {
       unlock: 'Unlock',
@@ -155,6 +159,8 @@ export class TranslationService {
       placeholder_joc_impostor: 'Here will go all the Impostor Game content.',
       app_geoexplorer: 'GeoExplorer',
       placeholder_geoexplorer: 'Explore mountain and hiking points of interest.',
+      app_mes_que_un_joc: 'More than a game',
+      placeholder_mes_que_un_joc: 'Test your knowledge about the history of FC Barcelona.',
     },
   };
 

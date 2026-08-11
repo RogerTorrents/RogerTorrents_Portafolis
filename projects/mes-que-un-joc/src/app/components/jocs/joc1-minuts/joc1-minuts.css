@@ -1,0 +1,117 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.pantalla-joc {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem 3rem;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.pregunta {
+  text-align: center;
+  color: var(--text-2);
+  font-size: 1rem;
+  margin-bottom: 1.75rem;
+  max-width: 32ch;
+}
+
+.duel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.vs {
+  font-family: var(--font-marca);
+  font-weight: 800;
+  color: var(--text-3);
+  font-size: 1.1rem;
+  flex: none;
+}
+
+.targeta-jugador {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.3rem;
+  padding: 1.5rem 1rem;
+  min-height: 190px;
+  justify-content: center;
+  color: var(--text-1);
+  transition: border-color var(--t), background var(--t), transform var(--t);
+}
+.targeta-jugador:not(:disabled):hover { border-color: var(--vora-viva); transform: translateY(-2px); }
+.targeta-jugador:disabled { cursor: default; }
+.targeta-jugador app-foto-jugador { margin-bottom: 0.4rem; }
+
+.targeta-jugador .nom {
+  font-family: var(--font-marca);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+.targeta-jugador .posicio {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+}
+.targeta-jugador .minuts {
+  font-family: var(--font-marca);
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--or);
+  font-variant-numeric: tabular-nums;
+}
+.targeta-jugador .etiqueta-minuts {
+  font-size: 0.7rem;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.targeta-jugador.seleccionada { border-color: var(--vora-viva); }
+.targeta-jugador.encertada { border-color: var(--exit); background: rgba(41, 196, 106, 0.08); }
+.targeta-jugador.errada { border-color: var(--error); background: rgba(255, 71, 87, 0.08); }
+
+.feedback {
+  margin-top: 1.75rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  animation: mqj-desplegar 0.3s ease both;
+}
+.feedback span {
+  font-family: var(--font-marca);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+.feedback--ok span { color: var(--exit); }
+.feedback--ko span { color: var(--error); }
+.feedback .btn-primari { min-width: 180px; }
+
+@media (max-width: 520px) {
+  .duel { flex-direction: column; }
+  .vs { order: 0; }
+}

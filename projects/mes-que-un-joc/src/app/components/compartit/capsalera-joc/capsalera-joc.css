@@ -1,0 +1,54 @@
+.capsalera {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  background: var(--fons-superficie);
+  border-bottom: 1px solid var(--vora);
+}
+
+.btn-tornar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: none;
+  border-radius: 999px;
+  background: var(--fons-elevat);
+  color: var(--text-1);
+  transition: background var(--t);
+}
+.btn-tornar:hover { background: var(--fons-superficie-2); }
+.btn-tornar svg { width: 1.15rem; height: 1.15rem; }
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.nom-joc {
+  font-family: var(--font-marca);
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ronda {
+  font-size: 0.8rem;
+  color: var(--or);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.ronda-total { color: var(--text-3); }
+
+@media (max-width: 520px) {
+  .capsalera { padding: 0.75rem 1rem; gap: 0.75rem; }
+  .nom-joc { font-size: 0.9rem; }
+}

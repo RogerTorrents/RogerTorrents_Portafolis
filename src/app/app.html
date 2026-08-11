@@ -45,6 +45,11 @@
       <iframe src="http://localhost:4205" title="GeoExplorer"></iframe>
     </app-window-wrapper>
   }
+  @if (wm.muntades().has('mes-que-un-joc')) {
+    <app-window-wrapper id="mes-que-un-joc" [title]="ts.t('app_mes_que_un_joc')" [initialMaximized]="true">
+      <iframe src="http://localhost:4206" title="Més que un joc"></iframe>
+    </app-window-wrapper>
+  }
 }
 
 <router-outlet />

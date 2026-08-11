@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Identitat blaugrana */
+  --blau:        #0c3e8c;
+  --blau-fosc:   #051a3d;
+  --grana:       #a50044;
+  --grana-viu:   #d1005a;
+  --or:          #f2b705;
+  --or-fosc:     #c99400;
+
+  --fons-base:      #050b1c;
+  --fons-superficie: #0b1530;
+  --fons-superficie-2: #101d3f;
+  --fons-elevat:    #17264d;
+
+  --text-1: #f4f6ff;
+  --text-2: #a9b4d6;
+  --text-3: #6879a8;
+
+  --vora:      rgba(255, 255, 255, 0.09);
+  --vora-viva: rgba(242, 183, 5, 0.45);
+
+  --exit: #29c46a;
+  --error: #ff4757;
+
+  --radius:    14px;
+  --radius-sm: 8px;
+  --radius-lg: 24px;
+
+  --font-marca: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-cos:   'Barlow', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  --t: 0.2s ease;
+}
+
+html, body {
+  height: 100%;
+  background: var(--fons-base);
+  color: var(--text-1);
+  font-family: var(--font-cos);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+input, button, select, textarea { font-family: inherit; }
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--or);
+  outline-offset: 2px;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-marca);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* Franja de dorsal blaugrana: motiu visual recurrent (targetes, capçaleres) */
+.franja-blaugrana {
+  background: repeating-linear-gradient(
+    115deg,
+    var(--blau) 0px, var(--blau) 14px,
+    var(--grana) 14px, var(--grana) 28px
+  );
+}
+
+.btn-primari {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.75rem;
+  border-radius: var(--radius);
+  font-family: var(--font-marca);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--or);
+  color: var(--blau-fosc);
+  transition: background var(--t), transform var(--t), box-shadow var(--t);
+  box-shadow: 0 8px 22px -8px rgba(242, 183, 5, 0.55);
+}
+.btn-primari:hover:not(:disabled) { background: #ffcd2e; }
+.btn-primari:active:not(:disabled) { transform: scale(0.97); }
+.btn-primari:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+.btn-secundari {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-family: var(--font-marca);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: transparent;
+  color: var(--text-1);
+  border: 1.5px solid var(--vora);
+  transition: border-color var(--t), background var(--t);
+}
+.btn-secundari:hover { border-color: var(--vora-viva); background: rgba(255, 255, 255, 0.04); }
+
+.targeta {
+  background: var(--fons-superficie);
+  border: 1px solid var(--vora);
+  border-radius: var(--radius-lg);
+}
+
+/* Definides globalment (no dins d'un component) perquè l'encapsulació
+   emulada d'Angular no reescriu el nom de referència de `animation` quan
+   el @keyframes viu dins del mateix full d'estils del component. */
+@keyframes mqj-aparicio {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes mqj-desplegar {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,51 @@
+<div class="pagina">
+  <header class="capcalera">
+    <div class="marca">
+      <span class="marca-punt"></span>
+      <h1>{{ ts.t('marca_titol') }}</h1>
+    </div>
+    <div class="estrelles-totals" [attr.aria-label]="ts.t('estrelles_totals') + ': ' + estrellesEpoca() + ' / 20'">
+      <svg viewBox="0 0 24 24" class="icona-estel" aria-hidden="true"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.3l7.1-.7L12 2z"/></svg>
+      <span>{{ estrellesEpoca() }}<span class="max">/20</span></span>
+    </div>
+  </header>
+
+  <section class="selector-epoca" aria-label="{{ ts.t('menu_selecciona_epoca') }}">
+    <span class="etiqueta-epoca">{{ ts.t('menu_selecciona_epoca') }}</span>
+    <div class="pestanyes" role="tablist">
+      @for (epoca of epoques; track epoca.id) {
+        <button
+          type="button"
+          role="tab"
+          class="pestanya"
+          [class.activa]="epocaService.epocaActual() === epoca.id"
+          [attr.aria-selected]="epocaService.epocaActual() === epoca.id"
+          (click)="seleccionarEpoca(epoca.id)"
+        >
+          {{ ts.t(epoca.nomKey) }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="graella-jocs">
+    @for (joc of jocs; track joc.id) {
+      <article class="targeta targeta-joc">
+        <div class="franja-blaugrana franja"></div>
+        <div class="capcalera-joc">
+          <span class="icona-joc" aria-hidden="true">{{ joc.icona }}</span>
+          <div class="estels-joc" [attr.aria-label]="estrellesJoc(joc.id) + ' / 5'">
+            @for (i of [0, 1, 2, 3, 4]; track i) {
+              <svg viewBox="0 0 24 24" class="mini-estel" [class.buit]="i >= estrellesJoc(joc.id)" aria-hidden="true">
+                <path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.3l7.1-.7L12 2z"/>
+              </svg>
+            }
+          </div>
+        </div>
+        <h2 class="nom-joc">{{ ts.t(joc.nomKey) }}</h2>
+        <p class="desc-joc">{{ ts.t(joc.descKey) }}</p>
+        <button type="button" class="btn-primari btn-jugar" (click)="jugar(joc)">{{ ts.t('jugar') }}</button>
+      </article>
+    }
+  </section>
+</div>

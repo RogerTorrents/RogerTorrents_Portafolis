@@ -1,0 +1,53 @@
+@if (motor.estat() === 'jugant' && jugador() && temporada()) {
+  <div class="pantalla-joc">
+    <app-capsalera-joc
+      [titol]="ts.t('joc3_nom')"
+      [vides]="motor.vides()"
+      [rondaActual]="motor.rondaActual()"
+      [totalRondes]="motor.totalRondes"
+      (tornar)="tornarMenu()"
+    />
+
+    <main class="cos">
+      <p class="pregunta">{{ ts.t('quin_dorsal_titol') }}</p>
+
+      <div class="targeta fitxa">
+        <div class="franja-blaugrana franja"></div>
+        <app-foto-jugador [jugadorId]="jugador()!.id" [nom]="jugador()!.nom" mida="lg" />
+        <span class="nom">{{ jugador()!.nom }}</span>
+        <span class="posicio">{{ ts.t('posicio_' + jugador()!.posicio) }}</span>
+        <span class="temporada">{{ temporada()!.id }} · {{ ts.t('quin_dorsal_pregunta') }}</span>
+      </div>
+
+      <div class="opcions">
+        @for (opcio of opcions(); track opcio) {
+          <button
+            type="button"
+            class="btn-opcio"
+            [class.seleccionada]="seleccio() === opcio"
+            [class.encertada]="seleccio() !== null && opcio === dorsalCorrecte()"
+            [class.errada]="seleccio() === opcio && esCorrecte() === false"
+            [disabled]="seleccio() !== null"
+            (click)="respondre(opcio)"
+          >
+            {{ opcio }}
+          </button>
+        }
+      </div>
+
+      @if (seleccio() !== null) {
+        <div class="feedback" [class.feedback--ok]="esCorrecte()" [class.feedback--ko]="esCorrecte() === false">
+          <span>{{ esCorrecte() ? ts.t('correcte') : ts.t('incorrecte') }}</span>
+          <button type="button" class="btn-primari" (click)="seguent()">{{ ts.t('seguent') }}</button>
+        </div>
+      }
+    </main>
+  </div>
+} @else {
+  <app-resultat-joc
+    [guanyat]="motor.estat() === 'guanyat'"
+    [estrelles]="motor.estrellesGuanyades()"
+    (reintentar)="reiniciar()"
+    (tornar)="tornarMenu()"
+  />
+}

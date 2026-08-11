@@ -1,0 +1,12 @@
+<header class="capsalera">
+  <button type="button" class="btn-tornar" (click)="tornar.emit()" [attr.aria-label]="ts.t('tornar_menu')">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <div class="info">
+    <span class="nom-joc">{{ titol() }}</span>
+    <span class="ronda">{{ ts.t('ronda') }} {{ rondaActual() }}<span class="ronda-total">/{{ totalRondes() }}</span></span>
+  </div>
+
+  <app-barra-vides [vides]="vides()" />
+</header>

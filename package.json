@@ -4,12 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:all": "concurrently \"ng serve\" \"ng serve sobre-mi --port 4201\" \"ng serve habilitats --port 4202\" \"ng serve contactar --port 4203\" \"ng serve joc-impostor --port 4204\" \"ng serve geoexplorer --port 4205\"",
+    "start:all": "concurrently \"ng serve\" \"ng serve sobre-mi --port 4201\" \"ng serve habilitats --port 4202\" \"ng serve contactar --port 4203\" \"ng serve joc-impostor --port 4204\" \"ng serve geoexplorer --port 4205\" \"ng serve mes-que-un-joc --port 4206\"",
     "start:sobre-mi": "ng serve sobre-mi --port 4201",
     "start:habilitats": "ng serve habilitats --port 4202",
     "start:contactar": "ng serve contactar --port 4203",
     "start:joc-impostor": "ng serve joc-impostor --port 4204",
     "start:geoexplorer": "ng serve geoexplorer --port 4205",
+    "start:mes-que-un-joc": "ng serve mes-que-un-joc --port 4206",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

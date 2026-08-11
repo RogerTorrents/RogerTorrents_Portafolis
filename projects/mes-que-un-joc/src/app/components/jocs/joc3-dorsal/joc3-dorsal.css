@@ -1,0 +1,115 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.pantalla-joc {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem 3rem;
+  max-width: 560px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.pregunta {
+  text-align: center;
+  color: var(--text-2);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.fitxa {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding: 1.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.3rem;
+  margin-bottom: 1.75rem;
+}
+.franja { position: absolute; inset: 0 0 auto 0; height: 5px; }
+
+.fitxa .nom {
+  font-family: var(--font-marca);
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+.fitxa .posicio {
+  font-size: 0.78rem;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.fitxa .temporada {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--or);
+  font-weight: 600;
+}
+
+.opcions {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.55rem;
+}
+
+.btn-opcio {
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  background: var(--fons-superficie);
+  border: 1.5px solid var(--vora);
+  color: var(--text-1);
+  font-family: var(--font-marca);
+  font-weight: 800;
+  font-size: 1.3rem;
+  font-variant-numeric: tabular-nums;
+  transition: border-color var(--t), background var(--t), transform var(--t);
+}
+.btn-opcio:not(:disabled):hover { border-color: var(--vora-viva); transform: translateY(-1px); }
+.btn-opcio.seleccionada { border-color: var(--vora-viva); }
+.btn-opcio.encertada { border-color: var(--exit); background: rgba(41, 196, 106, 0.1); }
+.btn-opcio.errada { border-color: var(--error); background: rgba(255, 71, 87, 0.1); }
+.btn-opcio:disabled { cursor: default; }
+
+.feedback {
+  margin-top: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  animation: mqj-desplegar 0.3s ease both;
+}
+.feedback span {
+  font-family: var(--font-marca);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+.feedback--ok span { color: var(--exit); }
+.feedback--ko span { color: var(--error); }
+.feedback .btn-primari { min-width: 180px; }
+
+@media (max-width: 480px) {
+  .opcions { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 340px) {
+  .opcions { grid-template-columns: repeat(3, 1fr); }
+}

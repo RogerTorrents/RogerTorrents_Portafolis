@@ -1,0 +1,33 @@
+<div class="fons-resultat">
+  <div class="targeta panell" [class.panell--perdut]="!guanyat()">
+    <div class="franja-blaugrana franja"></div>
+
+    <div class="emblema" [class.emblema--perdut]="!guanyat()">
+      @if (guanyat()) {
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.3l7.1-.7L12 2z" fill="currentColor"/></svg>
+      } @else {
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-10.2-9.2C.2 8.9 1.3 5.4 4.6 4.2 7 3.3 9.6 4.2 12 7c2.4-2.8 5-3.7 7.4-2.8 3.3 1.2 4.4 4.7 2.8 7.6C19.5 16.4 12 21 12 21z" fill="currentColor" opacity=".25"/></svg>
+      }
+    </div>
+
+    <h2 class="titol">{{ guanyat() ? ts.t('resultat_guanyat_titol') : ts.t('resultat_perdut_titol') }}</h2>
+
+    @if (guanyat()) {
+      <p class="subtitol">{{ ts.t('resultat_guanyat_desc') }}</p>
+      <div class="estels" role="img" [attr.aria-label]="estrelles() + ' / 5'">
+        @for (plena of estels(); track $index) {
+          <svg viewBox="0 0 24 24" class="estel" [class.buit]="!plena" aria-hidden="true">
+            <path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.3l7.1-.7L12 2z"/>
+          </svg>
+        }
+      </div>
+    } @else {
+      <p class="subtitol">{{ ts.t('resultat_perdut_desc') }}</p>
+    }
+
+    <div class="accions">
+      <button type="button" class="btn-primari" (click)="reintentar.emit()">{{ ts.t('tornar_a_jugar') }}</button>
+      <button type="button" class="btn-secundari" (click)="tornar.emit()">{{ ts.t('tornar_menu') }}</button>
+    </div>
+  </div>
+</div>

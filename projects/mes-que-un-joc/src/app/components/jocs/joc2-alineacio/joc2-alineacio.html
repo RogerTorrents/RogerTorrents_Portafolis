@@ -1,0 +1,62 @@
+@if (motor.estat() === 'jugant' && temporada()) {
+  <div class="pantalla-joc">
+    <app-capsalera-joc
+      [titol]="ts.t('joc2_nom')"
+      [vides]="motor.vides()"
+      [rondaActual]="motor.rondaActual()"
+      [totalRondes]="motor.totalRondes"
+      (tornar)="tornarMenu()"
+    />
+
+    <main class="cos">
+      <p class="pregunta">{{ ts.t('quina_temporada') }}</p>
+
+      <div class="targeta onze">
+        <span class="etiqueta-onze">{{ ts.t('alineacio_titol') }}</span>
+        @for (fila of filesAlineacio(); track fila.posicio) {
+          <ul class="fila-posicio">
+            @for (jugador of fila.jugadors; track jugador.id) {
+              <li>
+                <app-foto-jugador [jugadorId]="jugador.id" [nom]="jugador.nom" mida="sm" />
+                <span class="dades">
+                  <span class="nom">{{ jugador.nom }}</span>
+                  <span class="posicio">{{ ts.t('posicio_' + jugador.posicio) }}</span>
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <div class="opcions">
+        @for (opcio of opcions(); track opcio) {
+          <button
+            type="button"
+            class="btn-opcio"
+            [class.seleccionada]="seleccio() === opcio"
+            [class.encertada]="seleccio() !== null && opcio === temporada()!.id"
+            [class.errada]="seleccio() === opcio && esCorrecte() === false"
+            [disabled]="seleccio() !== null"
+            (click)="respondre(opcio)"
+          >
+            {{ opcio }}
+          </button>
+        }
+      </div>
+
+      @if (seleccio() !== null) {
+        <div class="feedback" [class.feedback--ok]="esCorrecte()" [class.feedback--ko]="esCorrecte() === false">
+          <span>{{ esCorrecte() ? ts.t('correcte') : ts.t('incorrecte') }}</span>
+          <button type="button" class="btn-primari" (click)="seguent()">{{ ts.t('seguent') }}</button>
+        </div>
+      }
+    </main>
+  </div>
+} @else {
+  <app-resultat-joc
+    [guanyat]="motor.estat() === 'guanyat'"
+    [estrelles]="motor.estrellesGuanyades()"
+    (reintentar)="reiniciar()"
+    (tornar)="tornarMenu()"
+  />
+}
