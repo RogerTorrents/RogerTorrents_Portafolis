@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Karla:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -7,35 +7,45 @@
 }
 
 :root {
-  /* Identitat blaugrana */
-  --blau:        #0c3e8c;
-  --blau-fosc:   #051a3d;
-  --grana:       #a50044;
-  --grana-viu:   #d1005a;
-  --or:          #f2b705;
-  --or-fosc:     #c99400;
+  /* Nit de partit: fons fosc d'"àlbum" sobre el qual reposen els cromos de paper */
+  --fons-base:    #140c10;
+  --fons-elevat:  #1d1317;
+  --fons-elevat-2: #261921;
 
-  --fons-base:      #050b1c;
-  --fons-superficie: #0b1530;
-  --fons-superficie-2: #101d3f;
-  --fons-elevat:    #17264d;
+  /* Paper de cromo (les targetes són fetes de "cartolina", no de vidre) */
+  --paper:        #f1e4c8;
+  --paper-ombra:  #d9c497;
+  --tinta:        #241a12;
+  --tinta-suau:   #6b5847;
 
-  --text-1: #f4f6ff;
-  --text-2: #a9b4d6;
-  --text-3: #6879a8;
+  /* Text sobre el fons fosc */
+  --text-1: #f1e4c8;
+  --text-2: #b9a688;
+  --text-3: #7c6b56;
 
-  --vora:      rgba(255, 255, 255, 0.09);
-  --vora-viva: rgba(242, 183, 5, 0.45);
+  /* Identitat blaugrana (tons "tinta", no neó) */
+  --blau:        #0c3568;
+  --blau-viu:    #1d5aa3;
+  --grana:       #8e123f;
+  --grana-viu:   #c21c56;
+  --or:          #c9a227;
+  --or-viu:      #e7c247;
 
-  --exit: #29c46a;
-  --error: #ff4757;
+  --vora:       rgba(241, 228, 200, 0.16);
+  --vora-paper: rgba(36, 26, 18, 0.18);
+  --vora-viva:  rgba(201, 162, 39, 0.6);
 
-  --radius:    14px;
-  --radius-sm: 8px;
-  --radius-lg: 24px;
+  --exit: #4a9a5c;
+  --error: #b23c3c;
 
-  --font-marca: 'Barlow Condensed', 'Arial Narrow', sans-serif;
-  --font-cos:   'Barlow', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  /* Cap valor de border-radius: la identitat d'aquesta app és el cantell
+     tallat (com un cromo o una entrada), no la cantonada arrodonida. */
+  --tall:    12px;
+  --tall-sm: 7px;
+
+  --font-marca: 'Bungee', 'Arial Narrow', sans-serif;
+  --font-cos:   'Karla', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-num:   'JetBrains Mono', 'Courier New', monospace;
 
   --t: 0.2s ease;
 }
@@ -48,6 +58,9 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(241, 228, 200, 0.05) 1px, transparent 0);
+  background-size: 22px 22px;
 }
 
 input, button, select, textarea { font-family: inherit; }
@@ -67,17 +80,94 @@ button:focus-visible {
 
 h1, h2, h3 {
   font-family: var(--font-marca);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.01em;
 }
 
-/* Franja de dorsal blaugrana: motiu visual recurrent (targetes, capçaleres) */
+/* Tira de cinta adhesiva (washi tape) blaugrana: el motiu que "enganxa" els
+   cromos a la pàgina de l'àlbum. Reemplaça la franja plana genèrica. */
 .franja-blaugrana {
   background: repeating-linear-gradient(
     115deg,
-    var(--blau) 0px, var(--blau) 14px,
-    var(--grana) 14px, var(--grana) 28px
+    var(--blau) 0px, var(--blau) 11px,
+    var(--grana) 11px, var(--grana) 22px
   );
+}
+
+.washi {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2.5deg);
+  width: 72px;
+  height: 20px;
+  opacity: 0.92;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+/* --- Cromo: la unitat visual base de tota l'app (targeta de col·lecció) --- */
+.cromo {
+  --tall-cromo: 14px;
+  position: relative;
+  background: var(--paper);
+  color: var(--tinta);
+  clip-path: polygon(
+    var(--tall-cromo) 0, calc(100% - var(--tall-cromo)) 0, 100% var(--tall-cromo),
+    100% calc(100% - var(--tall-cromo)), calc(100% - var(--tall-cromo)) 100%, var(--tall-cromo) 100%,
+    0 calc(100% - var(--tall-cromo)), 0 var(--tall-cromo)
+  );
+  box-shadow: 0 14px 26px -12px rgba(0, 0, 0, 0.6);
+}
+
+/* Cantonada aixecada: la insígnia visual repetida de l'app — un cromo que es
+   comença a despegar de la pàgina. */
+.cromo-cantonada {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+  background: linear-gradient(225deg, var(--paper-ombra) 52%, rgba(36, 26, 18, 0.5) 52.5%);
+  filter: drop-shadow(-2px 3px 3px rgba(0, 0, 0, 0.4));
+  pointer-events: none;
+}
+
+.targeta {
+  background: var(--fons-elevat);
+  border: 1px solid var(--vora);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* Marca d'aigua de l'escut repetida i a la deriva pel fons de cada pantalla
+   de joc: dona personalitat a l'espai buit del voltant de les targetes
+   sense competir mai amb el contingut (opacitat molt baixa, sempre darrere). */
+.pantalla-joc {
+  position: relative;
+  isolation: isolate;
+  /* Sense això, la capa de marca d'aigua sobredimensionada (inset -20%,
+     necessària perquè el patró giratori no deixi cantonades buides)
+     eixampla l'àrea de scroll de la pàgina sencera amb espai buit. */
+  overflow: hidden;
+}
+.pantalla-joc::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  background-image: url('/logo/mesqueunjoc.png');
+  background-repeat: repeat;
+  background-size: 92px 92px;
+  opacity: 0.05;
+  transform: rotate(-7deg);
+  animation: mqj-flotar 70s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes mqj-flotar {
+  from { background-position: 0 0; }
+  to   { background-position: 368px 368px; }
 }
 
 .btn-primari {
@@ -86,18 +176,18 @@ h1, h2, h3 {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.9rem 1.75rem;
-  border-radius: var(--radius);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   font-family: var(--font-marca);
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size: 0.92rem;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   background: var(--or);
-  color: var(--blau-fosc);
+  color: var(--tinta);
   transition: background var(--t), transform var(--t), box-shadow var(--t);
-  box-shadow: 0 8px 22px -8px rgba(242, 183, 5, 0.55);
+  box-shadow: 0 8px 22px -8px rgba(201, 162, 39, 0.55);
 }
-.btn-primari:hover:not(:disabled) { background: #ffcd2e; }
+.btn-primari:hover:not(:disabled) { background: var(--or-viu); }
 .btn-primari:active:not(:disabled) { transform: scale(0.97); }
 .btn-primari:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
 
@@ -107,10 +197,10 @@ h1, h2, h3 {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  border-radius: var(--radius);
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   font-family: var(--font-marca);
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 0.82rem;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   background: transparent;
@@ -118,13 +208,7 @@ h1, h2, h3 {
   border: 1.5px solid var(--vora);
   transition: border-color var(--t), background var(--t);
 }
-.btn-secundari:hover { border-color: var(--vora-viva); background: rgba(255, 255, 255, 0.04); }
-
-.targeta {
-  background: var(--fons-superficie);
-  border: 1px solid var(--vora);
-  border-radius: var(--radius-lg);
-}
+.btn-secundari:hover { border-color: var(--vora-viva); background: rgba(241, 228, 200, 0.04); }
 
 /* Definides globalment (no dins d'un component) perquè l'encapsulació
    emulada d'Angular no reescriu el nom de referència de `animation` quan

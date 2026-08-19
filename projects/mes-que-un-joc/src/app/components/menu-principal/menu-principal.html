@@ -30,8 +30,9 @@
 
   <section class="graella-jocs">
     @for (joc of jocs; track joc.id) {
-      <article class="targeta targeta-joc">
-        <div class="franja-blaugrana franja"></div>
+      <article class="cromo targeta-joc">
+        <div class="washi franja-blaugrana"></div>
+        <div class="cromo-cantonada"></div>
         <div class="capcalera-joc">
           <span class="icona-joc" aria-hidden="true">{{ joc.icona }}</span>
           <div class="estels-joc" [attr.aria-label]="estrellesJoc(joc.id) + ' / 5'">

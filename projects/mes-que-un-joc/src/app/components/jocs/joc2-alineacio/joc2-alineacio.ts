@@ -7,7 +7,7 @@ import { NavegacioService } from '../../../services/navegacio.service';
 import { MotorJocService } from '../../../services/motor-joc.service';
 import { Temporada } from '../../../models/temporada.model';
 import { Jugador } from '../../../models/jugador.model';
-import { triarNDiferents } from '../../../utils/aleatori.util';
+import { triarAleatori, triarNDiferents } from '../../../utils/aleatori.util';
 import { agruparPerPosicio, FilaPosicio } from '../../../utils/posicio.util';
 import { CapsaleraJoc } from '../../compartit/capsalera-joc/capsalera-joc';
 import { ResultatJoc } from '../../compartit/resultat-joc/resultat-joc';
@@ -34,6 +34,9 @@ export class Joc2Alineacio {
   readonly temporada = signal<Temporada | null>(null);
   readonly opcions = signal<readonly string[]>([]);
   readonly seleccio = signal<string | null>(null);
+
+  /** Ids de les temporades ja preguntades en aquesta partida, perquè no es repeteixin. */
+  private readonly temporadesVistes = signal<ReadonlySet<string>>(new Set());
 
   constructor() {
     this.iniciarRonda();
@@ -71,11 +74,9 @@ export class Joc2Alineacio {
 
   private iniciarRonda(): void {
     const poolPreguntes = this.dades.temporades();
-    const anterior = this.temporada();
-    const candidats = anterior ? poolPreguntes.filter(t => t.id !== anterior.id) : poolPreguntes;
-    const nova = (candidats.length > 0 ? candidats : poolPreguntes)[
-      Math.floor(Math.random() * (candidats.length > 0 ? candidats.length : poolPreguntes.length))
-    ];
+    const vistes = this.temporadesVistes();
+    const candidats = poolPreguntes.filter(t => !vistes.has(t.id));
+    const nova = triarAleatori(candidats.length > 0 ? candidats : poolPreguntes);
 
     // Els distractors surten NOMÉS de l'època activa (mai una temporada de
     // fora de l'època seleccionada), encara que això vulgui dir menys de
@@ -86,6 +87,7 @@ export class Joc2Alineacio {
     this.opcions.set(totes);
     this.temporada.set(nova);
     this.seleccio.set(null);
+    this.temporadesVistes.update(v => new Set(v).add(nova.id));
   }
 
   respondre(opcio: string): void {
@@ -103,6 +105,7 @@ export class Joc2Alineacio {
 
   reiniciar(): void {
     this.motor.reiniciar();
+    this.temporadesVistes.set(new Set());
     this.iniciarRonda();
   }
 

@@ -36,6 +36,9 @@ export class Joc4Titols {
   readonly seleccionats = signal<ReadonlySet<TitolId>>(new Set());
   readonly confirmat = signal(false);
 
+  /** Ids de les temporades ja preguntades en aquesta partida, perquè no es repeteixin. */
+  private readonly temporadesVistes = signal<ReadonlySet<string>>(new Set());
+
   constructor() {
     this.iniciarRonda();
 
@@ -81,11 +84,13 @@ export class Joc4Titols {
 
   private iniciarRonda(): void {
     const pool = this.dades.temporades();
-    const anterior = this.temporada();
-    const candidats = anterior ? pool.filter(t => t.id !== anterior.id) : pool;
-    this.temporada.set(triarAleatori(candidats.length > 0 ? candidats : pool));
+    const vistes = this.temporadesVistes();
+    const candidats = pool.filter(t => !vistes.has(t.id));
+    const nova = triarAleatori(candidats.length > 0 ? candidats : pool);
+    this.temporada.set(nova);
     this.seleccionats.set(new Set());
     this.confirmat.set(false);
+    this.temporadesVistes.update(v => new Set(v).add(nova.id));
   }
 
   alternar(titol: TitolId): void {
@@ -115,6 +120,7 @@ export class Joc4Titols {
 
   reiniciar(): void {
     this.motor.reiniciar();
+    this.temporadesVistes.set(new Set());
     this.iniciarRonda();
   }
 

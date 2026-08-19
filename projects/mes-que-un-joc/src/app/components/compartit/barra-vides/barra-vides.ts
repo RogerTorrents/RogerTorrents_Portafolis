@@ -9,7 +9,7 @@ import { VIDES_INICIALS } from '../../../models/joc.model';
 export class BarraVides {
   readonly vides = input.required<number>();
 
-  readonly cors = computed(() =>
+  readonly estels = computed(() =>
     Array.from({ length: VIDES_INICIALS }, (_, i) => i < this.vides())
   );
 }

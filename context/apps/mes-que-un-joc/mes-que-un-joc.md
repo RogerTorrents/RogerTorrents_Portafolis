@@ -106,6 +106,21 @@ Mateix patró que les fotos de jugadors: `public/titols/<id-del-titol>.png`
 (`components/compartit/icona-titol/`), fallback a una icona de trofeu si no
 hi ha imatge. Els 6 ids exactes i instruccions: `public/titols/README.md`.
 
+## Disseny visual
+
+Direcció: **"àlbum de cromos"** (col·lecció de cromos de futbol), no un tema
+genèric. Fons fosc (#140c10, "nit d'àlbum") amb targetes de "cartolina"
+(paper cru #f1e4c8), cinta adhesiva blaugrana (`.washi`) i una cantonada
+que sembla despegar-se (`.cromo-cantonada`) com a firma visual repetida.
+Bungee (titulars) + Karla (cos) + JetBrains Mono (xifres).
+
+**Regla d'or: mai `border-radius`.** Totes les cantonades es tallen amb
+`clip-path` (classe `.cromo` = octàgon per a targetes; chamfer de 2
+cantonades per a botons/xips). Els avatars de jugador són rectangulars
+(finestra de foto), no cercles. Si es toca l'estètica d'aquesta app,
+mantenir aquesta direcció — no tornar a cantonades arrodonides ni a
+avatars circulars, ja es va identificar explícitament com "genèric IA".
+
 ## Arquitectura funcional
 
 - **Dades:** dataset local curat (`data/jugadors.data.ts`, `data/temporades.data.ts`),

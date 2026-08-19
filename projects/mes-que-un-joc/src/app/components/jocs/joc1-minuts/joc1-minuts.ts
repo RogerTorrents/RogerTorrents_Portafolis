@@ -33,6 +33,9 @@ export class Joc1Minuts {
   readonly seleccio = signal<Costat | null>(null);
   readonly correcte = signal<boolean | null>(null);
 
+  /** Ids dels jugadors ja sortits en aquesta partida, perquè no es repeteixin. */
+  private readonly jugadorsVistos = signal<ReadonlySet<string>>(new Set());
+
   constructor() {
     this.iniciarParella();
 
@@ -52,6 +55,7 @@ export class Joc1Minuts {
     const dos = triarNDiferents(pool, 2);
     this.esquerra.set(dos[0]);
     this.dreta.set(dos[1]);
+    this.jugadorsVistos.set(new Set([dos[0].id, dos[1].id]));
     this.seleccio.set(null);
     this.correcte.set(null);
   }
@@ -77,10 +81,13 @@ export class Joc1Minuts {
     const anteriorDreta = this.dreta();
     if (!anteriorDreta) return;
     const pool = this.dades.jugadors();
-    const nou = triarNDiferents(pool, 1, anteriorDreta)[0] ?? triarAleatori(pool);
+    const vistos = this.jugadorsVistos();
+    const disponibles = pool.filter(j => !vistos.has(j.id));
+    const nou = triarAleatori(disponibles.length > 0 ? disponibles : pool.filter(j => j.id !== anteriorDreta.id));
 
     this.esquerra.set(anteriorDreta);
     this.dreta.set(nou);
+    this.jugadorsVistos.update(v => new Set(v).add(nou.id));
     this.seleccio.set(null);
     this.correcte.set(null);
   }

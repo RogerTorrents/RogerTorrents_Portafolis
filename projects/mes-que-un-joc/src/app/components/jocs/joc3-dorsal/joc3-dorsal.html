@@ -11,8 +11,9 @@
     <main class="cos">
       <p class="pregunta">{{ ts.t('quin_dorsal_titol') }}</p>
 
-      <div class="targeta fitxa">
-        <div class="franja-blaugrana franja"></div>
+      <div class="cromo fitxa">
+        <div class="washi franja-blaugrana"></div>
+        <div class="cromo-cantonada"></div>
         <app-foto-jugador [jugadorId]="jugador()!.id" [nom]="jugador()!.nom" mida="lg" />
         <span class="nom">{{ jugador()!.nom }}</span>
         <span class="posicio">{{ ts.t('posicio_' + jugador()!.posicio) }}</span>

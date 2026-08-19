@@ -45,6 +45,9 @@ export class Joc3Dorsal {
   readonly opcions = signal<readonly number[]>([]);
   readonly seleccio = signal<number | null>(null);
 
+  /** Ids dels jugadors ja preguntats en aquesta partida, perquè no es repeteixin. */
+  private readonly jugadorsVistos = signal<ReadonlySet<string>>(new Set());
+
   constructor() {
     this.iniciarRonda();
 
@@ -66,8 +69,21 @@ export class Joc3Dorsal {
 
   private iniciarRonda(): void {
     const pool = this.dades.temporades().filter(t => t.anyInici >= PRIMER_ANY_AMB_DORSAL_FIX);
-    const temporadaTriada = triarAleatori(pool);
-    const entrada = triarAleatori(temporadaTriada.alineacio);
+    const vistos = this.jugadorsVistos();
+
+    const candidats: { temporada: Temporada; entrada: JugadorTemporada }[] = [];
+    for (const t of pool) {
+      for (const entrada of t.alineacio) {
+        if (!vistos.has(entrada.jugadorId)) candidats.push({ temporada: t, entrada });
+      }
+    }
+    if (candidats.length === 0) {
+      for (const t of pool) {
+        for (const entrada of t.alineacio) candidats.push({ temporada: t, entrada });
+      }
+    }
+
+    const { temporada: temporadaTriada, entrada } = triarAleatori(candidats);
     const jugadorTriat = this.dades.jugadorPerId(entrada.jugadorId);
     if (!jugadorTriat) return;
 
@@ -82,6 +98,7 @@ export class Joc3Dorsal {
     this.dorsalCorrecte.set(entrada.dorsal);
     this.opcions.set(totes);
     this.seleccio.set(null);
+    this.jugadorsVistos.update(v => new Set(v).add(entrada.jugadorId));
   }
 
   respondre(opcio: number): void {
@@ -99,6 +116,7 @@ export class Joc3Dorsal {
 
   reiniciar(): void {
     this.motor.reiniciar();
+    this.jugadorsVistos.set(new Set());
     this.iniciarRonda();
   }
 

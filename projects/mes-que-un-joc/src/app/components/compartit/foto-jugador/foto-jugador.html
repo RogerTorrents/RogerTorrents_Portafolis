@@ -2,12 +2,8 @@
   @if (!senseFoto()) {
     <img [src]="src()" [alt]="nom()" loading="lazy" (error)="onError()" />
   } @else {
-    <div
-      class="avatar-reserva"
-      [style.background]="'linear-gradient(135deg, ' + degradat()[0] + ', ' + degradat()[1] + ')'"
-      aria-hidden="true"
-    >
-      <span>{{ inicials() }}</span>
+    <div class="avatar-reserva" aria-hidden="true">
+      <span [style.color]="degradat()[0]">{{ inicials() }}</span>
     </div>
   }
 </div>

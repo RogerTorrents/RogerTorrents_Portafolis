@@ -13,13 +13,13 @@ import { AppIcon } from '../base/app-icon/app-icon';
 export class Desktop implements OnDestroy {
   private readonly appDefs = [
     { id: 'sobre-mi', nameKey: 'app_sobre_mi', icon: '👤', showInDesktop: true },
-    { id: 'habilitats', nameKey: 'app_habilitats', icon: '⚙️', showInDesktop: true },
-    { id: 'contactar', nameKey: 'app_contactar', icon: '✉️', showInDesktop: true },
+    { id: 'habilitats', nameKey: 'app_habilitats', icon: '⚙️', showInDesktop: false },
+    { id: 'contactar', nameKey: 'app_contactar', icon: '✉️', showInDesktop: false },
     { id: 'fons-depantalla', nameKey: 'app_fons_depantalla', icon: '🎨', showInDesktop: true },
     { id: 'linkedin', nameKey: 'app_linkedin', icon: 'linkedin/logo.png', showInDesktop: true },
-    { id: 'joc-impostor', nameKey: 'app_joc_impostor', icon: '🕵️', showInDesktop: true },
+    { id: 'joc-impostor', nameKey: 'app_joc_impostor', icon: 'joc-impostor/logo.png', showInDesktop: true },
     { id: 'geoexplorer', nameKey: 'app_geoexplorer', icon: 'geoexplorer/logo.svg', showInDesktop: true },
-    { id: 'mes-que-un-joc', nameKey: 'app_mes_que_un_joc', icon: '⚽', showInDesktop: true },
+    { id: 'mes-que-un-joc', nameKey: 'app_mes_que_un_joc', icon: 'mes-que-un-joc/logo.png', showInDesktop: true },
   ];
 
   isMobile = computed(() => window.innerWidth <= 650);

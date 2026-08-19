@@ -38,9 +38,9 @@
 
 .vs {
   font-family: var(--font-marca);
-  font-weight: 800;
+  font-weight: 400;
   color: var(--text-3);
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   flex: none;
 }
 
@@ -54,43 +54,43 @@
   padding: 1.5rem 1rem;
   min-height: 190px;
   justify-content: center;
-  color: var(--text-1);
-  transition: border-color var(--t), background var(--t), transform var(--t);
+  transition: box-shadow var(--t), transform var(--t);
 }
-.targeta-jugador:not(:disabled):hover { border-color: var(--vora-viva); transform: translateY(-2px); }
+.targeta-jugador:not(:disabled):hover { transform: translateY(-3px) rotate(-0.6deg); }
 .targeta-jugador:disabled { cursor: default; }
-.targeta-jugador app-foto-jugador { margin-bottom: 0.4rem; }
+.targeta-jugador app-foto-jugador { margin-bottom: 0.6rem; }
 
 .targeta-jugador .nom {
   font-family: var(--font-marca);
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: 400;
+  font-size: 0.95rem;
   text-transform: uppercase;
+  color: var(--tinta);
 }
 .targeta-jugador .posicio {
-  font-size: 0.75rem;
-  color: var(--text-3);
+  font-size: 0.7rem;
+  color: var(--tinta-suau);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-bottom: 0.75rem;
 }
 .targeta-jugador .minuts {
-  font-family: var(--font-marca);
-  font-size: 1.7rem;
-  font-weight: 800;
-  color: var(--or);
+  font-family: var(--font-num);
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--grana);
   font-variant-numeric: tabular-nums;
 }
 .targeta-jugador .etiqueta-minuts {
-  font-size: 0.7rem;
-  color: var(--text-3);
+  font-size: 0.66rem;
+  color: var(--tinta-suau);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-.targeta-jugador.seleccionada { border-color: var(--vora-viva); }
-.targeta-jugador.encertada { border-color: var(--exit); background: rgba(41, 196, 106, 0.08); }
-.targeta-jugador.errada { border-color: var(--error); background: rgba(255, 71, 87, 0.08); }
+.targeta-jugador.seleccionada { outline: 2px solid var(--or); outline-offset: -2px; }
+.targeta-jugador.encertada { outline: 2px solid var(--exit); outline-offset: -2px; background: #e4ecdf; }
+.targeta-jugador.errada { outline: 2px solid var(--error); outline-offset: -2px; background: #f0e0dc; }
 
 .feedback {
   margin-top: 1.75rem;
@@ -103,8 +103,8 @@
 }
 .feedback span {
   font-family: var(--font-marca);
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: 400;
+  font-size: 0.95rem;
   text-transform: uppercase;
 }
 .feedback--ok span { color: var(--exit); }

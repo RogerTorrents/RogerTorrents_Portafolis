@@ -10,18 +10,15 @@
 .panell {
   width: 100%;
   max-width: 380px;
-  padding: 2.25rem 1.75rem 2rem;
+  padding: 2.5rem 1.75rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 0.6rem;
-  overflow: hidden;
   position: relative;
   animation: mqj-aparicio 0.35s ease;
 }
-
-.franja { position: absolute; inset: 0 0 auto 0; height: 6px; }
 
 .emblema {
   width: 4rem;
@@ -29,22 +26,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
-  background: rgba(242, 183, 5, 0.14);
-  color: var(--or);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  background: rgba(201, 162, 39, 0.16);
+  color: var(--or-viu);
   margin-top: 0.5rem;
 }
-.emblema svg { width: 2.25rem; height: 2.25rem; }
-.emblema--perdut { background: rgba(255, 71, 87, 0.14); color: var(--error); }
+.emblema svg { width: 2.15rem; height: 2.15rem; }
+.emblema--perdut { background: rgba(178, 60, 60, 0.15); color: var(--error); }
 
 .titol {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-transform: uppercase;
+  color: var(--tinta);
 }
 
 .subtitol {
-  color: var(--text-2);
+  color: var(--tinta-suau);
   font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .estels {
@@ -55,13 +54,13 @@
 .estel {
   width: 2rem;
   height: 2rem;
-  fill: var(--or);
-  filter: drop-shadow(0 0 8px rgba(242, 183, 5, 0.55));
+  fill: var(--or-viu);
 }
 .estel.buit {
   fill: none;
-  stroke: var(--text-3);
+  stroke: var(--tinta-suau);
   stroke-width: 1.2px;
+  opacity: 0.5;
 }
 
 .accions {
@@ -69,7 +68,13 @@
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  margin-top: 1.25rem;
+  margin-top: 1.5rem;
 }
 
-.panell--perdut .franja { filter: grayscale(0.4) brightness(0.7); }
+.panell--perdut .washi { filter: grayscale(0.5) brightness(0.75); }
+
+.accions .btn-secundari {
+  color: var(--tinta);
+  border-color: var(--vora-paper);
+}
+.accions .btn-secundari:hover { background: rgba(36, 26, 18, 0.05); }

@@ -14,13 +14,14 @@
       <div class="duel">
         <button
           type="button"
-          class="targeta targeta-jugador"
+          class="cromo targeta-jugador"
           [class.seleccionada]="seleccio() === 'esquerra'"
           [class.encertada]="seleccio() && correcte() && seleccio() === 'esquerra'"
           [class.errada]="seleccio() === 'esquerra' && correcte() === false"
           [disabled]="seleccio() !== null"
           (click)="respondre('esquerra')"
         >
+          <div class="cromo-cantonada"></div>
           <app-foto-jugador [jugadorId]="esquerra()!.id" [nom]="esquerra()!.nom" mida="lg" />
           <span class="nom">{{ esquerra()!.nom }}</span>
           <span class="posicio">{{ ts.t('posicio_' + esquerra()!.posicio) }}</span>
@@ -32,13 +33,14 @@
 
         <button
           type="button"
-          class="targeta targeta-jugador"
+          class="cromo targeta-jugador"
           [class.seleccionada]="seleccio() === 'dreta'"
           [class.encertada]="seleccio() && correcte() && seleccio() === 'dreta'"
           [class.errada]="seleccio() === 'dreta' && correcte() === false"
           [disabled]="seleccio() !== null"
           (click)="respondre('dreta')"
         >
+          <div class="cromo-cantonada"></div>
           <app-foto-jugador [jugadorId]="dreta()!.id" [nom]="dreta()!.nom" mida="lg" />
           <span class="nom">{{ dreta()!.nom }}</span>
           <span class="posicio">{{ ts.t('posicio_' + dreta()!.posicio) }}</span>
