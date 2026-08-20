@@ -13,7 +13,8 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
   @Input() title = '';
   @Input() initialWidth = 0;
   @Input() initialHeight = 0;
-  @Input() initialY = 0;
+  /** -1 = no s'ha especificat (cascada per defecte). 0 és una Y vàlida (part superior). */
+  @Input() initialY = -1;
   @Input() initialMaximized = false;
 
   state!: Signal<WindowState | undefined>;
@@ -46,8 +47,31 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
     const props: Partial<WindowState> = {};
     if (this.initialWidth > 0) props.width = this.initialWidth;
     if (this.initialHeight > 0) props.height = this.initialHeight;
-    if (this.initialY > 0) props.y = this.initialY;
+    if (this.initialY >= 0) props.y = this.initialY;
     this.wm.registerWindow(this.id, this.title || undefined, props);
+
+    // `registerWindow` només aplica `props` si la finestra encara no
+    // existia. Quan s'obre des d'una icona de l'escriptori, `Desktop`
+    // crida `wm.openWindow(id, ...)` ABANS que aquest component es munti,
+    // i `openWindow` ja registra la finestra (sense mida ni posició) per
+    // poder-la marcar visible de seguida — així que quan arribem aquí la
+    // finestra sol ja existir amb la mida per defecte (640×360) i
+    // `registerWindow` no torna a aplicar `props`. Cal forçar-ho aquí
+    // explícitament perquè `initialWidth`/`initialHeight`/`initialY`
+    // tinguin efecte de veritat cada cop que s'obre la finestra.
+    if (Object.keys(props).length > 0) {
+      const actual = this.wm.getWindowSignal(this.id)();
+      if (actual) {
+        this.wm.resizeMoveWindow(
+          this.id,
+          props.x ?? actual.x,
+          props.y ?? actual.y,
+          props.width ?? actual.width,
+          props.height ?? actual.height
+        );
+      }
+    }
+
     if (this.initialMaximized) this.wm.maximizeWindow(this.id);
     this.state = this.wm.getWindowSignal(this.id);
     setTimeout(() => {

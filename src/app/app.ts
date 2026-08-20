@@ -20,6 +20,10 @@ export class App implements OnInit, OnDestroy {
   protected readonly title = signal('RogerTorrents-portafolis');
   protected readonly lock = signal(true);
 
+  /** Alçada disponible per a una finestra que ha d'ocupar tota la vertical
+   *  sense maximitzar-se (deixa l'espai de la taskbar). */
+  protected readonly alturaFinestraCompleta = window.innerHeight - 40;
+
   constructor(readonly ts: TranslationService, readonly wm: WindowManagerService) {}
 
   ngOnInit(): void {

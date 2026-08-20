@@ -26,7 +26,7 @@
     </app-window-wrapper>
   }
   @if (wm.muntades().has('fons-depantalla')) {
-    <app-window-wrapper id="fons-depantalla" [title]="ts.t('app_fons_depantalla')" [initialWidth]="460" [initialHeight]="640" [initialY]="60">
+    <app-window-wrapper id="fons-depantalla" [title]="ts.t('app_fons_depantalla')" [initialWidth]="460" [initialHeight]="630" [initialY]="40">
       <app-fons-depantalla></app-fons-depantalla>
     </app-window-wrapper>
   }
@@ -36,8 +36,8 @@
     </app-window-wrapper>
   }
   @if (wm.muntades().has('joc-impostor')) {
-    <app-window-wrapper id="joc-impostor" [title]="ts.t('app_joc_impostor')">
-      <iframe src="http://localhost:4204" title="Joc Impostor"></iframe>
+    <app-window-wrapper id="joc-impostor" [title]="ts.t('app_joc_impostor')" [initialWidth]="520" [initialHeight]="alturaFinestraCompleta" [initialY]="0">
+      <iframe src="http://localhost:4204" title="L'Impostor"></iframe>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('geoexplorer')) {

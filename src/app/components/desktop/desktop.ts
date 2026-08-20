@@ -11,15 +11,18 @@ import { AppIcon } from '../base/app-icon/app-icon';
   styleUrls: ['./desktop.css']
 })
 export class Desktop implements OnDestroy {
+  // Ordre = disposició a l'escriptori (graella per columnes, 3 files):
+  // columna 1: Sobre mi, Més que un joc, GeoExplorer
+  // columna 2: Fons de pantalla, LinkedIn, L'Impostor
   private readonly appDefs = [
     { id: 'sobre-mi', nameKey: 'app_sobre_mi', icon: '👤', showInDesktop: true },
-    { id: 'habilitats', nameKey: 'app_habilitats', icon: '⚙️', showInDesktop: false },
-    { id: 'contactar', nameKey: 'app_contactar', icon: '✉️', showInDesktop: false },
-    { id: 'fons-depantalla', nameKey: 'app_fons_depantalla', icon: '🎨', showInDesktop: true },
+    { id: 'mes-que-un-joc', nameKey: 'app_mes_que_un_joc', icon: 'mes-que-un-joc/logo.png', showInDesktop: true },
+    { id: 'geoexplorer', nameKey: 'app_geoexplorer', icon: 'geoexplorer/logo.svg', showInDesktop: true },
+    { id: 'fons-depantalla', nameKey: 'app_fons_depantalla',  icon: 'fons-de-pantalla/logo.png', showInDesktop: true },
     { id: 'linkedin', nameKey: 'app_linkedin', icon: 'linkedin/logo.png', showInDesktop: true },
     { id: 'joc-impostor', nameKey: 'app_joc_impostor', icon: 'joc-impostor/logo.png', showInDesktop: true },
-    { id: 'geoexplorer', nameKey: 'app_geoexplorer', icon: 'geoexplorer/logo.svg', showInDesktop: true },
-    { id: 'mes-que-un-joc', nameKey: 'app_mes_que_un_joc', icon: 'mes-que-un-joc/logo.png', showInDesktop: true },
+    { id: 'habilitats', nameKey: 'app_habilitats', icon: '⚙️', showInDesktop: false },
+    { id: 'contactar', nameKey: 'app_contactar', icon: '✉️', showInDesktop: false },
   ];
 
   isMobile = computed(() => window.innerWidth <= 650);
@@ -33,9 +36,11 @@ export class Desktop implements OnDestroy {
   });
 
   // Quadrícula
-  private readonly gridW = 85;
-  private readonly gridH = 95;
+  private readonly gridW = 100;
+  private readonly gridH = 110;
   private readonly gridPadding = 10;
+  /** Nombre de files abans de passar a la columna següent a la graella inicial. */
+  private readonly filesPerColumna = 3;
 
   posicionsIcones = signal<Record<string, { x: number; y: number }>>(
     this.calcularPosicionsInicials()
@@ -60,22 +65,24 @@ export class Desktop implements OnDestroy {
   constructor(private readonly wm: WindowManagerService, readonly ts: TranslationService) {}
 
   /**
-   * Posició inicial de cada icona, amb resolució de col·lisions (`trobarLliure`).
-   * Sense això, en pantalles amb poca alçada la columna única d'icones
-   * (x fixa, y = índex * gridH) es clampa totes les icones que sobrepassen
-   * `maxY` al mateix punt, fent que la darrera icona quedi literalment
-   * sobre de l'anterior en lloc de buscar un forat lliure proper.
+   * Posició inicial de cada icona: graella fixa per columnes (3 files),
+   * NOMÉS amb les apps visibles (`showInDesktop`). Calcular-la també amb
+   * les apps amagades (com es feia abans) reservava les seves caselles per
+   * sempre: `posicionsIcones` les seguia contenint encara que no es
+   * dibuixessin, així que `trobarLliure` les tractava com a "ocupades" i
+   * no deixava arrossegar-hi cap icona visible — semblava que hi hagués
+   * alguna cosa invisible bloquejant files senceres.
    */
   private calcularPosicionsInicials(): Record<string, { x: number; y: number }> {
+    const visibles = this.appDefs.filter(a => a.showInDesktop);
     const posicions: Record<string, { x: number; y: number }> = {};
-    const ocupades = new Set<string>();
-    for (let i = 0; i < this.appDefs.length; i++) {
-      const target = this.trobarLliure(
-        this.snapToGrid(this.gridPadding, this.gridPadding + i * this.gridH),
-        ocupades
-      );
-      posicions[this.appDefs[i].id] = target;
-      ocupades.add(`${target.x},${target.y}`);
+    for (let i = 0; i < visibles.length; i++) {
+      const columna = Math.floor(i / this.filesPerColumna);
+      const fila = i % this.filesPerColumna;
+      posicions[visibles[i].id] = {
+        x: this.gridPadding + columna * this.gridW,
+        y: this.gridPadding + fila * this.gridH,
+      };
     }
     return posicions;
   }
