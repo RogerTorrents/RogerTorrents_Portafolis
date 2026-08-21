@@ -2,14 +2,28 @@ import { Injectable, signal } from '@angular/core';
 
 export type Idioma = 'ca' | 'es' | 'en';
 
+function esIdiomaValid(valor: unknown): valor is Idioma {
+  return valor === 'ca' || valor === 'es' || valor === 'en';
+}
+
 /**
- * Servei de traduccions LOCAL de GeoExplorer, independent del Shell.
- * Segueix el mateix patró que `sobre-mi` i `joc-impostor`: cada microservei
- * gestiona el seu propi idioma perquè pot funcionar de manera autònoma.
+ * Servei de traduccions de GeoExplorer. L'idioma el controla el selector de
+ * la barra de l'escriptori del Shell (postMessage, veure constructor) — no
+ * hi ha cap selector propi dins de l'app. El default 'ca' només s'aplica si
+ * l'app s'obre sola (fora de l'iframe del Shell, p. ex. en desenvolupament).
  */
 @Injectable({ providedIn: 'root' })
 export class TraduccioService {
   readonly idioma = signal<Idioma>('ca');
+
+  constructor() {
+    window.addEventListener('message', (ev: MessageEvent) => {
+      const dades = ev.data as { origen?: unknown; tipus?: unknown; valor?: unknown } | null;
+      if (dades?.origen === 'os-shell' && dades.tipus === 'idioma' && esIdiomaValid(dades.valor)) {
+        this.establirIdioma(dades.valor);
+      }
+    });
+  }
 
   private readonly dict: Record<Idioma, Record<string, string>> = {
     ca: {

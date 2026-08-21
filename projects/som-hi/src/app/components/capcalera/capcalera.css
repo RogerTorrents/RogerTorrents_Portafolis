@@ -37,33 +37,6 @@
   gap: 18px;
 }
 
-.sh-capcalera-idiomes {
-  display: flex;
-  gap: 4px;
-}
-
-.sh-capcalera-idioma {
-  background: none;
-  border: 1px solid transparent;
-  border-radius: var(--sh-radi-petit);
-  padding: 4px 7px;
-  font-family: var(--sh-font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  color: var(--sh-ink-tenue);
-  cursor: pointer;
-}
-
-.sh-capcalera-idioma:hover {
-  color: var(--sh-ink);
-}
-
-.sh-capcalera-idioma--actiu {
-  border-color: var(--sh-line);
-  color: var(--sh-clay);
-  font-weight: 700;
-}
-
 .sh-capcalera-usuari {
   position: relative;
 }

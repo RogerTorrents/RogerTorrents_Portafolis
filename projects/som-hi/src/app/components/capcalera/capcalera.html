@@ -5,19 +5,6 @@
   </button>
 
   <div class="sh-capcalera-dreta">
-    <div class="sh-capcalera-idiomes">
-      @for (idioma of idiomes; track idioma) {
-        <button
-          type="button"
-          class="sh-capcalera-idioma"
-          [class.sh-capcalera-idioma--actiu]="ts.idioma() === idioma"
-          (click)="canviarIdioma(idioma)"
-        >
-          {{ idioma }}
-        </button>
-      }
-    </div>
-
     <div class="sh-capcalera-usuari">
       <button type="button" class="sh-capcalera-avatar" (click)="alternarMenuUsuari()">
         {{ ts.t('capcalera_hola', [sessio.usuari()?.nom ?? '']) }}

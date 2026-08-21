@@ -221,30 +221,6 @@
   cursor: pointer;
 }
 
-.geo-idiomes {
-  display: flex;
-  gap: 4px;
-  border-left: 1px solid var(--geo-vora);
-  padding-left: 14px;
-}
-
-.geo-idioma-boto {
-  background: transparent;
-  border: 1px solid var(--geo-vora);
-  color: var(--geo-text-suau);
-  border-radius: 4px;
-  padding: 5px 7px;
-  font-size: 11px;
-  font-family: var(--geo-font-mono);
-  cursor: pointer;
-}
-
-.geo-idioma-boto.actiu {
-  border-color: var(--geo-accent);
-  color: var(--geo-accent);
-  background: var(--geo-accent-suau);
-}
-
 .geo-usuari {
   position: relative;
 }

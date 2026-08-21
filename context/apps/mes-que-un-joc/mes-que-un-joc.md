@@ -22,8 +22,11 @@ npm run start:mes-que-un-joc
 - Prohibit `any`; tipat fort obligatori
 - Usar Signals per a l'estat reactiu
 - Components standalone; control flow modern (`@if` / `@for` / `@switch`)
-- Prohibit hardcoding de text als HTML — usar `TraduccioService` propi de l'app
-  (independent del Shell, mateix patró que `sobre-mi`)
+- Prohibit hardcoding de text als HTML — usar `TraduccioService` propi de
+  l'app. L'idioma actiu ve del selector de la barra de tasques del Shell
+  via `postMessage` (l'app no té ni ha tingut mai cap selector visible
+  propi — abans es quedava sempre en 'ca' perquè res canviava el signal;
+  ara reacciona al Shell). Veure `context/os-shell/windows-system.md` §4.
 
 ## Origen de les dades
 

@@ -9,7 +9,6 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { TraduccionService } from './services/traduccions.service';
-import type { Idioma } from './services/traduccions.service';
 
 interface HabilitatCategoria {
   readonly nomKey: string;
@@ -104,8 +103,6 @@ export class App implements AfterViewInit, OnDestroy {
     { titolKey: 'esplai_titol', textKey: 'esplai_text', emoji: '🏕', color: 'purple' },
   ];
 
-  protected readonly idiomesDisponibles: readonly Idioma[] = ['ca', 'es', 'en'];
-
   constructor(protected readonly ts: TraduccionService) {}
 
   ngAfterViewInit(): void {
@@ -164,10 +161,6 @@ export class App implements AfterViewInit, OnDestroy {
       const el = this.contenidor.nativeElement.querySelector(`#${id}`);
       if (el) this.navObserver.observe(el);
     });
-  }
-
-  protected setIdioma(idioma: Idioma): void {
-    this.ts.setIdioma(idioma);
   }
 
   private initScrollReveal(): void {

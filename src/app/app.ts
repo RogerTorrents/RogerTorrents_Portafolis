@@ -46,6 +46,13 @@ export class App implements OnInit, OnDestroy {
     this.lock.set(true);
   }
 
+  /** Un iframe d'app just carregat arrenca sempre amb l'idioma per defecte
+   *  del seu propi servei local — cal enviar-li l'idioma actual del Shell
+   *  de seguida perquè no es noti el "flash" a l'idioma equivocat. */
+  protected onIframeCarregada(ev: Event): void {
+    this.ts.enviarIdiomaA(ev.target as HTMLIFrameElement);
+  }
+
   @HostListener('window:keydown', ['$event'])
   onKeydown(ev: KeyboardEvent): void {
     if ((ev.ctrlKey || ev.metaKey) && (ev.key === '+' || ev.key === '-' || ev.key === '=' || ev.key === '0')) {

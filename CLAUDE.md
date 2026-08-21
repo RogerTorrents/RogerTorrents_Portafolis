@@ -34,7 +34,7 @@ L'ecosistema està dissenyat com un Sistema Operatiu modular on la Web Core engl
 
 - **Angular Core:** Versió 22+ (Amb dependències experimentals/futures).
 - **Primary Language:** Català ⚠️ (Variables, comentaris de codi, logs i documentació han d'estar estrictament en Català).
-- **Internationalization (i18n):** Multiidioma (CA, ES, EN). Estrictament prohibit fer hardcoding de text als HTML; s'ha d'injectar mitjançant el servei de traduccions.
+- **Internationalization (i18n):** Multiidioma (CA, ES, EN). Estrictament prohibit fer hardcoding de text als HTML; s'ha d'injectar mitjançant el servei de traduccions. **L'idioma el controla únicament el selector de la barra de tasques del Shell** (propagat a cada iframe via `postMessage`, veure `context/os-shell/windows-system.md` §4) — cap micro-app ha de tenir el seu propi selector d'idioma visible.
 
 ### Ordres CLI:
 - `npm run start`: Aixeca únicament l'entorn Shell (Port 4200).

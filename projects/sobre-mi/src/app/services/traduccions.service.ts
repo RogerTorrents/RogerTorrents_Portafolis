@@ -2,6 +2,10 @@ import { Injectable, signal } from '@angular/core';
 
 export type Idioma = 'ca' | 'es' | 'en';
 
+function esIdiomaValid(valor: unknown): valor is Idioma {
+  return valor === 'ca' || valor === 'es' || valor === 'en';
+}
+
 const TEXTOS: Record<Idioma, Record<string, string>> = {
   ca: {
     subtitol: 'DESENVOLUPADOR WEB FULL-STACK',
@@ -191,10 +195,24 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
   },
 };
 
+/**
+ * L'idioma el controla el selector de la barra de l'escriptori del Shell
+ * (postMessage, veure constructor) — l'app no té cap selector propi. El
+ * default 'ca' només s'aplica si l'app s'obre sola (fora de l'iframe del
+ * Shell).
+ */
 @Injectable({ providedIn: 'root' })
 export class TraduccionService {
   readonly idioma = signal<Idioma>('ca');
-  readonly idiomes: readonly Idioma[] = ['ca', 'es', 'en'];
+
+  constructor() {
+    window.addEventListener('message', (ev: MessageEvent) => {
+      const dades = ev.data as { origen?: unknown; tipus?: unknown; valor?: unknown } | null;
+      if (dades?.origen === 'os-shell' && dades.tipus === 'idioma' && esIdiomaValid(dades.valor)) {
+        this.setIdioma(dades.valor);
+      }
+    });
+  }
 
   t(clau: string): string {
     return TEXTOS[this.idioma()][clau] ?? clau;

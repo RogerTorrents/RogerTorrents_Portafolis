@@ -1,17 +1,5 @@
 <div class="sm-app">
 
-  <!-- Selector d'idioma flotant -->
-  <div class="sm-lang">
-    @for (idioma of idiomesDisponibles; track idioma) {
-      <button
-        class="sm-lang__btn"
-        [class.sm-lang__btn--actiu]="ts.idioma() === idioma"
-        (click)="setIdioma(idioma)">
-        {{ idioma.toUpperCase() }}
-      </button>
-    }
-  </div>
-
   <!-- Navegació lateral discreta -->
   <nav class="sm-nav" [style.opacity]="opacityNav()">
     @for (s of navSections; track s.id) {

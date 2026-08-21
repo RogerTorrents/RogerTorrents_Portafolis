@@ -172,6 +172,7 @@ export class TranslationService {
 
   setLang(l: Idioma) {
     this.idioma.set(l);
+    this.difondreIdioma();
   }
 
   getLang() {
@@ -180,5 +181,26 @@ export class TranslationService {
 
   t(key: string): string {
     return this.dict[this.idioma()]?.[key] ?? key;
+  }
+
+  /** Notifica l'idioma actual a totes les apps obertes en iframe (crida'l
+   *  també en obrir-se una app nova, perquè arrenqui amb l'idioma correcte
+   *  en lloc del seu default intern). */
+  difondreIdioma(): void {
+    document.querySelectorAll<HTMLIFrameElement>('iframe').forEach((iframe) => this.enviarIdiomaA(iframe));
+  }
+
+  /** Envia l'idioma actual del Shell a un únic iframe, via postMessage
+   *  (Shell i apps són orígens diferents — 4200 vs 420X — no hi ha cap
+   *  altra via de comunicació entre ells). */
+  enviarIdiomaA(iframe: HTMLIFrameElement): void {
+    if (!iframe.src) return;
+    let origen: string;
+    try {
+      origen = new URL(iframe.src).origin;
+    } catch {
+      return;
+    }
+    iframe.contentWindow?.postMessage({ origen: 'os-shell', tipus: 'idioma', valor: this.idioma() }, origen);
   }
 }

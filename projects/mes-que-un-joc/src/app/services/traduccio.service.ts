@@ -2,14 +2,28 @@ import { Injectable, signal } from '@angular/core';
 
 export type Idioma = 'ca' | 'es' | 'en';
 
+function esIdiomaValid(valor: unknown): valor is Idioma {
+  return valor === 'ca' || valor === 'es' || valor === 'en';
+}
+
 /**
- * Servei de traduccions LOCAL de "Més que un joc", independent del Shell
- * (mateix patró que `sobre-mi`): l'app viu dins d'un iframe i no comparteix
- * estat d'idioma amb l'OS.
+ * Servei de traduccions de "Més que un joc". L'idioma el controla el
+ * selector de la barra de l'escriptori del Shell (postMessage, veure
+ * constructor) — l'app no té cap selector propi. El default 'ca' només
+ * s'aplica si l'app s'obre sola (fora de l'iframe del Shell).
  */
 @Injectable({ providedIn: 'root' })
 export class TraduccioService {
   readonly idioma = signal<Idioma>('ca');
+
+  constructor() {
+    window.addEventListener('message', (ev: MessageEvent) => {
+      const dades = ev.data as { origen?: unknown; tipus?: unknown; valor?: unknown } | null;
+      if (dades?.origen === 'os-shell' && dades.tipus === 'idioma' && esIdiomaValid(dades.valor)) {
+        this.setIdioma(dades.valor);
+      }
+    });
+  }
 
   private readonly dict: Record<Idioma, Record<string, string>> = {
     ca: {

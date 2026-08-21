@@ -88,8 +88,11 @@ Vegeu `CONTEXT.md` i `README.md` del repo del backend per a més detall.
   estàtic (`data/pois.data.ts`, **eliminat**): es carrega una vegada de
   `GET /pois` al constructor del servei, amb un signal `carregantPois` que
   `llista-resultats` mostra com a missatge de càrrega.
-- **`TraduccioService`** — i18n LOCAL ca/es/en, ara amb claus per a
-  entrada/login/registre/categories personals.
+- **`TraduccioService`** — i18n ca/es/en, ara amb claus per a
+  entrada/login/registre/categories personals. **L'idioma NO té selector
+  propi dins de l'app** (retirat de `capcalera` en una sessió posterior) —
+  ve del Shell via `postMessage`, escoltat al constructor del servei. Veure
+  `context/os-shell/windows-system.md` §4 pel mecanisme complet.
 - **Model de dades:**
   - `models/poi.model.ts` — unió discriminada `PicPoi | RefugiPoi | RutaPoi |
     LlacPoi | ParkingPoi` (contingut curat/oficial, igual que abans).

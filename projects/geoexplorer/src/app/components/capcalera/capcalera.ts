@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { GeoExplorerService, type CapaBase } from '../../services/geoexplorer.service';
-import { TraduccioService, type Idioma } from '../../services/traduccio.service';
+import { TraduccioService } from '../../services/traduccio.service';
 import { SessioService } from '../../services/sessio.service';
 import type { Regio } from '../../models/regio.model';
 
@@ -22,7 +22,6 @@ export class Capcalera {
   protected readonly errorCoordenades = signal<string | null>(null);
 
   protected readonly capes: readonly CapaBase[] = ['topografic', 'satelit', 'estandard'];
-  protected readonly idiomes: readonly Idioma[] = ['ca', 'es', 'en'];
 
   private cercaDebounce?: ReturnType<typeof setTimeout>;
 

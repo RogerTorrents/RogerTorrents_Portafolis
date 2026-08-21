@@ -76,19 +76,6 @@
       </select>
     </label>
 
-    <div class="geo-idiomes">
-      @for (idioma of idiomes; track idioma) {
-        <button
-          type="button"
-          class="geo-idioma-boto"
-          [class.actiu]="ts.idioma() === idioma"
-          (click)="ts.establirIdioma(idioma)"
-        >
-          {{ idioma.toUpperCase() }}
-        </button>
-      }
-    </div>
-
     <div class="geo-usuari">
       @if (sessio.esAutenticat()) {
         <button type="button" class="geo-usuari-boto" (click)="menuUsuariObert.set(!menuUsuariObert())">

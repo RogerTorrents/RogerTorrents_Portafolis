@@ -73,8 +73,13 @@ Sense router — navegació 100% amb Signals, mateix patró que GeoExplorer:
 - **`entrenaments.service.ts`** / **`assignacions.service.ts`** — CRUD del
   pla actualment obert; `assignacions.crearMassiu` crida `POST
   /plans/:id/assignacions/massiu`.
-- **`traduccio.service.ts`** — i18n local CA/ES/EN (independent del
-  `TranslationService` del Shell).
+- **`traduccio.service.ts`** — i18n local CA/ES/EN (diccionaris propis,
+  independents del `TranslationService` del Shell), però **l'idioma actiu
+  el controla el selector de la barra de tasques del Shell** via
+  `postMessage` (escoltat al constructor del servei) — no hi ha selector
+  d'idioma propi dins de l'app (retirat de `capcalera` en una sessió
+  posterior). Veure `context/os-shell/windows-system.md` §4 pel mecanisme
+  complet, compartit amb `sobre-mi`/`geoexplorer`/`mes-que-un-joc`.
 - **`confirmacio.service.ts`** — port verbatim del de GeoExplorer
   (`demanar(missatge): Promise<boolean>`); mai `confirm()` natiu.
 - **`navegacio.service.ts`** — navegació dins la zona autenticada.

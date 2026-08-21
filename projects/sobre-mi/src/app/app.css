@@ -60,38 +60,6 @@
 .sm-contenidor::-webkit-scrollbar-thumb:hover { background: var(--sm-blue); }
 
 /* ============================================================
-   SELECTOR D'IDIOMA
-   ============================================================ */
-.sm-lang {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 100;
-  display: flex;
-  background: var(--sm-bg);
-  border: 1px solid var(--sm-border);
-  border-radius: 8px;
-  padding: 0.2rem;
-  box-shadow: var(--sm-shadow);
-}
-
-.sm-lang__btn {
-  background: transparent;
-  border: none;
-  color: var(--sm-text-muted);
-  font-family: 'Inter', sans-serif;
-  font-size: 0.68rem;
-  font-weight: 600;
-  padding: 0.3rem 0.65rem;
-  border-radius: 6px;
-  cursor: pointer;
-  letter-spacing: 0.05em;
-  transition: all 0.15s ease;
-}
-
-.sm-lang__btn:hover { color: var(--sm-text); background: var(--sm-bg-alt); }
-
-/* ============================================================
    NAVEGACIÓ LATERAL
    ============================================================ */
 .sm-nav {
@@ -161,7 +129,6 @@
 .sm-nav__item:hover:not(.sm-nav__item--actiu) .sm-nav__dot { background: var(--sm-text-light); }
 
 @media (max-width: 700px) { .sm-nav { display: none; } }
-.sm-lang__btn--actiu { background: var(--sm-navy) !important; color: #fff !important; }
 
 /* ============================================================
    SECCIÓ 1 — INTRO (scroll horitzontal)

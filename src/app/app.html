@@ -12,7 +12,7 @@
   <!-- Window wrappers for apps (registered with WindowManagerService) -->
   @if (wm.muntades().has('sobre-mi')) {
     <app-window-wrapper id="sobre-mi" [title]="ts.t('app_sobre_mi')" [initialMaximized]="true">
-      <iframe src="http://localhost:4201" title="Sobre Mi"></iframe>
+      <iframe src="http://localhost:4201" title="Sobre Mi" (load)="onIframeCarregada($event)"></iframe>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('habilitats')) {
@@ -42,17 +42,17 @@
   }
   @if (wm.muntades().has('geoexplorer')) {
     <app-window-wrapper id="geoexplorer" [title]="ts.t('app_geoexplorer')" [initialMaximized]="true">
-      <iframe src="http://localhost:4205" title="GeoExplorer"></iframe>
+      <iframe src="http://localhost:4205" title="GeoExplorer" (load)="onIframeCarregada($event)"></iframe>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('mes-que-un-joc')) {
     <app-window-wrapper id="mes-que-un-joc" [title]="ts.t('app_mes_que_un_joc')" [initialMaximized]="true">
-      <iframe src="http://localhost:4206" title="Més que un joc"></iframe>
+      <iframe src="http://localhost:4206" title="Més que un joc" (load)="onIframeCarregada($event)"></iframe>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('som-hi')) {
     <app-window-wrapper id="som-hi" [title]="ts.t('app_som_hi')" [initialMaximized]="true">
-      <iframe src="http://localhost:4207" title="Som-hi"></iframe>
+      <iframe src="http://localhost:4207" title="Som-hi" (load)="onIframeCarregada($event)"></iframe>
     </app-window-wrapper>
   }
 }

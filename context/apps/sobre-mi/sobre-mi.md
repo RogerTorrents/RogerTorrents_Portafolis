@@ -33,7 +33,7 @@ projects/sobre-mi/src/
 ## Lògica Angular
 - **Scroll intro:** `scrollPos` signal + `computed` per `translateX`. El `onScroll()` s'escolta al `#contenidor` div.
 - **Scroll reveal:** `IntersectionObserver` que afegeix classe `.revealed` als elements `.reveal` quan entren al viewport.
-- **Traduccions locals:** `TraduccionService` propi (independent del Shell) amb claus CA/ES/EN. Mai hardcoding de text al HTML.
+- **Traduccions locals:** `TraduccionService` propi amb claus CA/ES/EN. Mai hardcoding de text al HTML. **Sense selector d'idioma propi** (el flotant `.sm-lang` de dalt a la dreta es va retirar en una sessió posterior) — l'idioma ve del selector de la barra de tasques del Shell via `postMessage`; veure `context/os-shell/windows-system.md` §4.
 - **ChangeDetectionStrategy.OnPush** activat.
 
 ## Informació Personal (Roger)

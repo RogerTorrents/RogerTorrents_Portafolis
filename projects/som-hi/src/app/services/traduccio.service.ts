@@ -2,14 +2,28 @@ import { Injectable, signal } from '@angular/core';
 
 export type Idioma = 'ca' | 'es' | 'en';
 
+function esIdiomaValid(valor: unknown): valor is Idioma {
+  return valor === 'ca' || valor === 'es' || valor === 'en';
+}
+
 /**
- * Servei de traduccions LOCAL de Som-hi, independent del Shell — mateix
- * patró que la resta de microserveis del monorepo (cada app gestiona el
- * seu propi idioma).
+ * Servei de traduccions de Som-hi. L'idioma el controla el selector de la
+ * barra de l'escriptori del Shell (postMessage, veure constructor) — no hi
+ * ha cap selector propi dins de l'app. El default 'ca' només s'aplica si
+ * l'app s'obre sola (fora de l'iframe del Shell, p. ex. en desenvolupament).
  */
 @Injectable({ providedIn: 'root' })
 export class TraduccioService {
   readonly idioma = signal<Idioma>('ca');
+
+  constructor() {
+    window.addEventListener('message', (ev: MessageEvent) => {
+      const dades = ev.data as { origen?: unknown; tipus?: unknown; valor?: unknown } | null;
+      if (dades?.origen === 'os-shell' && dades.tipus === 'idioma' && esIdiomaValid(dades.valor)) {
+        this.establirIdioma(dades.valor);
+      }
+    });
+  }
 
   private readonly dict: Record<Idioma, Record<string, string>> = {
     ca: {
