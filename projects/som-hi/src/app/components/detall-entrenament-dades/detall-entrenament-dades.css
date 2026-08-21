@@ -1,0 +1,82 @@
+.sh-dades {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 4px 0 0;
+}
+
+.sh-dades-fila {
+  display: flex;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.sh-dades-fila dt {
+  color: var(--sh-ink-tenue);
+  font-weight: 600;
+}
+
+.sh-dades-fila dt::after {
+  content: ':';
+}
+
+.sh-dades-fila dd {
+  margin: 0;
+  color: var(--sh-ink);
+  font-family: var(--sh-font-mono);
+}
+
+.sh-dades-fila a {
+  color: var(--sh-teal);
+}
+
+.sh-dades-gym-llista {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sh-dades-gym-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sh-dades-gym-foto {
+  width: 40px;
+  height: 30px;
+  flex-shrink: 0;
+  object-fit: contain;
+  border-radius: 4px;
+  background: var(--sh-line);
+}
+
+.sh-dades-gym-foto--buida {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--sh-ink-tenue);
+}
+
+.sh-dades-gym-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.sh-dades-gym-nom {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sh-ink);
+}
+
+.sh-dades-gym-numeros {
+  font-size: 11px;
+  font-family: var(--sh-font-mono);
+  color: var(--sh-ink-tenue);
+}

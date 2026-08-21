@@ -50,6 +50,11 @@
       <iframe src="http://localhost:4206" title="Més que un joc"></iframe>
     </app-window-wrapper>
   }
+  @if (wm.muntades().has('som-hi')) {
+    <app-window-wrapper id="som-hi" [title]="ts.t('app_som_hi')" [initialMaximized]="true">
+      <iframe src="http://localhost:4207" title="Som-hi"></iframe>
+    </app-window-wrapper>
+  }
 }
 
 <router-outlet />

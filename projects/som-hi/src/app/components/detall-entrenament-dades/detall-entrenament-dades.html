@@ -1,0 +1,93 @@
+@if (dades(); as d) {
+  <dl class="sh-dades">
+    @switch (d.modalitat) {
+      @case ('CORRER') {
+        <div class="sh-dades-fila">
+          <dt>{{ ts.t('camp_zona_label') }}</dt>
+          <dd>{{ ts.t('zona_' + d.zona.toLowerCase()) }}</dd>
+        </div>
+        <div class="sh-dades-fila">
+          <dt>{{ ts.t('camp_km_label') }}</dt>
+          <dd>{{ d.km }} km</dd>
+        </div>
+        <div class="sh-dades-fila">
+          <dt>{{ ts.t('camp_temps_label') }}</dt>
+          <dd>{{ d.tempsMinuts }} min</dd>
+        </div>
+        @if (d.polsacionsMaximes) {
+          <div class="sh-dades-fila">
+            <dt>{{ ts.t('camp_polsacions_label') }}</dt>
+            <dd>{{ d.polsacionsMaximes }} ppm</dd>
+          </div>
+        }
+      }
+      @case ('BICI') {
+        <div class="sh-dades-fila">
+          <dt>{{ ts.t('camp_km_label') }}</dt>
+          <dd>{{ d.km }} km</dd>
+        </div>
+        <div class="sh-dades-fila">
+          <dt>{{ ts.t('camp_temps_label') }}</dt>
+          <dd>{{ d.tempsMinuts }} min</dd>
+        </div>
+      }
+      @case ('GYM') {
+        <ul class="sh-dades-gym-llista">
+          @for (ex of d.exercicis; track $index) {
+            <li class="sh-dades-gym-item">
+              @let imatge = imatgeDe(ex);
+              @if (imatge && !imatgeTrencada(imatge)) {
+                <img class="sh-dades-gym-foto" src="exercicis/{{ imatge }}" [alt]="ex.nom" (error)="onErrorImatge(imatge)" />
+              } @else {
+                <span class="sh-dades-gym-foto sh-dades-gym-foto--buida" aria-hidden="true">🏋</span>
+              }
+              <div class="sh-dades-gym-info">
+                <span class="sh-dades-gym-nom">{{ ex.nom }}</span>
+                <span class="sh-dades-gym-numeros">
+                  {{ ex.series }}×{{ ex.repeticions }}
+                  @if (ex.pesQuilos) {
+                    · {{ ex.pesQuilos }} kg
+                  }
+                </span>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+      @case ('PILATES') {
+        <div class="sh-dades-fila">
+          <dt>{{ ts.t('camp_exercici_label') }}</dt>
+          <dd>{{ d.exercici }}</dd>
+        </div>
+        @if (d.linkVideo) {
+          <div class="sh-dades-fila">
+            <dt>{{ ts.t('camp_link_video_label') }}</dt>
+            <dd><a [href]="d.linkVideo" target="_blank" rel="noopener">{{ ts.t('veure_video') }}</a></dd>
+          </div>
+        }
+      }
+      @case ('PISCINA') {
+        <div class="sh-dades-fila">
+          <dt>{{ ts.t('camp_distancia_metres_label') }}</dt>
+          <dd>{{ d.distanciaMetres }} m</dd>
+        </div>
+        <div class="sh-dades-fila">
+          <dt>{{ ts.t('camp_temps_label') }}</dt>
+          <dd>{{ d.tempsMinuts }} min</dd>
+        </div>
+      }
+      @case ('ALTRE') {
+        <div class="sh-dades-fila">
+          <dt>{{ ts.t('camp_descripcio_label') }}</dt>
+          <dd>{{ d.descripcio }}</dd>
+        </div>
+        @if (d.tempsMinuts) {
+          <div class="sh-dades-fila">
+            <dt>{{ ts.t('camp_temps_label') }}</dt>
+            <dd>{{ d.tempsMinuts }} min</dd>
+          </div>
+        }
+      }
+    }
+  </dl>
+}

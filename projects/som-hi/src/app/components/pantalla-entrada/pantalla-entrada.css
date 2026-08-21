@@ -1,0 +1,113 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.sh-entrada {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sh-paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 35px,
+    var(--sh-line) 35px,
+    var(--sh-line) 36px
+  );
+}
+
+.sh-entrada-contingut {
+  width: 100%;
+  max-width: 420px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+/* Signatura: una setmana de caselles tipus "log d'entrenaments" — el mateix
+   patró de constància que l'app demana a l'usuari que mantingui. */
+.sh-entrada-setmana {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 28px;
+}
+
+.sh-entrada-casella {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--sh-line);
+  border-radius: 3px;
+  background: var(--sh-card);
+}
+
+.sh-entrada-casella--feta {
+  background: var(--sh-clay);
+  border-color: var(--sh-clay);
+}
+
+.sh-entrada-casella--avui {
+  border-color: var(--sh-clay);
+  border-style: dashed;
+}
+
+.sh-entrada-titol {
+  margin: 0;
+  font-family: var(--sh-font-display);
+  font-size: 64px;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--sh-ink);
+}
+
+.sh-entrada-eslogan {
+  margin: 14px 0 0;
+  font-size: 16px;
+  color: var(--sh-ink-suau);
+}
+
+.sh-entrada-accions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 32px 0 0;
+}
+
+.sh-entrada-boto {
+  border-radius: var(--sh-radi-petit);
+  padding: 13px;
+  font-family: var(--sh-font-titol);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+}
+
+.sh-entrada-boto--primari {
+  background: var(--sh-clay);
+  border: 1px solid var(--sh-clay);
+  color: var(--sh-card);
+}
+
+.sh-entrada-boto--primari:hover {
+  background: var(--sh-clay-fosc);
+  border-color: var(--sh-clay-fosc);
+}
+
+.sh-entrada-boto--secundari {
+  background: none;
+  border: 1px solid var(--sh-line);
+  color: var(--sh-ink);
+}
+
+.sh-entrada-boto--secundari:hover {
+  border-color: var(--sh-teal);
+  color: var(--sh-teal);
+}
+
+.sh-entrada-nota {
+  margin: 18px 0 0;
+  font-size: 12px;
+  color: var(--sh-ink-tenue);
+}

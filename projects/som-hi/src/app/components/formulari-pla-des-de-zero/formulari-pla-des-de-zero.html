@@ -1,0 +1,22 @@
+<button type="button" class="sh-tornar" (click)="tornar.emit()">{{ ts.t('crear_pla_tornar') }}</button>
+<h1 class="sh-formulari-zero-titol">{{ ts.t('formulari_zero_titol') }}</h1>
+
+<form class="sh-formulari-zero" (submit)="enviar($event)">
+  <label class="sh-camp">
+    <span>{{ ts.t('formulari_zero_nom_label') }}</span>
+    <input
+      type="text"
+      [value]="nom()"
+      (input)="onNomInput($event)"
+      [placeholder]="ts.t('formulari_zero_nom_placeholder')"
+      required
+    />
+  </label>
+
+  <label class="sh-camp">
+    <span>{{ ts.t('formulari_zero_durada_label') }}</span>
+    <input type="number" min="1" max="52" [value]="durationSetmanes()" (input)="onDuradaInput($event)" required />
+  </label>
+
+  <button type="submit" class="sh-formulari-boto">{{ ts.t('formulari_zero_continuar') }}</button>
+</form>

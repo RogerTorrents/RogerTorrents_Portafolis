@@ -1,0 +1,20 @@
+<button type="button" class="sh-tornar" (click)="tornar.emit()">{{ ts.t('crear_pla_tornar') }}</button>
+<h1 class="sh-galeria-titol">{{ ts.t('galeria_titol') }}</h1>
+
+@if (predefinits.carregant()) {
+  <p class="sh-galeria-estat">{{ ts.t('galeria_carregant') }}</p>
+} @else {
+  <div class="sh-galeria-graella">
+    @for (pla of predefinits.plans(); track pla.id) {
+      <button type="button" class="sh-galeria-targeta" (click)="triar.emit(pla)">
+        <span class="sh-galeria-numero">{{ pla.ordre }}</span>
+        <span class="sh-galeria-nom">{{ pla.nom }}</span>
+        <span class="sh-galeria-desc">{{ pla.descripcio }}</span>
+        <span class="sh-galeria-peu">
+          <span class="sh-galeria-setmanes">{{ ts.t('galeria_setmanes', [pla.durationSetmanes]) }}</span>
+          <span class="sh-galeria-triar">{{ ts.t('galeria_triar_boto') }}</span>
+        </span>
+      </button>
+    }
+  </div>
+}

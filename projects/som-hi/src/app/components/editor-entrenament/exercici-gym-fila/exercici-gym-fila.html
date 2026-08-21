@@ -1,0 +1,67 @@
+<div class="sh-gym-fila">
+  <div class="sh-gym-fila-capcalera">
+    <span class="sh-gym-fila-numero">#{{ numero() }}</span>
+    <button type="button" class="sh-gym-eliminar" (click)="eliminar.emit()">×</button>
+  </div>
+
+  <label class="sh-camp">
+    <span>{{ ts.t('camp_grup_muscular_label') }}</span>
+    <select [value]="grupActual() ?? ''" (change)="onGrupChange($event)">
+      <option value="" disabled [selected]="!grupActual()">{{ ts.t('gym_triar_grup') }}</option>
+      @for (g of grupsMusculars; track g) {
+        <option [value]="g" [selected]="g === grupActual()">{{ ts.t('grup_' + g.toLowerCase()) }}</option>
+      }
+    </select>
+  </label>
+
+  @if (grupActual() === 'ALTRE') {
+    <label class="sh-camp">
+      <span>{{ ts.t('gym_exercici_nom_label') }}</span>
+      <input type="text" [value]="estatLocal().nom" (input)="onNomLliureInput($event)" required />
+    </label>
+  } @else if (mostrantSelector()) {
+    @if (exercicisDelGrup().length > 0) {
+      <div class="sh-gym-catalog">
+        @for (ex of exercicisDelGrup(); track ex.id) {
+          <button type="button" class="sh-gym-catalog-item" (click)="triarExercici(ex)">
+            @if (imatgeTrencada(ex.imatge)) {
+              <span class="sh-gym-foto sh-gym-foto--buida" aria-hidden="true">🏋</span>
+            } @else {
+              <img class="sh-gym-foto" src="exercicis/{{ ex.imatge }}" [alt]="ex.nom" (error)="onErrorImatge(ex.imatge)" />
+            }
+            <span class="sh-gym-catalog-nom">{{ ex.nom }}</span>
+          </button>
+        }
+      </div>
+    }
+  } @else {
+    <button type="button" class="sh-gym-resum" (click)="reobrirSelector()">
+      @if (fotoTriada(); as foto) {
+        @if (imatgeTrencada(foto.imatge)) {
+          <span class="sh-gym-foto sh-gym-foto--buida" aria-hidden="true">🏋</span>
+        } @else {
+          <img class="sh-gym-foto" src="exercicis/{{ foto.imatge }}" [alt]="estatLocal().nom" (error)="onErrorImatge(foto.imatge)" />
+        }
+      } @else {
+        <span class="sh-gym-foto sh-gym-foto--buida" aria-hidden="true">🏋</span>
+      }
+      <span class="sh-gym-resum-nom">{{ estatLocal().nom }}</span>
+      <span class="sh-gym-resum-canviar">{{ ts.t('gym_canviar_exercici') }}</span>
+    </button>
+  }
+
+  <div class="sh-gym-fila-numeros">
+    <label class="sh-camp">
+      <span>{{ ts.t('gym_series_label') }}</span>
+      <input type="number" min="1" [value]="estatLocal().series" (input)="onSeriesInput($event)" required />
+    </label>
+    <label class="sh-camp">
+      <span>{{ ts.t('gym_repeticions_label') }}</span>
+      <input type="number" min="1" [value]="estatLocal().repeticions" (input)="onRepeticionsInput($event)" required />
+    </label>
+    <label class="sh-camp">
+      <span>{{ ts.t('camp_pes_label') }}</span>
+      <input type="number" min="0" step="0.5" [value]="estatLocal().pesQuilos ?? ''" (input)="onPesInput($event)" />
+    </label>
+  </div>
+</div>

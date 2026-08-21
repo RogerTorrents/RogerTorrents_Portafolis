@@ -1,0 +1,26 @@
+<div class="sh-llista-plans">
+  <div class="sh-llista-plans-capcalera">
+    <h1 class="sh-llista-plans-titol">{{ ts.t('plans_titol') }}</h1>
+    <button type="button" class="sh-llista-plans-crear" (click)="nav.anarACrearPla()">
+      {{ ts.t('plans_crear_boto') }}
+    </button>
+  </div>
+
+  @if (plans.carregant()) {
+    <p class="sh-llista-plans-estat">{{ ts.t('plans_carregant') }}</p>
+  } @else if (plans.plans().length === 0) {
+    <div class="sh-llista-plans-buit">
+      <p class="sh-llista-plans-buit-titol">{{ ts.t('plans_buit_titol') }}</p>
+      <p class="sh-llista-plans-buit-desc">{{ ts.t('plans_buit_desc') }}</p>
+      <button type="button" class="sh-llista-plans-crear" (click)="nav.anarACrearPla()">
+        {{ ts.t('plans_crear_boto') }}
+      </button>
+    </div>
+  } @else {
+    <div class="sh-llista-plans-graella">
+      @for (pla of plans.plans(); track pla.id) {
+        <app-pla-card [pla]="pla" />
+      }
+    </div>
+  }
+</div>

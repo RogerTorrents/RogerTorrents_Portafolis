@@ -1,0 +1,57 @@
+.sh-pla-card {
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-left: 4px solid var(--sh-clay);
+  border-radius: var(--sh-radi);
+  padding: 18px 20px;
+  cursor: pointer;
+  box-shadow: var(--sh-ombra);
+  transition: transform 0.15s ease;
+}
+
+.sh-pla-card:hover {
+  transform: translateY(-2px);
+}
+
+.sh-pla-card-capcalera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sh-pla-card-nom {
+  margin: 0;
+  font-family: var(--sh-font-titol);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--sh-ink);
+}
+
+.sh-pla-card-eliminar {
+  background: none;
+  border: none;
+  color: var(--sh-ink-tenue);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.sh-pla-card-eliminar:hover {
+  color: var(--sh-clay);
+}
+
+.sh-pla-card-setmanes {
+  margin: 4px 0 14px;
+  font-family: var(--sh-font-mono);
+  font-size: 12px;
+  color: var(--sh-ink-suau);
+}
+
+.sh-pla-card-estat {
+  margin: 10px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sh-ink-suau);
+}

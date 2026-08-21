@@ -1,0 +1,14 @@
+@if (confirmacio.missatge(); as missatge) {
+  <div class="sh-confirmacio-fons" (click)="confirmacio.cancelar()"></div>
+  <div class="sh-confirmacio" role="alertdialog" aria-modal="true">
+    <p class="sh-confirmacio-missatge">{{ missatge }}</p>
+    <div class="sh-confirmacio-accions">
+      <button type="button" class="sh-confirmacio-cancelar" (click)="confirmacio.cancelar()">
+        {{ ts.t('confirmacio_cancelar') }}
+      </button>
+      <button type="button" class="sh-confirmacio-confirmar" (click)="confirmacio.confirmar()">
+        {{ ts.t('confirmacio_confirmar') }}
+      </button>
+    </div>
+  </div>
+}

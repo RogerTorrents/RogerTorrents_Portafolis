@@ -1,0 +1,33 @@
+<button type="button" class="sh-tornar" (click)="tornar.emit()">{{ ts.t('detall_pla_tornar') }}</button>
+
+<div class="sh-capcalera-pla">
+  <div class="sh-capcalera-pla-info">
+    <h1 class="sh-capcalera-pla-nom">{{ pla().nom }}</h1>
+    <p class="sh-capcalera-pla-estat">
+      @switch (estat()) {
+        @case ('proper') {
+          {{ ts.t('detall_pla_comenca_en', [diesFinsInici()]) }}
+        }
+        @case ('finalitzat') {
+          {{ ts.t('detall_pla_finalitzat') }}
+        }
+        @default {
+          {{ ts.t('detall_pla_dia_actual', [diaActual(), totalDies()]) }} ·
+          {{ ts.t('detall_pla_dies_restants', [diesRestants()]) }}
+        }
+      }
+    </p>
+  </div>
+
+  <button type="button" class="sh-capcalera-pla-eliminar" (click)="confirmarEliminar()">
+    {{ ts.t('detall_pla_eliminar') }}
+  </button>
+</div>
+
+<div class="sh-capcalera-pla-progres">
+  <span class="sh-capcalera-pla-progres-titol">{{ ts.t('detall_pla_progres_titol') }}</span>
+  <app-barra-progres [percentatge]="pla().percentatgeCompletat" />
+  <span class="sh-capcalera-pla-progres-valor">
+    {{ ts.t('detall_pla_progres_valor', [pla().assignacionsCompletades, pla().totalAssignacions]) }}
+  </span>
+</div>

@@ -62,6 +62,12 @@
     },
     {
       "path": "./projects/mes-que-un-joc/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/som-hi/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/som-hi/tsconfig.spec.json"
     }
   ]
 }

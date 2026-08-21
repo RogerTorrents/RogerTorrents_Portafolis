@@ -1,0 +1,114 @@
+.sh-capcalera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding: 0 20px;
+  background: var(--sh-card);
+  border-bottom: 1px solid var(--sh-line);
+  flex-shrink: 0;
+}
+
+.sh-capcalera-marca {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.sh-capcalera-titol {
+  font-family: var(--sh-font-display);
+  font-size: 22px;
+  color: var(--sh-ink);
+}
+
+.sh-capcalera-dreta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.sh-capcalera-idiomes {
+  display: flex;
+  gap: 4px;
+}
+
+.sh-capcalera-idioma {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--sh-radi-petit);
+  padding: 4px 7px;
+  font-family: var(--sh-font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--sh-ink-tenue);
+  cursor: pointer;
+}
+
+.sh-capcalera-idioma:hover {
+  color: var(--sh-ink);
+}
+
+.sh-capcalera-idioma--actiu {
+  border-color: var(--sh-line);
+  color: var(--sh-clay);
+  font-weight: 700;
+}
+
+.sh-capcalera-usuari {
+  position: relative;
+}
+
+.sh-capcalera-avatar {
+  background: var(--sh-paper);
+  border: 1px solid var(--sh-line);
+  border-radius: var(--sh-radi-petit);
+  padding: 8px 14px;
+  font-family: var(--sh-font-cos);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sh-ink);
+  cursor: pointer;
+}
+
+.sh-capcalera-avatar:hover {
+  border-color: var(--sh-clay);
+}
+
+.sh-capcalera-fons-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+}
+
+.sh-capcalera-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 1500;
+  min-width: 170px;
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-left: 3px solid var(--sh-clay);
+  border-radius: var(--sh-radi-petit);
+  box-shadow: var(--sh-ombra);
+  overflow: hidden;
+}
+
+.sh-capcalera-menu-opcio {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 12px 14px;
+  font-family: var(--sh-font-cos);
+  font-size: 13px;
+  color: var(--sh-ink);
+  cursor: pointer;
+}
+
+.sh-capcalera-menu-opcio:hover {
+  background: var(--sh-paper);
+  color: var(--sh-clay);
+}

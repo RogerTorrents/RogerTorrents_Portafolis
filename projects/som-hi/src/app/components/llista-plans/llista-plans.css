@@ -1,0 +1,71 @@
+.sh-llista-plans {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+}
+
+.sh-llista-plans-capcalera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.sh-llista-plans-titol {
+  margin: 0;
+  font-family: var(--sh-font-display);
+  font-size: 34px;
+  color: var(--sh-ink);
+}
+
+.sh-llista-plans-crear {
+  background: var(--sh-clay);
+  border: 1px solid var(--sh-clay);
+  color: var(--sh-card);
+  font-family: var(--sh-font-titol);
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: var(--sh-radi-petit);
+  padding: 11px 18px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sh-llista-plans-crear:hover {
+  background: var(--sh-clay-fosc);
+  border-color: var(--sh-clay-fosc);
+}
+
+.sh-llista-plans-estat {
+  color: var(--sh-ink-suau);
+  font-size: 14px;
+}
+
+.sh-llista-plans-buit {
+  background: var(--sh-card);
+  border: 1px dashed var(--sh-line);
+  border-radius: var(--sh-radi);
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.sh-llista-plans-buit-titol {
+  margin: 0 0 8px;
+  font-family: var(--sh-font-titol);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--sh-ink);
+}
+
+.sh-llista-plans-buit-desc {
+  margin: 0 0 22px;
+  color: var(--sh-ink-suau);
+  font-size: 14px;
+}
+
+.sh-llista-plans-graella {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}

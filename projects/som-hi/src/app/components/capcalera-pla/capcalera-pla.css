@@ -1,0 +1,73 @@
+:host {
+  display: block;
+}
+
+.sh-capcalera-pla {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.sh-capcalera-pla-nom {
+  margin: 0;
+  font-family: var(--sh-font-display);
+  font-size: 30px;
+  color: var(--sh-ink);
+}
+
+.sh-capcalera-pla-estat {
+  margin: 4px 0 0;
+  font-family: var(--sh-font-mono);
+  font-size: 12.5px;
+  color: var(--sh-ink-suau);
+}
+
+.sh-capcalera-pla-eliminar {
+  background: none;
+  border: 1px solid var(--sh-line);
+  color: var(--sh-ink-tenue);
+  border-radius: var(--sh-radi-petit);
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sh-capcalera-pla-eliminar:hover {
+  border-color: var(--sh-clay);
+  color: var(--sh-clay);
+}
+
+.sh-capcalera-pla-progres {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-left: 4px solid var(--sh-clay);
+  border-radius: var(--sh-radi);
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+
+.sh-capcalera-pla-progres-titol {
+  font-family: var(--sh-font-titol);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--sh-ink);
+  white-space: nowrap;
+}
+
+.sh-capcalera-pla-progres app-barra-progres {
+  flex: 1;
+}
+
+.sh-capcalera-pla-progres-valor {
+  font-family: var(--sh-font-mono);
+  font-size: 11px;
+  color: var(--sh-ink-tenue);
+  white-space: nowrap;
+}

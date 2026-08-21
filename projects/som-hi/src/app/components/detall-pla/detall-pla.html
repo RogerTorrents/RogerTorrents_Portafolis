@@ -1,0 +1,51 @@
+@if (plans.carregantPlaObert() && !plans.planObert()) {
+  <p class="sh-detall-pla-estat">{{ ts.t('detall_pla_carregant') }}</p>
+} @else if (plans.planObert(); as pla) {
+  <div class="sh-detall-pla">
+    <app-capcalera-pla [pla]="pla" (tornar)="tornarALlista()" (eliminar)="eliminarPla()" />
+    <app-calendari-pla [pla]="pla" [assignacions]="assignacionsService.assignacions()" (obrirDia)="obrirDia($event)" />
+  </div>
+
+  @if (panell(); as p) {
+    @if (p.tipus === 'dia') {
+      <app-detall-dia
+        [plaId]="plaId()"
+        [data]="p.data"
+        (tancar)="tancarPanell()"
+        (afegirEntrenament)="obrirSelector()"
+        (editarEntrenament)="obrirEditorExistent($event)"
+        (veureEntrenament)="obrirVeure($event)"
+      />
+    }
+    @if (p.tipus === 'veure') {
+      <app-veure-entrenament
+        [plaId]="plaId()"
+        [assignacioId]="p.assignacioId"
+        (tancar)="onPanellTancat()"
+        (editar)="obrirEditorExistent($event)"
+      />
+    }
+    @if (p.tipus === 'selector') {
+      <app-selector-entrenament-existent
+        [plaId]="plaId()"
+        [data]="p.data"
+        (tancar)="onPanellTancat()"
+        (afegit)="onEntrenamentAfegit()"
+        (crearNou)="obrirEditorNou()"
+        (assignarMassiu)="obrirMassiu($event)"
+      />
+    }
+    @if (p.tipus === 'editor') {
+      <app-editor-entrenament
+        [plaId]="plaId()"
+        [entrenamentId]="p.entrenamentId"
+        [diaAssignar]="p.diaAssignar"
+        (tancar)="onPanellTancat()"
+        (desat)="onEntrenamentDesat()"
+      />
+    }
+    @if (p.tipus === 'massiu') {
+      <app-assignar-massiu [plaId]="plaId()" [entrenament]="p.entrenament" (tancar)="onPanellTancat()" />
+    }
+  }
+}

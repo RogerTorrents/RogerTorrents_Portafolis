@@ -1,0 +1,40 @@
+.sh-camp-fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.sh-gym {
+  margin-bottom: 14px;
+}
+
+.sh-gym-titol {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--sh-ink-suau);
+  margin-bottom: 8px;
+}
+
+.sh-editor-cancelar {
+  margin-top: 8px;
+}
+
+.sh-editor-eliminar {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--sh-clay);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  padding: 14px 0 0;
+}
+
+.sh-editor-eliminar:hover {
+  text-decoration: underline;
+}

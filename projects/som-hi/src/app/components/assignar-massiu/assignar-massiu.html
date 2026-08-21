@@ -1,0 +1,36 @@
+<div class="sh-panell-fons" (click)="tancar.emit()"></div>
+<div class="sh-panell" role="dialog" aria-modal="true">
+  <div class="sh-panell-capcalera">
+    <h2 class="sh-panell-titol">{{ ts.t('massiu_titol', [entrenament().titol]) }}</h2>
+    <button type="button" class="sh-panell-tancar" (click)="tancar.emit()">×</button>
+  </div>
+
+  @if (resultat(); as n) {
+    <p class="sh-massiu-resultat">{{ n > 0 ? ts.t('massiu_resultat', [n]) : ts.t('massiu_resultat_zero') }}</p>
+    <button type="button" class="sh-formulari-boto" (click)="tancar.emit()">{{ ts.t('massiu_tancar') }}</button>
+  } @else {
+    <form (submit)="crear($event)">
+      <label class="sh-camp">
+        <span>{{ ts.t('massiu_dia_label') }}</span>
+        <select [value]="diaSetmana()" (change)="onDiaChange($event)">
+          @for (dia of diesSetmana; track dia) {
+            <option [value]="dia" [selected]="dia === diaSetmana()">{{ etiquetaDia(dia) }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="sh-camp">
+        <span>{{ ts.t('massiu_desde_label') }}</span>
+        <input type="date" [value]="desDe()" (input)="onDesDeInput($event)" />
+      </label>
+
+      @if (error()) {
+        <p class="sh-formulari-error">{{ error() }}</p>
+      }
+
+      <button type="submit" class="sh-formulari-boto" [disabled]="carregant()">
+        {{ carregant() ? ts.t('massiu_boto_carregant') : ts.t('massiu_boto') }}
+      </button>
+    </form>
+  }
+</div>

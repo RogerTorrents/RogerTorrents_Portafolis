@@ -1,0 +1,67 @@
+.sh-confirmacio-fons {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 36, 32, 0.5);
+  z-index: 2000;
+}
+
+.sh-confirmacio {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2001;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-left: 4px solid var(--sh-clay);
+  border-radius: var(--sh-radi);
+  padding: 20px;
+  box-shadow: var(--sh-ombra);
+}
+
+.sh-confirmacio-missatge {
+  margin: 0 0 18px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--sh-ink);
+}
+
+.sh-confirmacio-accions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.sh-confirmacio-cancelar,
+.sh-confirmacio-confirmar {
+  border-radius: var(--sh-radi-petit);
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--sh-font-titol);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.sh-confirmacio-cancelar {
+  background: none;
+  border: 1px solid var(--sh-line);
+  color: var(--sh-ink);
+}
+
+.sh-confirmacio-cancelar:hover {
+  border-color: var(--sh-ink-suau);
+}
+
+.sh-confirmacio-confirmar {
+  background: var(--sh-clay);
+  border: 1px solid var(--sh-clay);
+  color: var(--sh-card);
+}
+
+.sh-confirmacio-confirmar:hover {
+  background: var(--sh-clay-fosc);
+  border-color: var(--sh-clay-fosc);
+}

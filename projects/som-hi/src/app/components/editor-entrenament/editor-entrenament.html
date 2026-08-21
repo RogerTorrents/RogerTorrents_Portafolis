@@ -1,0 +1,149 @@
+<div class="sh-panell-fons" (click)="tancar.emit()"></div>
+<div class="sh-panell" role="dialog" aria-modal="true">
+  <div class="sh-panell-capcalera">
+    <h2 class="sh-panell-titol">{{ ts.t(enEdicio() ? 'editor_entrenament_titol_editar' : 'editor_entrenament_titol_nou') }}</h2>
+    <button type="button" class="sh-panell-tancar" (click)="tancar.emit()">×</button>
+  </div>
+
+  <form (submit)="guardar($event)">
+    <label class="sh-camp">
+      <span>{{ ts.t('editor_entrenament_nom_label') }}</span>
+      <input
+        type="text"
+        [value]="titol()"
+        (input)="titol.set(textDe($event))"
+        [placeholder]="ts.t('editor_entrenament_nom_placeholder')"
+        required
+      />
+    </label>
+
+    <label class="sh-camp">
+      <span>{{ ts.t('editor_entrenament_modalitat_label') }}</span>
+      <select [value]="modalitat()" (change)="onModalitatChange($event)">
+        @for (m of modalitats; track m) {
+          <option [value]="m" [selected]="m === modalitat()">{{ ts.t('modalitat_' + m.toLowerCase()) }}</option>
+        }
+      </select>
+    </label>
+
+    @switch (modalitat()) {
+      @case ('CORRER') {
+        <label class="sh-camp">
+          <span>{{ ts.t('camp_zona_label') }}</span>
+          <select [value]="zona()" (change)="onZonaChange($event)">
+            @for (z of zones; track z) {
+              <option [value]="z" [selected]="z === zona()">{{ ts.t('zona_' + z.toLowerCase()) }}</option>
+            }
+          </select>
+        </label>
+        <div class="sh-camp-fila">
+          <label class="sh-camp">
+            <span>{{ ts.t('camp_km_label') }}</span>
+            <input type="number" min="0" step="0.1" [value]="km()" (input)="km.set(numeroDe($event))" required />
+          </label>
+          <label class="sh-camp">
+            <span>{{ ts.t('camp_temps_label') }}</span>
+            <input type="number" min="0" [value]="tempsCorrer()" (input)="tempsCorrer.set(numeroDe($event))" required />
+          </label>
+        </div>
+        <label class="sh-camp">
+          <span>{{ ts.t('camp_polsacions_label') }}</span>
+          <input
+            type="number"
+            min="0"
+            [value]="polsacionsMaximes() ?? ''"
+            (input)="polsacionsMaximes.set(numeroOpcionalDe($event))"
+          />
+        </label>
+      }
+      @case ('BICI') {
+        <div class="sh-camp-fila">
+          <label class="sh-camp">
+            <span>{{ ts.t('camp_km_label') }}</span>
+            <input type="number" min="0" step="0.1" [value]="kmBici()" (input)="kmBici.set(numeroDe($event))" required />
+          </label>
+          <label class="sh-camp">
+            <span>{{ ts.t('camp_temps_label') }}</span>
+            <input type="number" min="0" [value]="tempsBici()" (input)="tempsBici.set(numeroDe($event))" required />
+          </label>
+        </div>
+      }
+      @case ('GYM') {
+        <div class="sh-gym">
+          <span class="sh-gym-titol">{{ ts.t('gym_exercicis_titol') }}</span>
+          @for (ex of exercicis(); track $index) {
+            <app-exercici-gym-fila
+              [exercici]="ex"
+              [numero]="$index + 1"
+              (canvi)="actualitzarExercici($index, $event)"
+              (eliminar)="eliminarExercici($index)"
+            />
+          }
+          <button type="button" class="sh-formulari-boto-secundari" (click)="afegirExercici()">
+            {{ ts.t('gym_afegir_exercici') }}
+          </button>
+        </div>
+      }
+      @case ('PILATES') {
+        <label class="sh-camp">
+          <span>{{ ts.t('camp_exercici_label') }}</span>
+          <input type="text" [value]="exerciciPilates()" (input)="exerciciPilates.set(textDe($event))" required />
+        </label>
+        <label class="sh-camp">
+          <span>{{ ts.t('camp_link_video_label') }}</span>
+          <input type="url" [value]="linkVideo()" (input)="linkVideo.set(textDe($event))" />
+        </label>
+      }
+      @case ('PISCINA') {
+        <div class="sh-camp-fila">
+          <label class="sh-camp">
+            <span>{{ ts.t('camp_distancia_metres_label') }}</span>
+            <input
+              type="number"
+              min="0"
+              [value]="distanciaMetres()"
+              (input)="distanciaMetres.set(numeroDe($event))"
+              required
+            />
+          </label>
+          <label class="sh-camp">
+            <span>{{ ts.t('camp_temps_label') }}</span>
+            <input type="number" min="0" [value]="tempsPiscina()" (input)="tempsPiscina.set(numeroDe($event))" required />
+          </label>
+        </div>
+      }
+      @case ('ALTRE') {
+        <label class="sh-camp">
+          <span>{{ ts.t('camp_descripcio_label') }}</span>
+          <input type="text" [value]="descripcioAltre()" (input)="descripcioAltre.set(textDe($event))" required />
+        </label>
+        <label class="sh-camp">
+          <span>{{ ts.t('camp_temps_label') }}</span>
+          <input
+            type="number"
+            min="0"
+            [value]="tempsAltre() ?? ''"
+            (input)="tempsAltre.set(numeroOpcionalDe($event))"
+          />
+        </label>
+      }
+    }
+
+    @if (error()) {
+      <p class="sh-formulari-error">{{ error() }}</p>
+    }
+
+    <button type="submit" class="sh-formulari-boto" [disabled]="carregant()">
+      {{ ts.t('editor_entrenament_guardar') }}
+    </button>
+    <button type="button" class="sh-formulari-boto-secundari sh-editor-cancelar" (click)="tancar.emit()">
+      {{ ts.t('editor_entrenament_cancelar') }}
+    </button>
+
+    @if (enEdicio()) {
+      <button type="button" class="sh-editor-eliminar" (click)="eliminar()">
+        {{ ts.t('editor_entrenament_eliminar') }}
+      </button>
+    }
+  </form>
+</div>

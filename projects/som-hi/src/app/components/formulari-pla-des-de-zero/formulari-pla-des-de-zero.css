@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+}
+
+.sh-formulari-zero-titol {
+  margin: 0 0 22px;
+  font-family: var(--sh-font-display);
+  font-size: 28px;
+  color: var(--sh-ink);
+}
+
+.sh-formulari-zero {
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-left: 4px solid var(--sh-teal);
+  border-radius: var(--sh-radi);
+  padding: 24px;
+  box-shadow: var(--sh-ombra);
+}

@@ -1,0 +1,64 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.sh-formulari-pantalla {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--sh-paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 35px,
+    var(--sh-line) 35px,
+    var(--sh-line) 36px
+  );
+}
+
+.sh-formulari-caixa {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 360px;
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-left: 4px solid var(--sh-clay);
+  border-radius: var(--sh-radi);
+  padding: 28px;
+  box-shadow: var(--sh-ombra);
+}
+
+.sh-formulari-caixa h2 {
+  margin: 0 0 20px;
+  font-family: var(--sh-font-titol);
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  color: var(--sh-ink);
+}
+
+.sh-formulari-peu {
+  margin: 18px 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--sh-ink-suau);
+}
+
+.sh-link-boto {
+  background: none;
+  border: none;
+  color: var(--sh-teal);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.sh-link-boto:hover {
+  text-decoration: underline;
+}

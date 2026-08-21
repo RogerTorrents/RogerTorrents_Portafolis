@@ -1,0 +1,155 @@
+:host {
+  display: block;
+}
+
+.sh-calendari-capcalera-dies {
+  display: grid;
+  grid-template-columns: 44px repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.sh-calendari-etiqueta-dia {
+  text-align: center;
+  font-family: var(--sh-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sh-ink-tenue);
+  text-transform: uppercase;
+}
+
+.sh-calendari-setmana {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 6px;
+  align-items: stretch;
+  margin-bottom: 6px;
+}
+
+.sh-calendari-numero-setmana {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--sh-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--sh-ink-tenue);
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-radius: var(--sh-radi-petit);
+  padding: 6px 2px;
+}
+
+.sh-calendari-fila {
+  display: grid;
+  /* minmax(0, 1fr), no un simple 1fr: un 1fr sol encara respecta l'amplada
+     mínima intrínseca del contingut (min-width:auto per defecte als fills
+     de grid), així que un xip amb un títol llarg podia eixamplar la seva
+     columna més que les altres — les caselles buides es veien més
+     estretes en comparació. Amb minmax(0, 1fr) les 7 columnes són sempre
+     exactament iguals i el text llarg trunca amb el `text-overflow:
+     ellipsis` que ja tenia `.sh-calendari-xip`. */
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.sh-calendari-dia {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  min-width: 0;
+  min-height: 92px;
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-radius: var(--sh-radi-petit);
+  padding: 6px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sh-calendari-dia:hover {
+  border-color: var(--sh-ink-tenue);
+}
+
+.sh-calendari-dia--fora {
+  background: transparent;
+  border: none;
+  cursor: default;
+  min-height: 92px;
+}
+
+.sh-calendari-dia--avui {
+  background: var(--sh-clay);
+  border-color: var(--sh-clay);
+}
+
+.sh-calendari-dia-numero {
+  font-family: var(--sh-font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sh-ink-suau);
+}
+
+.sh-calendari-dia--avui .sh-calendari-dia-numero {
+  color: var(--sh-card);
+}
+
+.sh-calendari-dia-avui-etiqueta {
+  font-family: var(--sh-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sh-card);
+  opacity: 0.85;
+  margin-top: -4px;
+}
+
+.sh-calendari-dia-entrenaments {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.sh-calendari-xip {
+  display: block;
+  border-left: 3px solid var(--sh-mod-color, var(--sh-ink-tenue));
+  background: var(--sh-paper);
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-size: 10.5px;
+  line-height: 1.3;
+  color: var(--sh-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sh-calendari-dia--avui .sh-calendari-xip {
+  background: rgba(251, 250, 243, 0.9);
+}
+
+.sh-calendari-xip--fet {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
+@media (max-width: 720px) {
+  .sh-calendari-capcalera-dies {
+    display: none;
+  }
+  .sh-calendari-setmana {
+    grid-template-columns: 1fr;
+  }
+  .sh-calendari-numero-setmana {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+  .sh-calendari-fila {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}

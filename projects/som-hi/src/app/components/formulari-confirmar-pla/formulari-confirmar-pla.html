@@ -1,0 +1,18 @@
+<button type="button" class="sh-tornar" (click)="tornar.emit()">{{ ts.t('confirmar_pla_tornar') }}</button>
+<h1 class="sh-confirmar-pla-titol">{{ ts.t('confirmar_pla_titol') }}</h1>
+<p class="sh-confirmar-pla-resum">{{ ts.t('confirmar_pla_resum', [seleccio().nom, seleccio().durationSetmanes]) }}</p>
+
+<form class="sh-confirmar-pla-formulari" (submit)="crear($event)">
+  <label class="sh-camp">
+    <span>{{ ts.t('confirmar_pla_data_inici_label') }}</span>
+    <input type="date" [value]="dataInici()" (input)="onDataInput($event)" required />
+  </label>
+
+  @if (error()) {
+    <p class="sh-formulari-error">{{ error() }}</p>
+  }
+
+  <button type="submit" class="sh-formulari-boto" [disabled]="carregant()">
+    {{ carregant() ? ts.t('confirmar_pla_crear_boto_carregant') : ts.t('confirmar_pla_crear_boto') }}
+  </button>
+</form>

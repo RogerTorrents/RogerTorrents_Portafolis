@@ -1,0 +1,85 @@
+:host {
+  display: block;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+}
+
+.sh-galeria-titol {
+  margin: 0 0 20px;
+  font-family: var(--sh-font-display);
+  font-size: 30px;
+  color: var(--sh-ink);
+}
+
+.sh-galeria-estat {
+  color: var(--sh-ink-suau);
+}
+
+.sh-galeria-graella {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.sh-galeria-targeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  text-align: left;
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-left: 4px solid var(--sh-clay);
+  border-radius: var(--sh-radi);
+  padding: 18px 20px;
+  cursor: pointer;
+  box-shadow: var(--sh-ombra);
+}
+
+.sh-galeria-targeta:hover {
+  transform: translateY(-2px);
+}
+
+.sh-galeria-numero {
+  font-family: var(--sh-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sh-clay);
+}
+
+.sh-galeria-nom {
+  font-family: var(--sh-font-titol);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--sh-ink);
+}
+
+.sh-galeria-desc {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--sh-ink-suau);
+  min-height: 38px;
+}
+
+.sh-galeria-peu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--sh-line);
+}
+
+.sh-galeria-setmanes {
+  font-family: var(--sh-font-mono);
+  font-size: 11px;
+  color: var(--sh-ink-tenue);
+}
+
+.sh-galeria-triar {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sh-teal);
+}

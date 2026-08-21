@@ -1,0 +1,87 @@
+.sh-selector-existents {
+  border-top: 1px solid var(--sh-line);
+  padding-top: 16px;
+}
+
+.sh-selector-subtitol {
+  margin: 0 0 10px;
+  font-family: var(--sh-font-titol);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sh-ink-suau);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sh-selector-buit {
+  font-size: 13px;
+  color: var(--sh-ink-suau);
+}
+
+.sh-selector-llista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sh-selector-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-left: 3px solid var(--sh-mod-color, var(--sh-ink-tenue));
+  background: var(--sh-paper);
+  border-radius: var(--sh-radi-petit);
+  padding: 10px 12px;
+}
+
+.sh-selector-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sh-selector-item-titol {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--sh-ink);
+}
+
+.sh-selector-item-modalitat {
+  font-family: var(--sh-font-mono);
+  font-size: 10.5px;
+  color: var(--sh-ink-tenue);
+  text-transform: uppercase;
+}
+
+.sh-selector-item-accions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.sh-selector-item-afegir {
+  background: var(--sh-clay);
+  border: 1px solid var(--sh-clay);
+  color: var(--sh-card);
+  border-radius: var(--sh-radi-petit);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sh-selector-item-afegir:hover {
+  background: var(--sh-clay-fosc);
+}
+
+.sh-selector-item-afegir:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

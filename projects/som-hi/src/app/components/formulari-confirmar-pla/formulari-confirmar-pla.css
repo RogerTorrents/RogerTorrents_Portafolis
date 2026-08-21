@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+}
+
+.sh-confirmar-pla-titol {
+  margin: 0 0 8px;
+  font-family: var(--sh-font-display);
+  font-size: 28px;
+  color: var(--sh-ink);
+}
+
+.sh-confirmar-pla-resum {
+  margin: 0 0 22px;
+  font-family: var(--sh-font-mono);
+  font-size: 13px;
+  color: var(--sh-ink-suau);
+}
+
+.sh-confirmar-pla-formulari {
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-left: 4px solid var(--sh-clay);
+  border-radius: var(--sh-radi);
+  padding: 24px;
+  box-shadow: var(--sh-ombra);
+}

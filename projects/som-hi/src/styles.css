@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+/*
+ * Sistema visual "quadern d'entrenament": full de llibreta ratllada
+ * d'atleta (paper, no pantalla fosca — deliberadament diferent de les
+ * altres apps del monorepo, totes fosques) amb el vermell del marge de
+ * l'antic paper de comptabilitat com a senyal de signatura: una barra
+ * vertical vermella al marge esquerre de cada "entrada" (targeta de pla,
+ * dia del calendari, entrenament) — la mateixa idea que un llibre de
+ * comptes o un log d'entrenaments: registres consistents al llarg del
+ * temps. NO el parell "cream+serif+terracotta" genèric: tipografia
+ * grotesca condensada (Archivo Black), no serif, i un vermell de pista
+ * d'atletisme (clay), no terracota apagada.
+ */
+:root {
+  --sh-paper: #e9ebe1;
+  --sh-card: #fbfaf3;
+  --sh-ink: #1f2420;
+  --sh-ink-suau: #5b6159;
+  --sh-ink-tenue: #8a9086;
+
+  --sh-clay: #c1441e;
+  --sh-clay-fosc: #96350f;
+  --sh-clay-suau: rgba(193, 68, 30, 0.12);
+
+  --sh-teal: #0f5c56;
+  --sh-teal-suau: rgba(15, 92, 86, 0.12);
+
+  --sh-line: #d6d2c0;
+  --sh-ombra: 0 2px 10px rgba(31, 36, 32, 0.08);
+  --sh-radi: 10px;
+  --sh-radi-petit: 6px;
+
+  --sh-font-display: 'Archivo Black', 'Arial Black', sans-serif;
+  --sh-font-titol: 'Archivo', 'Arial', sans-serif;
+  --sh-font-cos: 'Work Sans', 'Segoe UI', sans-serif;
+  --sh-font-mono: 'Space Mono', 'Courier New', monospace;
+
+  /* Modalitats: paleta de "materials d'equipament" (metall, llautó, acer,
+     estora, piscina, lona), no un arc de Sant Martí categòric. */
+  --sh-mod-correr: #c1441e;
+  --sh-mod-bici: #a8791c;
+  --sh-mod-gym: #5b6169;
+  --sh-mod-pilates: #7a5c6e;
+  --sh-mod-piscina: #0f5c56;
+  --sh-mod-altre: #8c8368;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--sh-paper);
+  color: var(--sh-ink);
+  font-family: var(--sh-font-cos);
+  overflow: hidden;
+}
+
+app-root {
+  display: block;
+  height: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--sh-clay);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sh-line);
+  border-radius: 4px;
+}
+
+/* Utilitat compartida entre pantalles (no d'un sol component): botó "tornar". */
+.sh-tornar {
+  background: none;
+  border: none;
+  color: var(--sh-ink-suau);
+  font-family: var(--sh-font-cos);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 0 18px;
+}
+
+.sh-tornar:hover {
+  color: var(--sh-clay);
+}
+
+/* Utilitats de formulari compartides per totes les pantalles amb camps
+   (entrada, crear pla, editor d'entrenament...). */
+.sh-camp {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.sh-camp span {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--sh-ink-suau);
+}
+
+.sh-camp input,
+.sh-camp select,
+.sh-camp textarea {
+  width: 100%;
+  background: var(--sh-paper);
+  border: 1px solid var(--sh-line);
+  border-radius: var(--sh-radi-petit);
+  padding: 10px 12px;
+  color: var(--sh-ink);
+  font-size: 14px;
+  outline: none;
+}
+
+.sh-camp input:focus,
+.sh-camp select:focus,
+.sh-camp textarea:focus {
+  border-color: var(--sh-clay);
+}
+
+.sh-formulari-error {
+  background: var(--sh-clay-suau);
+  border: 1px solid rgba(193, 68, 30, 0.35);
+  color: var(--sh-clay-fosc);
+  border-radius: var(--sh-radi-petit);
+  padding: 8px 12px;
+  font-size: 12px;
+  margin: 0 0 14px;
+}
+
+.sh-formulari-boto {
+  width: 100%;
+  background: var(--sh-clay);
+  border: 1px solid var(--sh-clay);
+  color: var(--sh-card);
+  font-family: var(--sh-font-titol);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  border-radius: var(--sh-radi-petit);
+  padding: 11px;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.sh-formulari-boto:hover {
+  background: var(--sh-clay-fosc);
+  border-color: var(--sh-clay-fosc);
+}
+
+.sh-formulari-boto:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.sh-formulari-boto-secundari {
+  width: 100%;
+  background: none;
+  border: 1px solid var(--sh-line);
+  color: var(--sh-ink);
+  font-family: var(--sh-font-titol);
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: var(--sh-radi-petit);
+  padding: 10px;
+  cursor: pointer;
+}
+
+.sh-formulari-boto-secundari:hover {
+  border-color: var(--sh-clay);
+  color: var(--sh-clay);
+}
+
+/* Mapa de color per modalitat, compartit per calendari/xips/selector/editor
+   (paleta de "materials d'equipament" definida a :root, no arc de Sant Martí). */
+.sh-mod-correr {
+  --sh-mod-color: var(--sh-mod-correr);
+}
+.sh-mod-bici {
+  --sh-mod-color: var(--sh-mod-bici);
+}
+.sh-mod-gym {
+  --sh-mod-color: var(--sh-mod-gym);
+}
+.sh-mod-pilates {
+  --sh-mod-color: var(--sh-mod-pilates);
+}
+.sh-mod-piscina {
+  --sh-mod-color: var(--sh-mod-piscina);
+}
+.sh-mod-altre {
+  --sh-mod-color: var(--sh-mod-altre);
+}
+
+/* Panell lateral genèric (dia / selector d'entrenament / editor / massiu) —
+   una sola instància visible cada cop, gestionada per `DetallPla`. */
+.sh-panell-fons {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 36, 32, 0.5);
+  z-index: 900;
+}
+
+.sh-panell {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 901;
+  width: 440px;
+  max-width: 100vw;
+  background: var(--sh-card);
+  border-left: 1px solid var(--sh-line);
+  box-shadow: var(--sh-ombra);
+  padding: 22px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sh-panell-capcalera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sh-panell-titol {
+  margin: 0;
+  font-family: var(--sh-font-titol);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--sh-ink);
+  text-transform: capitalize;
+}
+
+.sh-panell-tancar {
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--sh-ink-tenue);
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.sh-panell-tancar:hover {
+  color: var(--sh-clay);
+}
+
+/* Petit botó de text (accions secundàries dins de llistes: editar, treure...). */
+.sh-link-petit {
+  background: none;
+  border: none;
+  color: var(--sh-teal);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.sh-link-petit:hover {
+  text-decoration: underline;
+}

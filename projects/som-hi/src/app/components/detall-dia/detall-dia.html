@@ -1,0 +1,53 @@
+<div class="sh-panell-fons" (click)="tancar.emit()"></div>
+<div class="sh-panell" role="dialog" aria-modal="true">
+  <div class="sh-panell-capcalera">
+    <h2 class="sh-panell-titol">{{ dataLlegible() }}</h2>
+    <button type="button" class="sh-panell-tancar" (click)="tancar.emit()" [attr.aria-label]="ts.t('detall_dia_tancar')">×</button>
+  </div>
+
+  @if (assignacionsDelDia().length === 0) {
+    <p class="sh-detall-dia-buit">{{ ts.t('detall_dia_sense_entrenaments') }}</p>
+  } @else {
+    <ul class="sh-detall-dia-llista">
+      @for (a of assignacionsDelDia(); track a.id) {
+        <li class="sh-detall-dia-item sh-mod-{{ a.entrenament.modalitat.toLowerCase() }}">
+          <button
+            type="button"
+            class="sh-detall-dia-checkbox"
+            [class.sh-detall-dia-checkbox--fet]="a.completat"
+            [attr.aria-label]="a.completat ? ts.t('detall_dia_marcar_no_fet') : ts.t('detall_dia_marcar_fet')"
+            (click)="alternarFet(a)"
+          >
+            @if (a.completat) {
+              ✓
+            }
+          </button>
+
+          <button
+            type="button"
+            class="sh-detall-dia-item-info"
+            [class.sh-detall-dia-item-info--fet]="a.completat"
+            (click)="veureEntrenament.emit(a.id)"
+          >
+            <span class="sh-detall-dia-item-titol">{{ a.entrenament.titol }}</span>
+            <span class="sh-detall-dia-item-modalitat">{{ ts.t('modalitat_' + a.entrenament.modalitat.toLowerCase()) }}</span>
+            <app-detall-entrenament-dades [dades]="a.entrenament.dades" />
+          </button>
+
+          <div class="sh-detall-dia-item-accions">
+            <button type="button" class="sh-link-petit" (click)="editarEntrenament.emit(a.entrenamentId)">
+              {{ ts.t('detall_dia_editar_entrenament') }}
+            </button>
+            <button type="button" class="sh-link-petit" (click)="eliminar(a)">
+              {{ ts.t('detall_dia_eliminar_assignacio') }}
+            </button>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+
+  <button type="button" class="sh-formulari-boto" (click)="afegirEntrenament.emit()">
+    {{ ts.t('detall_dia_afegir_entrenament') }}
+  </button>
+</div>

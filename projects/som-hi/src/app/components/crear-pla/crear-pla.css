@@ -1,0 +1,55 @@
+.sh-crear-pla {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+}
+
+.sh-crear-pla-titol {
+  margin: 0 0 24px;
+  font-family: var(--sh-font-display);
+  font-size: 32px;
+  color: var(--sh-ink);
+}
+
+.sh-crear-pla-opcions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+@media (max-width: 640px) {
+  .sh-crear-pla-opcions {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sh-opcio-pla {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-left: 4px solid var(--sh-teal);
+  border-radius: var(--sh-radi);
+  padding: 24px 20px;
+  cursor: pointer;
+  box-shadow: var(--sh-ombra);
+}
+
+.sh-opcio-pla:hover {
+  transform: translateY(-2px);
+}
+
+.sh-opcio-pla-titol {
+  font-family: var(--sh-font-titol);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--sh-ink);
+}
+
+.sh-opcio-pla-desc {
+  font-size: 13px;
+  color: var(--sh-ink-suau);
+  line-height: 1.5;
+}

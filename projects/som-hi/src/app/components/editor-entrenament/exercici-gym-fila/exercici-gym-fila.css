@@ -1,0 +1,128 @@
+.sh-gym-fila {
+  border: 1px solid var(--sh-line);
+  border-left: 3px solid var(--sh-mod-gym);
+  border-radius: var(--sh-radi-petit);
+  padding: 12px;
+  margin-bottom: 10px;
+  background: var(--sh-paper);
+}
+
+.sh-gym-fila-capcalera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.sh-gym-fila-numero {
+  font-family: var(--sh-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sh-ink-tenue);
+}
+
+.sh-gym-eliminar {
+  background: none;
+  border: none;
+  color: var(--sh-ink-tenue);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sh-gym-eliminar:hover {
+  color: var(--sh-clay);
+}
+
+.sh-gym-catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.sh-gym-catalog-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-radius: var(--sh-radi-petit);
+  padding: 6px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.sh-gym-catalog-item:hover {
+  border-color: var(--sh-clay);
+}
+
+.sh-gym-foto {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  border-radius: 4px;
+  background: var(--sh-line);
+}
+
+.sh-gym-foto--buida {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--sh-ink-tenue);
+}
+
+.sh-gym-catalog-nom {
+  font-size: 10.5px;
+  line-height: 1.25;
+  color: var(--sh-ink);
+}
+
+.sh-gym-resum {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--sh-card);
+  border: 1px solid var(--sh-line);
+  border-radius: var(--sh-radi-petit);
+  padding: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sh-gym-resum .sh-gym-foto {
+  width: 53px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.sh-gym-resum .sh-gym-foto--buida {
+  font-size: 18px;
+}
+
+.sh-gym-resum-nom {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sh-ink);
+}
+
+.sh-gym-resum-canviar {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sh-teal);
+}
+
+.sh-gym-fila-numeros {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.sh-gym-fila-numeros .sh-camp {
+  margin-bottom: 0;
+}

@@ -1,0 +1,9 @@
+.sh-massiu-resultat {
+  font-size: 14px;
+  color: var(--sh-ink);
+  line-height: 1.6;
+  background: var(--sh-paper);
+  border-left: 3px solid var(--sh-clay);
+  border-radius: var(--sh-radi-petit);
+  padding: 12px 14px;
+}

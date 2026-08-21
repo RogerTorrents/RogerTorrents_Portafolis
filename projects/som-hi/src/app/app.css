@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.sh-app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sh-app-contingut {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--sh-paper);
+}

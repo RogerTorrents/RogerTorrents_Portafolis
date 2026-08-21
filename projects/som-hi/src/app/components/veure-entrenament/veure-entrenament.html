@@ -1,0 +1,122 @@
+@if (assignacio(); as a) {
+  <div class="sh-panell-fons" (click)="tancar.emit()"></div>
+  <div class="sh-veure sh-mod-{{ a.entrenament.modalitat.toLowerCase() }}" role="dialog" aria-modal="true">
+    <button type="button" class="sh-veure-tancar" (click)="tancar.emit()" [attr.aria-label]="ts.t('detall_dia_tancar')">×</button>
+
+    <span class="sh-veure-modalitat">{{ ts.t('modalitat_' + a.entrenament.modalitat.toLowerCase()) }}</span>
+    <h2 class="sh-veure-titol">{{ a.entrenament.titol }}</h2>
+
+    <button type="button" class="sh-veure-fet" [class.sh-veure-fet--actiu]="a.completat" (click)="alternarFet()">
+      <span class="sh-veure-fet-marca">{{ a.completat ? '✓' : '' }}</span>
+      {{ a.completat ? ts.t('detall_dia_marcar_no_fet') : ts.t('detall_dia_marcar_fet') }}
+    </button>
+
+    <div class="sh-veure-cos">
+      @if (a.entrenament.dades; as dades) {
+        @switch (dades.modalitat) {
+          @case ('CORRER') {
+            <div class="sh-veure-stats">
+              <div class="sh-veure-stat">
+                <span class="sh-veure-stat-valor">{{ ts.t('zona_' + dades.zona.toLowerCase()) }}</span>
+                <span class="sh-veure-stat-label">{{ ts.t('camp_zona_label') }}</span>
+              </div>
+              <div class="sh-veure-stat">
+                <span class="sh-veure-stat-valor">{{ dades.km }}</span>
+                <span class="sh-veure-stat-label">km</span>
+              </div>
+              <div class="sh-veure-stat">
+                <span class="sh-veure-stat-valor">{{ dades.tempsMinuts }}</span>
+                <span class="sh-veure-stat-label">min</span>
+              </div>
+              @if (dades.polsacionsMaximes) {
+                <div class="sh-veure-stat">
+                  <span class="sh-veure-stat-valor">{{ dades.polsacionsMaximes }}</span>
+                  <span class="sh-veure-stat-label">ppm màx.</span>
+                </div>
+              }
+            </div>
+          }
+          @case ('BICI') {
+            <div class="sh-veure-stats">
+              <div class="sh-veure-stat">
+                <span class="sh-veure-stat-valor">{{ dades.km }}</span>
+                <span class="sh-veure-stat-label">km</span>
+              </div>
+              <div class="sh-veure-stat">
+                <span class="sh-veure-stat-valor">{{ dades.tempsMinuts }}</span>
+                <span class="sh-veure-stat-label">min</span>
+              </div>
+            </div>
+          }
+          @case ('GYM') {
+            <div class="sh-veure-gym-graella">
+              @for (ex of dades.exercicis; track $index) {
+                <div class="sh-veure-gym-targeta">
+                  @let imatge = imatgeDe(ex);
+                  @if (imatge && !imatgeTrencada(imatge)) {
+                    <img class="sh-veure-gym-foto" src="exercicis/{{ imatge }}" [alt]="ex.nom" (error)="onErrorImatge(imatge)" />
+                  } @else {
+                    <span class="sh-veure-gym-foto sh-veure-gym-foto--buida" aria-hidden="true">🏋</span>
+                  }
+                  <span class="sh-veure-gym-nom">{{ ex.nom }}</span>
+                  <span class="sh-veure-gym-numeros">
+                    {{ ex.series }}×{{ ex.repeticions }}
+                    @if (ex.pesQuilos) {
+                      · {{ ex.pesQuilos }} kg
+                    }
+                  </span>
+                </div>
+              }
+            </div>
+          }
+          @case ('PILATES') {
+            <div class="sh-veure-stats">
+              <div class="sh-veure-stat sh-veure-stat--ample">
+                <span class="sh-veure-stat-valor sh-veure-stat-valor--text">{{ dades.exercici }}</span>
+                <span class="sh-veure-stat-label">{{ ts.t('camp_exercici_label') }}</span>
+              </div>
+            </div>
+            @if (dades.linkVideo) {
+              <a class="sh-veure-video" [href]="dades.linkVideo" target="_blank" rel="noopener">
+                <span class="sh-veure-video-icona">▶</span>
+                {{ ts.t('veure_video') }}
+              </a>
+            }
+          }
+          @case ('PISCINA') {
+            <div class="sh-veure-stats">
+              <div class="sh-veure-stat">
+                <span class="sh-veure-stat-valor">{{ dades.distanciaMetres }}</span>
+                <span class="sh-veure-stat-label">m</span>
+              </div>
+              <div class="sh-veure-stat">
+                <span class="sh-veure-stat-valor">{{ dades.tempsMinuts }}</span>
+                <span class="sh-veure-stat-label">min</span>
+              </div>
+            </div>
+          }
+          @case ('ALTRE') {
+            <p class="sh-veure-descripcio">{{ dades.descripcio }}</p>
+            @if (dades.tempsMinuts) {
+              <div class="sh-veure-stats">
+                <div class="sh-veure-stat">
+                  <span class="sh-veure-stat-valor">{{ dades.tempsMinuts }}</span>
+                  <span class="sh-veure-stat-label">min</span>
+                </div>
+              </div>
+            }
+          }
+        }
+      }
+    </div>
+
+    <div class="sh-veure-peu">
+      <button type="button" class="sh-formulari-boto-secundari" (click)="editar.emit(a.entrenamentId)">
+        {{ ts.t('detall_dia_editar_entrenament') }}
+      </button>
+      <button type="button" class="sh-formulari-boto" (click)="tancar.emit()">
+        {{ ts.t('detall_dia_tancar') }}
+      </button>
+    </div>
+  </div>
+}

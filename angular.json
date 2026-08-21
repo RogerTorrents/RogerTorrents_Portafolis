@@ -444,6 +444,73 @@
           "builder": "@angular/build:unit-test"
         }
       }
+    },
+    "som-hi": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/som-hi",
+      "sourceRoot": "projects/som-hi/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/som-hi/src/main.ts",
+            "tsConfig": "projects/som-hi/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/som-hi/public"
+              }
+            ],
+            "styles": ["projects/som-hi/src/styles.css"]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "600kB",
+                  "maximumError": "1.2MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kB",
+                  "maximumError": "10kB"
+                }
+              ],
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/som-hi/src/environments/environment.ts",
+                  "with": "projects/som-hi/src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "som-hi:build:production"
+            },
+            "development": {
+              "buildTarget": "som-hi:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
     }
   }
 }

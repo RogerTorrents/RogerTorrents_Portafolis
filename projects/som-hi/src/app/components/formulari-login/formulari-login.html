@@ -1,0 +1,38 @@
+<div class="sh-formulari-pantalla">
+  <div class="sh-formulari-caixa">
+    <button type="button" class="sh-tornar" (click)="sessio.anarA('entrada')">{{ ts.t('formulari_tornar') }}</button>
+
+    <h2>{{ ts.t('login_titol') }}</h2>
+
+    <form (submit)="enviar($event)">
+      <label class="sh-camp">
+        <span>{{ ts.t('login_email_label') }}</span>
+        <input type="email" autocomplete="email" [value]="email()" (input)="onEmailInput($event)" required />
+      </label>
+
+      <label class="sh-camp">
+        <span>{{ ts.t('login_contrasenya_label') }}</span>
+        <input
+          type="password"
+          autocomplete="current-password"
+          [value]="contrasenya()"
+          (input)="onContrasenyaInput($event)"
+          required
+        />
+      </label>
+
+      @if (sessio.errorSessio()) {
+        <p class="sh-formulari-error">{{ sessio.errorSessio() }}</p>
+      }
+
+      <button type="submit" class="sh-formulari-boto" [disabled]="sessio.carregant()">
+        {{ sessio.carregant() ? ts.t('login_boto_carregant') : ts.t('login_boto') }}
+      </button>
+    </form>
+
+    <p class="sh-formulari-peu">
+      {{ ts.t('login_sense_compte') }}
+      <button type="button" class="sh-link-boto" (click)="sessio.anarA('registre')">{{ ts.t('login_anar_registre') }}</button>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="sh-entrada">
+  <div class="sh-entrada-contingut">
+    <div class="sh-entrada-setmana" aria-hidden="true">
+      <span class="sh-entrada-casella sh-entrada-casella--feta"></span>
+      <span class="sh-entrada-casella sh-entrada-casella--feta"></span>
+      <span class="sh-entrada-casella sh-entrada-casella--feta"></span>
+      <span class="sh-entrada-casella sh-entrada-casella--feta"></span>
+      <span class="sh-entrada-casella sh-entrada-casella--avui"></span>
+      <span class="sh-entrada-casella"></span>
+      <span class="sh-entrada-casella"></span>
+    </div>
+
+    <h1 class="sh-entrada-titol">{{ ts.t('titol_app') }}</h1>
+    <p class="sh-entrada-eslogan">{{ ts.t('eslogan_app') }}</p>
+
+    <div class="sh-entrada-accions">
+      <button type="button" class="sh-entrada-boto sh-entrada-boto--primari" (click)="sessio.anarA('login')">
+        {{ ts.t('entrada_login_boto') }}
+      </button>
+      <button type="button" class="sh-entrada-boto sh-entrada-boto--secundari" (click)="sessio.anarA('registre')">
+        {{ ts.t('entrada_registre_boto') }}
+      </button>
+    </div>
+
+    <p class="sh-entrada-nota">{{ ts.t('entrada_mateix_compte') }}</p>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="sh-crear-pla">
+  @switch (pas()) {
+    @case ('opcions') {
+      <button type="button" class="sh-tornar" (click)="nav.anarALlistaPlans()">{{ ts.t('crear_pla_tornar') }}</button>
+      <h1 class="sh-crear-pla-titol">{{ ts.t('crear_pla_titol') }}</h1>
+
+      <div class="sh-crear-pla-opcions">
+        <button type="button" class="sh-opcio-pla" (click)="pas.set('galeria')">
+          <span class="sh-opcio-pla-titol">{{ ts.t('crear_pla_opcio_predefinit_titol') }}</span>
+          <span class="sh-opcio-pla-desc">{{ ts.t('crear_pla_opcio_predefinit_desc') }}</span>
+        </button>
+        <button type="button" class="sh-opcio-pla" (click)="pas.set('des-de-zero')">
+          <span class="sh-opcio-pla-titol">{{ ts.t('crear_pla_opcio_zero_titol') }}</span>
+          <span class="sh-opcio-pla-desc">{{ ts.t('crear_pla_opcio_zero_desc') }}</span>
+        </button>
+      </div>
+    }
+    @case ('galeria') {
+      <app-galeria-plans-predefinits (tornar)="pas.set('opcions')" (triar)="triarPredefinit($event)" />
+    }
+    @case ('des-de-zero') {
+      <app-formulari-pla-des-de-zero (tornar)="pas.set('opcions')" (continuar)="continuarDesDeZero($event)" />
+    }
+    @case ('confirmar') {
+      @if (seleccio(); as s) {
+        <app-formulari-confirmar-pla [seleccio]="s" (tornar)="tornarAOpcions()" />
+      }
+    }
+  }
+</div>

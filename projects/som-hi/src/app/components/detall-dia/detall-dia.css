@@ -1,0 +1,90 @@
+.sh-detall-dia-buit {
+  color: var(--sh-ink-suau);
+  font-size: 13px;
+}
+
+.sh-detall-dia-llista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sh-detall-dia-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-left: 3px solid var(--sh-mod-color, var(--sh-ink-tenue));
+  background: var(--sh-paper);
+  border-radius: var(--sh-radi-petit);
+  padding: 10px 12px;
+}
+
+.sh-detall-dia-checkbox {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 1.5px solid var(--sh-line);
+  background: var(--sh-card);
+  color: var(--sh-card);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.sh-detall-dia-checkbox--fet {
+  background: var(--sh-clay);
+  border-color: var(--sh-clay);
+}
+
+.sh-detall-dia-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.sh-detall-dia-item-info:hover .sh-detall-dia-item-titol {
+  color: var(--sh-clay);
+}
+
+.sh-detall-dia-item-info--fet .sh-detall-dia-item-titol {
+  text-decoration: line-through;
+  color: var(--sh-ink-tenue);
+}
+
+.sh-detall-dia-item-titol {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--sh-ink);
+}
+
+.sh-detall-dia-item-modalitat {
+  font-family: var(--sh-font-mono);
+  font-size: 10.5px;
+  color: var(--sh-ink-tenue);
+  text-transform: uppercase;
+}
+
+.sh-detall-dia-item-accions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+}

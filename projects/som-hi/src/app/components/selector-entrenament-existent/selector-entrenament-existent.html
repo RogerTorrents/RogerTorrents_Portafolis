@@ -1,0 +1,39 @@
+<div class="sh-panell-fons" (click)="tancar.emit()"></div>
+<div class="sh-panell" role="dialog" aria-modal="true">
+  <div class="sh-panell-capcalera">
+    <h2 class="sh-panell-titol">{{ ts.t('selector_entrenament_titol') }}</h2>
+    <button type="button" class="sh-panell-tancar" (click)="tancar.emit()">×</button>
+  </div>
+
+  <button type="button" class="sh-formulari-boto-secundari" (click)="crearNou.emit()">
+    {{ ts.t('selector_entrenament_nou_boto') }}
+  </button>
+
+  <div class="sh-selector-existents">
+    <h3 class="sh-selector-subtitol">{{ ts.t('selector_entrenament_existents_titol') }}</h3>
+
+    @if (entrenamentsService.entrenaments().length === 0) {
+      <p class="sh-selector-buit">{{ ts.t('selector_entrenament_buit') }}</p>
+    } @else {
+      <ul class="sh-selector-llista">
+        @for (e of entrenamentsService.entrenaments(); track e.id) {
+          <li class="sh-selector-item sh-mod-{{ e.modalitat.toLowerCase() }}">
+            <div class="sh-selector-item-info">
+              <span class="sh-selector-item-titol">{{ e.titol }}</span>
+              <span class="sh-selector-item-modalitat">{{ ts.t('modalitat_' + e.modalitat.toLowerCase()) }}</span>
+              <app-detall-entrenament-dades [dades]="e.dades" />
+            </div>
+            <div class="sh-selector-item-accions">
+              <button type="button" class="sh-link-petit" (click)="assignarMassiu.emit(e)">
+                {{ ts.t('selector_entrenament_assignar_massiu') }}
+              </button>
+              <button type="button" class="sh-selector-item-afegir" [disabled]="afegintId() === e.id" (click)="afegir(e)">
+                {{ ts.t('selector_entrenament_afegir') }}
+              </button>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</div>

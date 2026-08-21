@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.sh-detall-pla {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 12px 60px;
+}
+
+.sh-detall-pla-estat {
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--sh-ink-suau);
+}

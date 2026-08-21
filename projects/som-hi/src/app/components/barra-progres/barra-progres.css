@@ -1,0 +1,38 @@
+.sh-progres {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sh-progres-pista {
+  position: relative;
+  flex: 1;
+  height: 8px;
+  background: var(--sh-paper);
+  border: 1px solid var(--sh-line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sh-progres-omplert {
+  height: 100%;
+  background: var(--sh-clay);
+  transition: width 0.25s ease;
+}
+
+.sh-progres-marca {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(31, 36, 32, 0.12);
+}
+
+.sh-progres-valor {
+  font-family: var(--sh-font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sh-ink-suau);
+  min-width: 34px;
+  text-align: right;
+}

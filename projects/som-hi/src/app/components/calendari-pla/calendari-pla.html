@@ -1,0 +1,43 @@
+<div class="sh-calendari">
+  <div class="sh-calendari-capcalera-dies">
+    <span class="sh-calendari-espaiador" aria-hidden="true"></span>
+    @for (etiqueta of etiquetesDies; track etiqueta) {
+      <span class="sh-calendari-etiqueta-dia">{{ ts.t(etiqueta) }}</span>
+    }
+  </div>
+
+  @for (setmana of setmanes(); track $index) {
+    <div class="sh-calendari-setmana">
+      <span class="sh-calendari-numero-setmana">{{ ts.t('calendari_setmana', [$index + 1]) }}</span>
+      <div class="sh-calendari-fila">
+        @for (dia of setmana; track $index) {
+          @if (dia) {
+            <button
+              type="button"
+              class="sh-calendari-dia"
+              [class.sh-calendari-dia--avui]="dia.data === avui"
+              (click)="obrirDia.emit(dia.data)"
+            >
+              <span class="sh-calendari-dia-numero">{{ dia.data.slice(8, 10) }}</span>
+              @if (dia.data === avui) {
+                <span class="sh-calendari-dia-avui-etiqueta">{{ ts.t('calendari_avui') }}</span>
+              }
+              <div class="sh-calendari-dia-entrenaments">
+                @for (a of dia.assignacions; track a.id) {
+                  <span
+                    class="sh-calendari-xip sh-mod-{{ a.entrenament.modalitat.toLowerCase() }}"
+                    [class.sh-calendari-xip--fet]="a.completat"
+                  >
+                    {{ a.entrenament.titol }}
+                  </span>
+                }
+              </div>
+            </button>
+          } @else {
+            <div class="sh-calendari-dia sh-calendari-dia--fora" aria-hidden="true"></div>
+          }
+        }
+      </div>
+    </div>
+  }
+</div>

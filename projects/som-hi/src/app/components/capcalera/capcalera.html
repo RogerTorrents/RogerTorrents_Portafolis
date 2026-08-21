@@ -1,0 +1,35 @@
+<header class="sh-capcalera">
+  <button type="button" class="sh-capcalera-marca" (click)="nav.anarALlistaPlans()">
+    <span class="sh-capcalera-titol">{{ ts.t('titol_app') }}</span>
+  </button>
+
+  <div class="sh-capcalera-dreta">
+    <div class="sh-capcalera-idiomes">
+      @for (idioma of idiomes; track idioma) {
+        <button
+          type="button"
+          class="sh-capcalera-idioma"
+          [class.sh-capcalera-idioma--actiu]="ts.idioma() === idioma"
+          (click)="canviarIdioma(idioma)"
+        >
+          {{ idioma }}
+        </button>
+      }
+    </div>
+
+    <div class="sh-capcalera-usuari">
+      <button type="button" class="sh-capcalera-avatar" (click)="alternarMenuUsuari()">
+        {{ ts.t('capcalera_hola', [sessio.usuari()?.nom ?? '']) }}
+      </button>
+
+      @if (menuUsuariObert()) {
+        <div class="sh-capcalera-fons-menu" (click)="alternarMenuUsuari()"></div>
+        <div class="sh-capcalera-menu">
+          <button type="button" class="sh-capcalera-menu-opcio" (click)="tancarSessio()">
+            {{ ts.t('capcalera_tancar_sessio') }}
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</header>

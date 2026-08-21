@@ -1,0 +1,33 @@
+@switch (sessio.pantalla()) {
+  @case ('entrada') {
+    <app-pantalla-entrada />
+  }
+  @case ('login') {
+    <app-formulari-login />
+  }
+  @case ('registre') {
+    <app-formulari-registre />
+  }
+  @case ('app') {
+    <div class="sh-app">
+      <app-capcalera />
+      <main class="sh-app-contingut">
+        @switch (nav.vista()) {
+          @case ('llista-plans') {
+            <app-llista-plans />
+          }
+          @case ('crear-pla') {
+            <app-crear-pla />
+          }
+          @case ('detall-pla') {
+            @if (nav.plaObertId(); as plaId) {
+              <app-detall-pla [plaId]="plaId" />
+            }
+          }
+        }
+      </main>
+    </div>
+  }
+}
+
+<app-confirmacio-dialeg />

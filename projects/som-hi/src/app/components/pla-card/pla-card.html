@@ -1,0 +1,31 @@
+<article class="sh-pla-card" (click)="obrir()">
+  <div class="sh-pla-card-capcalera">
+    <h3 class="sh-pla-card-nom">{{ pla().nom }}</h3>
+    <button
+      type="button"
+      class="sh-pla-card-eliminar"
+      [attr.aria-label]="ts.t('detall_pla_eliminar')"
+      (click)="eliminar($event)"
+    >
+      ×
+    </button>
+  </div>
+
+  <p class="sh-pla-card-setmanes">{{ ts.t('pla_card_setmanes', [pla().durationSetmanes]) }}</p>
+
+  <app-barra-progres [percentatge]="pla().percentatgeCompletat" />
+
+  <p class="sh-pla-card-estat">
+    @switch (estat()) {
+      @case ('proper') {
+        {{ ts.t('pla_card_comenca_en', [diesFinsInici()]) }}
+      }
+      @case ('finalitzat') {
+        {{ ts.t('pla_card_finalitzat') }}
+      }
+      @default {
+        {{ ts.t('pla_card_dies_restants', [diesRestants()]) }}
+      }
+    }
+  </p>
+</article>
