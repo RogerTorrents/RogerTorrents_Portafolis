@@ -131,8 +131,10 @@ d'atletisme en lloc de terracota apagada).
 
 - **Tokens** (`src/styles.css`, prefix `--sh-`): `--sh-paper` (#e9ebe1,
   fons), `--sh-card` (#fbfaf3, targetes), `--sh-ink` (#1f2420, text),
-  `--sh-clay` (#c1441e, accent primari — CTA, marge vermell), `--sh-teal`
-  (#0f5c56, accent secundari — enllaços), `--sh-line` (#d6d2c0, vores).
+  `--sh-clay` (#ff3131, accent primari — CTA, marge vermell; color del
+  logotip real, canviat des del terracota original #c1441e — veure secció
+  "Restyle de color i logotip"), `--sh-teal` (#0f5c56, accent secundari —
+  enllaços), `--sh-line` (#d6d2c0, vores).
 - **Tipografia**: Archivo Black (títols grans/xifres), Archivo (títols de
   targeta), Work Sans (cos/formularis), Space Mono (dades numèriques: km,
   minuts, percentatges, "Setmana N").
@@ -386,6 +388,83 @@ cada resposta HTTP amb Playwright): crear un entrenament BICI, obrir
 "Editar" i confirmar que el desplegable ja mostra "Bici" (no "Córrer"),
 canviar el títol i els km, guardar, i confirmar que el dia mostra el
 títol nou immediatament sense haver de recarregar la pàgina.
+
+## Lightbox de fotos d'exercici (mateix dia, quarta ronda de feedback)
+
+A `veure-entrenament`, clicar la foto d'un exercici de GYM l'amplia en un
+overlay centrat (`imatgeAmpliada` signal amb la ruta de la imatge o `null`).
+Es tanca clicant fora, amb el botó `×`, o `Escape` (`@HostListener`). La
+imatge original queda embolicada en un `<button>` (no un `<div>` amb
+`(click)`, per accessibilitat de teclat real) amb un hover que mostra una
+lupa via `::after`. z-index 950/951, per sobre del `.sh-panell` global (901)
+perquè el lightbox es pugui obrir des de dins del panell "veure entrenament".
+
+## Restyle de color i logotip (mateix dia, cinquena ronda de feedback)
+
+L'usuari va proporcionar un logotip real nou (tres xebrons/galons vermells
+apuntant avall, com una insígnia de progressió) i va demanar canviar el
+color primari del terracota original (#c1441e) a **#ff3131** (el vermell
+exacte del logotip), més una "reestructuració visual perquè no sembli tan
+IA, sigui original i tingui relació amb el context".
+
+- **Motiu de forma**: el xebró del logotip (`clip-path: polygon(0 0, 0 40%,
+  50% 100%, 100% 40%, 100% 0, 50% 58%)` i variants) es va convertir en el
+  **motiu recurrent** de tota l'app, no només al logo — reforça el tema de
+  "constància, un pas més": accent `::after` a `.sh-formulari-boto`/
+  `.sh-entrada-boto--primari` (fletxa d'avançar dins del botó principal),
+  marcador `::before` a `.sh-calendari-dia-avui-etiqueta` ("AVUI" amb un
+  xebró apuntant avall, "ets aquí"), i la barra de progrés
+  (`barra-progres.css`) redissenyada amb una **textura SVG de xebrons
+  repetits** en lloc d'un bloc de color llis, més una punta de fletxa
+  `::after` a la vora de l'ompliment.
+- **Logotip**: `public/som-hi/logo.png`/`logo1.png` (arrel del monorepo, per
+  la icona de l'escriptori del Shell — ja referenciada a `desktop.ts`) **i**
+  còpies idèntiques a `projects/som-hi/public/` (perquè la UI pròpia de
+  l'app, servida des del seu propi origen port 4207, també hi pugui
+  accedir — són dues carpetes `public/` completament separades, veure
+  arquitectura de dos orígens al `CLAUDE.md` arrel). Mostrat gran com a peça
+  central de `pantalla-entrada` (128px, amb `drop-shadow` vermell suau) i
+  petit al costat del wordmark a `capcalera`. `index.html` actualitzat per
+  fer servir `logo1.png` com a favicon.
+- **Tokens** actualitzats a `styles.css`: `--sh-clay: #ff3131`,
+  `--sh-clay-fosc: #d92626` (hover), `--sh-clay-suau: rgba(255,49,49,0.12)`
+  (fons d'error), `--sh-mod-correr: #ff3131` (la modalitat "córrer" ara
+  comparteix el vermell de signatura, coherent amb ser la disciplina que dona
+  nom a l'app "Som-hi").
+- Verificat amb Playwright de cap a cap (registre → llista buida → crear pla
+  des de zero → calendari amb "avui" i barra de progrés amb contingut real)
+  amb 0 errors de consola, més una captura a part de la icona nova a
+  l'escriptori del Shell (llegible contra el wallpaper de mostra).
+
+### Fals positiu de Playwright amb `clip-path` + botons d'ample complet
+
+**Símptoma:** després d'afegir el xebró `::after` a `.sh-formulari-boto`
+(botó `display:flex` d'ample complet, xebró com a últim fill amb
+`clip-path`), `page.click('button:has-text("Continuar")')` va començar a
+fallar sistemàticament amb `<app-crear-pla>...intercepts pointer events`,
+tant en aquest botó com en un altre botó germà (`"Crear el pla"`) al mateix
+component, després de reintentar-ho desenes de vegades fins a time-out.
+
+**Investigació:** `document.elementFromPoint()` cridat manualment en
+diversos punts del botó (inclòs el centre exacte) confirmava que el botó
+—no cap altre element— era realment el que rebia el clic: cap intercepció
+real. `page.click(..., { force: true })` funcionava a la primera i l'app
+avançava correctament de pantalla. Afegir `pointer-events: none` a totes les
+pseudo-elements `::after`/`::before` amb `clip-path` (per si Playwright
+calculava malament la hit-box d'una forma no rectangular) **no va canviar
+res** — el mateix error, exactament al mateix lloc, després de reconstruir.
+
+**Conclusió:** fals positiu de l'heurística d'"actionability" pròpia de
+Playwright en aquest entorn concret (no reproduïble com a bug real d'usuari
+— `force: true` ho demostra), de causa exacta no identificada (no és el
+`clip-path` en si, ja que `pointer-events: none` no ho va arreglar). **Regla
+pràctica per a aquest monorepo**: si `page.click()` falla repetidament amb
+"intercepts pointer events" tot i que `elementFromPoint()` confirma que
+l'element és correctament clicable, no perseguir-ho més enllà d'una
+verificació ràpida amb `force: true` — si el clic amb `force` funciona i
+avança l'app correctament, és un artefacte de l'eina, no del producte;
+continuar la resta de la verificació amb `{ force: true }` en lloc de
+bloquejar-se.
 
 ## Regles de Desenvolupament
 

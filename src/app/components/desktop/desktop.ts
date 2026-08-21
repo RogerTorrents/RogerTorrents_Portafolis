@@ -21,7 +21,7 @@ export class Desktop implements OnDestroy {
     { id: 'fons-depantalla', nameKey: 'app_fons_depantalla',  icon: 'fons-de-pantalla/logo.png', showInDesktop: true },
     { id: 'linkedin', nameKey: 'app_linkedin', icon: 'linkedin/logo.png', showInDesktop: true },
     { id: 'joc-impostor', nameKey: 'app_joc_impostor', icon: 'joc-impostor/logo.png', showInDesktop: true },
-    { id: 'som-hi', nameKey: 'app_som_hi', icon: 'som-hi/logo.svg', showInDesktop: true },
+    { id: 'som-hi', nameKey: 'app_som_hi', icon: 'som-hi/logo.png', showInDesktop: true },
     { id: 'habilitats', nameKey: 'app_habilitats', icon: '⚙️', showInDesktop: false },
     { id: 'contactar', nameKey: 'app_contactar', icon: '✉️', showInDesktop: false },
   ];

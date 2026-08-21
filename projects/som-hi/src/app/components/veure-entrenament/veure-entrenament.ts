@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output, signal } from '@angular/core';
+import { Component, HostListener, computed, inject, input, output, signal } from '@angular/core';
 import { trobarExerciciPerNom } from '../../data/exercicis-gym.data';
 import type { ExerciciGym } from '../../models/entrenament.model';
 import { AssignacionsService } from '../../services/assignacions.service';
@@ -31,9 +31,21 @@ export class VeureEntrenament {
 
   private readonly imatgesTrencades = signal<ReadonlySet<string>>(new Set());
 
+  /** Foto de gym ampliada en gran (lightbox) — `null` si cap. */
+  protected readonly imatgeAmpliada = signal<string | null>(null);
+
   protected readonly assignacio = computed(() =>
     this.assignacionsService.assignacions().find((a) => a.id === this.assignacioId()),
   );
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.imatgeAmpliada.set(null);
+  }
+
+  ampliarImatge(imatge: string): void {
+    this.imatgeAmpliada.set(imatge);
+  }
 
   alternarFet(): void {
     const a = this.assignacio();

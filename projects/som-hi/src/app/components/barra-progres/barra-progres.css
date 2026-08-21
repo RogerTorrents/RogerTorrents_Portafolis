@@ -7,17 +7,36 @@
 .sh-progres-pista {
   position: relative;
   flex: 1;
-  height: 8px;
+  height: 10px;
   background: var(--sh-paper);
   border: 1px solid var(--sh-line);
   border-radius: 4px;
   overflow: hidden;
 }
 
+/* Ompliment amb una textura de xebrons repetits (mateixa forma que el
+   logotip) en lloc d'un bloc de color llis — "un pas més, un pas més". */
 .sh-progres-omplert {
+  position: relative;
+  height: 100%;
+  background-color: var(--sh-clay);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M2,1 L6,1 L11,7 L6,13 L2,13 L7,7 Z' fill='%23fbfaf3' fill-opacity='0.4'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 14px 14px;
+  transition: width 0.25s ease;
+}
+
+/* Punta de fletxa a la vora de l'ompliment: on ets ara, empenyent endavant. */
+.sh-progres-omplert::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -6px;
+  width: 8px;
   height: 100%;
   background: var(--sh-clay);
-  transition: width 0.25s ease;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  pointer-events: none;
 }
 
 .sh-progres-marca {

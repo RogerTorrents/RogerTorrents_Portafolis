@@ -54,7 +54,9 @@
                 <div class="sh-veure-gym-targeta">
                   @let imatge = imatgeDe(ex);
                   @if (imatge && !imatgeTrencada(imatge)) {
-                    <img class="sh-veure-gym-foto" src="exercicis/{{ imatge }}" [alt]="ex.nom" (error)="onErrorImatge(imatge)" />
+                    <button type="button" class="sh-veure-gym-foto-boto" (click)="ampliarImatge(imatge)">
+                      <img class="sh-veure-gym-foto" src="exercicis/{{ imatge }}" [alt]="ex.nom" (error)="onErrorImatge(imatge)" />
+                    </button>
                   } @else {
                     <span class="sh-veure-gym-foto sh-veure-gym-foto--buida" aria-hidden="true">🏋</span>
                   }
@@ -119,4 +121,13 @@
       </button>
     </div>
   </div>
+
+  @if (imatgeAmpliada(); as gran) {
+    <div class="sh-lightbox-fons" (click)="imatgeAmpliada.set(null)">
+      <button type="button" class="sh-lightbox-tancar" (click)="imatgeAmpliada.set(null)" [attr.aria-label]="ts.t('detall_dia_tancar')">
+        ×
+      </button>
+      <img class="sh-lightbox-img" src="exercicis/{{ gran }}" alt="" (click)="$event.stopPropagation()" />
+    </div>
+  }
 }

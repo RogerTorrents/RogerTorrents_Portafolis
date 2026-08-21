@@ -25,31 +25,13 @@
   text-align: center;
 }
 
-/* Signatura: una setmana de caselles tipus "log d'entrenaments" — el mateix
-   patró de constància que l'app demana a l'usuari que mantingui. */
-.sh-entrada-setmana {
-  display: flex;
-  justify-content: center;
-  gap: 7px;
-  margin-bottom: 28px;
-}
-
-.sh-entrada-casella {
-  width: 16px;
-  height: 16px;
-  border: 1.5px solid var(--sh-line);
-  border-radius: 3px;
-  background: var(--sh-card);
-}
-
-.sh-entrada-casella--feta {
-  background: var(--sh-clay);
-  border-color: var(--sh-clay);
-}
-
-.sh-entrada-casella--avui {
-  border-color: var(--sh-clay);
-  border-style: dashed;
+/* Signatura: el logotip real (xebrons de progressió sobre paper ratllat),
+   com a peça central de la pantalla d'entrada. */
+.sh-entrada-logo {
+  width: 128px;
+  height: 128px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 6px 14px rgba(255, 49, 49, 0.25));
 }
 
 .sh-entrada-titol {
@@ -75,6 +57,10 @@
 }
 
 .sh-entrada-boto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   border-radius: var(--sh-radi-petit);
   padding: 13px;
   font-family: var(--sh-font-titol);
@@ -93,6 +79,16 @@
 .sh-entrada-boto--primari:hover {
   background: var(--sh-clay-fosc);
   border-color: var(--sh-clay-fosc);
+}
+
+.sh-entrada-boto--primari::after {
+  content: '';
+  width: 7px;
+  height: 11px;
+  flex-shrink: 0;
+  background: currentColor;
+  clip-path: polygon(0 0, 40% 0, 100% 50%, 40% 100%, 0 100%, 58% 50%);
+  pointer-events: none;
 }
 
 .sh-entrada-boto--secundari {

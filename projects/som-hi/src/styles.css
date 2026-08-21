@@ -3,14 +3,16 @@
 /*
  * Sistema visual "quadern d'entrenament": full de llibreta ratllada
  * d'atleta (paper, no pantalla fosca — deliberadament diferent de les
- * altres apps del monorepo, totes fosques) amb el vermell del marge de
- * l'antic paper de comptabilitat com a senyal de signatura: una barra
- * vertical vermella al marge esquerre de cada "entrada" (targeta de pla,
- * dia del calendari, entrenament) — la mateixa idea que un llibre de
- * comptes o un log d'entrenaments: registres consistents al llarg del
- * temps. NO el parell "cream+serif+terracotta" genèric: tipografia
- * grotesca condensada (Archivo Black), no serif, i un vermell de pista
- * d'atletisme (clay), no terracota apagada.
+ * altres apps del monorepo, totes fosques) amb el vermell de senyal
+ * (#ff3131, el del logotip — tres galons/xebrons apuntant avall, com les
+ * insígnies de progressió militars o una fletxa que empeny cap endavant)
+ * com a senyal de signatura: una barra vertical vermella al marge
+ * esquerre de cada "entrada" (targeta de pla, dia del calendari,
+ * entrenament) — la mateixa idea que un llibre de comptes: registres
+ * consistents al llarg del temps. El motiu del xebró ("un pas més, un
+ * dia més") es repeteix a la barra de progrés i als botons d'acció
+ * principal. NO el parell "cream+serif+terracotta" genèric: tipografia
+ * grotesca condensada (Archivo Black), no serif.
  */
 :root {
   --sh-paper: #e9ebe1;
@@ -19,9 +21,9 @@
   --sh-ink-suau: #5b6159;
   --sh-ink-tenue: #8a9086;
 
-  --sh-clay: #c1441e;
-  --sh-clay-fosc: #96350f;
-  --sh-clay-suau: rgba(193, 68, 30, 0.12);
+  --sh-clay: #ff3131;
+  --sh-clay-fosc: #d92626;
+  --sh-clay-suau: rgba(255, 49, 49, 0.12);
 
   --sh-teal: #0f5c56;
   --sh-teal-suau: rgba(15, 92, 86, 0.12);
@@ -38,7 +40,7 @@
 
   /* Modalitats: paleta de "materials d'equipament" (metall, llautó, acer,
      estora, piscina, lona), no un arc de Sant Martí categòric. */
-  --sh-mod-correr: #c1441e;
+  --sh-mod-correr: #ff3131;
   --sh-mod-bici: #a8791c;
   --sh-mod-gym: #5b6169;
   --sh-mod-pilates: #7a5c6e;
@@ -155,6 +157,10 @@ select {
 }
 
 .sh-formulari-boto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
   background: var(--sh-clay);
   border: 1px solid var(--sh-clay);
@@ -167,6 +173,18 @@ select {
   padding: 11px;
   cursor: pointer;
   margin-top: 6px;
+}
+
+/* Xebró de signatura (mateixa forma que el logotip) a les accions
+   principals — "un pas més endavant". */
+.sh-formulari-boto::after {
+  content: '';
+  width: 7px;
+  height: 11px;
+  flex-shrink: 0;
+  background: currentColor;
+  clip-path: polygon(0 0, 40% 0, 100% 50%, 40% 100%, 0 100%, 58% 50%);
+  pointer-events: none;
 }
 
 .sh-formulari-boto:hover {

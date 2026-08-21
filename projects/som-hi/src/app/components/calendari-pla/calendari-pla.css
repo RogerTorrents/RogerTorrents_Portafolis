@@ -98,6 +98,9 @@
 }
 
 .sh-calendari-dia-avui-etiqueta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-family: var(--sh-font-mono);
   font-size: 9px;
   font-weight: 700;
@@ -106,6 +109,17 @@
   color: var(--sh-card);
   opacity: 0.85;
   margin-top: -4px;
+}
+
+/* Xebró apuntant avall (mateixa forma que el logotip): "ets aquí, avui". */
+.sh-calendari-dia-avui-etiqueta::before {
+  content: '';
+  width: 9px;
+  height: 6px;
+  flex-shrink: 0;
+  background: currentColor;
+  clip-path: polygon(0 0, 0 40%, 50% 100%, 100% 40%, 100% 0, 50% 58%);
+  pointer-events: none;
 }
 
 .sh-calendari-dia-entrenaments {

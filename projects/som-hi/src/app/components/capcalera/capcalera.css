@@ -10,10 +10,19 @@
 }
 
 .sh-capcalera-marca {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
+}
+
+.sh-capcalera-logo {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
 }
 
 .sh-capcalera-titol {
