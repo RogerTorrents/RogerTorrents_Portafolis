@@ -471,6 +471,47 @@ avança l'app correctament, és un artefacte de l'eina, no del producte;
 continuar la resta de la verificació amb `{ force: true }` en lloc de
 bloquejar-se.
 
+## Ritme calculat + terreny per a Córrer (mateix dia, sisena ronda de feedback)
+
+Dos camps nous a `DadesCorrer`/`DadesCorrerDto`:
+
+- **`terreny`** (`'PLA' | 'MIG' | 'PUJADES'`, opcional): camp normal,
+  desat com qualsevol altre. Com que `dades` és `JSONB` (no una columna
+  Prisma tipada), **no calia cap migració** — només afegir l'enum i
+  `@IsOptional() @IsEnum(TerrenyEntrenament)` al DTO
+  (`dades-entrenament.dto.ts`) i el camp equivalent al model del frontend.
+  Editor: select opcional amb placeholder, mateix patró que el selector de
+  grup muscular de `exercici-gym-fila` (`[selected]="!terreny()"` a
+  l'opció buida).
+- **`ritme` (min/km): MAI desat.** Es calcula sempre a partir de `km` i
+  `tempsMinuts` amb `ritmeMinutsPerKm()` nova a
+  `services/entrenament.util.ts`, cridada com a mètode exposat del
+  component (`protected readonly ritmeMinutsPerKm = ritmeMinutsPerKm;`)
+  tant a `veure-entrenament` com a `detall-entrenament-dades` — si
+  s'edita la distància o el temps, el ritme mostrat canvia sol, mai pot
+  quedar desincronitzat perquè no existeix cap valor "vell" desat enlloc.
+
+**Bug real trobat i corregit durant la verificació — rajoles de
+`veure-entrenament` desbordaven fora del panell.** Amb 5-6 "stat tiles"
+alhora (zona/km/min/ritme/pulsacions/terreny), `.sh-veure-stat` tenia
+`flex: 1; min-width: 90px;` — aquest `min-width` fix **sobreescrivia** el
+mínim automàtic basat en contingut que un fill flex té per defecte
+(`min-width: auto`), permetent que `flex-shrink` encongís les rajoles per
+sota del que el text necessitava. Resultat: en lloc de saltar de línia
+(que és el que `flex-wrap: wrap` hauria de fer), el valor més ample
+("Pujades") desbordava visualment fora del panell arrodonit cap a la zona
+fosca de fons. **Fix: treure el `min-width: 90px` explícit** i deixar el
+`auto` per defecte — així cap rajola pot encongir-se per sota del seu
+contingut, i la fila salta de línia correctament quan cal. **Lliçó
+reutilitzable per a qualsevol graella flex d'aquest monorepo amb un
+nombre variable d'ítems (afegir-ne un condicionalment trenca sovint
+aquest supòsit)**: un `min-width` fix en un fill `flex: 1` és una trampa
+— si el contingut pot ser més ample que aquest valor, sobreescriu la
+protecció natural del navegador contra l'overflow. Detectat visualment amb
+una captura Playwright (les captures de pantalla, no només el testing
+funcional, van ser el que ho va revelar aquí — cap error de consola ni
+resposta HTTP indicava el problema).
+
 ## Regles de Desenvolupament
 
 - Llegir `context/os-shell/angular-rules.md` per normes Angular 22+

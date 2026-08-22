@@ -2,6 +2,7 @@ import { Component, HostListener, computed, inject, input, output, signal } from
 import { trobarExerciciPerNom } from '../../data/exercicis-gym.data';
 import type { ExerciciGym } from '../../models/entrenament.model';
 import { AssignacionsService } from '../../services/assignacions.service';
+import { ritmeMinutsPerKm } from '../../services/entrenament.util';
 import { TraduccioService } from '../../services/traduccio.service';
 
 /**
@@ -22,6 +23,7 @@ import { TraduccioService } from '../../services/traduccio.service';
 export class VeureEntrenament {
   private readonly assignacionsService = inject(AssignacionsService);
   protected readonly ts = inject(TraduccioService);
+  protected readonly ritmeMinutsPerKm = ritmeMinutsPerKm;
 
   readonly plaId = input.required<string>();
   readonly assignacioId = input.required<string>();

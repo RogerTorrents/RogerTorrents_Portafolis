@@ -1,6 +1,7 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { trobarExerciciPerNom } from '../../data/exercicis-gym.data';
 import type { DadesEntrenament, ExerciciGym } from '../../models/entrenament.model';
+import { ritmeMinutsPerKm } from '../../services/entrenament.util';
 import { TraduccioService } from '../../services/traduccio.service';
 
 /**
@@ -18,6 +19,7 @@ import { TraduccioService } from '../../services/traduccio.service';
 })
 export class DetallEntrenamentDades {
   protected readonly ts = inject(TraduccioService);
+  protected readonly ritmeMinutsPerKm = ritmeMinutsPerKm;
 
   readonly dades = input.required<DadesEntrenament>();
 

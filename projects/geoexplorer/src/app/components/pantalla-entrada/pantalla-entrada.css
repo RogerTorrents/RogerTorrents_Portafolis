@@ -232,6 +232,12 @@
   color: var(--geo-text-suau);
 }
 
+.geo-entrada-nota {
+  margin: 0;
+  font-size: 11px;
+  color: var(--geo-text-suau);
+}
+
 @media (max-width: 480px) {
   .geo-entrada-marca h1 {
     font-size: 40px;

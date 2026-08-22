@@ -21,12 +21,17 @@ export const ZONES_ENTRENAMENT: readonly ZonaEntrenament[] = [
   'CURSA',
 ];
 
+export type TerrenyEntrenament = 'PLA' | 'MIG' | 'PUJADES';
+
+export const TERRENYS_ENTRENAMENT: readonly TerrenyEntrenament[] = ['PLA', 'MIG', 'PUJADES'];
+
 export interface DadesCorrer {
   readonly modalitat: 'CORRER';
   readonly zona: ZonaEntrenament;
   readonly km: number;
   readonly tempsMinuts: number;
   readonly polsacionsMaximes?: number;
+  readonly terreny?: TerrenyEntrenament;
 }
 
 export interface DadesBici {

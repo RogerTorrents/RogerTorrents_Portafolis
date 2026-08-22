@@ -17,7 +17,7 @@
           @case ('CORRER') {
             <div class="sh-veure-stats">
               <div class="sh-veure-stat">
-                <span class="sh-veure-stat-valor">{{ ts.t('zona_' + dades.zona.toLowerCase()) }}</span>
+                <span class="sh-veure-stat-valor sh-veure-stat-valor--text">{{ ts.t('zona_' + dades.zona.toLowerCase()) }}</span>
                 <span class="sh-veure-stat-label">{{ ts.t('camp_zona_label') }}</span>
               </div>
               <div class="sh-veure-stat">
@@ -28,10 +28,22 @@
                 <span class="sh-veure-stat-valor">{{ dades.tempsMinuts }}</span>
                 <span class="sh-veure-stat-label">min</span>
               </div>
+              @if (ritmeMinutsPerKm(dades.km, dades.tempsMinuts); as ritme) {
+                <div class="sh-veure-stat">
+                  <span class="sh-veure-stat-valor">{{ ritme }}</span>
+                  <span class="sh-veure-stat-label">{{ ts.t('ritme_label') }} (/km)</span>
+                </div>
+              }
               @if (dades.polsacionsMaximes) {
                 <div class="sh-veure-stat">
                   <span class="sh-veure-stat-valor">{{ dades.polsacionsMaximes }}</span>
                   <span class="sh-veure-stat-label">ppm màx.</span>
+                </div>
+              }
+              @if (dades.terreny) {
+                <div class="sh-veure-stat">
+                  <span class="sh-veure-stat-valor sh-veure-stat-valor--text">{{ ts.t('terreny_' + dades.terreny.toLowerCase()) }}</span>
+                  <span class="sh-veure-stat-label">{{ ts.t('camp_terreny_label') }}</span>
                 </div>
               }
             </div>

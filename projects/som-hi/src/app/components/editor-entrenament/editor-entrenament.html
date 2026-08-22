@@ -28,14 +28,25 @@
 
     @switch (modalitat()) {
       @case ('CORRER') {
-        <label class="sh-camp">
-          <span>{{ ts.t('camp_zona_label') }}</span>
-          <select [value]="zona()" (change)="onZonaChange($event)">
-            @for (z of zones; track z) {
-              <option [value]="z" [selected]="z === zona()">{{ ts.t('zona_' + z.toLowerCase()) }}</option>
-            }
-          </select>
-        </label>
+        <div class="sh-camp-fila">
+          <label class="sh-camp">
+            <span>{{ ts.t('camp_zona_label') }}</span>
+            <select [value]="zona()" (change)="onZonaChange($event)">
+              @for (z of zones; track z) {
+                <option [value]="z" [selected]="z === zona()">{{ ts.t('zona_' + z.toLowerCase()) }}</option>
+              }
+            </select>
+          </label>
+          <label class="sh-camp">
+            <span>{{ ts.t('camp_terreny_label') }}</span>
+            <select [value]="terreny() ?? ''" (change)="onTerrenyChange($event)">
+              <option value="" [selected]="!terreny()">{{ ts.t('camp_terreny_opcional') }}</option>
+              @for (t of terrenys; track t) {
+                <option [value]="t" [selected]="t === terreny()">{{ ts.t('terreny_' + t.toLowerCase()) }}</option>
+              }
+            </select>
+          </label>
+        </div>
         <div class="sh-camp-fila">
           <label class="sh-camp">
             <span>{{ ts.t('camp_km_label') }}</span>

@@ -14,10 +14,22 @@
           <dt>{{ ts.t('camp_temps_label') }}</dt>
           <dd>{{ d.tempsMinuts }} min</dd>
         </div>
+        @if (ritmeMinutsPerKm(d.km, d.tempsMinuts); as ritme) {
+          <div class="sh-dades-fila">
+            <dt>{{ ts.t('ritme_label') }}</dt>
+            <dd>{{ ritme }} /km</dd>
+          </div>
+        }
         @if (d.polsacionsMaximes) {
           <div class="sh-dades-fila">
             <dt>{{ ts.t('camp_polsacions_label') }}</dt>
             <dd>{{ d.polsacionsMaximes }} ppm</dd>
+          </div>
+        }
+        @if (d.terreny) {
+          <div class="sh-dades-fila">
+            <dt>{{ ts.t('camp_terreny_label') }}</dt>
+            <dd>{{ ts.t('terreny_' + d.terreny.toLowerCase()) }}</dd>
           </div>
         }
       }

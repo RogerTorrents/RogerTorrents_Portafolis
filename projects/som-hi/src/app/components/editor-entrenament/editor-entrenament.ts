@@ -4,6 +4,8 @@ import {
   ExerciciGym,
   MODALITATS,
   Modalitat,
+  TERRENYS_ENTRENAMENT,
+  TerrenyEntrenament,
   ZONES_ENTRENAMENT,
   ZonaEntrenament,
 } from '../../models/entrenament.model';
@@ -39,6 +41,7 @@ export class EditorEntrenament implements OnInit {
 
   protected readonly modalitats = MODALITATS;
   protected readonly zones = ZONES_ENTRENAMENT;
+  protected readonly terrenys = TERRENYS_ENTRENAMENT;
 
   protected readonly enEdicio = computed(() => this.entrenamentId() !== undefined);
   protected readonly carregant = signal(false);
@@ -52,6 +55,7 @@ export class EditorEntrenament implements OnInit {
   protected readonly km = signal(5);
   protected readonly tempsCorrer = signal(30);
   protected readonly polsacionsMaximes = signal<number | null>(null);
+  protected readonly terreny = signal<TerrenyEntrenament | null>(null);
 
   // Bici
   protected readonly kmBici = signal(20);
@@ -93,6 +97,11 @@ export class EditorEntrenament implements OnInit {
 
   onZonaChange(event: Event): void {
     this.zona.set((event.target as HTMLSelectElement).value as ZonaEntrenament);
+  }
+
+  onTerrenyChange(event: Event): void {
+    const valor = (event.target as HTMLSelectElement).value;
+    this.terreny.set(valor ? (valor as TerrenyEntrenament) : null);
   }
 
   protected textDe(event: Event): string {
@@ -195,6 +204,7 @@ export class EditorEntrenament implements OnInit {
           km: this.km(),
           tempsMinuts: this.tempsCorrer(),
           ...(this.polsacionsMaximes() ? { polsacionsMaximes: this.polsacionsMaximes()! } : {}),
+          ...(this.terreny() ? { terreny: this.terreny()! } : {}),
         };
       case 'BICI':
         return { modalitat: 'BICI', km: this.kmBici(), tempsMinuts: this.tempsBici() };
@@ -224,6 +234,7 @@ export class EditorEntrenament implements OnInit {
         this.km.set(dades.km);
         this.tempsCorrer.set(dades.tempsMinuts);
         this.polsacionsMaximes.set(dades.polsacionsMaximes ?? null);
+        this.terreny.set(dades.terreny ?? null);
         break;
       case 'BICI':
         this.kmBici.set(dades.km);

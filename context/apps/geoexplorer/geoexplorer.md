@@ -104,7 +104,12 @@ Vegeu `CONTEXT.md` i `README.md` del repo del backend per a més detall.
 - **Components nous:**
   - `pantalla-entrada/` — landing amb les 3 opcions d'accés (convidat / login
     / registre). Fons amb corbes de nivell (CSS) + una traça animada tipus
-    GPX (SVG `stroke-dashoffset`) com a element de signatura visual.
+    GPX (SVG `stroke-dashoffset`) com a element de signatura visual. Sota
+    els botons, una nota (`entrada_compte_compartit`) indica que el mateix
+    compte també serveix a Som-hi — mirall de la nota equivalent a la
+    pantalla d'entrada de Som-hi ("Fas servir el mateix compte que a
+    GeoExplorer."), afegida perquè aquesta app és l'origen real del compte
+    (`geoexplorer-api` és qui emet els tokens, veure [[project-som-hi]]).
   - `formulari-login/`, `formulari-registre/` — formularis d'accés, comparteixen
     `components/formulari-entrada.css`.
   - `panell-categories-personals/` — dins la sidebar, només visible si

@@ -100,8 +100,12 @@
 }
 
 .sh-veure-stat {
+  /* Sense `min-width` explícit: el default `auto` d'un fill flex és la seva
+     amplada mínima de contingut — evita que `flex-shrink` l'encongeixi per
+     sota del que el text necessita (el que passava amb un `min-width: 90px`
+     fix: amb 5-6 rajoles el valor de text més llarg, p. ex. "Pujades",
+     desbordava fora del panell en lloc de fer que la fila saltés de línia). */
   flex: 1;
-  min-width: 90px;
   background: var(--sh-paper);
   border-radius: var(--sh-radi-petit);
   padding: 14px 12px;
@@ -120,6 +124,7 @@
   font-weight: 700;
   color: var(--sh-ink);
   line-height: 1;
+  overflow-wrap: break-word;
 }
 
 .sh-veure-stat-valor--text {
