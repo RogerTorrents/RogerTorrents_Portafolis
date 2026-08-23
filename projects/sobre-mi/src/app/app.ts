@@ -58,11 +58,11 @@ export class App implements AfterViewInit, OnDestroy {
   });
 
   protected readonly navSections: readonly { readonly id: string; readonly num: string; readonly labelKey: string }[] = [
-    { id: 'sec-exp',  num: '01', labelKey: 'experiencia_titol' },
-    { id: 'sec-form', num: '02', labelKey: 'formacio_titol'    },
-    { id: 'sec-hab',  num: '03', labelKey: 'habilitats_titol'  },
-    { id: 'sec-per',  num: '04', labelKey: 'personal_titol'    },
-    { id: 'sec-cont', num: '05', labelKey: 'contacte_titol'    },
+    { id: 'sec-exp', num: '01', labelKey: 'experiencia_titol' },
+    { id: 'sec-form', num: '02', labelKey: 'formacio_titol' },
+    { id: 'sec-hab', num: '03', labelKey: 'habilitats_titol' },
+    { id: 'sec-per', num: '04', labelKey: 'personal_titol' },
+    { id: 'sec-cont', num: '05', labelKey: 'contacte_titol' },
   ];
 
   protected readonly translateIntro = computed(() => {
@@ -84,16 +84,38 @@ export class App implements AfterViewInit, OnDestroy {
   ];
 
   protected readonly habilitats: readonly HabilitatCategoria[] = [
-    { nomKey: 'cat_frontend', color: 'cyan', items: ['Angular', 'TypeScript', 'HTML / CSS', 'React', 'Figma'] },
-    { nomKey: 'cat_backend', color: 'orange', items: ['Java', 'Spring Boot', 'Python', 'SQL', 'MongoDB', 'Postman'] },
-    { nomKey: 'cat_devops', color: 'purple', items: ['Cloud Azure', 'Git / GitHub', 'VS Code', 'IntelliJ'] },
-    { nomKey: 'cat_altres', color: 'green', items: ['Agents d\'IA', 'Prompt Engineering', 'Scrum', 'Draw.io'] },
+    {
+      nomKey: 'cat_frontend',
+      color: 'cyan',
+      items: ['Angular', 'TypeScript', 'React', 'HTML / CSS', 'Figma']
+    },
+    {
+      nomKey: 'cat_backend',
+      color: 'orange',
+      items: ['Java', 'Spring Boot', 'Python', 'SQL', 'MongoDB', 'Postman']
+    },
+    {
+      nomKey: 'cat_devops',
+      color: 'purple',
+      items: ['Cloud Azure', 'Git / GitHub', 'Scrum', 'Draw.io', 'VS Code', 'IntelliJ']
+    },
+    {
+      nomKey: 'cat_ia_genai',
+      color: 'green',
+      items: [
+        'Agents d\'IA',
+        'Model Context Protocol (MCP)',
+        'Claude Code',
+        'Microsoft Copilot',
+        'Prompt Engineering'
+      ]
+    }
   ];
 
   protected readonly educacio: readonly EducacioItem[] = [
-    { id: 'edu1', titolKey: 'edu1_titol', instKey: 'edu1_inst', datesKey: 'edu1_dates', enCurs: true,  imgSrc: 'assets/educaci%C3%B3/uoc.png',           color: 'cyan'   },
-    { id: 'edu2', titolKey: 'edu2_titol', instKey: 'edu2_inst', datesKey: 'edu2_dates', enCurs: false, imgSrc: 'assets/educaci%C3%B3/merce.png',          color: 'purple' },
-    { id: 'edu3', titolKey: 'edu3_titol', instKey: 'edu3_inst', datesKey: 'edu3_dates', enCurs: false, imgSrc: 'assets/educaci%C3%B3/montgros.png.png',   color: 'green'  },
+    { id: 'edu1', titolKey: 'edu1_titol', instKey: 'edu1_inst', datesKey: 'edu1_dates', enCurs: true, imgSrc: 'assets/educaci%C3%B3/uoc.png', color: 'cyan' },
+    { id: 'edu2', titolKey: 'edu2_titol', instKey: 'edu2_inst', datesKey: 'edu2_dates', enCurs: false, imgSrc: 'assets/educaci%C3%B3/merce.png', color: 'purple' },
+    { id: 'edu3', titolKey: 'edu3_titol', instKey: 'edu3_inst', datesKey: 'edu3_dates', enCurs: false, imgSrc: 'assets/educaci%C3%B3/montgros.png.png', color: 'green' },
   ];
 
   protected readonly targetesPesonals: readonly TarjetaPersonal[] = [
@@ -103,7 +125,7 @@ export class App implements AfterViewInit, OnDestroy {
     { titolKey: 'esplai_titol', textKey: 'esplai_text', emoji: '🏕', color: 'purple' },
   ];
 
-  constructor(protected readonly ts: TraduccionService) {}
+  constructor(protected readonly ts: TraduccionService) { }
 
   ngAfterViewInit(): void {
     this.initScrollReveal();
@@ -124,7 +146,7 @@ export class App implements AfterViewInit, OnDestroy {
     if (!this.autoScrolled && top > h * 1.5) {
       this.autoScrolled = true;
       const heroTop = top + this.hero.nativeElement.getBoundingClientRect().top
-                          - el.getBoundingClientRect().top;
+        - el.getBoundingClientRect().top;
       el.scrollTo({ top: heroTop, behavior: 'smooth' });
     }
     if (top < h * 0.4) this.autoScrolled = false;
