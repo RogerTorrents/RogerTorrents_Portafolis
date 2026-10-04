@@ -1,0 +1,168 @@
+/*
+ * Composició "vista de dalt, tothom mirant al centre": cada gegant és el
+ * mateix retrat frontal de sempre, girat l'angle que li toca segons la
+ * seva posició perquè el cap apunti SEMPRE cap enfora de la taula i les
+ * cames (que ara SÍ es renderitzen senceres) cap al centre — dalt=0°,
+ * dreta=90°, baix=180°, esquerra=-90° (sentit horari). Les cames no
+ * s'arriben a veure perquè la taula (`.tj-marbre`/`.tj-feltre`), més
+ * petita i per davant en l'ordre del DOM, les tapa — vegeu taula-joc.html.
+ *
+ * `.sj-lloc` reserva l'espai en pantalla JA en l'orientació post-rotació
+ * (ample i alt intercanviats als seients laterals); `.sj-figura` es
+ * centra i es gira a dins seu amb `position:absolute` perquè un
+ * `transform:rotate` no afecta mai la caixa de disposició, només el
+ * contingut renderitzat.
+ */
+.sj-lloc {
+  position: absolute;
+  /* Mateixa mida per als 4 seients (també el propi). */
+  --mida: clamp(110px, 14vw, 195px);
+  --alt: calc(var(--mida) * 1100 / 575); /* proporció real de la imatge (575×1100), cos sencer */
+}
+
+.sj-lloc--dalt,
+.sj-lloc--baix {
+  width: var(--mida);
+  height: var(--alt);
+}
+
+.sj-lloc--esquerra,
+.sj-lloc--dreta {
+  width: var(--alt);
+  height: var(--mida);
+}
+
+.sj-lloc--dalt {
+  top: -6%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.sj-lloc--baix {
+  bottom: -6%;
+  left: 50%;
+  transform: translateX(-50%);
+  --angle: 180deg;
+}
+
+.sj-lloc--esquerra {
+  left: -6%;
+  top: 50%;
+  transform: translateY(-50%);
+  --angle: -90deg;
+}
+
+.sj-lloc--dreta {
+  right: -6%;
+  top: 50%;
+  transform: translateY(-50%);
+  --angle: 90deg;
+}
+
+.sj-figura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--mida);
+  aspect-ratio: 575 / 1100;
+  transform: translate(-50%, -50%) rotate(var(--angle, 0deg));
+  transition: filter 0.2s ease;
+}
+
+.sj-imatge {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.5));
+}
+
+.sj-lloc--desconnectat .sj-imatge {
+  opacity: 0.45;
+  filter: grayscale(0.8);
+}
+
+.sj-lloc--torn .sj-figura::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border: 2.5px solid var(--tr-daurat-clar);
+  border-radius: 12%;
+  box-shadow: 0 0 18px rgba(227, 191, 116, 0.65);
+  animation: tr-pols 1.6s ease-in-out infinite;
+}
+
+.sj-figura--jo::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 1.5px solid rgba(227, 191, 116, 0.4);
+  border-radius: 12%;
+}
+
+/* El nom sempre queda FORA de la taula: al costat de la caixa oposat al
+   centre (dalt→per sobre, baix→per sota, esquerra→a l'esquerra,
+   dreta→a la dreta), mai sobre el feltre on es juguen les cartes. */
+.sj-nom {
+  position: absolute;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(16, 36, 28, 0.72);
+  font-family: var(--tr-font-titol);
+  font-size: 0.8rem;
+  color: var(--tr-crema);
+  max-width: 8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sj-lloc--dalt .sj-nom {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 0.1rem;
+}
+
+.sj-lloc--baix .sj-nom {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 0.35rem;
+}
+
+.sj-lloc--esquerra .sj-nom {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 0.5rem;
+}
+
+.sj-lloc--dreta .sj-nom {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 760px) {
+  .sj-lloc {
+    --mida: clamp(62px, 14vw, 92px);
+  }
+
+  /* A poc ample, posar el nom a l'esquerra/dreta de la caixa el treu de
+     la pantalla — a sota (com dalt/baix) hi cap sempre. */
+  .sj-lloc--esquerra .sj-nom,
+  .sj-lloc--dreta .sj-nom {
+    left: 50%;
+    right: auto;
+    top: 100%;
+    transform: translateX(-50%);
+    margin: 0.3rem 0 0;
+  }
+
+  .sj-nom {
+    font-size: 0.65rem;
+    max-width: 5.6rem;
+    padding: 0.1rem 0.4rem;
+  }
+}

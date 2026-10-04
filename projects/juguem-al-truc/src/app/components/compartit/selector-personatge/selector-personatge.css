@@ -1,0 +1,71 @@
+.sp-graella {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.sp-carta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.4rem 0.7rem;
+  border-radius: 12px;
+  border: 2px solid rgba(200, 151, 63, 0.35);
+  background: rgba(16, 54, 42, 0.35);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+.sp-carta:hover:not(:disabled) {
+  border-color: var(--tr-daurat-clar);
+  transform: translateY(-3px);
+}
+
+.sp-carta--seleccionat {
+  border-color: var(--tr-daurat);
+  background: rgba(200, 151, 63, 0.18);
+  box-shadow: 0 0 0 3px rgba(200, 151, 63, 0.25);
+}
+
+.sp-carta--ocupat {
+  cursor: not-allowed;
+  opacity: 0.4;
+  filter: grayscale(0.7);
+}
+
+.sp-imatge {
+  width: 100%;
+  aspect-ratio: 1 / 1.35;
+  object-fit: contain;
+  object-position: bottom;
+}
+
+.sp-nom {
+  font-family: var(--tr-font-titol);
+  font-size: 0.85rem;
+  color: var(--tr-crema);
+}
+
+.sp-etiqueta {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--tr-sorra);
+}
+
+@media (max-width: 480px) {
+  .sp-graella {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

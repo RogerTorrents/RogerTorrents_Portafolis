@@ -1,0 +1,24 @@
+.app-carregant {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: var(--tr-font-titol);
+  font-style: italic;
+  color: var(--tr-crema);
+  background: var(--tr-feltre-fosc);
+}
+
+.app-avis-desconnexio {
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  background: #7c2a1f;
+  color: var(--tr-crema);
+  font-size: 0.82rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+}

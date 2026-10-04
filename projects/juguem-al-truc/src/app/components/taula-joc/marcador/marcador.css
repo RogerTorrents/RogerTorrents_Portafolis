@@ -1,0 +1,93 @@
+/* Format vertical compacte (abans era una píndola horitzontal): viu al
+   panell lateral, estret, amb la mà i els botons just a sota — calia que
+   hi càpiga còmodament sense fer-lo més alt del compte. */
+.mc-contenidor {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.15rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 10px;
+  background: rgba(16, 54, 42, 0.7);
+  border: 1.5px solid var(--tr-daurat);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.mc-equip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  opacity: 0.65;
+}
+
+.mc-equip--meu {
+  opacity: 1;
+}
+
+.mc-etiqueta {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--tr-font-titol);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--tr-sorra);
+}
+
+.mc-punts {
+  flex-shrink: 0;
+  font-family: var(--tr-font-mono);
+  font-size: 1.05rem;
+  color: var(--tr-daurat-clar);
+  min-width: 1.1rem;
+  text-align: center;
+}
+
+.mc-aposta {
+  align-self: center;
+  margin: 0.1rem 0;
+  font-family: var(--tr-font-mono);
+  font-size: 0.75rem;
+  color: var(--tr-crema);
+  background: var(--tr-terracota);
+  border-radius: 50%;
+  width: 1.3rem;
+  height: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 2px var(--tr-terracota-fosc);
+}
+
+.mc-rondes {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.15rem;
+}
+
+.mc-ronda {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: rgba(243, 230, 200, 0.2);
+  border: 1px solid rgba(243, 230, 200, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.mc-ronda--guanyada {
+  background: #4a9b5e;
+  border-color: #6fc684;
+}
+
+.mc-ronda--empat {
+  background: var(--tr-daurat-clar);
+  border-color: var(--tr-daurat);
+}
+
+.mc-ronda--perduda {
+  background: #c0392b;
+  border-color: #e0574a;
+}

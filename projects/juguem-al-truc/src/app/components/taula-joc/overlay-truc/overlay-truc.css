@@ -1,0 +1,89 @@
+.ot-vel {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 22, 16, 0.72);
+  padding: 1.5rem;
+}
+
+.ot-targeta {
+  width: min(320px, 100%);
+  padding: 2rem 1.75rem;
+  text-align: center;
+  background: linear-gradient(160deg, #fbf3df, #f0e2c0);
+  border: 2px solid var(--tr-daurat);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+/* Aquesta targeta tapa TOTA la pantalla (botons i mà inclosos) mentre
+   s'espera una resposta — si l'usuari no la veu de seguida i segueix
+   clicant la seva mà (que ja no rep els clics, tapada per aquest vel),
+   fa la sensació que el joc s'ha penjat. `tr-pols` (keyframe GLOBAL a
+   `styles.css` — mai dins del CSS *scoped* d'un component, no
+   s'executaria) la fa respirar perquè sigui impossible passar-la per
+   alt. Només per a qui ha de decidir de debò (`pucRespondre()`): a qui
+   només espera no li cal cap pols. */
+.ot-targeta--urgent {
+  animation: tr-pols 1.6s ease-in-out infinite;
+}
+
+.ot-eyebrow {
+  margin: 0 0 0.3rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--tr-terracota-fosc);
+}
+
+.ot-titol {
+  margin: 0 0 1rem;
+  font-family: var(--tr-font-titol);
+  font-size: 1.9rem;
+  color: var(--tr-tinta);
+}
+
+.ot-pregunta,
+.ot-espera {
+  margin: 0 0 1.25rem;
+  font-style: italic;
+  color: var(--tr-terracota-fosc);
+}
+
+.ot-espera {
+  margin-bottom: 0;
+}
+
+.ot-botons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.ot-boto {
+  flex: 1;
+  padding: 0.7rem 0.5rem;
+  border-radius: 999px;
+  border: none;
+  font-family: var(--tr-font-titol);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.ot-boto:hover {
+  transform: translateY(-2px);
+}
+
+.ot-boto--vull {
+  background: linear-gradient(180deg, var(--tr-feltre), var(--tr-feltre-fosc));
+  color: var(--tr-crema);
+}
+
+.ot-boto--no-vull {
+  background: transparent;
+  border: 1.5px solid var(--tr-terracota-fosc);
+  color: var(--tr-terracota-fosc);
+}

@@ -1,0 +1,34 @@
+@if (comprovantSessio()) {
+  <div class="app-carregant">{{ ts.t('connectant') }}</div>
+} @else {
+  @switch (nav.pantalla()) {
+    @case ('menu') {
+      <app-menu-inicial />
+    }
+    @case ('crear') {
+      <app-crear-partida />
+    }
+    @case ('unir') {
+      <app-unir-partida />
+    }
+    @case ('com-jugar') {
+      <app-com-jugar />
+    }
+    @case ('sala-espera') {
+      <app-sala-espera />
+    }
+    @case ('transicio') {
+      <app-transicio-partida />
+    }
+    @case ('joc') {
+      <app-taula-joc />
+    }
+    @case ('acabada') {
+      <app-partida-acabada />
+    }
+  }
+
+  @if (mostrarAvisDesconnexio()) {
+    <div class="app-avis-desconnexio">{{ ts.t('error_connexio') }}</div>
+  }
+}

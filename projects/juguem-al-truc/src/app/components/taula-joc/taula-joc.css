@@ -1,0 +1,255 @@
+/* Entrada de la taula (ve de `TaulaJoc.iniciarRevelacio`/`entradaCompletada`):
+   el fons (terra zenital, mateix fotograma amb què acaba la transició
+   anterior) és sempre estàtic i visible des del primer instant — només
+   calia separar-lo del difuminat verd, que ara és un `::before` propi amb
+   la seva pròpia transició d'opacitat, perquè pugui aparèixer "a poc a
+   poc" DESPRÉS del segon en què només es veu el terra sol. */
+.tj-pantalla {
+  position: relative;
+  /* `overflow:hidden`: l'estat inicial (pre-revelació) de `.tj-taula-zona`
+     i `.tj-lateral` surt del seu lloc amb `transform` (vegeu més avall) —
+     sense això, just en arribar aquí des de la transició es veuen un
+     instant les barres de scroll (el `transform` compta per calcular
+     l'àrea desplaçable del document encara que mai calgui fer-hi scroll
+     de debò: tot el contingut ja cap dins la pantalla un cop revelat). */
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: url('/truc/elements/transicio_16_fotogrames/fotograma_16.jpg') center / cover no-repeat;
+}
+
+.tj-pantalla::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(16, 54, 42, 0.5), rgba(10, 30, 22, 0.82));
+  opacity: 0;
+  transition: opacity 0.65s ease;
+  pointer-events: none;
+}
+
+.tj-pantalla.tj-revelat::before {
+  opacity: 1;
+}
+
+/* Gegants+taula "cauen" des de dalt (punt de vista de la càmera, que ve
+   just d'un pla zenital) i el panell lateral entra des de la dreta —
+   totes dues són `transition` (no `@keyframes`: dins el CSS *scoped* d'un
+   component Angular mai s'executen amb aquest monorepo) disparades pel
+   mateix `.tj-revelat` del `::before`. */
+.tj-taula-zona {
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+  opacity: 0;
+  transform: translateY(-48px);
+}
+
+.tj-revelat .tj-taula-zona {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tj-lateral {
+  transition:
+    opacity 0.5s ease 0.1s,
+    transform 0.5s ease 0.1s;
+  opacity: 0;
+  transform: translateX(56px);
+}
+
+.tj-revelat .tj-lateral {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Cos principal: la taula ocupa tot l'espai que li deixa el panell
+   lateral fix, perquè gegants/taula/cartes puguin créixer tant com sigui
+   possible — aquest és precisament el motiu de moure la mà i els botons
+   a un costat. */
+.tj-cos {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.tj-taula-zona {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  min-width: 0;
+}
+
+.tj-taula {
+  position: relative;
+  /* El `80vh` és perquè en finestres baixes (poca alçada, encara que
+     siguin amples) la taula no s'estiri més que l'espai vertical
+     disponible i obligui a fer scroll de tota la pàgina — deixa marge
+     extra perquè els gegants (seient-jugador.css) sobresurten per sobre
+     i per sota de la pròpia taula (mans visibles, com demana l'usuari). */
+  width: min(760px, 94%, 78vh);
+  aspect-ratio: 1 / 1;
+}
+
+/* Superfície de la taula: una llosa de marbre (aproximada amb gradients
+   CSS, sense cap imatge nova) amb un tovalló de feltre verd més petit i
+   de vora dentada (com un retall de tisores de festoner) centrat a sobre
+   — direcció presa de la referència de l'usuari (`com-ha-de-quedar/
+   Partida.png`). Petita i per davant dels gegants en l'ordre del DOM:
+   és precisament la taula qui els tapa les cames, no un retall de la
+   imatge (vegeu seient-jugador.css) — cap z-index enlloc. */
+.tj-marbre {
+  position: absolute;
+  inset: 30%;
+  border-radius: 6px;
+  background:
+    repeating-linear-gradient(115deg, rgba(90, 90, 85, 0.1) 0 2px, transparent 2px 70px),
+    repeating-linear-gradient(25deg, rgba(90, 90, 85, 0.07) 0 1px, transparent 1px 95px),
+    linear-gradient(135deg, #f5f4f1, #e3e1dc 45%, #f7f6f3 70%, #e8e6e1);
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.45);
+}
+
+.tj-feltre {
+  position: absolute;
+  inset: 15%;
+  background: radial-gradient(circle at 40% 32%, #2d6b4a, var(--tr-feltre-fosc) 78%);
+  /* Vora "dentada" generada matemàticament (16 dents per costat, 2.2% de
+     profunditat) — un polígon estàtic, cap cost en temps d'execució. */
+  clip-path: polygon(
+    0% 0%, 6.25% 2.2%, 12.5% 0%, 18.75% 2.2%, 25% 0%, 31.25% 2.2%, 37.5% 0%, 43.75% 2.2%,
+    50% 0%, 56.25% 2.2%, 62.5% 0%, 68.75% 2.2%, 75% 0%, 81.25% 2.2%, 87.5% 0%, 93.75% 2.2%,
+    100% 0%, 97.8% 6.25%, 100% 12.5%, 97.8% 18.75%, 100% 25%, 97.8% 31.25%, 100% 37.5%, 97.8% 43.75%,
+    100% 50%, 97.8% 56.25%, 100% 62.5%, 97.8% 68.75%, 100% 75%, 97.8% 81.25%, 100% 87.5%, 97.8% 93.75%,
+    100% 100%, 93.75% 97.8%, 87.5% 100%, 81.25% 97.8%, 75% 100%, 68.75% 97.8%, 62.5% 100%, 56.25% 97.8%,
+    50% 100%, 43.75% 97.8%, 37.5% 100%, 31.25% 97.8%, 25% 100%, 18.75% 97.8%, 12.5% 100%, 6.25% 97.8%,
+    0% 100%, 2.2% 93.75%, 0% 87.5%, 2.2% 81.25%, 0% 75%, 2.2% 68.75%, 0% 62.5%, 2.2% 56.25%,
+    0% 50%, 2.2% 43.75%, 0% 37.5%, 2.2% 31.25%, 0% 25%, 2.2% 18.75%, 0% 12.5%, 2.2% 6.25%
+  );
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.4);
+}
+
+/* Cada carta jugada queda a la vora del seu propi gegant (s'identifica
+   qui l'ha tirada) — a prop de la vora del feltre en aquella direcció.
+   Si dues coincideixen a la mateixa vora, l'ordre de capes el decideix
+   només l'ordre del DOM (ja és l'ordre real de joc), sense z-index. */
+.tj-carta-pila {
+  position: absolute;
+}
+
+.tj-carta-pila--dalt {
+  top: 38%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tj-carta-pila--baix {
+  bottom: 38%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tj-carta-pila--esquerra {
+  left: 38%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tj-carta-pila--dreta {
+  right: 38%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Panell lateral: marcador + mà pròpia + botons, tot el que calia veure
+   sense fer scroll. `justify-content:flex-start` (no `center`): amb el
+   contingut començant sempre des de dalt, si algun dia n'hi ha massa per
+   a una pantalla molt baixa es retalla per sota (el marcador i els
+   botons, el més importants, queden sempre visibles), mai per sobre.
+   Marges reduïts expressament perquè hi càpiga tot junt. Sense
+   `overflow-y:auto` a posta: Chrome "puja" `overflow-x` a `auto` quan
+   `overflow-y` no és `visible` (encara que no se li digui explícitament),
+   i això tallava el tooltip dels botons (`.ba-tooltip`, que s'obre cap a
+   l'esquerra i surt del contenidor) — com els tests ja confirmaven que
+   mai cal scroll intern aquí, no calia el "per si de cas". */
+.tj-lateral {
+  flex: 0 0 min(300px, 32vw);
+  transition: flex-basis 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  background: linear-gradient(180deg, rgba(16, 54, 42, 0.35), rgba(10, 30, 22, 0.55));
+  border-left: 1px solid rgba(200, 151, 63, 0.3);
+}
+
+/* Mentre la pròpia parella decideix la mà dels 11, el panell creix (la
+   taula cedeix espai sola via `flex:1`) perquè les 3 cartes de la mà es
+   puguin veure més grans — és precisament el moment en què més compta
+   veure-les bé. */
+.tj-lateral--ma11 {
+  flex-basis: min(400px, 40vw);
+}
+
+.tj-lateral-etiqueta {
+  margin: 0.2rem 0 0;
+  font-family: var(--tr-font-titol);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--tr-crema);
+  text-align: center;
+}
+
+/* Cantonada inferior esquerra de tota la pantalla (no del panell lateral):
+   discret, mai competint amb la mà ni els botons de joc. */
+.tj-abandonar {
+  position: absolute;
+  left: 1rem;
+  bottom: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.2rem;
+  font-family: var(--tr-font-cos);
+  font-size: 0.7rem;
+  color: rgba(243, 230, 200, 0.55);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.tj-abandonar:hover {
+  color: var(--tr-crema);
+}
+
+/* Pantalles estretes (mòbil): el panell lateral no hi cap còmodament —
+   torna a ser una franja inferior compacta, com l'antic disseny. */
+@media (max-width: 760px) {
+  .tj-cos {
+    flex-direction: column;
+  }
+
+  .tj-taula {
+    width: min(480px, 94vw);
+  }
+
+  .tj-lateral {
+    flex: 0 0 auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-left: none;
+    border-top: 1px solid rgba(200, 151, 63, 0.3);
+    padding: 0.75rem 1rem 1.5rem;
+  }
+
+  .tj-lateral-etiqueta {
+    flex-basis: 100%;
+    text-align: center;
+  }
+}

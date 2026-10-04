@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Cutive+Mono&display=swap');
+
+:root {
+  /* Paleta presa directament dels propis materials: vellut/feltre verd de
+     la taula, llautó envellit dels medallons i la corona, terracota de la
+     rajola hidràulica i la capa, pergamí per als panells de text. */
+  --tr-feltre: #1e5c40;
+  --tr-feltre-fosc: #10362a;
+  --tr-daurat: #c8973f;
+  --tr-daurat-clar: #e3bf74;
+  --tr-terracota: #a8503a;
+  --tr-terracota-fosc: #7c3a29;
+  --tr-crema: #f3e6c8;
+  --tr-sorra: #e9dcb9;
+  --tr-tinta: #2b1d12;
+  --tr-fusta: #6b4226;
+
+  --tr-font-titol: 'Cinzel', serif;
+  --tr-font-cos: 'Lora', serif;
+  --tr-font-mono: 'Cutive Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  /* Cap pantalla d'aquesta app necessita mai una barra de scroll VISIBLE
+     — la majoria no fan scroll mai (verificat arreu), i la transició
+     `transicio-partida` el fa servir només com a mecanisme per triar
+     fotograma, no perquè calgui veure-hi res. Es manté l'scroll
+     FUNCIONAL (roda/tàctil/teclat segueixen funcionant perfectament),
+     només s'amaga el dibuix de la barra — evita el flaix d'una barra
+     apareixent i desapareixent just en arribar als últims fotogrames. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-family: var(--tr-font-cos);
+  color: var(--tr-tinta);
+  background: var(--tr-feltre-fosc);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Llenguatge visual comú: medalló daurat circular, com els botons il·lustrats
+   del propi joc (Botons/*.png) — reutilitzat per a qualsevol acció
+   principal fora de la taula de joc (menú, sala d'espera). */
+.tr-medallo {
+  --tr-medallo-mida: 128px;
+  width: var(--tr-medallo-mida);
+  height: var(--tr-medallo-mida);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  border: 3px solid var(--tr-daurat);
+  box-shadow:
+    0 0 0 2px var(--tr-feltre-fosc),
+    0 0 0 5px var(--tr-daurat-clar),
+    0 12px 26px rgba(0, 0, 0, 0.45);
+  background: radial-gradient(circle at 35% 28%, #2d6b4a, var(--tr-feltre) 72%);
+  color: var(--tr-crema);
+  font-family: var(--tr-font-titol);
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.tr-medallo:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 0 0 2px var(--tr-feltre-fosc),
+    0 0 0 5px var(--tr-daurat-clar),
+    0 16px 32px rgba(0, 0, 0, 0.5);
+}
+
+.tr-medallo:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.tr-medallo:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tr-medallo-icona {
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--tr-daurat-clar);
+}
+
+.tr-medallo-text {
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+  padding: 0 0.65rem;
+  line-height: 1.15;
+}
+
+/* Separador ornamental (com un segell estampat) sota un títol Cinzel. */
+.tr-separador {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--tr-daurat);
+}
+
+.tr-separador::before,
+.tr-separador::after {
+  content: '';
+  height: 1px;
+  width: 2.5rem;
+  background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.tr-separador::after {
+  background: linear-gradient(90deg, currentColor, transparent);
+}
+
+/* @keyframes GLOBAL a propòsit: dins del CSS scoped d'un component mai
+   s'executen amb ViewEncapsulation emulada (lliçó ja apresa en aquest
+   monorepo — vegeu memòria del projecte GeoExplorer). */
+@keyframes tr-pols {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}

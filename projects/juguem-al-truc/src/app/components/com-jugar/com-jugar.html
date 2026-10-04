@@ -1,0 +1,150 @@
+<div class="cj-pantalla">
+  <div class="cj-vel"></div>
+
+  <div class="cj-finestra">
+    <header class="cj-capcalera">
+      <button type="button" class="cj-tornar" (click)="nav.anarA('menu')">← {{ ts.t('boto_tornar') }}</button>
+      <p class="cj-eyebrow">Sant Pere de Ribes</p>
+      <h1 class="cj-titol">{{ ts.t('cj_titol') }}</h1>
+      <div class="tr-separador cj-separador">✦</div>
+    </header>
+
+    <div class="cj-cos">
+      <section class="cj-apartat cj-apartat--segell">
+        <div class="cj-segell">
+          <span class="cj-segell-num">12</span>
+        </div>
+        <div class="cj-apartat-text">
+          <h2>{{ ts.t('cj_objectiu_titol') }}</h2>
+          <p>{{ ts.t('cj_objectiu_text') }}</p>
+        </div>
+      </section>
+
+      <section class="cj-apartat">
+        <h2>{{ ts.t('cj_equips_titol') }}</h2>
+        <p>{{ ts.t('cj_equips_text') }}</p>
+        <div class="cj-equips-bloc">
+          <div class="cj-diagrama-equips">
+            <span class="cj-seient cj-seient--dalt"></span>
+            <span class="cj-seient cj-seient--baix"></span>
+            <span class="cj-seient cj-seient--esquerra cj-seient--rival"></span>
+            <span class="cj-seient cj-seient--dreta cj-seient--rival"></span>
+            <span class="cj-linia cj-linia--vertical"></span>
+            <span class="cj-linia cj-linia--horitzontal"></span>
+          </div>
+          <div class="cj-llegenda">
+            <span class="cj-llegenda-item"><span class="cj-punt cj-punt--propi"></span>{{ ts.t('cj_equip_a') }}</span>
+            <span class="cj-llegenda-item"><span class="cj-punt cj-punt--rival"></span>{{ ts.t('cj_equip_b') }}</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="cj-apartat">
+        <h2>{{ ts.t('cj_baralla_titol') }}</h2>
+        <p>{{ ts.t('cj_baralla_text') }}</p>
+        <div class="cj-escala">
+          @for (carta of cartesForca; track carta.id) {
+            <app-carta [carta]="carta" [petita]="true" />
+          }
+        </div>
+      </section>
+
+      <section class="cj-apartat">
+        <h2>{{ ts.t('cj_ma_titol') }}</h2>
+        <div class="cj-rondes">
+          @for (n of numerosRonda; track n) {
+            <div class="cj-ronda-pas">
+              <span class="cj-ronda-num">{{ n }}</span>
+              <span class="cj-ronda-etiqueta">{{ ts.t('cj_ronda') }}</span>
+            </div>
+            @if (n < 3) {
+              <span class="cj-ronda-fletxa">→</span>
+            }
+          }
+        </div>
+        <p>{{ ts.t('cj_ma_text') }}</p>
+      </section>
+
+      <section class="cj-apartat">
+        <h2>{{ ts.t('cj_guanyar_ma_titol') }}</h2>
+        <p>{{ ts.t('cj_guanyar_ma_text') }}</p>
+        <div class="cj-casos">
+          @for (cas of casosGuanyarMa; track cas.clau) {
+            <div class="cj-cas">
+              <div class="cj-cas-dots">
+                @for (p of cas.rondes; track $index) {
+                  <span
+                    class="cj-dot"
+                    [class.cj-dot--guanyada]="p === 'guanyada'"
+                    [class.cj-dot--empat]="p === 'empat'"
+                    [class.cj-dot--decisiva]="p === 'decisiva'"
+                    [class.cj-dot--na]="p === 'na'"
+                  ></span>
+                }
+              </div>
+              <p class="cj-cas-text">{{ ts.t(cas.clau) }}</p>
+            </div>
+          }
+        </div>
+        <div class="cj-llegenda cj-llegenda--dots">
+          <span class="cj-llegenda-item"><span class="cj-dot cj-dot--guanyada"></span>{{ ts.t('cj_dot_guanyada') }}</span>
+          <span class="cj-llegenda-item"><span class="cj-dot cj-dot--empat"></span>{{ ts.t('cj_dot_empat') }}</span>
+          <span class="cj-llegenda-item"><span class="cj-dot cj-dot--decisiva"></span>{{ ts.t('cj_dot_decisiva') }}</span>
+          <span class="cj-llegenda-item"><span class="cj-dot cj-dot--na"></span>{{ ts.t('cj_dot_na') }}</span>
+        </div>
+      </section>
+
+      <section class="cj-apartat cj-apartat--icona">
+        <div class="cj-icona-regla">
+          <img src="/truc/botons/truco.png" alt="" />
+        </div>
+        <div class="cj-apartat-text">
+          <h2>{{ ts.t('cj_truc_titol') }}</h2>
+          <p>{{ ts.t('cj_truc_text') }}</p>
+          <div class="cj-escalada">
+            <span class="cj-xip">1</span>
+            <span class="cj-xip-fletxa">→</span>
+            <span class="cj-xip">2</span>
+            <span class="cj-xip-fletxa">→</span>
+            <span class="cj-xip">3</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="cj-apartat cj-apartat--segell">
+        <div class="cj-segell cj-segell--petit">
+          <span class="cj-segell-num">11</span>
+        </div>
+        <div class="cj-apartat-text">
+          <h2>{{ ts.t('cj_ma11_titol') }}</h2>
+          <p>{{ ts.t('cj_ma11_text') }}</p>
+        </div>
+      </section>
+
+      <section class="cj-apartat">
+        <h2>{{ ts.t('cj_senyals_titol') }}</h2>
+        <p>{{ ts.t('cj_senyals_text') }}</p>
+        <div class="cj-senyals-fila">
+          @for (s of senyalsIllustrats; track s.tipus) {
+            <div class="cj-senyal">
+              <div class="cj-icona-senyal">
+                <img [src]="'/truc/botons/' + s.tipus + '.png'" alt="" />
+              </div>
+              <span class="cj-senyal-etiqueta">{{ ts.t(s.clauTraduccio) }}</span>
+            </div>
+          }
+        </div>
+      </section>
+
+      <section class="cj-apartat cj-apartat--segell cj-apartat--final">
+        <div class="cj-segell">
+          <span class="cj-segell-num">12</span>
+        </div>
+        <div class="cj-apartat-text">
+          <h2>{{ ts.t('cj_partida_titol') }}</h2>
+          <p>{{ ts.t('cj_partida_text') }}</p>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

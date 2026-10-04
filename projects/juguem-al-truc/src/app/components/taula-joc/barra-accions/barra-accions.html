@@ -1,0 +1,27 @@
+<div class="ba-barra">
+  <div class="ba-principals">
+    <div class="ba-boto-env">
+      <button type="button" class="ba-boto ba-boto--gran" [disabled]="!potTirar()" (click)="tirar.emit()">
+        <img src="/truc/botons/tiro.png" [alt]="ts.t('tirar_carta')" />
+      </button>
+      <span class="ba-tooltip">{{ ts.t('tirar_carta') }}</span>
+    </div>
+    <div class="ba-boto-env">
+      <button type="button" class="ba-boto ba-boto--gran" [disabled]="!potTrucar()" (click)="truco.emit()">
+        <img src="/truc/botons/truco.png" [alt]="ts.t('cantar_truc')" />
+      </button>
+      <span class="ba-tooltip">{{ ts.t('cantar_truc') }}</span>
+    </div>
+  </div>
+
+  <div class="ba-senyals" [class.ba-senyals--destacat]="destacarSenyals()">
+    @for (s of senyals; track s.tipus) {
+      <div class="ba-boto-env">
+        <button type="button" class="ba-boto ba-boto--senyal" [disabled]="!potSenyalar()" (click)="senyal.emit(s.tipus)">
+          <img [src]="'/truc/botons/' + s.tipus + '.png'" [alt]="ts.t(s.clauTraduccio)" />
+        </button>
+        <span class="ba-tooltip">{{ ts.t(s.clauTraduccio) }}</span>
+      </div>
+    }
+  </div>
+</div>

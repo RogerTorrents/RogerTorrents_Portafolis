@@ -1,0 +1,115 @@
+.ba-barra {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ba-principals {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ba-senyals {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+/* Decisió de la mà dels 11 pròpia: els 4 senyals "respiren" (mateix
+   `tr-pols` global que l'anell de torn i el diàleg de Truc) perquè
+   convidin a avisar la parella del que es té — sense això, són fàcils
+   de no fer servir mai en aquest moment just perquè calen. */
+.ba-senyals--destacat .ba-boto {
+  animation: tr-pols 1.6s ease-in-out infinite;
+}
+
+/* Embolcall de cada botó: `position:relative` és l'ancoratge del tooltip. */
+.ba-boto-env {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Els PNG de `botons/` tenen molt marge transparent al voltant del propi
+   cercle il·lustrat (~75% de l'amplada i només ~49% de l'alçada del
+   fitxer és el cercle real, mesurat pintant-los a un canvas) — amb
+   `width:100%` senzill es veien petits dins del botó. Per això `.ba-boto`
+   ara és un quadrat (`aspect-ratio:1`) amb `overflow:hidden` i la imatge
+   es posiciona en `absolute`, ampliada i recentrada perquè el cercle
+   il·lustrat (no el canvas sencer) ompli el botó — mateixos `width`/
+   `left`/`top` per a totes 6 imatges (`tiro`/`truco`/`res`/`un-1/2/3`):
+   comparteixen el mateix patró de plantilla, el marge real varia molt
+   poc entre elles. */
+.ba-boto {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.ba-boto img {
+  position: absolute;
+  /* `max-width:100%` ve del reset global (`styles.css`, pensat per a
+     imatges normals de flux) i retallava aquest `width` a 100% sense
+     avisar — calia desactivar-lo aquí perquè la imatge pugui ser més
+     gran que el seu contenidor de debò. Marge extra a posta (cercle
+     útil ~88% del botó, no el 95% calculat al pèl la primera vegada):
+     la icona més ampla (`tiro.png`) tocava el límit exacte del retall. */
+  max-width: none;
+  width: 118%;
+  left: -9%;
+  top: -43%;
+}
+
+.ba-boto--senyal {
+  width: 2.1rem;
+}
+
+.ba-boto--gran {
+  width: 3.6rem;
+}
+
+.ba-boto:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.06);
+}
+
+.ba-boto:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Tooltip propi (en lloc del `title` natiu del navegador, lent i sense
+   estil): apareix a l'esquerra del botó perquè el panell lateral viu a
+   la vora dreta de la pantalla — obrir-lo cap a la dreta el tallaria. */
+.ba-tooltip {
+  position: absolute;
+  right: calc(100% + 0.6rem);
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  background: rgba(16, 36, 28, 0.95);
+  border: 1px solid var(--tr-daurat);
+  color: var(--tr-crema);
+  font-family: var(--tr-font-cos);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 5;
+}
+
+.ba-boto-env:hover .ba-tooltip,
+.ba-boto-env:focus-within .ba-tooltip {
+  opacity: 1;
+}

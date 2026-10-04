@@ -1,0 +1,112 @@
+.up-pantalla {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background:
+    linear-gradient(180deg, rgba(16, 54, 42, 0.65), rgba(10, 30, 22, 0.92)),
+    url('/truc/elements/transicio_16_fotogrames/fotograma_01.jpg') center / cover no-repeat;
+}
+
+.up-targeta {
+  position: relative;
+  width: min(480px, 100%);
+  padding: 2.25rem 1.75rem 2rem;
+  background: var(--tr-crema);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(200, 151, 63, 0.5);
+}
+
+.up-tornar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--tr-font-cos);
+  font-size: 0.85rem;
+  color: var(--tr-terracota-fosc);
+  margin-bottom: 0.75rem;
+}
+
+.up-titol {
+  margin: 0 0 1.25rem;
+  font-family: var(--tr-font-titol);
+  font-size: 1.7rem;
+  color: var(--tr-tinta);
+}
+
+.up-camp {
+  display: block;
+  margin-bottom: 1.25rem;
+}
+
+.up-etiqueta {
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tr-terracota-fosc);
+  margin-bottom: 0.4rem;
+}
+
+.up-etiqueta--bloc {
+  margin-top: 0.25rem;
+}
+
+.up-input {
+  width: 100%;
+  font-family: var(--tr-font-cos);
+  font-size: 1rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 8px;
+  border: 1.5px solid rgba(43, 29, 18, 0.25);
+  background: #fffdf7;
+  color: var(--tr-tinta);
+}
+
+.up-input:focus {
+  outline: none;
+  border-color: var(--tr-daurat);
+}
+
+.up-input--codi {
+  font-family: var(--tr-font-mono);
+  font-size: 1.3rem;
+  letter-spacing: 0.35em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.up-error {
+  margin: 0.9rem 0 0;
+  font-size: 0.85rem;
+  color: #9a2f22;
+}
+
+.up-boto {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 999px;
+  font-family: var(--tr-font-titol);
+  font-size: 1.05rem;
+  cursor: pointer;
+  color: var(--tr-crema);
+  background: linear-gradient(180deg, var(--tr-feltre), var(--tr-feltre-fosc));
+  box-shadow: 0 10px 24px rgba(16, 54, 42, 0.35);
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.up-boto:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.up-boto:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

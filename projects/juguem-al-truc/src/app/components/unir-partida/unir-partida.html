@@ -1,0 +1,42 @@
+<div class="up-pantalla">
+  <div class="up-targeta">
+    <button type="button" class="up-tornar" (click)="nav.anarA('menu')">← {{ ts.t('boto_tornar') }}</button>
+
+    <h1 class="up-titol">{{ ts.t('menu_unir') }}</h1>
+
+    <label class="up-camp">
+      <span class="up-etiqueta">{{ ts.t('camp_codi') }}</span>
+      <input
+        type="text"
+        class="up-input up-input--codi"
+        [placeholder]="ts.t('camp_codi_placeholder')"
+        [ngModel]="codi()"
+        (ngModelChange)="onCodiChange($event)"
+        maxlength="10"
+      />
+    </label>
+
+    <label class="up-camp">
+      <span class="up-etiqueta">{{ ts.t('camp_nom') }}</span>
+      <input
+        type="text"
+        class="up-input"
+        [placeholder]="ts.t('camp_nom_placeholder')"
+        [ngModel]="nom()"
+        (ngModelChange)="nom.set($event)"
+        maxlength="24"
+      />
+    </label>
+
+    <p class="up-etiqueta up-etiqueta--bloc">{{ ts.t('tria_personatge') }}</p>
+    <app-selector-personatge [ocupats]="ocupats()" [(seleccionat)]="personatge" />
+
+    @if (error()) {
+      <p class="up-error">{{ error() }}</p>
+    }
+
+    <button type="button" class="up-boto" [disabled]="enviant()" (click)="unir()">
+      {{ enviant() ? ts.t('connectant') : ts.t('boto_unir') }}
+    </button>
+  </div>
+</div>

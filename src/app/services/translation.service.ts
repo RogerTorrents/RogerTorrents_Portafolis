@@ -63,6 +63,8 @@ export class TranslationService {
       placeholder_geoexplorer: 'Explora punts d\'interès de muntanya i senderisme.',
       app_mes_que_un_joc: 'Més que un joc',
       placeholder_mes_que_un_joc: 'Posa a prova els teus coneixements sobre la història del FC Barcelona.',
+      app_juguem_al_truc: 'Juguem al Truc',
+      placeholder_juguem_al_truc: 'Juga al Truc de Sant Pere de Ribes en línia amb 3 amics més.',
     },
     es: {
       unlock: 'Desbloquear',
@@ -115,6 +117,8 @@ export class TranslationService {
       placeholder_geoexplorer: 'Explora puntos de interés de montaña y senderismo.',
       app_mes_que_un_joc: 'Més que un joc',
       placeholder_mes_que_un_joc: 'Pon a prueba tus conocimientos sobre la historia del FC Barcelona.',
+      app_juguem_al_truc: 'Juguem al Truc',
+      placeholder_juguem_al_truc: 'Juega al Truc de Sant Pere de Ribes en línea con 3 amigos más.',
     },
     en: {
       unlock: 'Unlock',
@@ -167,6 +171,8 @@ export class TranslationService {
       placeholder_geoexplorer: 'Explore mountain and hiking points of interest.',
       app_mes_que_un_joc: 'More than a game',
       placeholder_mes_que_un_joc: 'Test your knowledge about the history of FC Barcelona.',
+      app_juguem_al_truc: 'Juguem al Truc',
+      placeholder_juguem_al_truc: 'Play Truc from Sant Pere de Ribes online with 3 friends.',
     },
   };
 

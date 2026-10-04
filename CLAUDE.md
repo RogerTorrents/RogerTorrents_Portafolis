@@ -17,7 +17,8 @@ L'ecosistema està dissenyat com un Sistema Operatiu modular on la Web Core engl
   ├── joc-impostor ──────> Port 4204
   ├── geoexplorer ──────> Port 4205
   ├── mes-que-un-joc ──────> Port 4206
-  └── som-hi ──────> Port 4207
+  ├── som-hi ──────> Port 4207
+  └── juguem-al-truc ──────> Port 4208
 
 
 ### 1. El Sistema General (Shell / OS Core)
@@ -46,6 +47,7 @@ L'ecosistema està dissenyat com un Sistema Operatiu modular on la Web Core engl
   - `geoexplorer` -> `http://localhost:4205`
   - `mes-que-un-joc` -> `http://localhost:4206`
   - `som-hi` -> `http://localhost:4207`
+  - `juguem-al-truc` -> `http://localhost:4208`
 
 ---
 
@@ -70,6 +72,7 @@ L'ecosistema està dissenyat com un Sistema Operatiu modular on la Web Core engl
 - **GeoExplorer:** Llegir `context/apps/geoexplorer/geoexplorer.md`
 - **Més que un joc:** Llegir `context/apps/mes-que-un-joc/mes-que-un-joc.md`
 - **Som-hi:** Llegir `context/apps/som-hi/som-hi.md`
+- **Juguem al Truc:** Llegir `context/apps/juguem-al-truc/juguem-al-truc.md`
 
 ---
 

@@ -1,0 +1,90 @@
+/* `absolute` dins `.tj-taula-zona` (on viu aquest component ara, vegeu
+   taula-joc.html), NO `fixed` a tota la pantalla: a posta, perquè mai
+   tapi el panell lateral — qui ha de decidir ha de poder seguir veient
+   i fent servir la seva mà i els senyals mentre decideix (per això
+   calia aquest canvi: abans quedaven tapats sense voler). */
+.om-vel {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 22, 16, 0.72);
+  padding: 1.5rem;
+}
+
+.om-targeta {
+  width: min(340px, 100%);
+  padding: 2rem 1.75rem;
+  text-align: center;
+  background: linear-gradient(160deg, #fbf3df, #f0e2c0);
+  border: 2px solid var(--tr-daurat);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+/* Mateix motiu que `overlay-truc.css`: aquesta targeta tapa tota la
+   pantalla mentre s'espera una decisió — `tr-pols` (keyframe global,
+   `styles.css`) la fa respirar perquè no passi desapercebuda a qui ha de
+   decidir de debò. */
+.om-targeta--urgent {
+  animation: tr-pols 1.6s ease-in-out infinite;
+}
+
+.om-eyebrow {
+  margin: 0 0 0.3rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--tr-terracota-fosc);
+}
+
+.om-titol {
+  margin: 0 0 1rem;
+  font-family: var(--tr-font-titol);
+  font-size: 1.5rem;
+  color: var(--tr-tinta);
+}
+
+.om-pregunta,
+.om-espera {
+  margin: 0 0 1.25rem;
+  font-style: italic;
+  color: var(--tr-terracota-fosc);
+}
+
+.om-espera {
+  margin-bottom: 0;
+}
+
+.om-botons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.om-boto {
+  flex: 1;
+  padding: 0.7rem 0.5rem;
+  border-radius: 999px;
+  border: none;
+  font-family: var(--tr-font-titol);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.om-boto:hover {
+  transform: translateY(-2px);
+}
+
+.om-boto--vull {
+  background: linear-gradient(180deg, var(--tr-feltre), var(--tr-feltre-fosc));
+  color: var(--tr-crema);
+}
+
+.om-boto--no-vull {
+  background: transparent;
+  border: 1.5px solid var(--tr-terracota-fosc);
+  color: var(--tr-terracota-fosc);
+}

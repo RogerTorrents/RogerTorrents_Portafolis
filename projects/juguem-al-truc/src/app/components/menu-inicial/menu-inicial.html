@@ -1,0 +1,24 @@
+<div class="mi-pantalla">
+  <div class="mi-vel"></div>
+  <div class="mi-contingut">
+    <p class="mi-eyebrow">Sant Pere de Ribes</p>
+    <h1 class="mi-titol">{{ ts.t('titol_joc') }}</h1>
+    <div class="tr-separador">✦</div>
+    <p class="mi-subtitol">{{ ts.t('subtitol_joc') }}</p>
+
+    <div class="mi-medallons">
+      <button type="button" class="tr-medallo" (click)="nav.anarA('crear')">
+        <span class="tr-medallo-icona">♦</span>
+        <span class="tr-medallo-text">{{ ts.t('menu_crear') }}</span>
+      </button>
+      <button type="button" class="tr-medallo" (click)="nav.anarA('unir')">
+        <span class="tr-medallo-icona">♣</span>
+        <span class="tr-medallo-text">{{ ts.t('menu_unir') }}</span>
+      </button>
+      <button type="button" class="tr-medallo" (click)="nav.anarA('com-jugar')">
+        <span class="tr-medallo-icona">♠</span>
+        <span class="tr-medallo-text">{{ ts.t('menu_com_jugar') }}</span>
+      </button>
+    </div>
+  </div>
+</div>

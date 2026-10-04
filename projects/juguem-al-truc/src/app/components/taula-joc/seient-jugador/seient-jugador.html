@@ -1,0 +1,13 @@
+@if (jugador(); as j) {
+  <div
+    class="sj-lloc"
+    [class]="'sj-lloc--' + posicio()"
+    [class.sj-lloc--torn]="esElTorn()"
+    [class.sj-lloc--desconnectat]="!connectat()"
+  >
+    <div class="sj-figura" [class.sj-figura--jo]="ets()">
+      <img [src]="rutaImatge()" [alt]="j.nom" class="sj-imatge" />
+    </div>
+    <span class="sj-nom">{{ j.nom }}{{ j.esBot ? ' · ' + ts.t('etiqueta_bot') : '' }}</span>
+  </div>
+}

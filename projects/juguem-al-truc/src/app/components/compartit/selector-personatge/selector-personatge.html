@@ -1,0 +1,18 @@
+<div class="sp-graella">
+  @for (personatge of personatges; track personatge) {
+    <button
+      type="button"
+      class="sp-carta"
+      [class.sp-carta--seleccionat]="seleccionat() === personatge"
+      [class.sp-carta--ocupat]="esOcupat(personatge)"
+      [disabled]="esOcupat(personatge)"
+      (click)="triar(personatge)"
+    >
+      <img [src]="'/truc/no-cadira/' + nomFitxer(personatge) + '.png'" [alt]="ts.t('personatge_' + personatge)" class="sp-imatge" />
+      <span class="sp-nom">{{ ts.t('personatge_' + personatge) }}</span>
+      @if (esOcupat(personatge)) {
+        <span class="sp-etiqueta">{{ ts.t('personatge_ocupat') }}</span>
+      }
+    </button>
+  }
+</div>

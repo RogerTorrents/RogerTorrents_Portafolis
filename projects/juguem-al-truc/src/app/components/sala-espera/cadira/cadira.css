@@ -1,0 +1,100 @@
+.ca-lloc {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  z-index: 1;
+}
+
+.ca-lloc--dalt {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ca-lloc--baix {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ca-lloc--esquerra {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.ca-lloc--dreta {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.ca-figura {
+  position: relative;
+  width: clamp(72px, 14vw, 108px);
+}
+
+.ca-imatge {
+  width: 100%;
+  aspect-ratio: 1 / 2;
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45));
+}
+
+.ca-figura--buida .ca-imatge {
+  opacity: 0.35;
+  filter: grayscale(1) drop-shadow(0 8px 10px rgba(0, 0, 0, 0.3));
+}
+
+.ca-figura--jo::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 2px solid var(--tr-daurat-clar);
+  border-radius: 999px;
+  box-shadow: 0 0 14px rgba(227, 191, 116, 0.55);
+}
+
+.ca-corona {
+  position: absolute;
+  top: -0.3rem;
+  right: -0.1rem;
+  font-size: 1.1rem;
+  color: var(--tr-daurat-clar);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.ca-bot {
+  position: absolute;
+  top: -0.3rem;
+  left: -0.1rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  border: 1px solid var(--tr-daurat-clar);
+  background: rgba(16, 54, 42, 0.85);
+  font-family: var(--tr-font-cos);
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  color: var(--tr-daurat-clar);
+}
+
+.ca-nom {
+  font-family: var(--tr-font-titol);
+  font-size: 0.82rem;
+  color: var(--tr-crema);
+  text-align: center;
+  max-width: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ca-nom--esperant {
+  font-family: var(--tr-font-cos);
+  font-style: italic;
+  font-size: 0.78rem;
+  color: rgba(243, 230, 200, 0.55);
+}

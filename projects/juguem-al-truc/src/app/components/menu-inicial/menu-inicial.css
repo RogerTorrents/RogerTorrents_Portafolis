@@ -1,0 +1,72 @@
+.mi-pantalla {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('/truc/elements/transicio_16_fotogrames/fotograma_01.jpg') center / cover no-repeat;
+  overflow: hidden;
+}
+
+.mi-vel {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(16, 54, 42, 0.35) 0%, rgba(10, 30, 22, 0.88) 75%);
+}
+
+.mi-contingut {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 92vw);
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mi-eyebrow {
+  margin: 0 0 0.5rem;
+  font-family: var(--tr-font-cos);
+  font-style: italic;
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--tr-daurat-clar);
+}
+
+.mi-titol {
+  margin: 0;
+  font-family: var(--tr-font-titol);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 7vw, 3.6rem);
+  color: var(--tr-crema);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.5);
+}
+
+.tr-separador {
+  margin: 0.9rem 0;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.mi-subtitol {
+  margin: 0 0 2.75rem;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--tr-sorra);
+  opacity: 0.9;
+}
+
+.mi-medallons {
+  display: flex;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 420px) {
+  .mi-medallons {
+    gap: 1.25rem;
+  }
+}

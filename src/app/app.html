@@ -55,6 +55,11 @@
       <iframe src="http://localhost:4207" title="Som-hi" (load)="onIframeCarregada($event)"></iframe>
     </app-window-wrapper>
   }
+  @if (wm.muntades().has('juguem-al-truc')) {
+    <app-window-wrapper id="juguem-al-truc" [title]="ts.t('app_juguem_al_truc')" [initialMaximized]="true">
+      <iframe src="http://localhost:4208" title="Juguem al Truc" allow="clipboard-write" (load)="onIframeCarregada($event)"></iframe>
+    </app-window-wrapper>
+  }
 }
 
 <router-outlet />

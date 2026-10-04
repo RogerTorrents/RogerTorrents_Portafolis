@@ -1,0 +1,86 @@
+<div class="tj-pantalla" [class.tj-revelat]="iniciarRevelacio()">
+  <div class="tj-cos">
+    <div class="tj-taula-zona">
+      <div class="tj-taula">
+        <!-- Ordre del DOM = ordre d'apilament visual (sense z-index enlloc):
+             gegants (sencers, cap retall) al fons → taula (marbre + feltre
+             dentat) per davant, tapant-los les cames perquè és més petita i
+             queda centrada → cartes jugades al capdamunt de tot. -->
+        @for (posicio of posicions; track posicio) {
+          <app-seient-jugador
+            [posicio]="posicio"
+            [jugador]="perPosicio()[posicio].jugador"
+            [ets]="posicio === 'baix'"
+            [esElTorn]="entradaCompletada() && perPosicio()[posicio].seient === vista()?.torn"
+            [cartesRestants]="cartesRestantsPer(perPosicio()[posicio].seient)"
+            [connectat]="perPosicio()[posicio].jugador?.connectat ?? true"
+            [pose]="posePer(perPosicio()[posicio].seient)"
+          />
+        }
+
+        <div class="tj-marbre">
+          <div class="tj-feltre"></div>
+        </div>
+
+        <!-- Cada carta jugada aquesta ronda queda a la vora del seu propi
+             gegant (s'identifica qui l'ha tirada); si dues es troben a la
+             mateixa vora, l'ordre de capes surt sol de l'ordre del `@for`
+             sobre `cartesTaula()`, que ja és l'ordre real de joc. -->
+        @for (jugada of cartesTaula(); track jugada.seient) {
+          <div class="tj-carta-pila" [class]="'tj-carta-pila--' + posicioCarta(jugada.seient)">
+            <app-carta [carta]="jugada.carta" [petita]="true" />
+          </div>
+        }
+      </div>
+
+      <!-- Dins `.tj-taula-zona` (no com a germà de tot `.tj-pantalla`) a
+           posta: així mai tapa el panell lateral ni en mòbil ni en
+           escriptori — qui ha de decidir manté la mà i els senyals
+           visibles i clicables, sigui quina sigui la disposició. -->
+      @if (ma11Pendent() && entradaCompletada()) {
+        <app-overlay-ma11 [pucDecidir]="potDecidirMa11()" (vullJugar)="decidirMa11(true)" (noVullJugar)="decidirMa11(false)" />
+      }
+    </div>
+
+    <aside class="tj-lateral" [class.tj-lateral--ma11]="potDecidirMa11()">
+      <app-marcador
+        [puntsA]="vista()?.puntuacions?.A ?? 0"
+        [puntsB]="vista()?.puntuacions?.B ?? 0"
+        [nomEquipA]="nomsEquip().A"
+        [nomEquipB]="nomsEquip().B"
+        [elMeuEquip]="elMeuEquip()"
+        [valorAposta]="vista()?.aposta?.valor ?? 1"
+        [historialRondes]="vista()?.historialRondes ?? []"
+      />
+
+      <p class="tj-lateral-etiqueta">{{ ts.t('la_teva_ma') }}</p>
+      <app-ma-jugador
+        [cartes]="vista()?.maPropia ?? []"
+        [potJugar]="esElMeuTorn()"
+        [(cartaSeleccionada)]="cartaSeleccionada"
+        [ampliada]="potDecidirMa11()"
+      />
+
+      <app-barra-accions
+        [potTirar]="!!cartaSeleccionada() && esElMeuTorn()"
+        [potTrucar]="potTrucar()"
+        [potSenyalar]="potSenyalar()"
+        [destacarSenyals]="potDecidirMa11()"
+        (tirar)="jugarCartaSeleccionada()"
+        (truco)="cantarTruc()"
+        (senyal)="ferSenyal($event)"
+      />
+    </aside>
+  </div>
+
+  <button type="button" class="tj-abandonar" (click)="abandonar()">{{ ts.t('boto_abandonar') }}</button>
+
+  <!-- Gatejat per `entradaCompletada()`: si un bot canta Truc durant el
+       primer segon d'entrada, el diàleg espera a mostrar-se fins que s'ha
+       acabat de revelar la taula — mai trenca el moment "només es veu el
+       terra". L'estat no es perd, només s'ajorna. (La mà dels 11 viu dins
+       `.tj-taula-zona`, més amunt — vegeu-ne el comentari.) -->
+  @if (trucPendent() && entradaCompletada()) {
+    <app-overlay-truc [valorProposat]="valorTrucProposat()" [pucRespondre]="potRespondreTruc()" (vull)="respondreTruc(true)" (noVull)="respondreTruc(false)" />
+  }
+</div>

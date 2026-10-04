@@ -1,0 +1,26 @@
+<div class="pa-pantalla">
+  <div class="pa-targeta">
+    @if (retratsGuanyadors().length > 0) {
+      <div class="pa-retrats">
+        @for (retrat of retratsGuanyadors(); track retrat) {
+          <img [src]="retrat" alt="" class="pa-retrat" />
+        }
+      </div>
+    }
+
+    <p class="pa-eyebrow">{{ ts.t('partida_acabada_titol') }}</p>
+    <h1 class="pa-titol">{{ nomGuanyador() }}</h1>
+    <div class="tr-separador">✦</div>
+    <p class="pa-subtitol">{{ ts.t('partida_acabada_subtitol') }}</p>
+
+    <div class="pa-botons">
+      <button type="button" class="tr-medallo pa-boto" (click)="tornarAJugar()">
+        <span class="tr-medallo-icona">↻</span>
+        <span class="tr-medallo-text">{{ ts.t('tornar_a_jugar') }}</span>
+      </button>
+      <button type="button" class="tr-medallo pa-boto" (click)="tornarAlMenu()">
+        <span class="tr-medallo-text">{{ ts.t('tornar_al_menu') }}</span>
+      </button>
+    </div>
+  </div>
+</div>

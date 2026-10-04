@@ -1,0 +1,7 @@
+<div class="mj-ma" [class.mj-ma--actiu]="potJugar()" [class.mj-ma--ampliada]="ampliada()">
+  @for (carta of cartes(); track carta.id) {
+    <button type="button" class="mj-carta-boto" (click)="triar(carta.id)">
+      <app-carta [carta]="carta" [seleccionada]="cartaSeleccionada() === carta.id" />
+    </button>
+  }
+</div>

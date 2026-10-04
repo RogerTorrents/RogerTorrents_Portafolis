@@ -1,0 +1,21 @@
+<div class="mc-contenidor">
+  <div class="mc-equip" [class.mc-equip--meu]="elMeuEquip() === 'A'">
+    <span class="mc-etiqueta">{{ nomEquipA() }}</span>
+    <span class="mc-punts">{{ puntsA() }}</span>
+  </div>
+
+  <div class="mc-equip" [class.mc-equip--meu]="elMeuEquip() === 'B'">
+    <span class="mc-etiqueta">{{ nomEquipB() }}</span>
+    <span class="mc-punts">{{ puntsB() }}</span>
+  </div>
+
+  @if (valorAposta() > 1) {
+    <div class="mc-aposta">{{ valorAposta() }}</div>
+  }
+
+  <div class="mc-rondes">
+    @for (r of rondes(); track $index) {
+      <span class="mc-ronda" [class]="'mc-ronda--' + r"></span>
+    }
+  </div>
+</div>

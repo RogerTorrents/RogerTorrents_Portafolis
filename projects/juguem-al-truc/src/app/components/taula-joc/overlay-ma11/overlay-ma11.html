@@ -1,0 +1,16 @@
+<div class="om-vel">
+  <div class="om-targeta" [class.om-targeta--urgent]="pucDecidir()">
+    <p class="om-eyebrow">{{ ts.t('ma11_titol') }}</p>
+    <h2 class="om-titol">{{ ts.t('ma11_subtitol') }}</h2>
+
+    @if (pucDecidir()) {
+      <p class="om-pregunta">{{ ts.t('ma11_pregunta') }}</p>
+      <div class="om-botons">
+        <button type="button" class="om-boto om-boto--vull" (click)="vullJugar.emit()">{{ ts.t('vull_jugar') }}</button>
+        <button type="button" class="om-boto om-boto--no-vull" (click)="noVullJugar.emit()">{{ ts.t('no_vull_jugar') }}</button>
+      </div>
+    } @else {
+      <p class="om-espera">{{ ts.t('ma11_esperant') }}</p>
+    }
+  </div>
+</div>

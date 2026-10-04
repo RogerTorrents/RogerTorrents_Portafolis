@@ -1,0 +1,40 @@
+<div class="se-pantalla">
+  <header class="se-capcalera">
+    <div>
+      <h1 class="se-titol">{{ ts.t('sala_titol') }}</h1>
+      <p class="se-mode">{{ ts.t('mode_' + (sala()?.mode ?? 'normal')) }}</p>
+    </div>
+    @if (sala()?.mode !== 'solo') {
+      <button type="button" class="se-codi" (click)="copiarCodi()">
+        <span class="se-codi-etiqueta">{{ ts.t('sala_codi_label') }}</span>
+        <span class="se-codi-valor">{{ sala()?.codi }}</span>
+        <span class="se-codi-copia">{{ copiat() ? ts.t('sala_copiat') : '⧉' }}</span>
+      </button>
+    }
+  </header>
+
+  <div class="se-taula-zona">
+    <div class="se-taula">
+      <app-cadira posicio="dalt" [jugador]="perPosicio().dalt" [esHost]="perPosicio().dalt?.seient === sala()?.hostSeient" />
+      <app-cadira posicio="esquerra" [jugador]="perPosicio().esquerra" [esHost]="perPosicio().esquerra?.seient === sala()?.hostSeient" />
+      <div class="se-feltre"></div>
+      <app-cadira posicio="dreta" [jugador]="perPosicio().dreta" [esHost]="perPosicio().dreta?.seient === sala()?.hostSeient" />
+      <app-cadira posicio="baix" [jugador]="perPosicio().baix" [ets]="true" [esHost]="esHost()" />
+    </div>
+  </div>
+
+  <footer class="se-peu">
+    @if (esHost()) {
+      <button type="button" class="tr-medallo" [disabled]="!salaPlena()" (click)="iniciar()">
+        <span class="tr-medallo-icona">▶</span>
+        <span class="tr-medallo-text">{{ ts.t('sala_boto_iniciar') }}</span>
+      </button>
+      @if (!salaPlena()) {
+        <p class="se-nota">{{ ts.t('sala_esperant') }}</p>
+      }
+    } @else {
+      <p class="se-nota">{{ salaPlena() ? ts.t('sala_nomes_host') : ts.t('sala_esperant') }}</p>
+    }
+    <button type="button" class="se-abandonar" (click)="abandonar()">{{ ts.t('boto_abandonar') }}</button>
+  </footer>
+</div>

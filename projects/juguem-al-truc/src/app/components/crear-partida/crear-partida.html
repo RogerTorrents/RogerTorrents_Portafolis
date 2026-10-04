@@ -1,0 +1,45 @@
+<div class="cp-pantalla">
+  <div class="cp-targeta">
+    <button type="button" class="cp-tornar" (click)="nav.anarA('menu')">← {{ ts.t('boto_tornar') }}</button>
+
+    <h1 class="cp-titol">{{ ts.t('menu_crear') }}</h1>
+
+    <p class="cp-etiqueta cp-etiqueta--bloc">{{ ts.t('tria_mode') }}</p>
+    <div class="cp-modes">
+      @for (m of modes; track m) {
+        <button
+          type="button"
+          class="cp-mode"
+          [class.cp-mode--seleccionat]="mode() === m"
+          (click)="triarMode(m)"
+        >
+          <span class="cp-mode-titol">{{ ts.t('mode_' + m) }}</span>
+          <span class="cp-mode-desc">{{ ts.t('mode_' + m + '_desc') }}</span>
+        </button>
+      }
+    </div>
+
+    <label class="cp-camp">
+      <span class="cp-etiqueta">{{ ts.t('camp_nom') }}</span>
+      <input
+        type="text"
+        class="cp-input"
+        [placeholder]="ts.t('camp_nom_placeholder')"
+        [ngModel]="nom()"
+        (ngModelChange)="nom.set($event)"
+        maxlength="24"
+      />
+    </label>
+
+    <p class="cp-etiqueta cp-etiqueta--bloc">{{ ts.t('tria_personatge') }}</p>
+    <app-selector-personatge [(seleccionat)]="personatge" />
+
+    @if (error()) {
+      <p class="cp-error">{{ error() }}</p>
+    }
+
+    <button type="button" class="cp-boto" [disabled]="enviant()" (click)="crear()">
+      {{ enviant() ? ts.t('connectant') : ts.t('boto_crear') }}
+    </button>
+  </div>
+</div>

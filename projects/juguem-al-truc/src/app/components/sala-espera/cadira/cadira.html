@@ -1,0 +1,19 @@
+<div class="ca-lloc" [class]="'ca-lloc--' + posicio()" [class.ca-lloc--ocupat]="jugador()">
+  @if (jugador(); as j) {
+    <div class="ca-figura" [class.ca-figura--jo]="ets()">
+      <img [src]="'/truc/no-cadira/' + nomFitxer(j.personatge) + '.png'" [alt]="j.nom" class="ca-imatge" />
+      @if (esHost()) {
+        <span class="ca-corona" title="Amfitrió">♛</span>
+      }
+      @if (j.esBot) {
+        <span class="ca-bot">{{ ts.t('etiqueta_bot') }}</span>
+      }
+    </div>
+    <span class="ca-nom">{{ j.nom }}{{ ets() ? ' (' + ts.t('tu') + ')' : '' }}</span>
+  } @else {
+    <div class="ca-figura ca-figura--buida">
+      <img src="/truc/cadira/pere.png" alt="" class="ca-imatge ca-imatge--cadira" />
+    </div>
+    <span class="ca-nom ca-nom--esperant">{{ ts.t('sala_esperant_curt') }}</span>
+  }
+</div>

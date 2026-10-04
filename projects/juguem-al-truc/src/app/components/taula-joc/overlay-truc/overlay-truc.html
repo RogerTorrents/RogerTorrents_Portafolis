@@ -1,0 +1,16 @@
+<div class="ot-vel">
+  <div class="ot-targeta" [class.ot-targeta--urgent]="pucRespondre()">
+    <p class="ot-eyebrow">{{ ts.t('truc_cantat_titol') }}</p>
+    <h2 class="ot-titol">{{ ts.t('truc_valor_prefix') }} {{ valorProposat() }}</h2>
+
+    @if (pucRespondre()) {
+      <p class="ot-pregunta">{{ ts.t('truc_pregunta') }}</p>
+      <div class="ot-botons">
+        <button type="button" class="ot-boto ot-boto--vull" (click)="vull.emit()">{{ ts.t('vull') }}</button>
+        <button type="button" class="ot-boto ot-boto--no-vull" (click)="noVull.emit()">{{ ts.t('no_vull') }}</button>
+      </div>
+    } @else {
+      <p class="ot-espera">{{ ts.t('truc_esperant') }}</p>
+    }
+  </div>
+</div>

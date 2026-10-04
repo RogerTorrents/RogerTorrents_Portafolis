@@ -1,0 +1,38 @@
+.mj-ma {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.3rem;
+}
+
+/* Decisió de la mà dels 11 pròpia: cartes més grans (variable llegida per
+   `carta.css`, travessa l'encapsulació de vistes sola, sense `::ng-deep`)
+   i amb menys superposició — és precisament el moment en què calia
+   "veure millor les cartes" per decidir bé. El panell lateral ja s'ha
+   eixamplat ell mateix (`taula-joc.css`, `.tj-lateral--ma11`) per deixar
+   lloc. */
+.mj-ma--ampliada {
+  --ct-mida: 118px;
+}
+
+.mj-ma--ampliada .mj-carta-boto {
+  margin: 0 -0.15rem;
+}
+
+.mj-carta-boto {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: default;
+  margin: 0 -0.35rem;
+  transition: margin 0.3s ease;
+}
+
+.mj-ma--actiu .mj-carta-boto {
+  cursor: pointer;
+}
+
+.mj-ma--actiu .mj-carta-boto:hover app-carta {
+  display: block;
+  transform: translateY(-6px);
+  transition: transform 0.12s ease;
+}

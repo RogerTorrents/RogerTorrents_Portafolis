@@ -68,6 +68,12 @@
     },
     {
       "path": "./projects/som-hi/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/juguem-al-truc/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/juguem-al-truc/tsconfig.spec.json"
     }
   ]
 }

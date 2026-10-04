@@ -1,0 +1,71 @@
+.pa-pantalla {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(200, 151, 63, 0.25), transparent 60%),
+    linear-gradient(180deg, rgba(16, 54, 42, 0.7), rgba(10, 30, 22, 0.95)),
+    url('/truc/elements/transicio_16_fotogrames/fotograma_16.jpg') center / cover no-repeat;
+}
+
+.pa-targeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Els 2 gegants guanyadors (amb el pernil, `public/truc/guanyador/`),
+   petits i just a sobre del nom — mateix `drop-shadow` que ja fan servir
+   els gegants de la taula (`seient-jugador.css`) perquè s'integrin amb la
+   resta de l'app en lloc de semblar un afegit. Es xafen una mica l'un amb
+   l'altre (marge negatiu) com una parella asseguda junta, no dues fotos
+   soltes. */
+.pa-retrats {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.pa-retrat {
+  width: clamp(56px, 10vw, 84px);
+  height: auto;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+  margin: 0 -0.4rem;
+}
+
+.pa-eyebrow {
+  margin: 0 0 0.4rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--tr-daurat-clar);
+}
+
+.pa-titol {
+  margin: 0;
+  font-family: var(--tr-font-titol);
+  font-size: clamp(2rem, 8vw, 2.8rem);
+  color: var(--tr-crema);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.5);
+}
+
+.tr-separador {
+  margin: 0.9rem 0;
+  justify-content: center;
+}
+
+.pa-subtitol {
+  margin: 0 0 2.5rem;
+  font-style: italic;
+  color: var(--tr-sorra);
+}
+
+.pa-botons {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}

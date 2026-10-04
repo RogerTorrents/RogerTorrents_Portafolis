@@ -1,0 +1,526 @@
+/* Mateix fons que `menu-inicial`/`sala-espera` (foto + vel), però aquí
+   NO es deixa créixer mai amb el contingut: `height:100vh` (no
+   `min-height`) + `overflow:hidden` el clava exactament a la mida de la
+   finestra del navegador, perquè mai es mogui ni s'estiri en fer scroll.
+   Tot el contingut viu dins `.cj-finestra`, que és qui fa scroll (si cal)
+   — el fons mai es desplaça, només "la finestra" ho fa. */
+.cj-pantalla {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: url('/truc/elements/transicio_16_fotogrames/fotograma_01.jpg') center / cover no-repeat;
+}
+
+.cj-vel {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 38%, rgba(16, 54, 42, 0.38) 0%, rgba(10, 30, 22, 0.9) 78%);
+}
+
+/* La "finestra": única cosa que es mou (scroll intern) quan el contingut
+   no hi cap sencer. Alçada i amplada FIXES relatives al viewport, mai al
+   seu propi contingut. */
+.cj-finestra {
+  position: relative;
+  z-index: 1;
+  width: min(700px, 92vw);
+  max-height: min(88vh, 780px);
+  overflow-y: auto;
+  background: var(--tr-crema);
+  border-radius: 18px;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(200, 151, 63, 0.5);
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--tr-daurat) transparent;
+}
+
+.cj-finestra::-webkit-scrollbar {
+  width: 8px;
+}
+
+.cj-finestra::-webkit-scrollbar-thumb {
+  background: var(--tr-daurat);
+  border-radius: 999px;
+}
+
+.cj-capcalera {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.75rem 2rem 1.1rem;
+  background: var(--tr-crema);
+  box-shadow: 0 10px 18px -12px rgba(43, 29, 18, 0.35);
+}
+
+.cj-tornar {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--tr-font-cos);
+  font-size: 0.85rem;
+  color: var(--tr-terracota-fosc);
+  margin-bottom: 0.9rem;
+  transition: color 0.15s ease;
+}
+
+.cj-tornar:hover {
+  color: var(--tr-tinta);
+}
+
+.cj-eyebrow {
+  margin: 0 0 0.2rem;
+  font-family: var(--tr-font-cos);
+  font-style: italic;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--tr-terracota-fosc);
+  opacity: 0.75;
+}
+
+.cj-titol {
+  margin: 0;
+  font-family: var(--tr-font-titol);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 4vw, 2.2rem);
+  color: var(--tr-tinta);
+  text-align: center;
+}
+
+.cj-separador {
+  margin: 0.75rem auto 0;
+  justify-content: center;
+}
+
+.cj-cos {
+  padding: 0.5rem 2rem 2.25rem;
+}
+
+.cj-apartat {
+  margin-top: 1.7rem;
+  padding-bottom: 1.7rem;
+  border-bottom: 1px solid rgba(43, 29, 18, 0.12);
+}
+
+.cj-apartat--final {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.cj-apartat h2 {
+  margin: 0 0 0.45rem;
+  font-family: var(--tr-font-titol);
+  font-size: 1.1rem;
+  color: var(--tr-terracota-fosc);
+}
+
+.cj-apartat p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--tr-tinta);
+}
+
+/* Apartats amb un element visual al costat (segell numèric o icona real
+   d'un botó del joc) — en columna a mòbil, en fila a partir d'un cert
+   ample perquè el text mai quedi massa estret. */
+.cj-apartat--segell,
+.cj-apartat--icona {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.cj-apartat-text {
+  min-width: 0;
+}
+
+@media (min-width: 540px) {
+  .cj-apartat--segell,
+  .cj-apartat--icona {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 1.4rem;
+  }
+
+  .cj-apartat--segell .cj-apartat-text,
+  .cj-apartat--icona .cj-apartat-text {
+    flex: 1;
+  }
+}
+
+/* --- El "segell": numeral envoltat de llautó, igual llenguatge visual
+   que `.tr-medallo` però estàtic (mai un botó) — "12" obre i tanca la
+   pàgina (objectiu i victòria final en són el mateix número), "11" el
+   fa ressonar a l'apartat de la mà especial. */
+.cj-segell {
+  flex-shrink: 0;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--tr-daurat);
+  box-shadow:
+    0 0 0 2px var(--tr-crema),
+    0 0 0 5px rgba(200, 151, 63, 0.4),
+    0 8px 18px rgba(0, 0, 0, 0.25);
+  background: radial-gradient(circle at 35% 28%, #2d6b4a, var(--tr-feltre) 72%);
+}
+
+.cj-segell--petit {
+  width: 64px;
+  height: 64px;
+  border-width: 2px;
+}
+
+.cj-segell-num {
+  font-family: var(--tr-font-titol);
+  font-weight: 700;
+  font-size: 2rem;
+  color: var(--tr-daurat-clar);
+}
+
+.cj-segell--petit .cj-segell-num {
+  font-size: 1.5rem;
+}
+
+/* --- Diagrama d'equips i seients: la mateixa geometria "en creu" de la
+   taula de joc real (dalt/baix = parella, esquerra/dreta = rivals),
+   perquè l'explicació es reconegui a cop d'ull quan s'arribi a la
+   taula de veritat. */
+.cj-equips-bloc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.1rem;
+}
+
+.cj-diagrama-equips {
+  position: relative;
+  width: 84px;
+  height: 84px;
+}
+
+.cj-linia {
+  position: absolute;
+  background: rgba(43, 29, 18, 0.25);
+}
+
+.cj-linia--vertical {
+  left: 50%;
+  top: 10%;
+  bottom: 10%;
+  width: 2px;
+  transform: translateX(-1px);
+}
+
+.cj-linia--horitzontal {
+  top: 50%;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  transform: translateY(-1px);
+}
+
+.cj-seient {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--tr-feltre);
+  border: 2px solid var(--tr-daurat);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.cj-seient--rival {
+  background: var(--tr-terracota);
+  border-color: var(--tr-terracota-fosc);
+}
+
+.cj-seient--dalt {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cj-seient--baix {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cj-seient--esquerra {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.cj-seient--dreta {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.cj-llegenda {
+  display: flex;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cj-llegenda-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--tr-tinta);
+}
+
+.cj-punt {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tr-feltre);
+  border: 2px solid var(--tr-daurat);
+}
+
+.cj-punt--rival {
+  background: var(--tr-terracota);
+  border-color: var(--tr-terracota-fosc);
+}
+
+.cj-escala {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* --- "Com es juga una mà": 3 passos reals numerats (①②③) — aquí SÍ
+   té sentit numerar, perquè les 3 rondes són literalment una seqüència
+   ordenada, no una llista decorativa. */
+.cj-rondes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1.1rem 0 1.25rem;
+}
+
+.cj-ronda-pas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.cj-ronda-num {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--tr-font-titol);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--tr-daurat-clar);
+  background: radial-gradient(circle at 35% 28%, #2d6b4a, var(--tr-feltre) 72%);
+  border: 2px solid var(--tr-daurat);
+}
+
+.cj-ronda-etiqueta {
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--tr-terracota-fosc);
+}
+
+.cj-ronda-fletxa {
+  color: var(--tr-daurat);
+  font-size: 1.1rem;
+  margin-top: -1.1rem;
+}
+
+/* --- Qui guanya la mà: els 5 casos reals d'`avaluarMa()`, cada un amb
+   3 "punts" (una ronda cadascun) en lloc d'una frase densa per llegir
+   de cop. */
+.cj-casos {
+  margin-top: 1.1rem;
+  border: 1px solid rgba(43, 29, 18, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cj-cas {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.65rem 0.9rem;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.cj-cas:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cj-cas-dots {
+  display: flex;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.cj-cas-text {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--tr-tinta);
+}
+
+.cj-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cj-dot--guanyada {
+  background: var(--tr-daurat);
+  border: 1px solid var(--tr-terracota-fosc);
+}
+
+.cj-dot--empat {
+  background: linear-gradient(90deg, var(--tr-daurat) 50%, transparent 50%);
+  border: 1px solid rgba(43, 29, 18, 0.4);
+}
+
+.cj-dot--decisiva {
+  background: conic-gradient(var(--tr-daurat) 0deg 180deg, var(--tr-terracota) 180deg 360deg);
+  border: 1px solid var(--tr-terracota-fosc);
+  box-shadow: 0 0 0 2px rgba(200, 151, 63, 0.35);
+}
+
+.cj-dot--na {
+  background: transparent;
+  border: 1px dashed rgba(43, 29, 18, 0.35);
+}
+
+.cj-llegenda--dots {
+  margin-top: 0.9rem;
+}
+
+/* --- Icona real d'un botó del joc (Truc, senyals), mateix retall que
+   `barra-accions` perquè el cercle il·lustrat (no tot el PNG, que té
+   molt marge transparent) ompli el contenidor. */
+.cj-icona-regla,
+.cj-icona-senyal {
+  position: relative;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid var(--tr-daurat);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.cj-icona-regla {
+  width: 72px;
+}
+
+.cj-icona-senyal {
+  width: 56px;
+}
+
+.cj-icona-regla img,
+.cj-icona-senyal img {
+  position: absolute;
+  max-width: none;
+  width: 118%;
+  left: -9%;
+  top: -43%;
+}
+
+.cj-escalada {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.cj-xip {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--tr-font-titol);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--tr-crema);
+  background: var(--tr-terracota);
+  border: 2px solid var(--tr-terracota-fosc);
+}
+
+.cj-xip-fletxa {
+  color: var(--tr-daurat);
+  font-size: 0.95rem;
+}
+
+.cj-senyals-fila {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1.1rem;
+}
+
+.cj-senyal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  width: 78px;
+}
+
+.cj-senyal-etiqueta {
+  font-size: 0.72rem;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--tr-terracota-fosc);
+}
+
+@media (max-width: 480px) {
+  .cj-cos {
+    padding: 0.5rem 1.25rem 1.75rem;
+  }
+
+  .cj-capcalera {
+    padding: 1.5rem 1.25rem 1rem;
+  }
+
+  .cj-segell {
+    width: 68px;
+    height: 68px;
+  }
+
+  .cj-segell-num {
+    font-size: 1.6rem;
+  }
+}

@@ -1,0 +1,9 @@
+<div class="tp-scroll">
+  <div class="tp-fixe">
+    <img [src]="rutaActual()" class="tp-imatge" alt="" />
+
+    @if (mostrarPista()) {
+      <p class="tp-pista">{{ ts.t('transicio_scroll_pista') }}</p>
+    }
+  </div>
+</div>

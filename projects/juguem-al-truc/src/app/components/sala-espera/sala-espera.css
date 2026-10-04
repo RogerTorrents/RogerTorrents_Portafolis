@@ -1,0 +1,118 @@
+.se-pantalla {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background:
+    linear-gradient(180deg, rgba(16, 54, 42, 0.55), rgba(10, 30, 22, 0.85)),
+    url('/truc/elements/transicio_16_fotogrames/fotograma_01.jpg') center / cover no-repeat;
+}
+
+.se-capcalera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.75rem 1rem 0.5rem;
+  text-align: center;
+}
+
+.se-titol {
+  margin: 0;
+  font-family: var(--tr-font-titol);
+  font-size: 1.5rem;
+  color: var(--tr-crema);
+}
+
+.se-mode {
+  margin: 0.15rem 0 0;
+  font-family: var(--tr-font-cos);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  color: var(--tr-daurat-clar);
+}
+
+.se-codi {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--tr-daurat);
+  background: rgba(16, 54, 42, 0.55);
+  cursor: pointer;
+}
+
+.se-codi-etiqueta {
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--tr-sorra);
+}
+
+.se-codi-valor {
+  font-family: var(--tr-font-mono);
+  font-size: 1.15rem;
+  letter-spacing: 0.25em;
+  color: var(--tr-daurat-clar);
+}
+
+.se-codi-copia {
+  font-size: 0.85rem;
+  color: var(--tr-crema);
+}
+
+.se-taula-zona {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.se-taula {
+  position: relative;
+  width: min(360px, 88vw);
+  aspect-ratio: 1 / 1;
+}
+
+.se-feltre {
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #2d6b4a, var(--tr-feltre-fosc) 78%);
+  box-shadow:
+    0 0 0 6px rgba(200, 151, 63, 0.35),
+    inset 0 0 40px rgba(0, 0, 0, 0.4);
+}
+
+.se-peu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 1rem 2.5rem;
+}
+
+.se-nota {
+  margin: 0;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--tr-sorra);
+  text-align: center;
+}
+
+.se-abandonar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 0.4rem;
+  font-family: var(--tr-font-cos);
+  font-size: 0.8rem;
+  color: rgba(233, 220, 185, 0.6);
+  text-decoration: underline;
+}
+
+.se-abandonar:hover {
+  color: var(--tr-crema);
+}
