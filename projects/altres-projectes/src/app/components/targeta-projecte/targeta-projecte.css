@@ -1,0 +1,138 @@
+:host {
+  display: block;
+}
+
+.targeta {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  border-radius: var(--radi);
+  background: var(--fons);
+  color: var(--text);
+}
+
+@media (min-width: 860px) {
+  .targeta {
+    grid-template-columns: 1.25fr 1fr;
+  }
+}
+
+/* Escriptori al darrere i mòbil al davant, sobresortint per baix */
+.captures {
+  position: relative;
+  padding: 0 clamp(2.5rem, 9%, 4.5rem) clamp(1.5rem, 5%, 2.5rem) 0;
+}
+
+.escriptori {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 12px;
+  box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.55);
+}
+
+.mobil {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: clamp(5rem, 24%, 9.5rem);
+  border: 5px solid #111318;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.6);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.per-a {
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--text-accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.nom {
+  font-family: var(--font-titol);
+  font-weight: 800;
+  font-size: clamp(1.9rem, 4.2vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.resum {
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  line-height: 1.45;
+}
+
+.destacats {
+  display: grid;
+  gap: 0.45rem;
+  list-style: none;
+  font-weight: 500;
+}
+
+.destacats li {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.destacats li::before {
+  content: '';
+  flex: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: 0.45em;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.nota {
+  font-size: 0.88rem;
+  opacity: 0.75;
+}
+
+.botons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.4rem;
+}
+
+.boto {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.8rem 1.35rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.boto:hover {
+  transform: translateY(-2px);
+}
+
+.boto--ple {
+  background: var(--accent);
+  color: var(--text-accent);
+}
+
+.boto--linia {
+  border: 2px solid currentColor;
+  color: var(--text);
+}
+
+.stack {
+  font-size: 0.82rem;
+  opacity: 0.6;
+}

@@ -1,0 +1,29 @@
+@let p = projecte();
+<div class="capa" role="dialog" aria-modal="true" [attr.aria-label]="p.nom" [style.--accent]="p.colors.accent" [style.--text-accent]="p.colors.textAccent">
+  <div class="barra">
+    <p class="nom">{{ p.nom }}</p>
+
+    <div class="mides" role="group" [attr.aria-label]="ts.t('mida')">
+      @for (m of mides; track m) {
+        <button type="button" [class.activa]="m === mida()" [attr.aria-pressed]="m === mida()" (click)="mida.set(m)">
+          {{ ts.t(m) }}
+        </button>
+      }
+    </div>
+
+    <a class="enllac" [href]="p.url" target="_blank" rel="noopener">
+      {{ ts.t('obrir') }} <span aria-hidden="true">↗</span>
+      <span class="visualment-amagat">{{ ts.t('nova_pestanya') }}</span>
+    </a>
+    <button type="button" class="tancar" (click)="tancar.emit()">✕ <span>{{ ts.t('tancar') }}</span></button>
+  </div>
+
+  <div class="escenari">
+    <div class="marc" [class.marc--mobil]="mida() === 'mobil'">
+      @if (carregant()) {
+        <p class="carregant" role="status">{{ ts.t('carregant') }}</p>
+      }
+      <iframe [src]="urlSegura()" [title]="ts.t('marc', p.nom)" (load)="carregant.set(false)"></iframe>
+    </div>
+  </div>
+</div>

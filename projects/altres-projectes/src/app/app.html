@@ -1,0 +1,19 @@
+<main class="pagina">
+  <header class="capcalera">
+    <img class="logo" src="logo.png" alt="" width="512" height="512" />
+    <div>
+      <h1>{{ ts.t('titol') }}</h1>
+      <p>{{ ts.t('lema') }}</p>
+    </div>
+  </header>
+
+  <div class="llista">
+    @for (p of projectes; track p.id) {
+      <app-targeta-projecte [projecte]="p" (provar)="provant.set($event)" />
+    }
+  </div>
+</main>
+
+@if (provant(); as p) {
+  <app-emprovador [projecte]="p" (tancar)="provant.set(null)" />
+}

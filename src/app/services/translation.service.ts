@@ -65,6 +65,8 @@ export class TranslationService {
       placeholder_mes_que_un_joc: 'Posa a prova els teus coneixements sobre la història del FC Barcelona.',
       app_juguem_al_truc: 'Juguem al Truc',
       placeholder_juguem_al_truc: 'Juga al Truc de Sant Pere de Ribes en línia amb 3 amics més.',
+      app_altres_projectes: 'Altres projectes',
+      placeholder_altres_projectes: 'Webs fetes a mida per a gent i projectes propers.',
     },
     es: {
       unlock: 'Desbloquear',
@@ -119,6 +121,8 @@ export class TranslationService {
       placeholder_mes_que_un_joc: 'Pon a prueba tus conocimientos sobre la historia del FC Barcelona.',
       app_juguem_al_truc: 'Juguem al Truc',
       placeholder_juguem_al_truc: 'Juega al Truc de Sant Pere de Ribes en línea con 3 amigos más.',
+      app_altres_projectes: 'Otros proyectos',
+      placeholder_altres_projectes: 'Webs hechas a medida para gente y proyectos cercanos.',
     },
     en: {
       unlock: 'Unlock',
@@ -173,6 +177,8 @@ export class TranslationService {
       placeholder_mes_que_un_joc: 'Test your knowledge about the history of FC Barcelona.',
       app_juguem_al_truc: 'Juguem al Truc',
       placeholder_juguem_al_truc: 'Play Truc from Sant Pere de Ribes online with 3 friends.',
+      app_altres_projectes: 'Other projects',
+      placeholder_altres_projectes: 'Made-to-measure websites for people and projects close to me.',
     },
   };
 

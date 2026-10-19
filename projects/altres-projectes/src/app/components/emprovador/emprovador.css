@@ -1,0 +1,107 @@
+.capa {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background: #111318;
+}
+
+.barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  padding: 0.75rem clamp(0.8rem, 3vw, 1.5rem);
+  color: #fff;
+}
+
+.nom {
+  margin-right: auto;
+  font-family: var(--font-titol);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.mides {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.mides button {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.mides button.activa {
+  background: #fff;
+  color: var(--tinta);
+}
+
+.enllac {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.tancar {
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--text-accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.escenari {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 clamp(0.5rem, 2.5vw, 1.5rem) clamp(0.5rem, 2.5vw, 1.5rem);
+}
+
+.marc {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+  transition: max-width 0.3s ease;
+}
+
+.marc--mobil {
+  max-width: 390px;
+  border: 8px solid #2a2e37;
+  border-radius: 28px;
+}
+
+.marc iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.carregant {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  color: var(--tinta-suau);
+}
+
+/* En pantalles estretes la mida ja és la del dispositiu */
+@media (max-width: 640px) {
+  .mides,
+  .enllac,
+  .tancar span {
+    display: none;
+  }
+}

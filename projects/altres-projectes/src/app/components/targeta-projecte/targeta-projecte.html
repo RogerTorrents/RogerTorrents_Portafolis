@@ -1,0 +1,41 @@
+@let p = projecte();
+<article
+  class="targeta"
+  [style.--fons]="p.colors.fons"
+  [style.--text]="p.colors.text"
+  [style.--accent]="p.colors.accent"
+  [style.--text-accent]="p.colors.textAccent"
+>
+  <div class="captures">
+    <img class="escriptori" [src]="p.captura" [alt]="ts.t('captura', p.nom)" width="1280" height="800" />
+    <img class="mobil" [src]="p.capturaMobil" [alt]="ts.t('captura_mobil', p.nom)" width="390" height="844" loading="lazy" />
+  </div>
+
+  <div class="info">
+    <p class="per-a">{{ ts.tx(p.perA) }}</p>
+    <h2 class="nom">{{ p.nom }}</h2>
+    <p class="resum">{{ ts.tx(p.resum) }}</p>
+
+    <ul class="destacats">
+      @for (d of p.destacats; track $index) {
+        <li>{{ ts.tx(d) }}</li>
+      }
+    </ul>
+
+    @if (p.nota) {
+      <p class="nota">{{ ts.tx(p.nota) }}</p>
+    }
+
+    <div class="botons">
+      <a class="boto boto--ple" [href]="p.url" target="_blank" rel="noopener">
+        {{ ts.t('obrir') }} <span aria-hidden="true">↗</span>
+        <span class="visualment-amagat">{{ ts.t('nova_pestanya') }}</span>
+      </a>
+      @if (p.emprovable) {
+        <button type="button" class="boto boto--linia" (click)="provar.emit(p)">{{ ts.t('provar') }}</button>
+      }
+    </div>
+
+    <p class="stack">{{ p.stack.join(' · ') }}</p>
+  </div>
+</article>

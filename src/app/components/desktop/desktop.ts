@@ -14,7 +14,7 @@ export class Desktop implements OnDestroy {
   // Ordre = disposició a l'escriptori (graella per columnes, 3 files):
   // columna 1: Sobre mi, Més que un joc, GeoExplorer
   // columna 2: Fons de pantalla, LinkedIn, L'Impostor
-  // columna 3: Som-hi, Juguem al Truc
+  // columna 3: Som-hi, Juguem al Truc, Altres projectes
   private readonly appDefs = [
     { id: 'sobre-mi', nameKey: 'app_sobre_mi', icon: '👤', showInDesktop: true },
     { id: 'mes-que-un-joc', nameKey: 'app_mes_que_un_joc', icon: 'mes-que-un-joc/logo.png', showInDesktop: true },
@@ -24,6 +24,7 @@ export class Desktop implements OnDestroy {
     { id: 'joc-impostor', nameKey: 'app_joc_impostor', icon: 'joc-impostor/logo.png', showInDesktop: true },
     { id: 'som-hi', nameKey: 'app_som_hi', icon: 'som-hi/logo.png', showInDesktop: true },
     { id: 'juguem-al-truc', nameKey: 'app_juguem_al_truc', icon: 'juguem-al-truc/truc/Logo.png', showInDesktop: true },
+    { id: 'altres-projectes', nameKey: 'app_altres_projectes', icon: 'altres-projectes/logo.png', showInDesktop: true },
     { id: 'habilitats', nameKey: 'app_habilitats', icon: '⚙️', showInDesktop: false },
     { id: 'contactar', nameKey: 'app_contactar', icon: '✉️', showInDesktop: false },
   ];

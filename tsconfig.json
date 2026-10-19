@@ -74,6 +74,12 @@
     },
     {
       "path": "./projects/juguem-al-truc/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/altres-projectes/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/altres-projectes/tsconfig.spec.json"
     }
   ]
 }
