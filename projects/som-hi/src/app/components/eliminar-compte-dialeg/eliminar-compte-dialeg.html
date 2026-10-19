@@ -1,0 +1,31 @@
+@if (sessio.dialegEliminarCompteObert()) {
+  <div class="sh-confirmacio-fons" (click)="cancelar()"></div>
+  <form class="sh-confirmacio sh-eliminar-compte" role="alertdialog" aria-modal="true" (submit)="enviar($event)">
+    <h2 class="sh-eliminar-compte-titol">{{ ts.t('eliminar_compte_titol') }}</h2>
+    <p class="sh-confirmacio-missatge">{{ ts.t('eliminar_compte_avis') }}</p>
+
+    <label class="sh-camp">
+      <span>{{ ts.t('eliminar_compte_contrasenya') }}</span>
+      <input
+        type="password"
+        autocomplete="current-password"
+        [value]="contrasenya()"
+        (input)="onContrasenyaInput($event)"
+        required
+      />
+    </label>
+
+    @if (sessio.errorEliminarCompte(); as error) {
+      <p class="sh-formulari-error">{{ error.missatge ?? ts.t('eliminar_compte_error') }}</p>
+    }
+
+    <div class="sh-confirmacio-accions">
+      <button type="button" class="sh-confirmacio-cancelar" [disabled]="sessio.eliminantCompte()" (click)="cancelar()">
+        {{ ts.t('eliminar_compte_cancelar') }}
+      </button>
+      <button type="submit" class="sh-confirmacio-confirmar" [disabled]="sessio.eliminantCompte() || !contrasenya()">
+        {{ sessio.eliminantCompte() ? ts.t('eliminar_compte_eliminant') : ts.t('eliminar_compte_confirmar') }}
+      </button>
+    </div>
+  </form>
+}

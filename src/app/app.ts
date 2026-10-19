@@ -1,5 +1,7 @@
-import { Component, signal, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, HostListener, OnInit, OnDestroy, inject } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
+import { environment } from '../environments/environment';
 import { LockScreen } from './components/lock-screen/lock-screen';
 import { Desktop } from './components/desktop/desktop';
 import { Taskbar } from './components/taskbar/taskbar';
@@ -7,12 +9,13 @@ import { WindowWrapper } from './components/window-wrapper/window-wrapper';
 import { FonsDepantalla } from './components/fons-depantalla/fons-depantalla';
 import { VoronoiFons } from './components/voronoi-fons/voronoi-fons';
 import { Linkedin } from './components/linkedin/linkedin';
+import { Legal } from './components/legal/legal';
 import { TranslationService } from './services/translation.service';
 import { WindowManagerService } from './services/window-manager.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LockScreen, Desktop, Taskbar, WindowWrapper, FonsDepantalla, VoronoiFons, Linkedin],
+  imports: [RouterOutlet, LockScreen, Desktop, Taskbar, WindowWrapper, FonsDepantalla, VoronoiFons, Linkedin, Legal],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -24,19 +27,44 @@ export class App implements OnInit, OnDestroy {
    *  sense maximitzar-se (deixa l'espai de la taskbar). */
   protected readonly alturaFinestraCompleta = window.innerHeight - 40;
 
+  /** URL de cada micro-app per entorn (localhost en dev, dominis HTTPS en prod).
+   *  Venen de config pròpia, no de l'usuari, per això es poden marcar com a segures. */
+  protected readonly urlsApps: Readonly<Record<string, SafeResourceUrl>> = (() => {
+    const sanejador = inject(DomSanitizer);
+    return Object.fromEntries(
+      Object.entries(environment.appsUrls).map(([id, url]) => [id, sanejador.bypassSecurityTrustResourceUrl(url)]),
+    );
+  })();
+
+  /** Orígens de les micro-apps: només elles poden demanar al Shell que obri una finestra. */
+  private readonly originsApps = new Set(Object.values(environment.appsUrls).map(url => new URL(url).origin));
+
   constructor(readonly ts: TranslationService, readonly wm: WindowManagerService) {}
 
   ngOnInit(): void {
     window.addEventListener('wheel', this.onWheel, { passive: false });
+    window.addEventListener('message', this.onMissatgeApp);
     window.addEventListener('gesturestart', this.onGesture, { passive: false } as any);
     window.addEventListener('gesturechange', this.onGesture, { passive: false } as any);
   }
 
   ngOnDestroy(): void {
     window.removeEventListener('wheel', this.onWheel);
+    window.removeEventListener('message', this.onMissatgeApp);
     window.removeEventListener('gesturestart', this.onGesture);
     window.removeEventListener('gesturechange', this.onGesture);
   }
+
+  /** Una micro-app (p. ex. el formulari de registre) demana obrir la finestra
+   *  de privacitat: `{ origen: 'os-app', tipus: 'obrir-legal' }`. Es valida
+   *  l'origen perquè cap web externa pugui manipular el Shell. */
+  private readonly onMissatgeApp = (ev: MessageEvent): void => {
+    if (!this.originsApps.has(ev.origin) || this.lock()) return;
+    const dades = ev.data as { origen?: unknown; tipus?: unknown } | null;
+    if (dades?.origen === 'os-app' && dades.tipus === 'obrir-legal') {
+      this.wm.openWindow('legal', this.ts.t('app_legal'), '⚖️');
+    }
+  };
 
   protected unlock(): void {
     this.lock.set(false);

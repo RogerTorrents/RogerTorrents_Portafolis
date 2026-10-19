@@ -182,6 +182,11 @@ export class Taskbar implements OnInit, OnDestroy {
     });
   }
 
+  /** Engranatge de la barra: obre la finestra "Privacitat i avís legal". */
+  obrirLegal(): void {
+    this.wm.openWindow('legal', this.ts.t('app_legal'), '⚖️');
+  }
+
   obrirDesDeMenu(id: string) {
     this.contextMenuId.set('');
     this.wm.openWindow(id);

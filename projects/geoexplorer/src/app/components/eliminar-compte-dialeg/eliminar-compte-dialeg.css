@@ -1,0 +1,16 @@
+.geo-eliminar-compte {
+  width: 380px;
+}
+
+.geo-eliminar-compte-titol {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-family: var(--geo-font-titol);
+  color: var(--geo-text);
+}
+
+.geo-confirmacio-cancelar:disabled,
+.geo-confirmacio-confirmar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

@@ -27,6 +27,20 @@
         />
       </label>
 
+      <p class="sh-privacitat-basica">{{ ts.t('registre_privacitat_basica') }}</p>
+
+      <label class="sh-privacitat-check">
+        <input type="checkbox" [checked]="acceptaPrivacitat()" (change)="onPrivacitatChange($event)" required />
+        <span>
+          {{ ts.t('registre_privacitat_accepto') }}
+          @if (dinsShell) {
+            <button type="button" class="sh-link-boto" (click)="obrirPrivacitat()">{{ ts.t('registre_privacitat_enllac') }}</button>
+          } @else {
+            {{ ts.t('registre_privacitat_enllac') }}
+          }
+        </span>
+      </label>
+
       @if (sessio.errorSessio()) {
         <p class="sh-formulari-error">{{ sessio.errorSessio() }}</p>
       }

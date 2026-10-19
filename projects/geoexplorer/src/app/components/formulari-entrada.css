@@ -149,3 +149,28 @@
     padding: 22px 20px;
   }
 }
+
+/* Informació bàsica de privacitat (primera capa, RGPD) i acceptació al registre */
+.geo-privacitat-basica {
+  margin: 4px 0 10px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--geo-text-suau);
+}
+
+.geo-privacitat-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--geo-text);
+  cursor: pointer;
+}
+
+.geo-privacitat-check input {
+  margin: 2px 0 0;
+  flex-shrink: 0;
+  accent-color: var(--geo-accent);
+}

@@ -37,6 +37,15 @@ El sistema ha de detectar la mida de la pantalla (mitjançant CSS Media Queries 
 - No mostra la data i hora (aquesta es mou a la barra superior d'estat del mòbil, si es desitja, o s'amaga).
 - Mostra una barra d'aplicacions actives en format reduït (estil Dock de mòbil) o una fletxa/botó de "Tornar a l'inici" (Home Button) per minimitzar ràpidament el microservei que estigui obert a pantalla completa i tornar a veure les icones de l'escriptori.
 
+## 3b. URL dels iframes: sempre via `environment`, mai `localhost` hardcoded
+
+Cada `<iframe>` d'`app.html` fa `[src]="urlsApps['APP_ID']"`. Les URL viuen a
+`src/environments/environment.ts` (localhost:420X, dev) i
+`environment.prod.ts` (dominis HTTPS, substituït via `fileReplacements` a
+`angular.json`). En afegir una app amb iframe, cal afegir la seva entrada a
+`appsUrls` dels **dos** fitxers. En producció han de ser HTTPS: un Shell per
+HTTPS no pot carregar iframes HTTP (mixed content).
+
 ## 4. Idioma de les micro-apps: controlat pel Shell, mai per un selector propi
 
 Cap micro-app dins d'un iframe (`projects/*`) ha de tenir el seu propi

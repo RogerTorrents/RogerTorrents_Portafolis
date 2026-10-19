@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ConfirmacioDialeg } from './components/confirmacio-dialeg/confirmacio-dialeg';
+import { EliminarCompteDialeg } from './components/eliminar-compte-dialeg/eliminar-compte-dialeg';
 import { PantallaEntrada } from './components/pantalla-entrada/pantalla-entrada';
 import { FormulariLogin } from './components/formulari-login/formulari-login';
 import { FormulariRegistre } from './components/formulari-registre/formulari-registre';
@@ -15,6 +16,7 @@ import { SessioService } from './services/sessio.service';
   standalone: true,
   imports: [
     ConfirmacioDialeg,
+    EliminarCompteDialeg,
     PantallaEntrada,
     FormulariLogin,
     FormulariRegistre,

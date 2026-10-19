@@ -1,4 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+/* Tipografies allotjades al propi build (Fontsource), no a Google Fonts:
+   carregar-les de Google envia la IP del visitant a tercers (RGPD). */
+@import '@fontsource/archivo-black/400.css';
+@import '@fontsource/archivo/500.css';
+@import '@fontsource/archivo/600.css';
+@import '@fontsource/archivo/700.css';
+@import '@fontsource/work-sans/400.css';
+@import '@fontsource/work-sans/500.css';
+@import '@fontsource/work-sans/600.css';
+@import '@fontsource/work-sans/700.css';
+@import '@fontsource/space-mono/400.css';
+@import '@fontsource/space-mono/700.css';
 
 /*
  * Sistema visual "quadern d'entrenament": full de llibreta ratllada

@@ -20,7 +20,7 @@
 .taskbar-left, .taskbar-right { display: flex; align-items: center; gap: 4px; }
 .taskbar-right { position: relative; }
 
-.start-btn, .search-btn, .quick, .task-icon {
+.start-btn, .legal-btn, .quick, .task-icon {
 	background: transparent;
 	border: none;
 	padding: 6px;
@@ -28,9 +28,10 @@
 	cursor: pointer;
 	color: #e0e0e0;
 }
-.start-btn:hover, .search-btn:hover, .quick:hover, .task-icon:hover {
+.start-btn:hover, .legal-btn:hover, .quick:hover, .task-icon:hover {
 	background: rgba(255, 255, 255, 0.1);
 }
+.legal-btn { display: flex; align-items: center; justify-content: center; }
 
 .running-apps { display: flex; gap: 4px; align-items: center; }
 .task-wrapper { position: relative; }
@@ -447,7 +448,7 @@
 .taskbar-bottom.tactil .taskbar-left { flex: 1 1 auto; min-width: 0; }
 .taskbar-bottom.tactil .taskbar-right { flex-shrink: 0; }
 .taskbar-bottom.tactil .start-wrapper,
-.taskbar-bottom.tactil .search-btn,
+.taskbar-bottom.tactil .legal-btn,
 .taskbar-bottom.tactil .task-wrapper { flex-shrink: 0; }
 .taskbar-bottom.tactil .running-apps {
 	flex: 1 1 auto;
@@ -477,10 +478,9 @@
 .taskbar-bottom.tactil .volum-popup,
 .taskbar-bottom.tactil .calendari-popup { max-width: calc(100vw - 16px); box-sizing: border-box; }
 
-/* Mòbil estret: el cercador no fa res i la data sobra (només l'hora);
-   així queda més espai per a les apps obertes. */
+/* Mòbil estret: la data sobra (només l'hora); així queda més espai per a
+   les apps obertes. L'engranatge (privacitat) es manté sempre visible. */
 @media (max-width: 650px) {
-	.taskbar-bottom.tactil .search-btn,
 	.taskbar-bottom.tactil .clock-date { display: none; }
 }
 

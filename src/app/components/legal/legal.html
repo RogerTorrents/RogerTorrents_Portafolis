@@ -1,0 +1,30 @@
+<div class="legal-app">
+  <nav class="legal-pestanyes" role="tablist">
+    @for (p of pestanyes; track p) {
+      <button
+        type="button"
+        role="tab"
+        class="legal-pestanya"
+        [class.activa]="pestanya() === p"
+        [attr.aria-selected]="pestanya() === p"
+        (click)="pestanya.set(p)"
+      >
+        {{ ts.t('legal_tab_' + p) }}
+      </button>
+    }
+  </nav>
+
+  <article class="legal-cos" role="tabpanel">
+    <h2 class="legal-titol">{{ document().titol }}</h2>
+    <p class="legal-data">{{ ts.t('legal_actualitzacio') }}: {{ dataActualitzacio }}</p>
+
+    @for (seccio of document().seccions; track seccio.titol) {
+      <section class="legal-seccio">
+        <h3>{{ seccio.titol }}</h3>
+        @for (paragraf of seccio.paragrafs; track $index) {
+          <p>{{ paragraf }}</p>
+        }
+      </section>
+    }
+  </article>
+</div>

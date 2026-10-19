@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, catchError, map, of, tap } from 'rxjs';
+import { Observable, catchError, map, of, switchMap, tap, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import type { Usuari } from '../models/usuari.model';
 
@@ -39,6 +39,11 @@ export class SessioService {
   readonly usuari = signal<Usuari | null>(null);
   readonly errorSessio = signal<string | null>(null);
   readonly carregant = signal(false);
+
+  readonly dialegEliminarCompteObert = signal(false);
+  readonly eliminantCompte = signal(false);
+  /** `missatge` null → el diàleg mostra el text genèric traduït. */
+  readonly errorEliminarCompte = signal<{ readonly missatge: string | null } | null>(null);
 
   private accessToken: string | null = null;
   private refreshToken: string | null = null;
@@ -94,15 +99,70 @@ export class SessioService {
 
   tancarSessio(): void {
     const refreshToken = this.refreshToken;
-    this.usuari.set(null);
-    this.accessToken = null;
-    this.refreshToken = null;
-    localStorage.removeItem(CLAU_STORAGE_SESSIO);
-    this.pantalla.set('entrada');
+    this.netejarSessioLocal();
     if (refreshToken) {
       // Best-effort: si falla (xarxa, token ja caducat) no bloqueja el logout local.
       this.http.post(`${this.apiUrl}/auth/logout`, { refreshToken }).subscribe({ error: () => undefined });
     }
+  }
+
+  obrirDialegEliminarCompte(): void {
+    this.errorEliminarCompte.set(null);
+    this.dialegEliminarCompteObert.set(true);
+  }
+
+  tancarDialegEliminarCompte(): void {
+    if (this.eliminantCompte()) return;
+    this.dialegEliminarCompteObert.set(false);
+  }
+
+  /**
+   * Dret de supressió (RGPD): elimina el compte i TOTES les seves dades.
+   * 1) refresca l'access token (pot haver caducat i `/auth/*` no es
+   *    reintenta sol); 2) `DELETE /auth/compte` verifica la contrasenya i
+   *    esborra compte + mapa personal; 3) amb el mateix token (encara vàlid
+   *    uns minuts) esborra les dades de Som-hi, que comparteix el compte.
+   */
+  eliminarCompte(contrasenya: string): void {
+    if (!contrasenya || this.eliminantCompte()) return;
+    this.eliminantCompte.set(true);
+    this.errorEliminarCompte.set(null);
+
+    this.refrescarToken()
+      .pipe(
+        switchMap(token => {
+          // Sessió caducada: `refrescarToken` ja ha tancat la sessió.
+          if (!token) return throwError(() => null);
+          return this.http.delete<void>(`${this.apiUrl}/auth/compte`, { body: { contrasenya } }).pipe(map(() => token));
+        }),
+        switchMap(token =>
+          this.http
+            .delete<void>(`${environment.somHiApiUrl}/compte`, { headers: { Authorization: `Bearer ${token}` } })
+            .pipe(
+              catchError((error: unknown) => {
+                // El compte ja no existeix: no es pot bloquejar l'usuari aquí.
+                console.error("No s'han pogut esborrar les dades de Som-hi", error);
+                return of(undefined);
+              }),
+            ),
+        ),
+      )
+      .subscribe({
+        next: () => {
+          this.eliminantCompte.set(false);
+          this.dialegEliminarCompteObert.set(false);
+          this.netejarSessioLocal();
+        },
+        error: (error: unknown) => {
+          this.eliminantCompte.set(false);
+          if (error === null) {
+            this.dialegEliminarCompteObert.set(false);
+            return;
+          }
+          const cos: unknown = error instanceof HttpErrorResponse ? error.error?.message : null;
+          this.errorEliminarCompte.set({ missatge: typeof cos === 'string' ? cos : null });
+        },
+      });
   }
 
   /** Usat només per `authInterceptor` per afegir la capçalera `Authorization`. */
@@ -126,6 +186,14 @@ export class SessioService {
         return of(null);
       }),
     );
+  }
+
+  private netejarSessioLocal(): void {
+    this.usuari.set(null);
+    this.accessToken = null;
+    this.refreshToken = null;
+    localStorage.removeItem(CLAU_STORAGE_SESSIO);
+    this.pantalla.set('entrada');
   }
 
   private gestionarSessioIniciada(resposta: SessioResponse): void {

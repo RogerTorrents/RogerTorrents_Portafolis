@@ -29,6 +29,20 @@
         />
       </label>
 
+      <p class="geo-privacitat-basica">{{ ts.t('registre_privacitat_basica') }}</p>
+
+      <label class="geo-privacitat-check">
+        <input type="checkbox" [checked]="acceptaPrivacitat()" (change)="onPrivacitatChange($event)" required />
+        <span>
+          {{ ts.t('registre_privacitat_accepto') }}
+          @if (dinsShell) {
+            <button type="button" class="geo-link-boto" (click)="obrirPrivacitat()">{{ ts.t('registre_privacitat_enllac') }}</button>
+          } @else {
+            {{ ts.t('registre_privacitat_enllac') }}
+          }
+        </span>
+      </label>
+
       @if (sessio.errorSessio()) {
         <p class="geo-formulari-error">{{ sessio.errorSessio() }}</p>
       }

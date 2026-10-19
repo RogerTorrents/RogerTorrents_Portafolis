@@ -1,0 +1,16 @@
+.sh-eliminar-compte {
+  width: 380px;
+}
+
+.sh-eliminar-compte-titol {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-family: var(--sh-font-titol);
+  color: var(--sh-ink);
+}
+
+.sh-confirmacio-cancelar:disabled,
+.sh-confirmacio-confirmar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

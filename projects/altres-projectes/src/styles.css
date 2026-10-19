@@ -1,3 +1,13 @@
+/* Tipografies allotjades al propi build (Fontsource), no a Google Fonts:
+   carregar-les de Google envia la IP del visitant a tercers (RGPD). */
+@import '@fontsource/unbounded/500.css';
+@import '@fontsource/unbounded/700.css';
+@import '@fontsource/unbounded/800.css';
+@import '@fontsource/instrument-sans/400.css';
+@import '@fontsource/instrument-sans/500.css';
+@import '@fontsource/instrument-sans/600.css';
+@import '@fontsource/instrument-sans/700.css';
+
 /*
  * Altres projectes — un aparador senzill: fons llis i neutre perquè cada
  * targeta llueixi amb els colors de la seva pròpia web. Tema clar únicament.

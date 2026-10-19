@@ -1,4 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Cutive+Mono&display=swap');
+/* Tipografies allotjades al propi build (Fontsource), no a Google Fonts:
+   carregar-les de Google envia la IP del visitant a tercers (RGPD). */
+@import '@fontsource/cinzel/500.css';
+@import '@fontsource/cinzel/600.css';
+@import '@fontsource/cinzel/700.css';
+@import '@fontsource/cinzel/800.css';
+@import '@fontsource/lora/400.css';
+@import '@fontsource/lora/500.css';
+@import '@fontsource/lora/600.css';
+@import '@fontsource/lora/400-italic.css';
+@import '@fontsource/cutive-mono/400.css';
 
 :root {
   /* Paleta presa directament dels propis materials: vellut/feltre verd de

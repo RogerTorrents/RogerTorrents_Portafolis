@@ -11,6 +11,7 @@ import { FormulariRegistre } from './components/formulari-registre/formulari-reg
 import { PanellCategoriesPersonals } from './components/panell-categories-personals/panell-categories-personals';
 import { FormulariLlocPersonal } from './components/formulari-lloc-personal/formulari-lloc-personal';
 import { ConfirmacioDialeg } from './components/confirmacio-dialeg/confirmacio-dialeg';
+import { EliminarCompteDialeg } from './components/eliminar-compte-dialeg/eliminar-compte-dialeg';
 import { GeoExplorerService, type CapaBase } from './services/geoexplorer.service';
 import { TraduccioService } from './services/traduccio.service';
 import { SessioService } from './services/sessio.service';
@@ -39,6 +40,7 @@ const AMPLARIA_PER_DEFECTE = 320;
     PanellCategoriesPersonals,
     FormulariLlocPersonal,
     ConfirmacioDialeg,
+    EliminarCompteDialeg,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

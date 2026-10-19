@@ -40,7 +40,13 @@
                   "maximumError": "16kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
@@ -289,7 +295,13 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "projects/joc-impostor/src/environments/environment.ts",
+                  "with": "projects/joc-impostor/src/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
@@ -597,9 +609,7 @@
                 "input": "projects/altres-projectes/public"
               }
             ],
-            "styles": [
-              "projects/altres-projectes/src/styles.css"
-            ]
+            "styles": ["projects/altres-projectes/src/styles.css"]
           },
           "configurations": {
             "production": {

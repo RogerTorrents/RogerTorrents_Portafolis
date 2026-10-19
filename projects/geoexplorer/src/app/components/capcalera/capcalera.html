@@ -87,6 +87,9 @@
             <button type="button" (click)="sessio.tancarSessio(); menuUsuariObert.set(false)">
               {{ ts.t('menu_tancar_sessio') }}
             </button>
+            <button type="button" (click)="sessio.obrirDialegEliminarCompte(); menuUsuariObert.set(false)">
+              {{ ts.t('menu_eliminar_compte') }}
+            </button>
           </div>
         }
       } @else {

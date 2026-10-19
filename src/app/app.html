@@ -12,17 +12,17 @@
   <!-- Window wrappers for apps (registered with WindowManagerService) -->
   @if (wm.muntades().has('sobre-mi')) {
     <app-window-wrapper id="sobre-mi" [title]="ts.t('app_sobre_mi')" [initialMaximized]="true">
-      <iframe src="http://localhost:4201" title="Sobre Mi" (load)="onIframeCarregada($event)"></iframe>
+      <iframe [src]="urlsApps['sobre-mi']" title="Sobre Mi" (load)="onIframeCarregada($event)"></iframe>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('habilitats')) {
     <app-window-wrapper id="habilitats" [title]="ts.t('app_habilitats')">
-      <iframe src="http://localhost:4202" title="Habilitats"></iframe>
+      <iframe [src]="urlsApps['habilitats']" title="Habilitats"></iframe>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('contactar')) {
     <app-window-wrapper id="contactar" [title]="ts.t('app_contactar')">
-      <iframe src="http://localhost:4203" title="Contactar"></iframe>
+      <iframe [src]="urlsApps['contactar']" title="Contactar"></iframe>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('fons-depantalla')) {
@@ -37,32 +37,37 @@
   }
   @if (wm.muntades().has('joc-impostor')) {
     <app-window-wrapper id="joc-impostor" [title]="ts.t('app_joc_impostor')" [initialWidth]="520" [initialHeight]="alturaFinestraCompleta" [initialY]="0">
-      <iframe src="http://localhost:4204" title="L'Impostor"></iframe>
+      <iframe [src]="urlsApps['joc-impostor']" title="L'Impostor"></iframe>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('geoexplorer')) {
     <app-window-wrapper id="geoexplorer" [title]="ts.t('app_geoexplorer')" [initialMaximized]="true">
-      <iframe src="http://localhost:4205" title="GeoExplorer" allow="geolocation" (load)="onIframeCarregada($event)"></iframe>
+      <iframe [src]="urlsApps['geoexplorer']" title="GeoExplorer" allow="geolocation" (load)="onIframeCarregada($event)"></iframe>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('mes-que-un-joc')) {
     <app-window-wrapper id="mes-que-un-joc" [title]="ts.t('app_mes_que_un_joc')" [initialMaximized]="true">
-      <iframe src="http://localhost:4206" title="Més que un joc" (load)="onIframeCarregada($event)"></iframe>
+      <iframe [src]="urlsApps['mes-que-un-joc']" title="Més que un joc" (load)="onIframeCarregada($event)"></iframe>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('som-hi')) {
     <app-window-wrapper id="som-hi" [title]="ts.t('app_som_hi')" [initialMaximized]="true">
-      <iframe src="http://localhost:4207" title="Som-hi" (load)="onIframeCarregada($event)"></iframe>
+      <iframe [src]="urlsApps['som-hi']" title="Som-hi" (load)="onIframeCarregada($event)"></iframe>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('juguem-al-truc')) {
     <app-window-wrapper id="juguem-al-truc" [title]="ts.t('app_juguem_al_truc')" [initialMaximized]="true">
-      <iframe src="http://localhost:4208" title="Juguem al Truc" allow="clipboard-write" (load)="onIframeCarregada($event)"></iframe>
+      <iframe [src]="urlsApps['juguem-al-truc']" title="Juguem al Truc" allow="clipboard-write" (load)="onIframeCarregada($event)"></iframe>
+    </app-window-wrapper>
+  }
+  @if (wm.muntades().has('legal')) {
+    <app-window-wrapper id="legal" [title]="ts.t('app_legal')" [initialWidth]="560" [initialHeight]="620" [initialY]="30">
+      <app-legal></app-legal>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('altres-projectes')) {
     <app-window-wrapper id="altres-projectes" [title]="ts.t('app_altres_projectes')" [initialMaximized]="true">
-      <iframe src="http://localhost:4209" title="Altres projectes" (load)="onIframeCarregada($event)"></iframe>
+      <iframe [src]="urlsApps['altres-projectes']" title="Altres projectes" (load)="onIframeCarregada($event)"></iframe>
     </app-window-wrapper>
   }
 }

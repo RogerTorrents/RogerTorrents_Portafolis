@@ -24,4 +24,9 @@ export class Capcalera {
     this.menuUsuariObert.set(false);
     this.sessio.tancarSessio();
   }
+
+  eliminarCompte(): void {
+    this.menuUsuariObert.set(false);
+    this.sessio.obrirDialegEliminarCompte();
+  }
 }

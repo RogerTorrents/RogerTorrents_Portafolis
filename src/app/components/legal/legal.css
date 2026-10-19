@@ -1,0 +1,79 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.legal-app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #1b1b1b;
+  color: #e4e4e4;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.legal-pestanyes {
+  display: flex;
+  gap: 4px;
+  padding: 10px 16px 0;
+  border-bottom: 1px solid #333;
+  flex-shrink: 0;
+}
+
+.legal-pestanya {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #9a9a9a;
+  font: inherit;
+  font-size: 13px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.legal-pestanya:hover {
+  color: #e4e4e4;
+}
+
+.legal-pestanya.activa {
+  color: #fff;
+  border-bottom-color: #4ea1ff;
+}
+
+.legal-cos {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 22px 28px;
+  line-height: 1.6;
+}
+
+.legal-titol {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.legal-data {
+  margin: 4px 0 18px;
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+.legal-seccio h3 {
+  margin: 18px 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.legal-seccio p {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #cfcfcf;
+}
+
+@media (max-width: 650px) {
+  .legal-cos {
+    padding: 16px;
+  }
+}

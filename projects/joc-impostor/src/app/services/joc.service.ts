@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export type ModusJoc = 'manual' | 'lliure' | 'ribes';
 export type Idioma = 'català' | 'castellà' | 'anglès';
@@ -47,7 +48,7 @@ export interface EstatPartida {
 @Injectable({ providedIn: 'root' })
 export class JocService {
   private readonly http = inject(HttpClient);
-  private readonly API_URL = 'http://localhost:3003/api/paraules';
+  private readonly API_URL = `${environment.apiUrl}/api/paraules`;
 
   readonly pantalla = signal<1 | 2 | 3 | 4>(1);
   readonly configuracio = signal<ConfiguracioPartida | null>(null);
@@ -76,7 +77,7 @@ export class JocService {
     } catch (e) {
       const missatge = (e instanceof Error && e.message === 'ribes-404')
         ? "No s'ha pogut llegir ribes.json. Comprova que el fitxer existeix a public/assets/data/."
-        : "No s'ha pogut connectar al servidor. Comprova que el backend és actiu a http://localhost:3003";
+        : "No s'ha pogut connectar al servidor. Torna-ho a provar d'aquí a una estona.";
       this.errorApi.set(missatge);
     } finally {
       this.carregant.set(false);
