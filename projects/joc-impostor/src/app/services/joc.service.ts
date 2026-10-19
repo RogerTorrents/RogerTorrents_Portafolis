@@ -41,14 +41,13 @@ export interface EstatPartida {
   indexParaulaActual: number;
   lotParaules: LotParaules;
   canvisRestants: number;
-  primerJugadorNormalHaVist: boolean;
   jugadorInicial: string | null;
 }
 
 @Injectable({ providedIn: 'root' })
 export class JocService {
   private readonly http = inject(HttpClient);
-  private readonly API_URL = 'http://localhost:3000/api/paraules';
+  private readonly API_URL = 'http://localhost:3003/api/paraules';
 
   readonly pantalla = signal<1 | 2 | 3 | 4>(1);
   readonly configuracio = signal<ConfiguracioPartida | null>(null);
@@ -69,7 +68,6 @@ export class JocService {
         indexParaulaActual: 0,
         lotParaules: lot,
         canvisRestants: config.permetCanviarParaula ? 5 : 0,
-        primerJugadorNormalHaVist: false,
         jugadorInicial: null,
       };
       this.estatPartida.set(estatInicial);
@@ -78,7 +76,7 @@ export class JocService {
     } catch (e) {
       const missatge = (e instanceof Error && e.message === 'ribes-404')
         ? "No s'ha pogut llegir ribes.json. Comprova que el fitxer existeix a public/assets/data/."
-        : "No s'ha pogut connectar al servidor. Comprova que el backend és actiu a http://localhost:3000";
+        : "No s'ha pogut connectar al servidor. Comprova que el backend és actiu a http://localhost:3003";
       this.errorApi.set(missatge);
     } finally {
       this.carregant.set(false);
@@ -155,7 +153,9 @@ export class JocService {
     const config = this.configuracio();
     if (!estat || !config || !config.permetCanviarParaula) return false;
     if (estat.canvisRestants <= 0 || jugador.rol === 'impostor') return false;
-    return !estat.primerJugadorNormalHaVist;
+    // Només el primer jugador que mira pot canviar: si fos el primer no-impostor,
+    // el segon sabria que el primer era impostor en veure el botó
+    return estat.jugadors.every(j => !j.haVist);
   }
 
   canvisRestantsActuals(): number {
@@ -198,23 +198,6 @@ export class JocService {
     const jugador = estat.jugadors.find(j => j.nom === nom);
     if (!jugador || jugador.haVist) return;
 
-    let canvisRestants = estat.canvisRestants;
-    let primerJugadorNormalHaVist = estat.primerJugadorNormalHaVist;
-
-    if (jugador.rol === 'impostor') {
-      // Si el primer no-impostor ja ha tancat, inhabilitem els canvis restants
-      if (primerJugadorNormalHaVist) canvisRestants = 0;
-    } else {
-      if (primerJugadorNormalHaVist) {
-        // Segon no-impostor tancant popup — ja no es pot canviar
-        canvisRestants = 0;
-      } else {
-        // Primer no-impostor tancant popup — marca i esgota els canvis
-        primerJugadorNormalHaVist = true;
-        canvisRestants = 0;
-      }
-    }
-
     const novsJugadors = estat.jugadors.map(j => j.nom === nom ? { ...j, haVist: true } : j);
     const totHanVist = novsJugadors.every(j => j.haVist);
     const jugadorInicial = totHanVist && !estat.jugadorInicial
@@ -224,8 +207,8 @@ export class JocService {
     this.estatPartida.set({
       ...estat,
       jugadors: novsJugadors,
-      canvisRestants,
-      primerJugadorNormalHaVist,
+      // En tancar el primer popup els canvis s'esgoten
+      canvisRestants: 0,
       jugadorInicial,
     });
 

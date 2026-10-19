@@ -5,7 +5,7 @@
 Micro-aplicació de joc de taula per al portafolis de Roger Torrents. Implementa el joc "L'Impostor": un jugador (o més) rep una paraula diferent als altres i ha d'amagar-ho mentre la resta intenta descobrir-lo.
 
 - **Frontend Angular:** Port `4204` — aquest repositori
-- **Backend Node.js:** `http://localhost:3000` (Express + Groq SDK) — repositori extern, ja configurat i actiu
+- **Backend Node.js:** `http://localhost:3003` (Express + Groq SDK, model `openai/gpt-oss-120b`) — `back/joc-impostor`. El 3000 és de geoexplorer-api
 
 ## Execució
 

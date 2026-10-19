@@ -25,7 +25,7 @@ export class Configuracio {
 
   readonly nomsValids = computed(() => {
     const j = this.jugadors();
-    return j.length >= 2 && j.every(n => n.trim().length > 0);
+    return j.length >= 3 && j.every(n => n.trim().length > 0);
   });
 
   readonly validacioImpostors = computed(() => {
@@ -66,7 +66,7 @@ export class Configuracio {
 
   eliminarJugador(i: number): void {
     const novaLlargada = this.jugadors().length - 1;
-    if (novaLlargada < 2) return;
+    if (novaLlargada < 3) return;
     this.jugadors.update(j => j.filter((_, idx) => idx !== i));
     const maxNou = Math.floor((novaLlargada - 1) / 2);
     if (this.nombreImpostors() > maxNou) {
