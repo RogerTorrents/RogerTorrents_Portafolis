@@ -8,6 +8,7 @@ import {
   OnDestroy,
   HostListener,
   ChangeDetectionStrategy,
+  effect,
 } from '@angular/core';
 import { TraduccionService } from './services/traduccions.service';
 
@@ -52,6 +53,7 @@ interface ElementMapa {
 export class App implements AfterViewInit, OnDestroy {
   @ViewChild('contenidor') private readonly contenidor!: ElementRef<HTMLElement>;
   @ViewChild('hero') private readonly hero!: ElementRef<HTMLElement>;
+  @ViewChild('navMobil') private readonly navMobil?: ElementRef<HTMLElement>;
 
   private readonly scrollPos = signal(0);
   private observer!: IntersectionObserver;
@@ -170,7 +172,22 @@ export class App implements AfterViewInit, OnDestroy {
 
   protected readonly elementSeleccionat = signal<ElementMapa | null>(null);
 
-  constructor(protected readonly ts: TraduccionService) { }
+  /** Mòbil: punts de la feina actual visibles abans de "Mostra-ho tot". */
+  protected readonly bulletsVisiblesMobil = 2;
+  protected readonly bulletsOberts = signal(false);
+
+  constructor(protected readonly ts: TraduccionService) {
+    // Navegació inferior del mòbil: la secció activa sempre queda visible
+    // dins la tira (que fa scroll horitzontal si no hi caben totes).
+    effect(() => {
+      const id = this.seccioActiva();
+      const nav = this.navMobil?.nativeElement;
+      if (!id || !nav || nav.offsetParent === null) return;
+      const boto = nav.querySelector<HTMLElement>(`[data-seccio="${id}"]`);
+      if (!boto) return;
+      nav.scrollTo({ left: boto.offsetLeft - (nav.clientWidth - boto.offsetWidth) / 2, behavior: 'smooth' });
+    });
+  }
 
   @HostListener('document:keydown.escape')
   protected tancarPopup(): void {

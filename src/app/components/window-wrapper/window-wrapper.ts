@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, Signal, signal, computed, ElementRef, viewChild, HostListener } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, Signal, signal, computed, ElementRef, viewChild, HostListener, inject } from '@angular/core';
 import { WindowManagerService, WindowState } from '../../services/window-manager.service';
 import { TranslationService } from '../../services/translation.service';
+import { DispositiuService } from '../../services/dispositiu.service';
 
 @Component({
   selector: 'app-window-wrapper',
@@ -34,6 +35,7 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
   zoomNivell = signal(1);
 
   private readonly contentRef = viewChild<ElementRef<HTMLElement>>('windowContent');
+  private readonly dispositiu = inject(DispositiuService);
 
   altresFinestres = computed(() => {
     const f = this.wm.finestres();
@@ -72,7 +74,11 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
       }
     }
 
-    if (this.initialMaximized) this.wm.maximizeWindow(this.id);
+    // En mòbil / tauleta totes les apps s'obren a pantalla completa; després
+    // es poden fer més petites, però el WindowManager les manté sempre
+    // senceres dins la pantalla.
+    const jaMaximitzada = this.wm.getWindowSignal(this.id)()?.state === 'maximized';
+    if ((this.initialMaximized || this.dispositiu.tactil()) && !jaMaximitzada) this.wm.maximizeWindow(this.id);
     this.state = this.wm.getWindowSignal(this.id);
     setTimeout(() => {
       const el = this.contentRef()?.nativeElement;
@@ -122,6 +128,7 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
       this.unmaxMouseX = ev.clientX;
       (document as any).addEventListener('pointermove', this.onPointerMove);
       (document as any).addEventListener('pointerup', this.onPointerUp);
+    (document as any).addEventListener('pointercancel', this.onPointerUp);
       return;
     }
 
@@ -130,6 +137,7 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
     this.dragOffset.y = ev.clientY - s.y;
     (document as any).addEventListener('pointermove', this.onPointerMove);
     (document as any).addEventListener('pointerup', this.onPointerUp);
+    (document as any).addEventListener('pointercancel', this.onPointerUp);
   }
 
   private onPointerMove = (ev: PointerEvent) => {
@@ -156,8 +164,11 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
       const ny = Math.max(0, Math.min(ev.clientY - this.dragOffset.y, window.innerHeight - 40 - 32));
       this.wm.moveWindow(this.id, nx, ny);
 
-      if (ev.clientX <= 5) this.snapZone.set('left');
-      else if (ev.clientX >= window.innerWidth - 5) this.snapZone.set('right');
+      // En tàctil no hi ha snap lateral: mitja pantalla d'un mòbil és més
+      // estreta que l'amplada mínima d'una finestra i en sortiria.
+      const snapLateral = !this.dispositiu.tactil();
+      if (snapLateral && ev.clientX <= 5) this.snapZone.set('left');
+      else if (snapLateral && ev.clientX >= window.innerWidth - 5) this.snapZone.set('right');
       else if (ev.clientY <= 5) this.snapZone.set('maximize');
       else this.snapZone.set('');
       return;
@@ -207,6 +218,7 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
     this.pendingUnmaximize = false;
     (document as any).removeEventListener('pointermove', this.onPointerMove);
     (document as any).removeEventListener('pointerup', this.onPointerUp);
+    (document as any).removeEventListener('pointercancel', this.onPointerUp);
   };
 
   private snapToSide(side: 'left' | 'right') {
@@ -228,6 +240,9 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
     const fullH = window.innerHeight - 40;
     const x = side === 'left' ? 0 : halfW;
     this.wm.openWindow(id);
+    // `openWindow` conserva l'estat maximitzat; per encaixar-la a mitja
+    // pantalla primer cal desmaximitzar-la.
+    if (this.wm.getWindowSignal(id)()?.state === 'maximized') this.wm.maximizeWindow(id);
     this.wm.resizeMoveWindow(id, x, 0, halfW, fullH);
     this.showSnapAssist.set(false);
   }
@@ -269,5 +284,6 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
     this.wm.bringToFront(this.id);
     (document as any).addEventListener('pointermove', this.onPointerMove);
     (document as any).addEventListener('pointerup', this.onPointerUp);
+    (document as any).addEventListener('pointercancel', this.onPointerUp);
   }
 }

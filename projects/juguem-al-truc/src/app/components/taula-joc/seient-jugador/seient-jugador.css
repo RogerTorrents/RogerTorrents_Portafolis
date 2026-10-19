@@ -144,25 +144,62 @@
   margin-left: 0.5rem;
 }
 
-@media (max-width: 760px) {
+/* Mòbil: gegants grans i enganxats a la taula. La mida és relativa a la
+   taula (`cqw` del contenidor `.tj-taula`, vegeu taula-joc.css), no a la
+   pantalla: 28% de la taula d'ample (≈54% d'alt), amb la vora exterior
+   arran de la taula — les cames queden sota el marbre (30%–70%) i les
+   mans, amb les cartes, just a tocar de la seva vora. */
+@media (max-width: 760px), (pointer: coarse) and (orientation: portrait), (pointer: coarse) and (max-height: 500px) {
   .sj-lloc {
-    --mida: clamp(62px, 14vw, 92px);
+    --mida: 28cqw;
   }
 
-  /* A poc ample, posar el nom a l'esquerra/dreta de la caixa el treu de
-     la pantalla — a sota (com dalt/baix) hi cap sempre. */
+  .sj-lloc--dalt {
+    top: 0;
+  }
+
+  .sj-lloc--baix {
+    bottom: 0;
+  }
+
+  .sj-lloc--esquerra {
+    left: 0;
+  }
+
+  .sj-lloc--dreta {
+    right: 0;
+  }
+
+  /* Els noms dels laterals, sota la figura però arrambats a la vora
+     exterior: centrats quedarien a sota del marbre, que els tapa. */
   .sj-lloc--esquerra .sj-nom,
   .sj-lloc--dreta .sj-nom {
-    left: 50%;
-    right: auto;
     top: 100%;
-    transform: translateX(-50%);
-    margin: 0.3rem 0 0;
+    transform: none;
+    margin: 0.2rem 0 0;
+  }
+
+  .sj-lloc--esquerra .sj-nom {
+    left: 0;
+    right: auto;
+  }
+
+  .sj-lloc--dreta .sj-nom {
+    right: 0;
+    left: auto;
+  }
+
+  .sj-lloc--dalt .sj-nom {
+    margin-bottom: 0.15rem;
+  }
+
+  .sj-lloc--baix .sj-nom {
+    margin-top: 0.15rem;
   }
 
   .sj-nom {
     font-size: 0.65rem;
-    max-width: 5.6rem;
+    max-width: 6.5rem;
     padding: 0.1rem 0.4rem;
   }
 }

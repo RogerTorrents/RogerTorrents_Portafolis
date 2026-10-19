@@ -157,3 +157,50 @@ avatars circulars, ja es va identificar explícitament com "genèric IA".
   jugadors es mostra en files separades per posició (porter, defenses,
   migcampistes, davanters), via `utils/posicio.util.ts`
   (`agruparPerPosicio`) — reutilitzat als dos jocs, no duplicat.
+
+## Versió mòbil (2026-10-19)
+
+Objectiu de l'usuari: en mòbil, mínim scroll i tot visible en una pantalla,
+**sense tocar res de web**. Per garantir-ho, totes les regles mòbils van
+dins de consultes amb `pointer: coarse` (un ordinador amb ratolí mai les
+activa — ni amb la finestra estreta):
+
+- `(pointer: coarse) and (max-width: 760px), (pointer: coarse) and (max-height: 500px)`
+  — mòbil (vertical i horitzontal): disposició compacta.
+- `(pointer: coarse) and (max-height: 640px)` — mòbils baixos (≤640px
+  d'alt, inclou l'horitzontal): un graó més de compactació.
+- `(pointer: coarse) and (orientation: landscape) and (max-height: 500px)`
+  — horitzontal: jocs a 2 columnes (contingut | opcions/resposta) i menú
+  amb les 4 targetes en una fila sense descripció.
+- `(pointer: coarse) and (max-width: 760px) and (orientation: portrait)` —
+  centrat vertical "segur" del contingut (vegeu més avall).
+
+Canvis principals: menú en graella 2×2; joc 1 amb els dos jugadors sempre
+al costat; jocs 2 i 4 amb l'onze/plantilla en 2 columnes (l'amplada mínima
+de 150px en deixava 1 per fila) i sense l'etiqueta de posició al joc 2
+(les files ja agrupen per posició); 10 temporades/dorsals en 5 columnes;
+títols en 2 (o 3 en pantalles baixes); resposta + "Següent" en una fila
+`sticky` a baix, perquè sempre es vegi.
+
+**Trampes trobades (reutilitzables):**
+- `.pantalla-joc { overflow: hidden }` (per la marca d'aigua) en feia un
+  contenidor de scroll propi i anul·lava `position: sticky`. En mòbil és
+  `overflow: clip`, que retalla igual sense crear contenidor de scroll.
+- Les regles globals de `styles.css` empaten d'especificitat amb les
+  encapsulades (`.pantalla-joc .cos` = `.cos[_ngcontent-…]`) i perden per
+  ordre (els estils de component s'injecten després): cal `body
+  .pantalla-joc .cos`.
+- Centrar amb `justify-content: center` talla per dalt quan no hi cap; es
+  fa amb `margin: auto` a `.cos::before`/`::after` (valen 0 si no sobra
+  espai). Només en vertical: en horitzontal `.cos` és `grid` i els
+  pseudoelements hi entrarien com a cel·les.
+- A l'auditoria amb Playwright, `screenshot({ fullPage: true })` redimensiona
+  la finestra emulada i en tornar perd l'emulació tàctil: les mesures
+  posteriors surten amb estils d'escriptori. Fer captures sense `fullPage`.
+
+**Verificat** (Playwright, `Math.random` fixat): 0px de scroll al menú, als
+4 jocs (abans i després de respondre) i al resultat a 360×568, 375×595,
+390×772, 412×843, 820×1108 i 844×318 (abans: fins a +850px). Escriptori
+1400×900 i 1280×690: 0 píxels diferents a les 20 pantalles i mateixes
+mesures de scroll que abans (a 1280×690 ja n'hi havia una mica i s'hi
+manté, perquè no s'havia de tocar web).

@@ -227,29 +227,109 @@
   color: var(--tr-crema);
 }
 
-/* Pantalles estretes (mòbil): el panell lateral no hi cap còmodament —
-   torna a ser una franja inferior compacta, com l'antic disseny. */
-@media (max-width: 760px) {
+/* Pantalles estretes (mòbil): tot ha de cabre en una sola pantalla, sense
+   scroll. Columna de 3 franges: taula (s'emporta tot l'espai sobrant) +
+   panell inferior compacte (marcador en una fila, mà, i TOTS els botons
+   en una fila). La taula és un quadrat tan gran com permeti l'espai que
+   li queda (`cqw`/`cqh` de `.tj-taula-zona`), i la mida dels gegants i de
+   les cartes jugades és proporcional a la taula (`cqw` de `.tj-taula`),
+   no a la pantalla — així mai s'hi solapen ni en surten.
+   S'aplica a pantalles estretes, i en tàctil (`pointer: coarse`, mai a un
+   ordinador) també a tauletes en vertical i a mòbils en horitzontal —
+   aquests últims amb el panell al costat (bloc següent). */
+@media (max-width: 760px), (pointer: coarse) and (orientation: portrait), (pointer: coarse) and (max-height: 500px) {
+  .tj-pantalla {
+    min-height: 0;
+    height: 100vh;
+    height: 100dvh;
+  }
+
   .tj-cos {
     flex-direction: column;
   }
 
+  .tj-taula-zona {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 0.25rem;
+    container-type: size;
+  }
+
+  /* `2.6rem` de reserva: els noms de dalt i de baix surten per sobre i per
+     sota de la taula. */
   .tj-taula {
-    width: min(480px, 94vw);
+    width: min(100cqw, 100cqh - 2.6rem);
+    container-type: inline-size;
+    --ct-mida-petita: 15cqw;
   }
 
   .tj-lateral {
     flex: 0 0 auto;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 0.35rem;
     border-left: none;
     border-top: 1px solid rgba(200, 151, 63, 0.3);
-    padding: 0.75rem 1rem 1.5rem;
+    padding: 0.4rem 0.6rem 0.5rem;
   }
 
+  .tj-lateral--ma11 {
+    flex-basis: auto;
+  }
+
+  .tj-lateral app-marcador {
+    width: min(100%, 26rem);
+  }
+
+  /* La mà ja s'identifica sola (és l'única fila de cartes a sota): l'espai
+     vertical és el més escàs en mòbil. */
   .tj-lateral-etiqueta {
-    flex-basis: 100%;
-    text-align: center;
+    display: none;
+  }
+
+  /* A la cantonada superior esquerra: a baix hi ha els botons de joc. */
+  .tj-abandonar {
+    top: 0.3rem;
+    left: 0.5rem;
+    bottom: auto;
+    font-size: 0.65rem;
+  }
+
+  .tj-carta-pila--dalt {
+    top: 34%;
+  }
+
+  .tj-carta-pila--baix {
+    bottom: 34%;
+  }
+
+  .tj-carta-pila--esquerra {
+    left: 33%;
+  }
+
+  .tj-carta-pila--dreta {
+    right: 33%;
+  }
+}
+
+/* Mòbil en horitzontal (tàctil, poca alçada): la taula a l'esquerra i el
+   panell compacte a la dreta, com a escriptori, però amb la mida de tot
+   lligada a l'alçada perquè no calgui scroll. */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .tj-cos {
+    flex-direction: row;
+  }
+
+  .tj-lateral {
+    flex: 0 0 min(320px, 45vw);
+    align-content: center;
+    border-top: none;
+    border-left: 1px solid rgba(200, 151, 63, 0.3);
+    padding: 0.4rem 0.5rem;
+  }
+
+  .tj-lateral--ma11 {
+    flex-basis: min(320px, 45vw);
   }
 }

@@ -42,7 +42,7 @@
   }
   @if (wm.muntades().has('geoexplorer')) {
     <app-window-wrapper id="geoexplorer" [title]="ts.t('app_geoexplorer')" [initialMaximized]="true">
-      <iframe src="http://localhost:4205" title="GeoExplorer" (load)="onIframeCarregada($event)"></iframe>
+      <iframe src="http://localhost:4205" title="GeoExplorer" allow="geolocation" (load)="onIframeCarregada($event)"></iframe>
     </app-window-wrapper>
   }
   @if (wm.muntades().has('mes-que-un-joc')) {

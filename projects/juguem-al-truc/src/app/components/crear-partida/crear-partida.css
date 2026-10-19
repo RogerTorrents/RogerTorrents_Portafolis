@@ -152,3 +152,104 @@
   opacity: 0.6;
   cursor: default;
 }
+
+/* Mòbil: el formulari sencer ha de cabre en una pantalla sense scroll —
+   marges retallats, i les imatges dels personatges (selector-personatge.css)
+   s'ajusten a l'alçada disponible. */
+@media (max-width: 760px) {
+  .cp-pantalla {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 0.5rem;
+  }
+
+  .cp-targeta {
+    padding: 0.9rem 1rem 1rem;
+  }
+
+  .cp-tornar {
+    margin-bottom: 0.2rem;
+  }
+
+  .cp-titol {
+    margin-bottom: 0.6rem;
+    font-size: 1.35rem;
+  }
+
+  .cp-camp {
+    margin-bottom: 0.7rem;
+  }
+
+  .cp-input {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .cp-boto {
+    margin-top: 0.8rem;
+    padding: 0.65rem;
+  }
+}
+
+/* Els 3 modes, sempre en una fila (apilats ocupaven 3 vegades l'alçada). */
+@media (max-width: 760px) {
+  .cp-modes {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .cp-mode {
+    padding: 0.45rem 0.4rem;
+  }
+
+  .cp-mode-titol {
+    font-size: 0.72rem;
+  }
+
+  .cp-mode-desc {
+    font-size: 0.62rem;
+  }
+}
+
+/* Mòbil en horitzontal: el formulari a 2 columnes (en una no hi cap). */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .cp-pantalla {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 0.4rem;
+  }
+
+  .cp-targeta {
+    width: min(820px, 100%);
+    padding: 0.6rem 1rem 0.7rem;
+    columns: 2;
+    column-gap: 1.5rem;
+  }
+
+  .cp-targeta > * {
+    break-inside: avoid;
+  }
+
+  .cp-titol {
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .cp-camp {
+    margin-bottom: 0.5rem;
+  }
+
+  .cp-boto {
+    margin-top: 0.6rem;
+  }
+
+  /* Els modes sota el títol, a la primera columna: el personatge i el
+     botó van sempre a la segona. */
+  .cp-targeta app-selector-personatge {
+    break-before: column;
+  }
+
+  .cp-mode-desc {
+    display: none;
+  }
+}

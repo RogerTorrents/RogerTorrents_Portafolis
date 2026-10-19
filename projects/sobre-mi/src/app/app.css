@@ -1056,3 +1056,265 @@ a.sm-contacte__fila:hover .sm-contacte__arrow { transform: translateX(5px); colo
   .sm-contacte__fila { grid-template-columns: 1fr; }
   .sm-contacte__fila .sm-contacte__arrow { display: none; }
 }
+
+/* ============================================================
+   MÒBIL TÀCTIL — (pointer: coarse) i ≤700px
+   Mai s'aplica en un ordinador (ni amb la finestra estreta). Els elements
+   nous de la plantilla (navegació inferior, "Mostra-ho tot", temes del
+   mapa) queden amagats fora d'aquí.
+   ============================================================ */
+.sm-mnav,
+.sm-exp-bloc__mes,
+.sm-mapa-pista,
+.sm-mapa-temes {
+  display: none;
+}
+
+@media (pointer: coarse) and (max-width: 700px) {
+
+  /* ---- Navegació inferior: tira de pastilles amb la secció activa ---- */
+  .sm-mnav {
+    display: flex;
+    gap: 0.4rem;
+    position: absolute;
+    left: 0.6rem;
+    right: 0.6rem;
+    bottom: calc(0.6rem + env(safe-area-inset-bottom));
+    z-index: 60;
+    padding: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border: 1px solid var(--sm-border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 28px rgba(11, 19, 43, 0.14);
+    opacity: 0;
+    transform: translateY(140%);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .sm-mnav::-webkit-scrollbar { display: none; }
+
+  .sm-mnav--visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .sm-mnav__item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    padding: 0.55rem 0.9rem;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--sm-text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .sm-mnav__num {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.62rem;
+    color: var(--sm-blue);
+  }
+
+  .sm-mnav__item--actiu {
+    background: var(--sm-blue);
+    color: #ffffff;
+  }
+
+  .sm-mnav__item--actiu .sm-mnav__num { color: rgba(255, 255, 255, 0.75); }
+
+  /* Que l'últim contingut no quedi sota la navegació. */
+  .sm-seccio--contacte { padding-bottom: 6rem; }
+
+  /* ---- Intro: el nom més gran ---- */
+  .sm-intro__nom { font-size: clamp(2.5rem, 17vw, 6rem); }
+
+  /* ---- Hero: foto compacta (abans ocupava tota la pantalla) ---- */
+  .sm-hero { padding: 2.5rem 1.25rem 1.5rem; }
+  .sm-hero__layout { gap: 1.75rem; }
+  .sm-hero__foto-frame { max-width: 150px; }
+  .sm-hero__titol { margin-bottom: 0.9rem; }
+  .sm-hero__desc { font-size: 0.93rem; line-height: 1.7; margin-bottom: 1.75rem; }
+  .sm-idioma-item { grid-template-columns: 70px 1fr 64px; }
+
+  /* ---- Capçaleres de secció més compactes ---- */
+  .sm-seccio { padding: 2rem 1.1rem; }
+  .sm-seccio__header { gap: 0.9rem; margin-bottom: 1.5rem; padding-bottom: 0.9rem; }
+
+  /* ---- Experiència: targeta compacta i punts plegables ---- */
+  .sm-exp-bloc { padding: 1.15rem 1.1rem; border-radius: 0 12px 12px 0; }
+  .sm-exp-bloc__head { flex-direction: column-reverse; align-items: flex-start; gap: 0.5rem; }
+  .sm-exp-bloc__desc { font-size: 0.89rem; line-height: 1.65; }
+  .sm-exp-bloc__bullet { font-size: 0.85rem; line-height: 1.55; }
+  .sm-exp-bloc__bullet--extra { display: none; }
+
+  .sm-exp-bloc__mes {
+    display: inline-flex;
+    margin-top: 0.85rem;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--sm-blue-border);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--sm-blue);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* ---- Formació: files amb el logotip al costat (abans 3 targetes de
+     ~470px, una sota l'altra) ---- */
+  .sm-formacio-grid { gap: 0.65rem; }
+
+  .sm-edu-item {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    column-gap: 0.95rem;
+    align-items: center;
+    padding: 0.9rem 1rem;
+    border-top: none;
+    border-left: 3px solid var(--sm-border);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .sm-edu-item--cyan   { border-left-color: var(--sm-blue); }
+  .sm-edu-item--purple { border-left-color: var(--sm-purple); }
+  .sm-edu-item--green  { border-left-color: var(--sm-green); }
+  .sm-edu-item--orange { border-left-color: var(--sm-orange); }
+
+  .sm-edu-item__img-zona {
+    grid-row: 1 / span 3;
+    height: 72px;
+    margin: 0;
+    padding: 0.4rem;
+    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid var(--sm-border);
+  }
+
+  .sm-edu-item__dates { margin-bottom: 0.2rem; }
+  .sm-edu-item__titol { font-size: 0.92rem; margin-bottom: 0.2rem; }
+  .sm-edu-item__inst { font-size: 0.76rem; }
+
+  /* ---- Habilitats ---- */
+  .sm-hab-grup { padding: 1.25rem 0; }
+  .sm-tag { font-size: 0.78rem; padding: 0.35rem 0.7rem; border-radius: 999px; }
+
+  /* ---- Fora del teclat: el mapa + els temes com a botons grans ---- */
+  .sm-mapa { border-radius: 12px; }
+
+  .sm-mapa-pista {
+    display: block;
+    margin: 0.9rem 0 0.7rem;
+    font-size: 0.8rem;
+    color: var(--sm-text-light);
+    text-align: center;
+  }
+
+  .sm-mapa-temes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .sm-mapa-tema {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 56px;
+    padding: 0.45rem 0.7rem 0.45rem 0.45rem;
+    border: 1px solid var(--sm-border);
+    border-left: 3px solid var(--sm-border-strong);
+    border-radius: 0 12px 12px 0;
+    background: #ffffff;
+    box-shadow: var(--sm-shadow);
+    text-align: left;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s ease;
+  }
+
+  .sm-mapa-tema:active { transform: scale(0.97); }
+  .sm-mapa-tema--cyan   { border-left-color: var(--sm-blue); }
+  .sm-mapa-tema--orange { border-left-color: var(--sm-orange); }
+  .sm-mapa-tema--purple { border-left-color: var(--sm-purple); }
+  .sm-mapa-tema--green  { border-left-color: var(--sm-green); }
+
+  .sm-mapa-tema__img {
+    width: 44px;
+    height: 40px;
+    flex-shrink: 0;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+  }
+
+  .sm-mapa-tema__nom {
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--sm-navy);
+  }
+
+  /* Popup → full inferior: la foto primer i a tota l'amplada. */
+  .sm-mapa-popup {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: none;
+    max-height: 88vh;
+    max-height: 88dvh;
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 calc(1.5rem + env(safe-area-inset-bottom));
+    border-radius: 18px 18px 0 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    transform: none;
+    animation: sm-full-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .sm-mapa-popup__figura { order: -1; margin: 0 0 1.1rem; }
+
+  .sm-mapa-popup__foto {
+    aspect-ratio: 4 / 3;
+    border: none;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .sm-mapa-popup__peu { padding: 0 1.25rem; }
+  .sm-mapa-popup__titol { padding: 0 1.25rem; font-size: 1.25rem; }
+  .sm-mapa-popup__text { padding: 0 1.25rem; font-size: 0.95rem; }
+
+  .sm-mapa-popup__tancar {
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--sm-text);
+    box-shadow: var(--sm-shadow-md);
+  }
+
+}
+
+@keyframes sm-full-in {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}

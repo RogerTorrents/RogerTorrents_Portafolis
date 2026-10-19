@@ -17,7 +17,9 @@
 }
 
 .ct-carta--petita {
-  width: 58px;
+  /* `--ct-mida-petita` només la defineix el mòbil (taula-joc.css), per
+     fer-la proporcional a la taula; a escriptori sempre 58px. */
+  width: var(--ct-mida-petita, 58px);
 }
 
 .ct-carta--seleccionada {

@@ -36,3 +36,27 @@
   transform: translateY(-6px);
   transition: transform 0.12s ease;
 }
+
+/* Mòbil: cartes tan grans com permet l'alçada (cal que hi càpiguen la
+   taula, el marcador i els botons sense scroll). */
+@media (max-width: 760px), (pointer: coarse) and (orientation: portrait), (pointer: coarse) and (max-height: 500px) {
+  .mj-ma {
+    --ct-mida: min(84px, 11.5dvh, 25vw);
+    padding-top: 0.9rem;
+  }
+
+  .mj-ma--ampliada {
+    --ct-mida: min(100px, 13.5dvh, 29vw);
+  }
+}
+
+/* Mòbil en horitzontal: la mida es lliga a l'alçada (molt escassa). */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .mj-ma {
+    --ct-mida: min(84px, 28dvh, 9vw);
+  }
+
+  .mj-ma--ampliada {
+    --ct-mida: min(100px, 31dvh, 10vw);
+  }
+}

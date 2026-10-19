@@ -69,3 +69,52 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+/* Mòbil: una pantalla sense scroll. */
+@media (max-width: 760px) {
+  .pa-pantalla {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 1rem;
+  }
+
+  .pa-subtitol {
+    margin-bottom: 1.5rem;
+  }
+
+  .pa-botons {
+    gap: 1rem;
+  }
+
+  .pa-boto {
+    --tr-medallo-mida: min(112px, 17dvh);
+  }
+}
+
+/* Mòbil en horitzontal: tot més compacte per cabre en poca alçada. */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .pa-pantalla {
+    padding: 0.5rem 1rem;
+  }
+
+  .pa-retrats {
+    margin-bottom: 0.3rem;
+  }
+
+  .pa-retrat {
+    width: auto;
+    height: 22dvh;
+  }
+
+  .pa-targeta .tr-separador {
+    display: none;
+  }
+
+  .pa-subtitol {
+    margin: 0.3rem 0 0.8rem;
+  }
+
+  .pa-boto {
+    --tr-medallo-mida: min(112px, 30dvh);
+  }
+}

@@ -91,3 +91,40 @@
   background: #c0392b;
   border-color: #e0574a;
 }
+
+/* Mòbil: una sola fila (equip A · rondes/aposta · equip B) — l'alçada és
+   el que més escasseja sota la taula. */
+@media (max-width: 760px), (pointer: coarse) and (orientation: portrait), (pointer: coarse) and (max-height: 500px) {
+  .mc-contenidor {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .mc-equip {
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 0.35rem;
+  }
+
+  .mc-equip:first-child {
+    order: 1;
+  }
+
+  .mc-rondes {
+    order: 2;
+    margin-top: 0;
+    gap: 0.3rem;
+  }
+
+  .mc-aposta {
+    order: 3;
+    margin: 0;
+  }
+
+  .mc-equip:nth-child(2) {
+    order: 4;
+    flex-direction: row-reverse;
+  }
+}

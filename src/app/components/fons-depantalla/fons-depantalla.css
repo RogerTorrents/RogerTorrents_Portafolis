@@ -147,3 +147,141 @@ input[type="color"]::-webkit-color-swatch {
 .btn-restaurar:hover {
   background: #4a4a4a;
 }
+
+/* ===== Mòbil / tauleta (`.tactil`, ve de DispositiuService) =====
+   A escriptori res d'això s'aplica. La finestra ocupa tota l'àrea (s'obre
+   maximitzada), així que la previsualització s'emporta tot l'espai que
+   sobra i copia la proporció de la pantalla (`--proporcio-pantalla`), per
+   veure com quedarà el fons de debò en aquest dispositiu. */
+:host(.tactil) {
+  display: block;
+  height: 100%;
+}
+
+:host(.tactil) .fons-app {
+  height: 100%;
+  gap: 0.9rem;
+  padding: 0;
+}
+
+:host(.tactil) .info-seccio h2 {
+  margin-bottom: 0.35rem;
+}
+
+:host(.tactil) .descripcio {
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+:host(.tactil) .controls-seccio {
+  gap: 0.9rem;
+}
+
+/* Etiqueta i mostra de color en una sola fila. */
+:host(.tactil) .control-grup:has(input[type="color"]) {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Control lliscant i mostra de color a mida de dit. */
+:host(.tactil) input[type="range"] {
+  height: 6px;
+  margin: 10px 0;
+  border-radius: 3px;
+}
+
+:host(.tactil) input[type="range"]::-webkit-slider-thumb {
+  width: 26px;
+  height: 26px;
+}
+
+:host(.tactil) input[type="range"]::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+}
+
+:host(.tactil) input[type="color"] {
+  width: 56px;
+  height: 36px;
+}
+
+:host(.tactil) .preview-seccio {
+  flex: 1;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+}
+
+:host(.tactil) .preview-zona {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  container-type: size;
+}
+
+/* El rectangle més gran amb la proporció de la pantalla que hi cap. */
+:host(.tactil) .preview-caixa {
+  max-width: none;
+  width: min(100cqw, 100cqh * var(--proporcio-pantalla, 1.6));
+  aspect-ratio: var(--proporcio-pantalla, 1.6);
+}
+
+:host(.tactil) .preview-caixa canvas {
+  max-width: none;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+:host(.tactil) .accions-seccio {
+  padding-top: 0;
+}
+
+:host(.tactil) .btn-acceptar,
+:host(.tactil) .btn-restaurar {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+}
+
+/* Mòbil en horitzontal: text, controls i botons a l'esquerra, i la
+   previsualització a la dreta, a tota l'alçada. */
+@media (orientation: landscape) and (max-height: 500px) {
+  :host(.tactil) .fons-app {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr auto;
+    gap: 0.6rem 1.25rem;
+  }
+
+  :host(.tactil) .info-seccio { grid-column: 1; grid-row: 1; }
+  :host(.tactil) .controls-seccio { grid-column: 1; grid-row: 2; gap: 0.5rem; }
+  :host(.tactil) .accions-seccio { grid-column: 1; grid-row: 4; }
+
+  :host(.tactil) .preview-seccio {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    min-height: 0;
+  }
+
+  :host(.tactil) .info-seccio h2 {
+    font-size: 1rem;
+  }
+
+  :host(.tactil) .descripcio {
+    font-size: 0.72rem;
+    line-height: 1.4;
+  }
+
+  :host(.tactil) input[type="range"] {
+    margin: 6px 0;
+  }
+
+  :host(.tactil) .btn-acceptar,
+  :host(.tactil) .btn-restaurar {
+    padding: 0.6rem 1rem;
+  }
+}

@@ -1,14 +1,16 @@
-<div class="taskbar taskbar-bottom">
+<div class="taskbar taskbar-bottom" [class.tactil]="dispositiu.tactil()">
 	<div class="taskbar-left">
 		<div class="start-wrapper">
 			<button class="start-btn" (click)="toggleStart($event)">☰</button>
 			@if (mostrarStart()) {
 				<div class="start-popup" (pointerdown)="$event.stopPropagation()">
-					<button class="start-item" (click)="pantallaCompleta()">
-						<span class="start-item-icon">{{ esPantallaCompleta() ? '⊡' : '⛶' }}</span>
-						{{ esPantallaCompleta() ? ts.t('start_sortir_pantalla_completa') : ts.t('start_pantalla_completa') }}
-					</button>
-					<div class="start-separator"></div>
+					@if (pantallaCompletaDisponible) {
+						<button class="start-item" (click)="pantallaCompleta()">
+							<span class="start-item-icon">{{ esPantallaCompleta() ? '⊡' : '⛶' }}</span>
+							{{ esPantallaCompleta() ? ts.t('start_sortir_pantalla_completa') : ts.t('start_pantalla_completa') }}
+						</button>
+						<div class="start-separator"></div>
+					}
 					<button class="start-item" (click)="onReiniciar()">
 						<span class="start-item-icon">↻</span>
 						{{ ts.t('start_reiniciar') }}
@@ -22,7 +24,7 @@
 		</div>
 		<button class="search-btn" [title]="ts.t('search')">🔍</button>
 
-		<div class="running-apps">
+		<div class="running-apps" #runningApps>
 			@for (win of openWindows(); track win.id) {
 				<div class="task-wrapper"
 					(mouseenter)="mostrarPreview(win.id)"

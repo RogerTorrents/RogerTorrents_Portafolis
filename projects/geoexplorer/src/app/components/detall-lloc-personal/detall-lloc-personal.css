@@ -213,3 +213,34 @@
     opacity: 1;
   }
 }
+
+/* ===== Mòbil tàctil: full inferior de detall =====
+   Alçada segons el contingut (abans sempre 78vh, amb molt buit a sota) i
+   amb `dvh`; nansa visual i botó de tancar a mida de dit. */
+@media (pointer: coarse) and (max-width: 720px) {
+  .geo-detall {
+    height: auto;
+    max-height: 78vh;
+    max-height: 78dvh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .geo-detall::before {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    z-index: 3;
+    width: 42px;
+    height: 4px;
+    margin-left: -21px;
+    border-radius: 2px;
+    background: rgba(238, 242, 239, 0.45);
+  }
+
+  .geo-detall-tancar {
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+  }
+}

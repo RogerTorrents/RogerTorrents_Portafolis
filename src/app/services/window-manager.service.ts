@@ -1,4 +1,10 @@
-import { Injectable, computed, signal, Signal } from '@angular/core';
+import { Injectable, computed, inject, signal, Signal } from '@angular/core';
+import { DispositiuService } from './dispositiu.service';
+
+/** Alçada de la barra de tasques; les finestres mai la poden tapar. */
+export const ALCADA_TASKBAR = 40;
+
+type Rectangle = { x: number; y: number; width: number; height: number };
 
 export type WindowState = {
   id: string;
@@ -13,7 +19,9 @@ export type WindowState = {
   visible: boolean;
   active: boolean;
   animState: 'opening' | 'closing' | '';
-  restoreBounds?: { x: number; y: number; width: number; height: number };
+  restoreBounds?: Rectangle;
+  /** Estat que tenia la finestra just abans de minimitzar-la, per tornar-hi en restaurar. */
+  estatAbansMinimitzar?: 'normal' | 'maximized';
 };
 
 @Injectable({ providedIn: 'root' })
@@ -24,6 +32,14 @@ export class WindowManagerService {
   private readonly _animTimeouts = new Map<string, any>();
   private _windowCount = 0;
   private readonly _cascade = 30;
+  private readonly dispositiu = inject(DispositiuService);
+
+  constructor() {
+    // En tàctil, girar el dispositiu o mostrar/amagar la barra del navegador
+    // canvia l'àrea visible: cal tornar a encabir-hi totes les finestres.
+    window.addEventListener('resize', () => this.clampFinestres());
+    window.visualViewport?.addEventListener('resize', () => this.clampFinestres());
+  }
 
   getWindowSignal(id: string): Signal<WindowState | undefined> {
     return computed(() => this._finestres()[id]);
@@ -63,7 +79,7 @@ export class WindowManagerService {
     this.clearAnim(id);
     this._muntades.update(s => new Set([...s, id]));
     if (!this._finestres()[id]) this.registerWindow(id, title ?? id);
-    const patch: Partial<WindowState> = { visible: true, state: 'normal', active: true, animState: '' };
+    const patch: Partial<WindowState> = { visible: true, state: this.estatEnMostrar(id), active: true, animState: '' };
     if (icon) patch.icon = icon;
     this._finestres.update(f => ({ ...f, [id]: { ...f[id], ...patch } }));
     this.bringToFront(id);
@@ -72,7 +88,7 @@ export class WindowManagerService {
   restoreWindow(id: string) {
     this.clearAnim(id);
     if (!this._finestres()[id]) return;
-    this.patchWindow(id, { visible: true, state: 'normal', active: true, animState: 'opening' });
+    this.patchWindow(id, { visible: true, state: this.estatEnMostrar(id), active: true, animState: 'opening' });
     this.bringToFront(id);
     this._animTimeouts.set(id, setTimeout(() => {
       this.patchWindow(id, { animState: '' });
@@ -90,6 +106,8 @@ export class WindowManagerService {
   minimizeWindow(id: string) {
     if (!this._finestres()[id]) return;
     this.clearAnim(id);
+    const actual = this._finestres()[id].state;
+    if (actual !== 'minimized') this.patchWindow(id, { estatAbansMinimitzar: actual });
     this.patchWindow(id, { animState: 'closing' });
     this._animTimeouts.set(id, setTimeout(() => {
       this.patchWindow(id, { state: 'minimized', visible: false, active: false, animState: '' });
@@ -101,7 +119,7 @@ export class WindowManagerService {
     if (!this._finestres()[id]) return;
     const cur = this._finestres()[id];
     if (cur.state === 'maximized') {
-      const restore = cur.restoreBounds;
+      const restore = cur.restoreBounds ? this.ajustarAPantalla(cur.restoreBounds) : undefined;
       if (restore) {
         this._finestres.update(f => ({
           ...f,
@@ -121,7 +139,7 @@ export class WindowManagerService {
     } else {
       const restoreBounds = { x: cur.x, y: cur.y, width: cur.width, height: cur.height };
       const fullWidth = Math.max(window.innerWidth, cur.width);
-      const fullHeight = Math.max(window.innerHeight - 40, cur.height);
+      const fullHeight = Math.max(window.innerHeight - ALCADA_TASKBAR, cur.height);
       this._finestres.update(f => ({
         ...f,
         [id]: {
@@ -158,40 +176,41 @@ export class WindowManagerService {
   }
 
   moveWindow(id: string, x: number, y: number) {
-    if (!this._finestres()[id]) return;
-    this._finestres.update(f => ({ ...f, [id]: { ...f[id], x, y } }));
+    const w = this._finestres()[id];
+    if (!w) return;
+    this.resizeMoveWindow(id, x, y, w.width, w.height);
   }
 
   resizeWindow(id: string, width: number, height: number) {
-    if (!this._finestres()[id]) return;
-    this._finestres.update(f => ({ ...f, [id]: { ...f[id], width, height } }));
+    const w = this._finestres()[id];
+    if (!w) return;
+    this.resizeMoveWindow(id, w.x, w.y, width, height);
   }
 
   resizeMoveWindow(id: string, x: number, y: number, width: number, height: number) {
     if (!this._finestres()[id]) return;
-    this._finestres.update(f => ({ ...f, [id]: { ...f[id], x, y, width, height } }));
+    const r = this.ajustarAPantalla({ x, y, width, height });
+    this._finestres.update(f => ({ ...f, [id]: { ...f[id], ...r } }));
   }
 
+  /**
+   * Tàctil: torna a encabir totes les finestres (i la mida a la qual
+   * tornaran quan es desmaximitzin) dins l'àrea visible actual. A
+   * escriptori no fa res: allà es permet deixar finestres mig fora.
+   */
   clampFinestres(): void {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight - 40;
-    const marge = 80;
-
+    if (!this.dispositiu.tactil()) return;
     this._finestres.update(f => {
       const out: Record<string, WindowState> = {};
       let changed = false;
       for (const [id, w] of Object.entries(f)) {
-        if (!w.visible || w.state === 'maximized') {
-          out[id] = w;
-          continue;
-        }
-        let { x, y } = w;
-        if (x + w.width < marge) x = marge - w.width;
-        if (x > vw - marge) x = vw - marge;
-        if (y < 0) y = 0;
-        if (y > vh - marge) y = vh - marge;
-        if (x !== w.x || y !== w.y) {
-          out[id] = { ...w, x, y };
+        const r = this.ajustarAPantalla(w);
+        const restore = w.restoreBounds ? this.ajustarAPantalla(w.restoreBounds) : undefined;
+        const mouRect = r.x !== w.x || r.y !== w.y || r.width !== w.width || r.height !== w.height;
+        const mouRestore = !!restore && (restore.x !== w.restoreBounds!.x || restore.y !== w.restoreBounds!.y
+          || restore.width !== w.restoreBounds!.width || restore.height !== w.restoreBounds!.height);
+        if (mouRect || mouRestore) {
+          out[id] = { ...w, ...r, restoreBounds: restore };
           changed = true;
         } else {
           out[id] = w;
@@ -199,6 +218,33 @@ export class WindowManagerService {
       }
       return changed ? out : f;
     });
+  }
+
+  /**
+   * En dispositius tàctils, retalla i desplaça el rectangle perquè quedi
+   * sencer dins la pantalla (sense tapar la barra de tasques). A
+   * escriptori el retorna tal qual.
+   */
+  private ajustarAPantalla(r: Rectangle): Rectangle {
+    if (!this.dispositiu.tactil()) return { x: r.x, y: r.y, width: r.width, height: r.height };
+    const vw = window.innerWidth;
+    const vh = window.innerHeight - ALCADA_TASKBAR;
+    const width = Math.min(Math.max(r.width, Math.min(320, vw)), vw);
+    const height = Math.min(Math.max(r.height, Math.min(240, vh)), vh);
+    return {
+      width,
+      height,
+      x: Math.min(Math.max(r.x, 0), vw - width),
+      y: Math.min(Math.max(r.y, 0), vh - height),
+    };
+  }
+
+  /** En tornar a mostrar una finestra, recupera si estava maximitzada. */
+  private estatEnMostrar(id: string): 'normal' | 'maximized' {
+    const w = this._finestres()[id];
+    if (!w) return 'normal';
+    if (w.state === 'minimized') return w.estatAbansMinimitzar ?? 'normal';
+    return w.state;
   }
 
   private patchWindow(id: string, patch: Partial<WindowState>) {

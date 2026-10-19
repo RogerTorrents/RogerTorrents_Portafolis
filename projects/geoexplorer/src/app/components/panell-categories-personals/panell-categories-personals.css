@@ -267,3 +267,24 @@
   padding: 6px 12px;
   font-size: 12px;
 }
+
+/* ===== Tàctil: objectius de toc més grans ("+ Afegir lloc", eliminar…). */
+@media (pointer: coarse) {
+  .geo-link-boto {
+    padding: 8px 4px;
+    font-size: 13px;
+  }
+
+  .geo-categoria-eliminar,
+  .geo-lloc-eliminar {
+    min-width: 36px;
+    min-height: 36px;
+    font-size: 13px;
+  }
+
+  .geo-lloc-nom {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-size: 13px;
+  }
+}

@@ -78,3 +78,47 @@ defecte — només si es construeix manualment després): copiar aquest patró
 sencer (constructor amb listener + treure qualsevol selector visible propi)
 en lloc de repetir el disseny antic "cada app amb el seu propi selector,
 independent del Shell" que tenien totes fins ara.
+## 5. Dispositius tàctils (mòbil / tauleta)
+
+Detecció: `DispositiuService.tactil()` (`src/app/services/dispositiu.service.ts`),
+basat en `(pointer: coarse)` — el punter PRINCIPAL. Un portàtil tàctil amb
+ratolí, o una tauleta amb trackpad, es comporta com a escriptori. A CSS
+s'usa `@media (pointer: coarse)` o la classe `.tactil` de la taskbar.
+A escriptori res d'això canvia el comportament.
+
+- **Totes les apps s'obren maximitzades** (`window-wrapper` `ngOnInit`),
+  tinguin o no `initialMaximized`.
+- **Cap finestra pot sortir de la pantalla**: `WindowManagerService.
+  ajustarAPantalla()` retalla i desplaça qualsevol rectangle (moure,
+  redimensionar, desmaximitzar, `restoreBounds`) perquè quedi sencer sobre
+  la taskbar. En girar el dispositiu o canviar la barra del navegador,
+  `clampFinestres()` (escoltant `resize` i `visualViewport`) les torna a
+  encabir.
+- Sense snap lateral (mitja pantalla de mòbil < amplada mínima); el snap
+  a maximitzar (dalt) es manté.
+- `touch-action: none` al header, nanses i escriptori, i tots els drags
+  escolten també `pointercancel`.
+- **Taskbar**: mai desborda. Si els noms no hi caben → `.nomes-logos`
+  (logos de 40 px fixos). Si ni així → la zona d'apps fa scroll horitzontal
+  amb `scroll-snap`, i la seva amplada visible és múltiple exacte de 40 px
+  perquè mai es vegi mitja icona. En mòbil estret s'amaguen el cercador i
+  la data (queda l'hora). Sense previsualitzacions al "hover".
+- Minimitzar recorda si la finestra estava maximitzada
+  (`estatAbansMinimitzar`) i restaurar-la la torna igual (també a
+  escriptori).
+
+### Fons de pantalla en tàctil (2026-10-19)
+
+- **Finestra "Fons de pantalla"** (`fons-depantalla`): amb `.tactil` al
+  host (de `DispositiuService`), la previsualització ocupa tot l'espai
+  sobrant i copia la proporció de la pantalla (`--proporcio-pantalla`,
+  vertical en un mòbil), perquè sigui fidel al fons real. Controls i
+  botons a mida de dit; en horitzontal, 2 columnes (text/controls/botons |
+  previsualització). A escriptori el canvas segueix sent 320×200 fix.
+- **Nitidesa**: en tàctil, tant el fons (`voronoi-fons`) com la
+  previsualització es dibuixen a la densitat real de la pantalla (màx. 2×,
+  `ctx.setTransform`), treballant en coordenades lògiques en px CSS.
+  Abans, a 1×, un mòbil de densitat 3 els veia borrosos.
+- `voronoi-fons` en tàctil fa servir `inset: 0` en lloc de `100vw/100vh`:
+  en mòbil `100vh` inclou la barra del navegador i el canvas (dibuixat a
+  `innerHeight`) quedava estirat.

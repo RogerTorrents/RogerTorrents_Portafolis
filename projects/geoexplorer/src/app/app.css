@@ -120,3 +120,93 @@
     stroke-width: 1.5;
   }
 }
+
+/* Capçalera del full inferior i selectors de zona/mapa base dins el full:
+   només existeixen visualment en mòbil tàctil (bloc següent). */
+.geo-full-capcalera,
+.geo-full-mapa {
+  display: none;
+}
+
+/* ===== Mòbil tàctil =====
+   El full inferior (filtres / el meu mapa) té nansa i botó de tancar, i
+   porta els selectors de zona i mapa base, que a la capçalera no hi caben.
+   `dvh` i `safe-area` perquè la barra del navegador i la zona del gest
+   d'inici de l'iPhone no tapin res. */
+@media (pointer: coarse) and (max-width: 720px) {
+  .geo-lateral {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .geo-full-capcalera {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    flex-shrink: 0;
+    min-height: 44px;
+    background: var(--geo-bg-elevat);
+  }
+
+  .geo-full-nansa {
+    width: 42px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--geo-vora);
+  }
+
+  .geo-full-tancar {
+    position: absolute;
+    right: 8px;
+    top: 4px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--geo-text-suau);
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .geo-full-mapa {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    flex-shrink: 0;
+    padding: 0 16px 14px;
+    border-bottom: 1px solid var(--geo-vora);
+  }
+
+  .geo-full-camp {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .geo-full-camp span {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--geo-text-suau);
+  }
+
+  .geo-full-camp select {
+    width: 100%;
+    background: var(--geo-panell);
+    border: 1px solid var(--geo-vora);
+    color: var(--geo-text);
+    border-radius: 4px;
+    padding: 9px 8px;
+  }
+
+  .geo-boto-flotant-filtres {
+    bottom: calc(34px + env(safe-area-inset-bottom));
+    padding: 13px 22px;
+    font-size: 14px;
+  }
+}

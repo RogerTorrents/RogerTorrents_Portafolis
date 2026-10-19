@@ -1,5 +1,6 @@
 :host {
   display: block;
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -7,4 +8,59 @@
 .geo-mapa {
   width: 100%;
   height: 100%;
+}
+
+/* Botó "La meva ubicació" (només existeix en tàctil, vegeu mapa.html):
+   cantonada inferior dreta, just per sobre dels botons de zoom de Leaflet. */
+.geo-boto-ubicacio {
+  position: absolute;
+  right: 10px;
+  bottom: 104px;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--geo-radi);
+  border: 1px solid var(--geo-vora);
+  background: var(--geo-bg-elevat);
+  color: var(--geo-text);
+  box-shadow: var(--geo-ombra);
+  cursor: pointer;
+}
+
+.geo-boto-ubicacio svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.geo-boto-ubicacio svg circle:first-child {
+  fill: currentColor;
+  stroke: none;
+}
+
+.geo-boto-ubicacio--actiu {
+  color: var(--geo-blau);
+  border-color: var(--geo-blau);
+}
+
+.geo-ubicacio-error {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 12px;
+  z-index: 600;
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: var(--geo-radi);
+  border: 1px solid rgba(216, 86, 79, 0.5);
+  background: var(--geo-bg-elevat);
+  color: var(--geo-vermell);
+  font-size: 13px;
+  text-align: center;
+  box-shadow: var(--geo-ombra);
 }

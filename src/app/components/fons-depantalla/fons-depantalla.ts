@@ -1,9 +1,10 @@
 import {
-  Component, signal, effect, OnDestroy, ElementRef, viewChild, AfterViewInit,
+  Component, signal, effect, OnDestroy, ElementRef, viewChild, AfterViewInit, inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { VoronoiService, PaletaVoronoi } from '../../services/voronoi.service';
 import { TranslationService } from '../../services/translation.service';
+import { DispositiuService } from '../../services/dispositiu.service';
 
 @Component({
   selector: 'app-fons-depantalla',
@@ -11,11 +12,28 @@ import { TranslationService } from '../../services/translation.service';
   imports: [FormsModule],
   templateUrl: './fons-depantalla.html',
   styleUrl: './fons-depantalla.css',
+  host: {
+    '[class.tactil]': 'dispositiu.tactil()',
+    '[style.--proporcio-pantalla]': 'proporcioPantalla()',
+  },
 })
 export class FonsDepantalla implements AfterViewInit, OnDestroy {
   private readonly previewCanvas = viewChild<ElementRef<HTMLCanvasElement>>('previewCanvas');
   private animId = 0;
   private punts: { x: number; y: number; vx: number; vy: number }[] = [];
+  readonly dispositiu = inject(DispositiuService);
+
+  /** Mida lògica (px CSS) de la previsualització. A escriptori és sempre
+   *  320×200; en tàctil segueix la caixa real del canvas (vegeu
+   *  `ajustarCanvasTactil`), que té la proporció de la pantalla. */
+  private amplada = 320;
+  private alcada = 200;
+  private observadorMida?: ResizeObserver;
+
+  /** Proporció ample/alt de la pantalla: en tàctil la previsualització la
+   *  copia, perquè sigui fidel al fons real del mòbil (vertical o no). */
+  readonly proporcioPantalla = signal(window.innerWidth / window.innerHeight);
+  private readonly onResize = () => this.proporcioPantalla.set(window.innerWidth / window.innerHeight);
 
   readonly nombrePuntsLocal: ReturnType<typeof signal<number>>;
   readonly colorBase = signal('#9cc3b0');
@@ -38,7 +56,37 @@ export class FonsDepantalla implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.inicialitzarPuntsPreview(this.nombrePuntsLocal());
+    window.addEventListener('resize', this.onResize);
+    const canvas = this.previewCanvas()?.nativeElement;
+    if (canvas && this.dispositiu.tactil()) {
+      this.observadorMida = new ResizeObserver(() => this.ajustarCanvasTactil(canvas));
+      this.observadorMida.observe(canvas);
+    }
     this.animarPreview();
+  }
+
+  /**
+   * Tàctil: el canvas pren la mida de la seva caixa CSS multiplicada per la
+   * densitat de la pantalla (màx. 2×, per no disparar el cost de dibuix) —
+   * a 1 píxel per píxel CSS, en un mòbil 3× es veia borrós. Els punts es
+   * reescalen a la nova mida en lloc de regenerar-se, perquè l'animació no
+   * salti.
+   */
+  private ajustarCanvasTactil(canvas: HTMLCanvasElement): void {
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    if (!w || !h) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const sx = w / this.amplada;
+    const sy = h / this.alcada;
+    for (const p of this.punts) {
+      p.x *= sx;
+      p.y *= sy;
+    }
+    this.amplada = w;
+    this.alcada = h;
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
   }
 
   onPuntsCanvi(valor: number): void {
@@ -63,8 +111,8 @@ export class FonsDepantalla implements AfterViewInit, OnDestroy {
   }
 
   private inicialitzarPuntsPreview(n: number): void {
-    const pw = 320;
-    const ph = 200;
+    const pw = this.amplada;
+    const ph = this.alcada;
     this.punts = Array.from({ length: n }, () => ({
       x: Math.random() * pw,
       y: Math.random() * ph,
@@ -80,9 +128,11 @@ export class FonsDepantalla implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const w = canvas.width;
-    const h = canvas.height;
+    const w = this.amplada;
+    const h = this.alcada;
     const ctx = canvas.getContext('2d')!;
+    // Escala de píxels lògics a píxels reals del canvas (1 a escriptori).
+    ctx.setTransform(canvas.width / w, 0, 0, canvas.height / h, 0, 0);
     const colors = this.paletaLocal().colors;
 
     for (const p of this.punts) {
@@ -125,5 +175,7 @@ export class FonsDepantalla implements AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     cancelAnimationFrame(this.animId);
+    this.observadorMida?.disconnect();
+    window.removeEventListener('resize', this.onResize);
   }
 }

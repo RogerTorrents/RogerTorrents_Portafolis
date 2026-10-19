@@ -1,7 +1,8 @@
-import { Component, computed, signal, OnDestroy, HostListener } from '@angular/core';
+import { Component, computed, signal, OnDestroy, HostListener, inject } from '@angular/core';
 import { WindowManagerService } from '../../services/window-manager.service';
 import { TranslationService } from '../../services/translation.service';
 import { AppIcon } from '../base/app-icon/app-icon';
+import { DispositiuService } from '../../services/dispositiu.service';
 
 @Component({
   selector: 'app-desktop',
@@ -30,7 +31,9 @@ export class Desktop implements OnDestroy {
     { id: 'contactar', nameKey: 'app_contactar', icon: '✉️', showInDesktop: false },
   ];
 
-  isMobile = computed(() => window.innerWidth <= 650);
+  private readonly dispositiu = inject(DispositiuService);
+  /** Un sol toc obre l'app: pantalles petites i qualsevol dispositiu tàctil (tauletes incloses). */
+  isMobile = computed(() => window.innerWidth <= 650 || this.dispositiu.tactil());
   desktopApps = computed(() =>
     this.appDefs.filter(a => a.showInDesktop).map(a => ({ ...a, name: this.ts.t(a.nameKey) }))
   );
@@ -146,6 +149,7 @@ export class Desktop implements OnDestroy {
 
     document.addEventListener('pointermove', this.onIconaDragMove);
     document.addEventListener('pointerup', this.onIconaDragUp);
+    document.addEventListener('pointercancel', this.onIconaDragUp);
   }
 
   private onIconaDragMove = (ev: PointerEvent) => {
@@ -193,6 +197,7 @@ export class Desktop implements OnDestroy {
     this.iconesArrossegades = [];
     document.removeEventListener('pointermove', this.onIconaDragMove);
     document.removeEventListener('pointerup', this.onIconaDragUp);
+    document.removeEventListener('pointercancel', this.onIconaDragUp);
   };
 
   private trobarLliure(
@@ -234,6 +239,7 @@ export class Desktop implements OnDestroy {
 
     document.addEventListener('pointermove', this.onSeleccioMove);
     document.addEventListener('pointerup', this.onSeleccioUp);
+    document.addEventListener('pointercancel', this.onSeleccioUp);
   }
 
   private onSeleccioMove = (ev: PointerEvent) => {
@@ -249,6 +255,7 @@ export class Desktop implements OnDestroy {
     this.seleccionant.set(false);
     document.removeEventListener('pointermove', this.onSeleccioMove);
     document.removeEventListener('pointerup', this.onSeleccioUp);
+    document.removeEventListener('pointercancel', this.onSeleccioUp);
   };
 
   private actualitzarSeleccio() {
@@ -303,7 +310,9 @@ export class Desktop implements OnDestroy {
   ngOnDestroy() {
     document.removeEventListener('pointermove', this.onSeleccioMove);
     document.removeEventListener('pointerup', this.onSeleccioUp);
+    document.removeEventListener('pointercancel', this.onSeleccioUp);
     document.removeEventListener('pointermove', this.onIconaDragMove);
     document.removeEventListener('pointerup', this.onIconaDragUp);
+    document.removeEventListener('pointercancel', this.onIconaDragUp);
   }
 }

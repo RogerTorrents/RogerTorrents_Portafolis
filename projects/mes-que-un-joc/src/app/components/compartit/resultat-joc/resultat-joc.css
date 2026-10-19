@@ -78,3 +78,41 @@
   border-color: var(--vora-paper);
 }
 .accions .btn-secundari:hover { background: rgba(36, 26, 18, 0.05); }
+
+/* Mòbil en horitzontal: panell més baix i els 2 botons en una fila. */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .fons-resultat {
+    padding: 0.5rem;
+  }
+
+  .panell {
+    max-width: 460px;
+    padding: 1rem 1.25rem;
+    gap: 0.3rem;
+  }
+
+  .emblema {
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-top: 0;
+  }
+
+  .emblema svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  .estel {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .accions {
+    flex-direction: row;
+    margin-top: 0.6rem;
+  }
+
+  .accions > * {
+    flex: 1;
+  }
+}

@@ -471,6 +471,44 @@ mateixos components en accions d'usuari.
   "IA" quan `jugador.esBot` és cert — dada que ja arriba per
   `EstatSalaPublic`/`JugadorPublic`, no calia cap event nou.
 
+### Versió mòbil: tot en una pantalla, gegants grans i enganxats a la taula (sessió 2026-10-19, 27a passada)
+
+L'usuari: en mòbil, la partida i els menús s'han de veure sencers sense
+scroll, els gegants més grans i més a prop de la taula, i tots els botons
+visibles — **sense canviar res a escriptori**.
+
+- **Consultes de mitjans** (mai afecten un ordinador amb ratolí):
+  - Compacta: `(max-width: 760px), (pointer: coarse) and (orientation:
+    portrait), (pointer: coarse) and (max-height: 500px)` — mòbil, tauleta
+    vertical i mòbil horitzontal (a `taula-joc`, `seient-jugador`,
+    `marcador`, `ma-jugador`, `barra-accions`). Menús/sala/acabada fan
+    servir `max-width: 760px` (+ `pointer: coarse and max-height: 500px` a
+    sala i cadira).
+  - Mòbil horitzontal: `(pointer: coarse) and (orientation: landscape) and
+    (max-height: 500px)` — taula a l'esquerra + panell a la dreta; crear/
+    unir a 2 columnes (`columns: 2`, sense descripció dels modes); sala en
+    3 columnes (capçalera · taula · botó).
+- **Taula a mida de l'espai** amb container queries: `.tj-taula-zona {
+  container-type: size }` i `.tj-taula { width: min(100cqw, 100cqh -
+  2.6rem); container-type: inline-size }`. Els gegants (`--mida: 28cqw`,
+  insets `0`) i les cartes jugades (`--ct-mida-petita: 15cqw`, variable
+  nova a `carta.css`, per defecte 58px) són relatius a la taula — mai a la
+  pantalla. Noms dels laterals arrambats a la vora exterior (centrats
+  quedaven sota el marbre). Mateix patró a la sala (`.se-taula`, cadires
+  `25cqw`).
+- Panell inferior: marcador en una fila, sense l'etiqueta "La teva mà",
+  mà amb `--ct-mida` lligada a `dvh`, i **els 6 botons en una sola fila**
+  (abans els 4 senyals anaven en columna i sortien de la pantalla). El
+  tooltip s'obre cap amunt. "Abandonar" passa a dalt a l'esquerra.
+- **Verificat amb Playwright** (mides reals dins el Shell: alçada − 72px)
+  a 360×568, 375×595, 390×772, 412×843, 820×1108, 844×318 i 915×340:
+  `scrollHeight === innerHeight` a menú, unir, crear, sala, partida i
+  partida acabada. Gegants a 390px: 62px → 107px d'ample; a tauleta
+  vertical: 115 → 226px. Escriptori (1400×900, 1280×690): 0 píxels
+  diferents a menú/unir/crear/sala i geometria de la partida idèntica.
+- "Com es juga" continua fent scroll intern a posta (és una guia llarga
+  de lectura, també a escriptori).
+
 ### Redisseny visual de "Com es juga" + fons fix que mai es mou (sessió 2026-10-04, 26a passada)
 
 Petició: la pantalla de regles (15a passada, llista plana de seccions

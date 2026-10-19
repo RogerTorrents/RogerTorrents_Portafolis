@@ -146,3 +146,141 @@
 @media (max-width: 420px) {
   .titols { grid-template-columns: 1fr; }
 }
+
+/* Mòbil (tàctil): plantilla en 2 columnes compactes (abans l'amplada mínima
+   de 150px en deixava 1 per fila), títols en 2 columnes i el botó de
+   confirmar enganxat a baix perquè sempre es vegi. */
+@media (pointer: coarse) and (max-width: 760px), (pointer: coarse) and (max-height: 500px) {
+  .pantalla-joc {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .capcalera-temporada {
+    padding: 0.8rem 0.6rem 0.55rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .temporada {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .etiqueta-plantilla {
+    font-size: 0.58rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .fila-jugadors {
+    gap: 0.3rem;
+    padding: 0.3rem 0;
+  }
+
+  .fila-jugadors li {
+    flex: 0 0 calc(50% - 0.15rem);
+    min-width: 0;
+    justify-content: flex-start;
+    font-size: 0.72rem;
+    padding: 0.15rem 0.4rem 0.15rem 0.15rem;
+  }
+
+  .titols {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .chip-titol {
+    gap: 0.4rem;
+    padding: 0.45rem 0.5rem;
+    font-size: 0.74rem;
+    line-height: 1.2;
+  }
+
+  .btn-confirmar {
+    position: sticky;
+    bottom: 0.6rem;
+    z-index: 2;
+    margin-top: auto;
+    margin-bottom: 0.6rem;
+    min-width: 0;
+    width: 100%;
+    padding: 0.75rem;
+  }
+}
+
+/* Mòbil en horitzontal: plantilla a l'esquerra (4 per fila), títols i botó
+   a la dreta. */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .cos {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 20rem);
+    grid-template-rows: auto auto 1fr auto;
+    align-items: start;
+    column-gap: 0.9rem;
+  }
+
+  .capcalera-temporada {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    margin-bottom: 0;
+  }
+
+  .fila-jugadors li {
+    flex-basis: calc(25% - 0.25rem);
+  }
+
+  .pregunta,
+  .titols,
+  .btn-confirmar,
+  .feedback {
+    grid-column: 2;
+  }
+}
+
+/* Poca alçada: sense l'etiqueta de la plantilla (el títol de la temporada
+   ja ho diu), fotos més petites i els 6 títols en 3 columnes (2 files). */
+@media (pointer: coarse) and (max-height: 640px) {
+  .capcalera-temporada {
+    padding-top: 0.6rem;
+    padding-bottom: 0.4rem;
+  }
+
+  .etiqueta-plantilla {
+    display: none;
+  }
+
+  .fila-jugadors {
+    padding: 0.2rem 0;
+    gap: 0.25rem;
+  }
+
+  .fila-jugadors li {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+  }
+
+  .fila-jugadors li app-foto-jugador {
+    zoom: 0.8;
+  }
+
+  .titols {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.3rem;
+  }
+
+  .chip-titol {
+    gap: 0.3rem;
+    padding: 0.35rem 0.4rem;
+    font-size: 0.68rem;
+  }
+}
+
+/* Vertical: el botó de confirmar va just a sota dels títols (el contingut
+   es centra a `styles.css`); `sticky` el manté visible si no hi cap. */
+@media (pointer: coarse) and (max-width: 760px) and (orientation: portrait) {
+  .btn-confirmar {
+    margin-top: 0.25rem;
+  }
+}

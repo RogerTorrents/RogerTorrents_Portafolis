@@ -1,7 +1,8 @@
-import { Component, computed, signal, OnInit, OnDestroy, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, computed, signal, OnInit, OnDestroy, HostListener, Output, EventEmitter, ElementRef, viewChild, effect, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { WindowManagerService } from '../../services/window-manager.service';
 import { TranslationService, Idioma } from '../../services/translation.service';
+import { DispositiuService } from '../../services/dispositiu.service';
 
 @Component({
   selector: 'app-taskbar',
@@ -20,6 +21,12 @@ export class Taskbar implements OnInit, OnDestroy {
   mostrarCalendari = signal(false);
   mostrarStart = signal(false);
   esPantallaCompleta = signal(!!document.fullscreenElement);
+  /** L'iPhone (Safari) no implementa l'API de pantalla completa. */
+  readonly pantallaCompletaDisponible = !!document.fullscreenEnabled;
+
+  readonly dispositiu = inject(DispositiuService);
+  private readonly runningAppsRef = viewChild<ElementRef<HTMLElement>>('runningApps');
+  private observadorMida?: ResizeObserver;
 
   time = signal(new Date());
   private timerId: any;
@@ -96,18 +103,63 @@ export class Taskbar implements OnInit, OnDestroy {
   constructor(
     private readonly wm: WindowManagerService,
     readonly ts: TranslationService,
-  ) {}
+  ) {
+    // Qualsevol canvi en les apps obertes, els seus títols o l'idioma pot fer
+    // que les etiquetes deixin de cabre (o hi tornin a cabre).
+    effect(() => {
+      this.openWindows();
+      this.ts.idioma();
+      this.dispositiu.tactil();
+      requestAnimationFrame(() => this.ajustarEtiquetes());
+    });
+  }
 
   ngOnInit(): void {
     this.timerId = setInterval(() => this.time.set(new Date()), 1000);
     document.addEventListener('fullscreenchange', this.onFullscreenChange);
+    this.observadorMida = new ResizeObserver(() => this.ajustarEtiquetes());
+    this.observadorMida.observe(document.documentElement);
+  }
+
+  /**
+   * Tàctil: la barra mai pot sortir de la pantalla. Si les apps obertes no
+   * hi caben amb el seu nom, es mostren només els logos; si ni així hi
+   * caben, la zona d'apps es desplaça horitzontalment dins la barra.
+   * Es mesura traient la classe i tornant-la a posar dins el mateix frame,
+   * així el navegador no arriba a pintar l'estat intermedi.
+   */
+  private ajustarEtiquetes(): void {
+    const contenidor = this.runningAppsRef()?.nativeElement;
+    if (!contenidor) return;
+    contenidor.classList.remove('nomes-logos');
+    contenidor.style.maxWidth = '';
+    if (!this.dispositiu.tactil()) return;
+
+    if (this.noDesborda(contenidor)) return;
+    contenidor.classList.add('nomes-logos');
+    if (this.noDesborda(contenidor)) return;
+
+    // Ni només amb logos hi caben: la zona visible passa a ser un múltiple
+    // exacte de l'amplada d'un logo, perquè en desplaçar-se (amb scroll-snap)
+    // mai quedi una icona tallada a la vora.
+    const visibles = Math.max(1, Math.floor(contenidor.clientWidth / this.ampladaLogo));
+    contenidor.style.maxWidth = `${visibles * this.ampladaLogo}px`;
+  }
+
+  /** Amplada fixa de cada app a la barra en mode `.nomes-logos` (taskbar.css). */
+  private readonly ampladaLogo = 40;
+
+  private noDesborda(el: HTMLElement): boolean {
+    return el.scrollWidth <= el.clientWidth + 1;
   }
 
   ngOnDestroy(): void {
     clearInterval(this.timerId);
+    this.observadorMida?.disconnect();
     document.removeEventListener('fullscreenchange', this.onFullscreenChange);
     document.removeEventListener('pointermove', this.onTaskDragMove);
     document.removeEventListener('pointerup', this.onTaskDragUp);
+    document.removeEventListener('pointercancel', this.onTaskDragUp);
   }
 
   private onFullscreenChange = () => {
@@ -123,7 +175,11 @@ export class Taskbar implements OnInit, OnDestroy {
     ev.stopPropagation();
     this.previewId.set('');
     this.contextMenuId.set(id);
-    this.contextMenuPos.set({ x: ev.clientX, y: ev.clientY - 80 });
+    // Que el menú (≈150×80 px) no surti per la dreta ni per dalt.
+    this.contextMenuPos.set({
+      x: Math.max(0, Math.min(ev.clientX, window.innerWidth - 150)),
+      y: Math.max(0, ev.clientY - 80),
+    });
   }
 
   obrirDesDeMenu(id: string) {
@@ -141,6 +197,8 @@ export class Taskbar implements OnInit, OnDestroy {
   private previewTimeout: any;
 
   mostrarPreview(id: string) {
+    // En tàctil el `mouseenter` salta en tocar la icona: no hi ha hover real.
+    if (this.dispositiu.tactil()) return;
     clearTimeout(this.previewTimeout);
     this.previewId.set(id);
     requestAnimationFrame(() => this.renderPreviewMirror(id));
@@ -250,6 +308,9 @@ export class Taskbar implements OnInit, OnDestroy {
 
     document.addEventListener('pointermove', this.onTaskDragMove);
     document.addEventListener('pointerup', this.onTaskDragUp);
+    // En tàctil, si el navegador es queda el gest (desplaçar la zona d'apps)
+    // envia `pointercancel` en lloc de `pointerup`.
+    document.addEventListener('pointercancel', this.onTaskDragUp);
   }
 
   private onTaskDragMove = (ev: PointerEvent) => {
@@ -259,7 +320,7 @@ export class Taskbar implements OnInit, OnDestroy {
   };
 
   private onTaskDragUp = (ev: PointerEvent) => {
-    if (this.dragTaskComencat) {
+    if (this.dragTaskComencat && ev.type === 'pointerup') {
       this.lastDragTaskTime = Date.now();
       const dragId = this.idArrossegant();
       const buttons = Array.from(document.querySelectorAll('.task-icon[data-task-id]'));
@@ -281,6 +342,7 @@ export class Taskbar implements OnInit, OnDestroy {
     this.offsetArrossegar.set(0);
     document.removeEventListener('pointermove', this.onTaskDragMove);
     document.removeEventListener('pointerup', this.onTaskDragUp);
+    document.removeEventListener('pointercancel', this.onTaskDragUp);
   };
 
   toggleStart(ev: Event) {

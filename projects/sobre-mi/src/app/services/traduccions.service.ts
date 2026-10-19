@@ -10,6 +10,9 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
   ca: {
     subtitol: 'DESENVOLUPADOR WEB FULL-STACK',
     scroll_hint: 'desplaça cap avall',
+    veure_mes: 'Mostra-ho tot',
+    veure_menys: 'Mostra menys',
+    mapa_pista: 'Toca el mapa o un dels temes per descobrir-ne més',
     sobre_mi_titol: 'Sobre Mi',
     sobre_mi_text: 'Desenvolupador Web Full-Stack amb 3 anys i mig d\'experiència sòlida en la creació i optimització d\'aplicacions web complexes. Perfil versàtil especialitzat en l\'ecosistema frontend amb una sòlida base backend, disposat a aportar un valor global al cicle del programari. He col·laborat en equip per millorar plataformes de gestió ciutadana vinculades a l\'administració de la Generalitat. Persona propera, motivada pel disseny i la tecnologia, cursant un grau universitari per potenciar el meu vessant multimèdia i formant-me intensament en intel·ligència artificial.',
     anys_exp: 'Anys d\'exp.',
@@ -85,6 +88,9 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
   es: {
     subtitol: 'DESARROLLADOR WEB FULL-STACK',
     scroll_hint: 'desliza hacia abajo',
+    veure_mes: 'Ver todo',
+    veure_menys: 'Ver menos',
+    mapa_pista: 'Toca el mapa o uno de los temas para descubrir más',
     sobre_mi_titol: 'Sobre Mí',
     sobre_mi_text: 'Desarrollador Web Full-Stack con 3 años y medio de experiencia sólida en la creación y optimización de aplicaciones web complejas. Perfil versátil especializado en el ecosistema frontend con una sólida base backend, dispuesto a aportar valor global al ciclo del software. He colaborado en equipo para mejorar plataformas de gestión ciudadana vinculadas a la administración de la Generalitat. Persona cercana, motivada por el diseño y la tecnología, cursando un grado universitario para potenciar mi vertiente multimedia y formándome intensamente en inteligencia artificial.',
     anys_exp: 'Años de exp.',
@@ -160,6 +166,9 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
   en: {
     subtitol: 'FULL-STACK WEB DEVELOPER',
     scroll_hint: 'scroll down',
+    veure_mes: 'Show all',
+    veure_menys: 'Show less',
+    mapa_pista: 'Tap the map or a topic to find out more',
     sobre_mi_titol: 'About Me',
     sobre_mi_text: 'Full-Stack Web Developer with 3.5 years of solid experience building and optimizing complex web applications. Versatile profile specialized in the frontend ecosystem with a strong backend foundation, delivering global value across the software lifecycle. I\'ve collaborated in teams to improve citizen management platforms linked to the Catalan government. A people-oriented person driven by design and technology, currently studying a multimedia university degree while intensively exploring artificial intelligence.',
     anys_exp: 'Years of exp.',

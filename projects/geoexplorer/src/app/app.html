@@ -18,6 +18,31 @@
           [class.geo-lateral--obert]="geo.filtresObertsMobil()"
           [style.--amplaria-lateral.px]="amplariaLateral()"
         >
+          <!-- Només mòbil tàctil (app.css): nansa i botó de tancar del full
+               inferior, i els selectors de zona/mapa base que a la capçalera
+               d'un mòbil no hi caben. A escriptori queden amagats. -->
+          <div class="geo-full-capcalera">
+            <span class="geo-full-nansa" aria-hidden="true"></span>
+            <button type="button" class="geo-full-tancar" [attr.aria-label]="ts.t('detall_tancar')" (click)="geo.filtresObertsMobil.set(false)">✕</button>
+          </div>
+          <section class="geo-full-mapa">
+            <label class="geo-full-camp">
+              <span>{{ ts.t('selector_regio_label') }}</span>
+              <select [value]="geo.regioActiva().id" (change)="onCanviRegioMobil($event)">
+                @for (regio of geo.regions; track regio.id) {
+                  <option [value]="regio.id">{{ ts.t(regio.nomClau) }}</option>
+                }
+              </select>
+            </label>
+            <label class="geo-full-camp">
+              <span>{{ ts.t('capes_base_label') }}</span>
+              <select [value]="geo.capaBase()" (change)="onCanviCapaMobil($event)">
+                @for (capa of capes; track capa) {
+                  <option [value]="capa">{{ ts.t('capa_' + capa) }}</option>
+                }
+              </select>
+            </label>
+          </section>
           @if (sessio.esAutenticat()) {
             <!-- El mapa personal és el protagonista: primer i sense fer scroll. -->
             <app-panell-categories-personals></app-panell-categories-personals>

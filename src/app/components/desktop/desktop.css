@@ -3,6 +3,12 @@
   -webkit-user-select: none;
 }
 
+/* L'escriptori no fa scroll: així en tàctil el dit pot arrossegar icones i
+   fer selecció sense que el navegador cancel·li el gest. */
+.screenHeight {
+  touch-action: none;
+}
+
 .desktop-container {
   position: relative;
   width: 100%;

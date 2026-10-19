@@ -341,3 +341,116 @@
     display: none;
   }
 }
+
+/* ===== Tàctil ===== */
+/* Tauleta / mòbil horitzontal: el cercador es veu sempre (a escriptori
+   s'amaga per sota de 900px, però en un mòbil és la manera principal de
+   trobar un lloc). */
+@media (pointer: coarse) and (max-width: 900px) {
+  .geo-cerca {
+    display: flex;
+    min-width: 0;
+  }
+
+  .geo-marca-text {
+    display: none;
+  }
+
+  /* El selector de mapa base també (a escriptori s'amaga per sota de
+     900px): en tauleta i mòbil horitzontal no hi ha full inferior on
+     posar-lo. El cercador s'encongeix per deixar-li lloc. */
+  .geo-select-grup:last-of-type {
+    display: flex;
+  }
+
+  .geo-capcalera {
+    gap: 12px;
+  }
+
+  .geo-controls {
+    gap: 10px;
+    flex-shrink: 0;
+  }
+}
+
+/* Mòbil vertical: logotip, cercador, coordenades i accés/usuari en una sola
+   fila que sempre hi cap. Zona i mapa base passen al full inferior. */
+@media (pointer: coarse) and (max-width: 720px) {
+  .geo-capcalera {
+    gap: 8px;
+    padding: 0 10px;
+  }
+
+  .geo-cerca {
+    max-width: none;
+    padding: 8px 10px;
+  }
+
+  .geo-coordenades-boto {
+    width: 40px;
+    height: 40px;
+  }
+
+  .geo-controls {
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .geo-select-grup {
+    display: none;
+  }
+
+  .geo-link-registre {
+    display: none;
+  }
+
+  /* "Inicia sessió" passa a ser un botó (abans un enllaç petit): l'únic
+     accés que queda a la capçalera; el registre és a la pantalla de login. */
+  .geo-link-login {
+    border: 1px solid var(--geo-accent);
+    border-radius: 4px;
+    padding: 9px 10px;
+    color: var(--geo-accent);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .geo-usuari-boto {
+    padding: 4px;
+  }
+
+  .geo-usuari-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .geo-usuari-menu button {
+    padding: 14px 18px;
+    font-size: 14px;
+  }
+
+  /* El popover de coordenades, d'una vora a l'altra sota la capçalera (ancorat
+     al botó sortia per la dreta de la pantalla). */
+  .geo-coordenades-popover {
+    position: fixed;
+    top: 62px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    z-index: 1200;
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .geo-coordenades-camp input {
+    padding: 10px;
+  }
+
+  .geo-coordenades-anar {
+    padding: 11px;
+    font-size: 14px;
+  }
+}

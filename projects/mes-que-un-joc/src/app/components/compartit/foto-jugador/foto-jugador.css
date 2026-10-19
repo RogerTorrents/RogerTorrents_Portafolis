@@ -39,3 +39,25 @@
 
 .mida-lg { width: 5.2rem; height: 6.3rem; border-width: 3px; }
 .mida-lg .avatar-reserva span { font-size: 1.6rem; }
+
+/* Mòbil (tàctil): les fotos grans i petites s'encongeixen una mica. */
+@media (pointer: coarse) and (max-width: 760px), (pointer: coarse) and (max-height: 500px) {
+  .mida-lg {
+    width: 4.2rem;
+    height: 5.1rem;
+    border-width: 2px;
+  }
+
+  .mida-sm {
+    width: 1.6rem;
+    height: 1.95rem;
+  }
+}
+
+/* Mòbil en horitzontal: encara més petites (hi ha molt poca alçada). */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .mida-lg {
+    width: 3.2rem;
+    height: 3.9rem;
+  }
+}

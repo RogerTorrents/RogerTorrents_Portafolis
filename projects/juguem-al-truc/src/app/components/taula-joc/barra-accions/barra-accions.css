@@ -113,3 +113,46 @@
 .ba-boto-env:focus-within .ba-tooltip {
   opacity: 1;
 }
+
+/* Mòbil: tots els botons (tiro, truco i els 4 senyals) en una sola fila,
+   mai l'un sota l'altre — si no, surten per sota de la pantalla. Mida
+   mínima pensada per al dit. El tooltip (que en tàctil surt en tocar)
+   s'obre cap amunt, centrat: cap a l'esquerra sortiria de la pantalla. */
+@media (max-width: 760px), (pointer: coarse) and (orientation: portrait), (pointer: coarse) and (max-height: 500px) {
+  .ba-barra {
+    flex-direction: row;
+    gap: 0.6rem;
+  }
+
+  .ba-senyals {
+    flex-direction: row;
+    gap: 0.35rem;
+  }
+
+  .ba-boto--gran {
+    width: min(3.1rem, 6.5dvh);
+  }
+
+  .ba-boto--senyal {
+    width: min(2.5rem, 5.5dvh);
+  }
+
+  .ba-tooltip {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: calc(100% + 0.4rem);
+    transform: translateX(-50%);
+  }
+}
+
+/* Mòbil en horitzontal: la mida es lliga a l'alçada (molt escassa). */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .ba-boto--gran {
+    width: min(3.1rem, 15dvh);
+  }
+
+  .ba-boto--senyal {
+    width: min(2.5rem, 12dvh);
+  }
+}

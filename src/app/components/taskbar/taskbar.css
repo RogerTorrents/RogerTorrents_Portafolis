@@ -440,6 +440,50 @@
 	height: calc(100% - 40px) !important;
 }
 
+/* Mòbil / tauleta: la barra mai surt de la pantalla. La zona d'apps és
+   l'única que s'encongeix; si no hi caben els noms, `ajustarEtiquetes()`
+   hi posa `.nomes-logos`, i si ni així hi caben es desplaça en horitzontal. */
+.taskbar-bottom.tactil { gap: 4px; }
+.taskbar-bottom.tactil .taskbar-left { flex: 1 1 auto; min-width: 0; }
+.taskbar-bottom.tactil .taskbar-right { flex-shrink: 0; }
+.taskbar-bottom.tactil .start-wrapper,
+.taskbar-bottom.tactil .search-btn,
+.taskbar-bottom.tactil .task-wrapper { flex-shrink: 0; }
+.taskbar-bottom.tactil .running-apps {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	scrollbar-width: none;
+	touch-action: pan-x;
+}
+.taskbar-bottom.tactil .running-apps::-webkit-scrollbar { display: none; }
+/* Quan cal desplaçar-se, s'atura sempre en una icona sencera. */
+.taskbar-bottom.tactil .running-apps { scroll-snap-type: x mandatory; }
+.taskbar-bottom.tactil .task-wrapper { scroll-snap-align: start; }
+.taskbar-bottom.tactil .running-apps.nomes-logos .icon-label { display: none; }
+/* Logos d'amplada fixa i sense separació: `ajustarEtiquetes()` fa la zona
+   visible múltiple exacte d'aquesta amplada, i mai es veu mitja icona. */
+.taskbar-bottom.tactil .running-apps.nomes-logos { gap: 0; }
+.taskbar-bottom.tactil .running-apps.nomes-logos .task-wrapper { width: 40px; }
+.taskbar-bottom.tactil .running-apps.nomes-logos .task-icon {
+	width: 100%;
+	justify-content: center;
+	padding: 4px 0;
+}
+.taskbar-bottom.tactil .task-preview { display: none; }
+.taskbar-bottom.tactil .start-popup,
+.taskbar-bottom.tactil .idioma-popup,
+.taskbar-bottom.tactil .volum-popup,
+.taskbar-bottom.tactil .calendari-popup { max-width: calc(100vw - 16px); box-sizing: border-box; }
+
+/* Mòbil estret: el cercador no fa res i la data sobra (només l'hora);
+   així queda més espai per a les apps obertes. */
+@media (max-width: 650px) {
+	.taskbar-bottom.tactil .search-btn,
+	.taskbar-bottom.tactil .clock-date { display: none; }
+}
+
 @media (max-width: 650px) {
 	.taskbar-bottom { height: 56px; }
 	.icon-glyph { font-size: 1.4rem; }

@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, effect, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, effect, inject, signal } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { GeoExplorerService, type CapaBase } from '../../services/geoexplorer.service';
 import { ContingutPersonalService } from '../../services/contingut-personal.service';
+import { DispositiuService } from '../../services/dispositiu.service';
+import { TraduccioService } from '../../services/traduccio.service';
 import { creaIconaCercada, creaIconaLlocPersonal, creaIconaPoi } from '../../services/mapa-icones.util';
 import type { Poi } from '../../models/poi.model';
 import type { LlocPersonal } from '../../models/lloc-personal.model';
@@ -47,6 +49,13 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
   protected readonly geo = inject(GeoExplorerService);
   protected readonly contingut = inject(ContingutPersonalService);
+  protected readonly dispositiu = inject(DispositiuService);
+  protected readonly ts = inject(TraduccioService);
+
+  /** Botó "La meva ubicació" (només tàctil, vegeu mapa.css). */
+  protected readonly localitzant = signal(false);
+  protected readonly errorUbicacio = signal(false);
+  private errorUbicacioTimeout?: ReturnType<typeof setTimeout>;
 
   private mapa: L.Map | null = null;
   private capaActiva: L.TileLayer | null = null;
@@ -105,6 +114,18 @@ export class Mapa implements AfterViewInit, OnDestroy {
       this.marcadorsPersonalsPerId.get(lloc.id)?.openTooltip();
     });
 
+    // Mòbil (full inferior de detall): en obrir un punt, el mapa hi vola i el
+    // deixa a la meitat de dalt, que és la part que el full no tapa. A
+    // escriptori el detall és un panell lateral i no cal moure res.
+    effect(() => {
+      const poi = this.geo.poiSeleccionat();
+      if (!poi || !this.mapa || !this.esFullInferior()) return;
+      const zoom = Math.max(this.mapa.getZoom(), 13);
+      const alcada = this.mapa.getSize().y;
+      const punt = this.mapa.project(poi.coordenades as [number, number], zoom).add([0, alcada * 0.25]);
+      this.mapa.flyTo(this.mapa.unproject(punt, zoom), zoom, { duration: 0.7 });
+    });
+
     effect(() => {
       const coordenades = this.geo.coordenadesCercades();
       if (!coordenades || !this.mapa) return;
@@ -139,7 +160,42 @@ export class Mapa implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    clearTimeout(this.errorUbicacioTimeout);
     this.mapa?.remove();
+  }
+
+  /** Centra el mapa a la posició del dispositiu, amb el mateix marcador que
+   *  la cerca per coordenades. Dins el Shell cal `allow="geolocation"` a
+   *  l'iframe. */
+  protected ubicar(): void {
+    if (this.localitzant()) return;
+    if (!('geolocation' in navigator)) {
+      this.mostrarErrorUbicacio();
+      return;
+    }
+    this.localitzant.set(true);
+    navigator.geolocation.getCurrentPosition(
+      posicio => {
+        this.localitzant.set(false);
+        this.geo.cercarCoordenades([posicio.coords.latitude, posicio.coords.longitude]);
+      },
+      () => {
+        this.localitzant.set(false);
+        this.mostrarErrorUbicacio();
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
+    );
+  }
+
+  private mostrarErrorUbicacio(): void {
+    this.errorUbicacio.set(true);
+    clearTimeout(this.errorUbicacioTimeout);
+    this.errorUbicacioTimeout = setTimeout(() => this.errorUbicacio.set(false), 3500);
+  }
+
+  /** El detall s'obre com a full inferior: tàctil i pantalla estreta. */
+  private esFullInferior(): boolean {
+    return this.dispositiu.tactil() && window.matchMedia('(max-width: 720px)').matches;
   }
 
   private aplicarCapaBase(capa: CapaBase): void {

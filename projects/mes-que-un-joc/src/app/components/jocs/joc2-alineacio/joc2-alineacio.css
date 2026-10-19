@@ -137,3 +137,138 @@
   .fila-posicio li { flex-basis: 100%; }
   .opcions { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* Mòbil (tàctil): l'onze en 2 columnes (abans 1 jugador per fila: l'amplada
+   mínima de 150px no en deixava posar 2), sense l'etiqueta de posició (les
+   files ja estan agrupades per posició) i les 10 temporades en 5 columnes. */
+@media (pointer: coarse) and (max-width: 760px), (pointer: coarse) and (max-height: 500px) {
+  .pantalla-joc {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .onze {
+    padding: 0.85rem 0.75rem 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .etiqueta-onze {
+    margin-bottom: 0.3rem;
+  }
+
+  .fila-posicio {
+    gap: 0.3rem 0.5rem;
+    padding: 0.35rem 0;
+  }
+
+  .fila-posicio li {
+    flex: 0 0 calc(50% - 0.25rem);
+    min-width: 0;
+    gap: 0.4rem;
+  }
+
+  .fila-posicio .nom {
+    font-size: 0.78rem;
+  }
+
+  .fila-posicio .posicio {
+    display: none;
+  }
+
+  .opcions {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.35rem;
+  }
+
+  .btn-opcio {
+    padding: 0.55rem 0.15rem;
+    font-size: 0.74rem;
+  }
+}
+
+/* Mòbil en horitzontal: onze a l'esquerra (4 per fila) i temporades a la
+   dreta. */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .cos {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 15rem);
+    grid-template-rows: auto 1fr auto;
+    align-items: start;
+    column-gap: 0.9rem;
+  }
+
+  .pregunta {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  .onze {
+    margin-bottom: 0;
+  }
+
+  .fila-posicio li {
+    flex-basis: calc(25% - 0.4rem);
+  }
+
+  .opcions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .feedback {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Poca alçada: fotos de l'onze i files encara més ajustades. */
+@media (pointer: coarse) and (max-height: 640px) {
+  .onze {
+    padding-top: 0.6rem;
+    padding-bottom: 0.4rem;
+  }
+
+  .etiqueta-onze {
+    margin-bottom: 0.1rem;
+  }
+
+  .fila-posicio {
+    padding: 0.2rem 0;
+    row-gap: 0.2rem;
+  }
+
+  .fila-posicio li app-foto-jugador {
+    zoom: 0.8;
+  }
+
+  .btn-opcio {
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+  }
+}
+
+/* Horitzontal: temporades en 3 columnes (4 files en lloc de 5). */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .cos {
+    grid-template-columns: 1fr minmax(0, 16rem);
+  }
+
+  .opcions {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Horitzontal: la resposta i el botó "Següent" a la columna de la dreta,
+   sota les temporades (a sota de tot obligaven a fer scroll). */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .onze {
+    grid-row: 2 / span 2;
+  }
+
+  .pantalla-joc .cos .feedback {
+    grid-column: 2;
+    grid-row: 3;
+    position: static;
+    padding: 0.6rem 0 0;
+    background: none;
+  }
+}

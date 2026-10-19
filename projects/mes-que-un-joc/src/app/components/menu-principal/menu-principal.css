@@ -147,3 +147,112 @@
   .graella-jocs { grid-template-columns: 1fr; }
   .targeta-joc:hover { transform: none; }
 }
+
+/* Mòbil (tàctil): les 4 targetes en una graella de 2×2 compacta (apilades
+   una per fila el menú feia el doble de la pantalla). */
+@media (pointer: coarse) and (max-width: 760px), (pointer: coarse) and (max-height: 500px) {
+  :host,
+  .pagina {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .pagina {
+    padding: 0.85rem 0.75rem 0.75rem;
+  }
+
+  .capcalera {
+    margin-bottom: 0.75rem;
+  }
+
+  .marca h1 {
+    font-size: 0.9rem;
+  }
+
+  .selector-epoca {
+    margin-bottom: 1rem;
+  }
+
+  .etiqueta-epoca {
+    font-size: 0.62rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .pestanyes {
+    gap: 0.35rem;
+  }
+
+  .pestanya {
+    min-width: 0;
+    white-space: normal;
+    line-height: 1.2;
+    padding: 0.5rem 0.35rem 0.6rem;
+    font-size: 0.66rem;
+  }
+
+  .graella-jocs {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 0.65rem;
+    padding: 0.4rem 0 0;
+  }
+
+  .targeta-joc {
+    padding: 0.8rem 0.7rem 0.75rem;
+  }
+
+  .targeta-joc:hover {
+    transform: none;
+  }
+
+  .capcalera-joc {
+    margin: 0.25rem 0 0.45rem;
+  }
+
+  .icona-joc {
+    font-size: 1.3rem;
+  }
+
+  .mini-estel {
+    width: 0.62rem;
+    height: 0.62rem;
+  }
+
+  .nom-joc {
+    font-size: 0.74rem;
+    line-height: 1.25;
+    margin-bottom: 0.3rem;
+  }
+
+  .desc-joc {
+    font-size: 0.7rem;
+    line-height: 1.35;
+    margin-bottom: 0.65rem;
+  }
+
+  .btn-jugar {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.78rem;
+  }
+}
+
+/* Mòbil en horitzontal: les 4 targetes en una fila, sense la descripció
+   (no hi cap en tan poca alçada). */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .capcalera,
+  .selector-epoca {
+    margin-bottom: 0.5rem;
+  }
+
+  .graella-jocs {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .desc-joc {
+    display: none;
+  }
+
+  .nom-joc {
+    flex: 1;
+    margin-bottom: 0.5rem;
+  }
+}

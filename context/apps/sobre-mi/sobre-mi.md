@@ -17,9 +17,30 @@ projects/sobre-mi/src/
 ```
 
 ## Tema Visual
-- **Paleta:** Fons molt fosc (#08080f), cyan (#22d3ee), taronja (#f97316), violeta (#a855f7), verd (#4ade80)
-- **Tipografies:** `Space Grotesk` (display/body) + `Space Mono` (monospai per labels, dates, codi)
-- **Estil:** Dark theme minimalista, sense similitud amb el tema Windows del Shell
+- **Tema CLAR** (el fosc original es va abandonar — no tornar-hi): fons blanc amb
+  graella blava subtil, tokens `--sm-*` a `:host` d'`app.css` (`--sm-navy`,
+  `--sm-blue #2563eb`, `--sm-green`, `--sm-orange`, `--sm-purple`).
+- **Tipografies:** `Inter` (display/body) + `JetBrains Mono` (labels, dates, números).
+- La secció 6 ja no són 4 targetes: és el mapa il·lustrat "Fora del Teclat"
+  (`elementsMapa`, 7 elements clicables amb popup de foto + text).
+
+## Versió mòbil tàctil (2026-10-19)
+Tot dins `@media (pointer: coarse) and (max-width: 700px)` al final d'`app.css`
+— un ordinador no ho veu mai (verificat: 0 píxels diferents a 1400×900 a les 9
+pantalles). Els elements nous de la plantilla tenen `display: none` fora
+d'aquesta consulta:
+- **`.sm-mnav`** — navegació inferior en pastilles (la lateral `.sm-nav` s'amaga
+  ≤700px). Apareix amb `opacityNav()` com la lateral; un `effect` a `App`
+  centra la pastilla de la secció activa dins la tira.
+- **`.sm-exp-bloc__mes`** — "Mostra-ho tot (+3)": a la feina actual només es
+  veuen 3 punts (`bulletsVisiblesMobil`); la resta porten
+  `.sm-exp-bloc__bullet--extra`, que només s'amaga en mòbil.
+- **`.sm-mapa-temes`** — els 7 elements del mapa també com a botons grans amb
+  la seva imatge retallada (al mapa petit eren difícils de tocar, la bici feia
+  ~30px). El popup passa a full inferior amb la foto primer.
+- Formació en files compactes amb logotip, contacte en files-targeta amb icona,
+  foto del hero a 150px, capçaleres i espaiats més compactes.
+- Claus noves (ca/es/en): `veure_mes`, `veure_menys`, `mapa_pista`.
 
 ## Seccions i Contingut
 1. **INTRO** — Text "ROGER TORRENTS GABALDA" huge (clamp 3.5–14rem), es mou horitzontalment a l'esquerra amb scroll (translateX de 0% a -115%). Secció de 350vh amb sticky de 100vh.

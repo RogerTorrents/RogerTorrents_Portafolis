@@ -77,3 +77,34 @@
   padding: 7px 14px;
   cursor: pointer;
 }
+
+/* ===== Mòbil tàctil =====
+   La instrucció i el formulari ocupen l'amplada (centrats amb 300px la
+   instrucció es partia en moltes línies) i els botons són a mida de dit. */
+@media (pointer: coarse) and (max-width: 720px) {
+  .geo-instruccio-colocacio,
+  .geo-formulari-lloc {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-width: none;
+    transform: none;
+  }
+
+  .geo-instruccio-colocacio {
+    justify-content: space-between;
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  .geo-link-boto {
+    padding: 8px 4px;
+    font-size: 13px;
+  }
+
+  .geo-formulari-lloc-desar {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+}

@@ -17,3 +17,16 @@
   opacity: 0.6;
   transform: scale(0.92);
 }
+
+/* Mòbil (tàctil): estrelles una mica més petites perquè el títol del joc hi
+   càpiga al costat. */
+@media (pointer: coarse) and (max-width: 760px), (pointer: coarse) and (max-height: 500px) {
+  .vides {
+    gap: 0.2rem;
+  }
+
+  .estel {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+}

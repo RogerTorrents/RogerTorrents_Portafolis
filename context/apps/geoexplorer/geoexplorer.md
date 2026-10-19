@@ -472,3 +472,55 @@ com a referència històrica del contracte de dades exigit).
    `ContingutPersonalService` i els *type guards* de `poi.model.ts`.
 6. **MapLibre GL JS** si en el futur cal 3D/relleu/vectorial — migrar només
    `components/mapa/`, l'estat als serveis no hauria de canviar.
+
+## Versió mòbil / tàctil (2026-10-19)
+
+Requisit de l'usuari: màxim funcional i visual en mòbil, **sense canviar
+res en pantalla normal**. Tot el que és nou depèn de `(pointer: coarse)`
+(CSS) o de `DispositiuService.tactil()` (`services/dispositiu.service.ts`,
+JS) — un ordinador amb ratolí no ho veu mai, ni amb la finestra estreta.
+Les regles antigues `max-width: 720px/900px` (sense `coarse`) es mantenen
+tal qual per a escriptori estret.
+
+**Bugs funcionals que hi havia en mòbil (≤720px):**
+- La capçalera desbordava 80–139px: "Inicia sessió"/"Crea un compte" o el
+  botó d'usuari quedaven fora de la pantalla. I el cercador estava amagat
+  (`≤900px`), així com el selector de mapa base: en mòbil no es podia ni
+  cercar ni canviar de capa.
+- "+ Afegir lloc" deixava el full inferior obert tapant el mapa, just quan
+  calia tocar-lo per col·locar el lloc → inutilitzable.
+- Triar un punt de la llista obria el detall a sobre del full de filtres, i
+  el mapa no s'hi movia.
+
+**Solució:**
+- Capçalera mòbil: logotip (només símbol) · cercador · coordenades ·
+  "Inicia sessió" (com a botó; el registre és a la pantalla de login) o
+  avatar. Zona i mapa base es mouen al **full inferior** (`.geo-full-mapa`,
+  a `app.html`, amagat a escriptori), que ara té nansa i botó de tancar.
+  En tauleta/mòbil horitzontal (`coarse` i ≤900px) el cercador i el mapa
+  base tornen a la capçalera.
+- `App` (effect, només tàctil): el full es tanca sol en seleccionar un
+  punt, enfocar un lloc propi o entrar en mode col·locació; canviar de zona
+  des del full també el tanca.
+- `Mapa` (només full inferior = tàctil i ≤720px): en obrir un punt hi vola
+  i el deixa a la meitat superior (`project` + desplaçament de 25% de
+  l'alçada + `unproject`), que és la part que el full de detall no tapa.
+- **"La meva ubicació"** (`.geo-boto-ubicacio`, només tàctil): reutilitza
+  `geo.cercarCoordenades()` (mateix marcador polsant). Cal
+  `allow="geolocation"` a l'iframe del Shell (`src/app/app.html`), ja
+  afegit. Error → avís 3,5s (`ubicacio_error`, ca/es/en).
+- Fulls de detall amb alçada segons contingut (`max-height: 78dvh`, abans
+  `78vh` fix amb molt buit), nansa i botó de tancar de 40px.
+- Camps a 16px (`!important`, a `styles.css`): iOS fa zoom en enfocar un
+  camp amb lletra més petita i no torna enrere.
+- Formularis d'accés amb scroll propi (el teclat redueix l'alçada) i
+  objectius de toc més grans a "+ Afegir lloc", eliminar, etc.
+
+**Verificat** (Playwright amb `hasTouch`, geolocalització simulada i API
+`/categories`/`/llocs` interceptada amb dades falses — mode autenticat
+sense tocar la BD): 360×568, 390×772, 844×318 i 820×1108 sense res fora de
+pantalla; el full es tanca en triar punt i en col·locar; tocar el mapa
+mostra el formulari del lloc nou; la ubicació posa el marcador.
+Escriptori (1400×900, 1280×690): els 98 elements comparables amb idèntica
+posició i mida que abans; login 0 píxels diferents; a l'entrada, l'única
+diferència (50×10px) és la traça GPX animada capturada en un altre instant.

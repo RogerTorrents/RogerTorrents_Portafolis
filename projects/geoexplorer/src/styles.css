@@ -173,3 +173,21 @@ select {
   font-family: var(--geo-font-mono);
   font-weight: 600;
 }
+
+/* ===== Mòbil / tauleta (només `pointer: coarse`: mai afecta un ordinador) ===== */
+@media (pointer: coarse) {
+  /* iOS fa zoom a la pàgina en enfocar un camp amb lletra < 16px, i després
+     no torna enrere: tots els camps a 16px. `!important` perquè els estils
+     encapsulats de cada component tenen més especificitat. */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* L'atribució dels mapes ocupava 2 línies sobre el mapa en un mòbil. */
+  .leaflet-control-attribution {
+    font-size: 9px;
+    line-height: 1.3;
+  }
+}

@@ -1,5 +1,6 @@
-import { Component, effect, OnDestroy, ElementRef, viewChild, AfterViewInit } from '@angular/core';
+import { Component, effect, OnDestroy, ElementRef, viewChild, AfterViewInit, inject } from '@angular/core';
 import { VoronoiService } from '../../services/voronoi.service';
+import { DispositiuService } from '../../services/dispositiu.service';
 
 @Component({
   selector: 'app-voronoi-fons',
@@ -20,12 +21,34 @@ import { VoronoiService } from '../../services/voronoi.service';
       width: 100%;
       height: 100%;
     }
+    /* Tàctil: en mòbil \`100vh\` inclou la barra del navegador i no coincideix
+       amb \`innerHeight\` (la mida a la qual es dibuixa): el fons quedava
+       estirat. \`inset: 0\` ocupa exactament l'àrea visible. */
+    @media (pointer: coarse) {
+      :host {
+        width: auto;
+        height: auto;
+        right: 0;
+        bottom: 0;
+      }
+    }
   `,
 })
 export class VoronoiFons implements AfterViewInit, OnDestroy {
   private readonly canvasRef = viewChild<ElementRef<HTMLCanvasElement>>('voronoiCanvas');
   private animFrameId = 0;
   private punts: { x: number; y: number; vx: number; vy: number }[] = [];
+  private readonly dispositiu = inject(DispositiuService);
+
+  /** Píxels reals per píxel CSS: la densitat de la pantalla en tàctil
+   *  (màx. 2×, per no disparar el cost de dibuix a pantalla completa) — a
+   *  1× un mòbil de densitat 3 el veia borrós. A escriptori sempre 1. */
+  private escala(): number {
+    return this.dispositiu.tactil() ? Math.min(window.devicePixelRatio || 1, 2) : 1;
+  }
+
+  private ampladaLogica = 0;
+  private alcadaLogica = 0;
 
   constructor(private readonly voronoi: VoronoiService) {
     effect(() => {
@@ -37,8 +60,10 @@ export class VoronoiFons implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     const canvas = this.canvasRef()?.nativeElement;
     if (canvas) {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      this.ampladaLogica = window.innerWidth;
+      this.alcadaLogica = window.innerHeight;
+      canvas.width = Math.round(this.ampladaLogica * this.escala());
+      canvas.height = Math.round(this.alcadaLogica * this.escala());
     }
     this.inicialitzarPunts(this.voronoi.nombrePunts());
     this.animarVoronoi();
@@ -64,20 +89,26 @@ export class VoronoiFons implements AfterViewInit, OnDestroy {
 
     const w = window.innerWidth;
     const h = window.innerHeight;
-    if (canvas.width !== w || canvas.height !== h) {
-      if (canvas.width > 0 && canvas.height > 0) {
-        const sx = w / canvas.width;
-        const sy = h / canvas.height;
+    const escala = this.escala();
+    const ampladaReal = Math.round(w * escala);
+    const alcadaReal = Math.round(h * escala);
+    if (canvas.width !== ampladaReal || canvas.height !== alcadaReal) {
+      if (this.ampladaLogica > 0 && this.alcadaLogica > 0) {
+        const sx = w / this.ampladaLogica;
+        const sy = h / this.alcadaLogica;
         for (const p of this.punts) {
           p.x *= sx;
           p.y *= sy;
         }
       }
-      canvas.width = w;
-      canvas.height = h;
+      canvas.width = ampladaReal;
+      canvas.height = alcadaReal;
     }
+    this.ampladaLogica = w;
+    this.alcadaLogica = h;
 
     const ctx = canvas.getContext('2d')!;
+    ctx.setTransform(escala, 0, 0, escala, 0, 0);
     const colors = this.voronoi.paleta().colors;
 
     for (const p of this.punts) {

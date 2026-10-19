@@ -17,6 +17,25 @@
     }
   </nav>
 
+  <!-- Navegació inferior (només mòbil tàctil, vegeu app.css): substitueix
+       la lateral, que en pantalla estreta no hi cap. Apareix com la lateral,
+       un cop passada la intro. -->
+  <nav class="sm-mnav" #navMobil
+    [class.sm-mnav--visible]="opacityNav() > 0.5"
+    [attr.aria-hidden]="opacityNav() <= 0.5">
+    @for (s of navSections; track s.id) {
+      <button
+        type="button"
+        class="sm-mnav__item"
+        [attr.data-seccio]="s.id"
+        [class.sm-mnav__item--actiu]="seccioActiva() === s.id"
+        [attr.tabindex]="opacityNav() > 0.5 ? 0 : -1"
+        (click)="scrollToSection(s.id)">
+        <span class="sm-mnav__num">{{ s.num }}</span>{{ ts.t(s.labelKey) }}
+      </button>
+    }
+  </nav>
+
   <!-- Contenidor principal scrollable -->
   <div class="sm-contenidor" #contenidor (scroll)="onScroll($event)">
 
@@ -135,10 +154,14 @@
           </div>
           <p class="sm-exp-bloc__desc">{{ ts.t('job1_desc') }}</p>
           <ul class="sm-exp-bloc__bullets">
-            @for (clau of job1BulletKeys; track clau) {
-              <li class="sm-exp-bloc__bullet">{{ ts.t(clau) }}</li>
+            @for (clau of job1BulletKeys; track clau; let i = $index) {
+              <li class="sm-exp-bloc__bullet" [class.sm-exp-bloc__bullet--extra]="i >= bulletsVisiblesMobil && !bulletsOberts()">{{ ts.t(clau) }}</li>
             }
           </ul>
+          <!-- Només mòbil tàctil: els punts de més de 3 queden plegats. -->
+          <button type="button" class="sm-exp-bloc__mes" (click)="bulletsOberts.set(!bulletsOberts())">
+            {{ bulletsOberts() ? ts.t('veure_menys') : ts.t('veure_mes') + ' (+' + (job1BulletKeys.length - bulletsVisiblesMobil) + ')' }}
+          </button>
         </div>
 
         <div class="sm-exp-bloc reveal anim-esq">
@@ -234,6 +257,18 @@
             (click)="seleccionarElement(element)"
           >
             <img class="sm-mapa__img" [src]="element.imgSrc" alt="" />
+          </button>
+        }
+      </div>
+
+      <!-- Només mòbil tàctil: al mapa petit els elements són difícils de
+           tocar; els mateixos temes, com a botons grans amb la seva imatge. -->
+      <p class="sm-mapa-pista">{{ ts.t('mapa_pista') }}</p>
+      <div class="sm-mapa-temes">
+        @for (element of elementsMapa; track element.id) {
+          <button type="button" class="sm-mapa-tema sm-mapa-tema--{{ element.color }}" (click)="seleccionarElement(element)">
+            <img class="sm-mapa-tema__img" [src]="element.imgSrc" alt="" />
+            <span class="sm-mapa-tema__nom">{{ ts.t(element.titolKey) }}</span>
           </button>
         }
       </div>

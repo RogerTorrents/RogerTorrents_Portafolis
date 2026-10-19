@@ -67,3 +67,31 @@
   .capsalera { padding: 0.75rem 1rem 0.9rem; gap: 0.75rem; }
   .nom-joc { font-size: 0.8rem; }
 }
+
+/* Mòbil (tàctil): capçalera més baixa — l'alçada és el que més escasseja. */
+@media (pointer: coarse) and (max-width: 760px), (pointer: coarse) and (max-height: 500px) {
+  .capsalera {
+    gap: 0.6rem;
+    padding: 0.45rem 0.75rem 0.6rem;
+  }
+
+  .btn-tornar {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .nom-joc {
+    font-size: 0.78rem;
+  }
+
+  .ronda {
+    font-size: 0.72rem;
+  }
+}
+
+@media (pointer: coarse) and (max-height: 640px) {
+  .capsalera {
+    padding-top: 0.3rem;
+    padding-bottom: 0.45rem;
+  }
+}

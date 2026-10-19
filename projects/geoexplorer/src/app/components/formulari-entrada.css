@@ -125,3 +125,27 @@
   cursor: pointer;
   padding: 0;
 }
+
+/* ===== Tàctil: marge a les vores i scroll si el teclat redueix l'alçada
+   (centrat amb `align-items` el formulari quedava tallat per dalt). */
+@media (pointer: coarse) {
+  .geo-formulari-pantalla {
+    align-items: flex-start;
+    overflow-y: auto;
+    padding: 16px;
+  }
+
+  .geo-formulari-caixa {
+    margin: auto 0;
+  }
+
+  .geo-formulari-boto {
+    padding: 13px;
+  }
+}
+
+@media (pointer: coarse) and (max-width: 720px) {
+  .geo-formulari-caixa {
+    padding: 22px 20px;
+  }
+}

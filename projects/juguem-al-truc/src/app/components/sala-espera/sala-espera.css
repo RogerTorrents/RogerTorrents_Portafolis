@@ -116,3 +116,64 @@
 .se-abandonar:hover {
   color: var(--tr-crema);
 }
+
+/* Mòbil: una pantalla sense scroll. La taula és el quadrat més gran que
+   cap a l'espai que deixen capçalera i peu (`cqw`/`cqh`), i les cadires
+   en depenen (cadira.css). */
+@media (max-width: 760px), (pointer: coarse) and (max-height: 500px) {
+  .se-pantalla {
+    min-height: 0;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .se-capcalera {
+    gap: 0.4rem;
+    padding: 0.75rem 1rem 0.25rem;
+  }
+
+  .se-titol {
+    font-size: 1.3rem;
+  }
+
+  .se-taula-zona {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 0.5rem;
+    container-type: size;
+  }
+
+  .se-taula {
+    width: min(360px, 100cqw, 100cqh);
+    container-type: inline-size;
+  }
+
+  .se-peu {
+    gap: 0.4rem;
+    padding: 0.5rem 1rem 0.75rem;
+  }
+
+  .se-peu .tr-medallo {
+    --tr-medallo-mida: min(108px, 15dvh);
+  }
+}
+
+/* Mòbil en horitzontal: capçalera a l'esquerra, taula al mig (tan alta
+   com la pantalla) i el botó d'iniciar a la dreta. */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .se-pantalla {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+
+  .se-taula-zona {
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 0.4rem;
+  }
+
+  .se-peu .tr-medallo {
+    --tr-medallo-mida: min(108px, 32dvh);
+  }
+}

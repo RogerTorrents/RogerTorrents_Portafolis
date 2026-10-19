@@ -115,3 +115,89 @@
   .duel { flex-direction: column; }
   .vs { order: 0; }
 }
+
+/* Mòbil (tàctil): els dos jugadors sempre un al costat de l'altre (apilats
+   la pantalla feia el doble d'alt) i targetes més compactes. */
+@media (pointer: coarse) and (max-width: 760px), (pointer: coarse) and (max-height: 500px) {
+  .pantalla-joc {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .duel {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0.45rem;
+  }
+
+  .vs {
+    align-self: center;
+    font-size: 0.75rem;
+  }
+
+  .targeta-jugador {
+    min-width: 0;
+    min-height: 0;
+    padding: 0.9rem 0.5rem 0.8rem;
+    gap: 0.15rem;
+  }
+
+  .targeta-jugador app-foto-jugador {
+    margin-bottom: 0.35rem;
+  }
+
+  .targeta-jugador .nom {
+    font-size: 0.78rem;
+    line-height: 1.2;
+  }
+
+  .targeta-jugador .posicio {
+    font-size: 0.62rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .targeta-jugador .minuts {
+    font-size: 1.2rem;
+  }
+
+  .targeta-jugador .etiqueta-minuts {
+    font-size: 0.58rem;
+  }
+}
+
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .cos {
+    max-width: 620px;
+  }
+
+  .targeta-jugador {
+    padding: 0.5rem;
+  }
+}
+
+/* Horitzontal: la resposta i el botó "Següent" a la dreta del duel (sobra
+   amplada i falta alçada) — a sota obligaven a fer scroll. */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .cos {
+    max-width: 820px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    column-gap: 1rem;
+  }
+
+  .pregunta {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  .pantalla-joc .cos .feedback {
+    grid-column: 2;
+    grid-row: 2;
+    position: static;
+    flex-direction: column;
+    margin-top: 0;
+    padding: 0;
+    background: none;
+  }
+}

@@ -70,3 +70,62 @@
     gap: 1.25rem;
   }
 }
+
+/* Mòbil: tot en una pantalla sense scroll — medallons i marges més
+   continguts (a 360×568 els 3 medallons de 128px, en 2 files, no hi
+   cabien). */
+@media (max-width: 760px) {
+  .mi-pantalla {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .mi-contingut {
+    padding: 1rem;
+  }
+
+  .mi-subtitol {
+    margin-bottom: min(2.75rem, 4dvh);
+  }
+
+  .mi-medallons {
+    gap: 1rem;
+  }
+
+  .mi-medallons .tr-medallo {
+    --tr-medallo-mida: min(112px, 17dvh);
+  }
+}
+
+/* Mòbil en horitzontal: els 3 medallons en una fila i capçalera compacta. */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .mi-pantalla {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .mi-contingut {
+    padding: 0.75rem 1rem;
+  }
+
+  .mi-titol {
+    font-size: min(2.4rem, 13dvh);
+  }
+
+  .mi-contingut .tr-separador {
+    margin: 0.3rem 0;
+  }
+
+  .mi-subtitol {
+    margin-bottom: 4dvh;
+  }
+
+  .mi-medallons {
+    flex-wrap: nowrap;
+    gap: 1.25rem;
+  }
+
+  .mi-medallons .tr-medallo {
+    --tr-medallo-mida: min(112px, 33dvh);
+  }
+}

@@ -69,3 +69,39 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* Mòbil: els 4 personatges en una sola fila, amb la imatge limitada per
+   l'alçada de la pantalla (en 2×2 el formulari no cabia sense scroll). */
+@media (max-width: 760px) {
+  .sp-graella {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.4rem;
+  }
+
+  .sp-carta {
+    gap: 0.2rem;
+    padding: 0.35rem 0.2rem 0.4rem;
+  }
+
+  .sp-imatge {
+    aspect-ratio: auto;
+    height: min(110px, 14dvh);
+  }
+
+  .sp-nom {
+    font-size: 0.68rem;
+  }
+
+  .sp-etiqueta {
+    top: 0.2rem;
+    right: 0.2rem;
+    font-size: 0.5rem;
+  }
+}
+
+/* Mòbil en horitzontal: imatges lligades a l'alçada de la pantalla. */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .sp-imatge {
+    height: min(110px, 30dvh);
+  }
+}

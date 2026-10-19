@@ -229,3 +229,95 @@ h1, h2, h3 {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ===== Mòbil (només tàctil: `pointer: coarse` — mai canvia res a web) =====
+   Objectiu: cada pantalla de joc ha de cabre sencera, o amb el mínim
+   scroll, i el botó "Següent"/"Confirmar" sempre ha de quedar visible.
+   Selectors amb prou especificitat (`body .pantalla-joc .cos`, `.pantalla-joc
+   .cos .feedback`…) per guanyar als estils encapsulats de cada joc, que
+   s'injecten després d'aquest: `.pantalla-joc .cos` sol empata amb
+   `.cos[_ngcontent-…]` i perdria per ordre. */
+@media (pointer: coarse) and (max-width: 760px), (pointer: coarse) and (max-height: 500px) {
+  /* `clip` en lloc de `hidden`: retalla igual la marca d'aigua, però no
+     converteix la pantalla en un contenidor de scroll propi — amb `hidden`,
+     el `position: sticky` del botó "Següent" quedava sense efecte. */
+  .pantalla-joc {
+    overflow: clip;
+  }
+
+  body .pantalla-joc .cos {
+    justify-content: flex-start;
+    padding: 0.75rem 0.75rem 0;
+  }
+
+  .pantalla-joc .cos .pregunta {
+    font-size: 0.86rem;
+    line-height: 1.35;
+    margin-bottom: 0.6rem;
+  }
+
+  /* Resposta + "Següent" en una sola fila, enganxada a baix de la pantalla:
+     encara que la pantalla faci una mica de scroll, el botó sempre es veu. */
+  .pantalla-joc .cos .feedback {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding: 0.6rem 0.25rem 0.75rem;
+    background: linear-gradient(180deg, rgba(20, 12, 16, 0), var(--fons-base) 30%);
+  }
+
+  .pantalla-joc .cos .feedback .btn-primari {
+    min-width: 0;
+    padding: 0.7rem 1.4rem;
+  }
+}
+
+/* Mòbil de poca alçada (tàctil, ≤640px: mòbils petits en vertical i
+   qualsevol mòbil en horitzontal): un graó més de compactació. */
+@media (pointer: coarse) and (max-height: 640px) {
+  body .pantalla-joc .cos {
+    padding-top: 0.5rem;
+  }
+
+  .pantalla-joc .cos .pregunta {
+    font-size: 0.8rem;
+    margin-bottom: 0.45rem;
+  }
+}
+
+/* Mòbil en horitzontal: la pregunta en una sola línia (sobra amplada). */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
+  .pantalla-joc .cos .pregunta {
+    max-width: none;
+  }
+}
+
+/* Mòbil en vertical: si sobra alçada, el contingut queda centrat (com a
+   web) en lloc d'enganxat a dalt. Es fa amb marges automàtics als
+   pseudoelements i no amb `justify-content: center`: quan el contingut no
+   hi cap, els marges automàtics valen 0 i res queda tallat per dalt. La
+   resposta va just a sota del contingut (enganxada a baix si cal, amb
+   `sticky`). Només en vertical: en horitzontal `.cos` és una graella. */
+@media (pointer: coarse) and (max-width: 760px) and (orientation: portrait) {
+  body .pantalla-joc .cos::before,
+  body .pantalla-joc .cos::after {
+    content: '';
+    flex: none;
+  }
+
+  body .pantalla-joc .cos::before {
+    margin-top: auto;
+  }
+
+  body .pantalla-joc .cos::after {
+    margin-bottom: auto;
+  }
+
+  .pantalla-joc .cos .feedback {
+    margin-top: 0.5rem;
+  }
+}

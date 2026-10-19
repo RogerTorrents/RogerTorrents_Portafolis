@@ -98,3 +98,24 @@
   font-size: 0.78rem;
   color: rgba(243, 230, 200, 0.55);
 }
+
+/* Mòbil: la figura és proporcional a la taula (`cqw` de `.se-taula`), no a
+   la pantalla — així les 4 cadires sempre hi caben. */
+@media (max-width: 760px), (pointer: coarse) and (max-height: 500px) {
+  .ca-lloc {
+    gap: 0.2rem;
+  }
+
+  .ca-figura {
+    width: 25cqw;
+  }
+
+  .ca-imatge {
+    aspect-ratio: 1 / 1.75;
+  }
+
+  .ca-nom {
+    font-size: 0.72rem;
+    max-width: 30cqw;
+  }
+}
