@@ -11,20 +11,21 @@ import { AppIcon } from '../base/app-icon/app-icon';
   styleUrls: ['./desktop.css']
 })
 export class Desktop implements OnDestroy {
-  // Ordre = disposició a l'escriptori (graella per columnes, 3 files):
-  // columna 1: Sobre mi, Més que un joc, GeoExplorer
-  // columna 2: Fons de pantalla, LinkedIn, L'Impostor
-  // columna 3: Som-hi, Juguem al Truc, Altres projectes
+  // Disposició a l'escriptori: casella (col, fila) de cada icona.
+  //   fila 0: Sobre mi        | Juguem al Truc   | Som-hi
+  //   fila 1: Més que un joc  | GeoExplorer      | L'Impostor
+  //   fila 2: LinkedIn        | Fons de pantalla |
+  //   fila 3: Altres projectes
   private readonly appDefs = [
-    { id: 'sobre-mi', nameKey: 'app_sobre_mi', icon: '👤', showInDesktop: true },
-    { id: 'mes-que-un-joc', nameKey: 'app_mes_que_un_joc', icon: 'mes-que-un-joc/logo.png', showInDesktop: true },
-    { id: 'geoexplorer', nameKey: 'app_geoexplorer', icon: 'geoexplorer/logo.svg', showInDesktop: true },
-    { id: 'fons-depantalla', nameKey: 'app_fons_depantalla',  icon: 'fons-de-pantalla/logo.png', showInDesktop: true },
-    { id: 'linkedin', nameKey: 'app_linkedin', icon: 'linkedin/logo.png', showInDesktop: true },
-    { id: 'joc-impostor', nameKey: 'app_joc_impostor', icon: 'joc-impostor/logo.png', showInDesktop: true },
-    { id: 'som-hi', nameKey: 'app_som_hi', icon: 'som-hi/logo.png', showInDesktop: true },
-    { id: 'juguem-al-truc', nameKey: 'app_juguem_al_truc', icon: 'juguem-al-truc/truc/Logo.png', showInDesktop: true },
-    { id: 'altres-projectes', nameKey: 'app_altres_projectes', icon: 'altres-projectes/logo.png', showInDesktop: true },
+    { id: 'sobre-mi', nameKey: 'app_sobre_mi', icon: '👤', showInDesktop: true, col: 0, fila: 0 },
+    { id: 'juguem-al-truc', nameKey: 'app_juguem_al_truc', icon: 'juguem-al-truc/logo.png', showInDesktop: true, col: 1, fila: 0 },
+    { id: 'som-hi', nameKey: 'app_som_hi', icon: 'som-hi/logo.png', showInDesktop: true, col: 2, fila: 0 },
+    { id: 'mes-que-un-joc', nameKey: 'app_mes_que_un_joc', icon: 'mes-que-un-joc/logo.png', showInDesktop: true, col: 0, fila: 1 },
+    { id: 'geoexplorer', nameKey: 'app_geoexplorer', icon: 'geoexplorer/logo.svg', showInDesktop: true, col: 1, fila: 1 },
+    { id: 'joc-impostor', nameKey: 'app_joc_impostor', icon: 'joc-impostor/logo.png', showInDesktop: true, col: 2, fila: 1 },
+    { id: 'linkedin', nameKey: 'app_linkedin', icon: 'linkedin/logo.png', showInDesktop: true, col: 0, fila: 2 },
+    { id: 'fons-depantalla', nameKey: 'app_fons_depantalla',  icon: 'fons-de-pantalla/logo.png', showInDesktop: true, col: 1, fila: 2 },
+    { id: 'altres-projectes', nameKey: 'app_altres_projectes', icon: 'altres-projectes/logo.png', showInDesktop: true, col: 0, fila: 3 },
     { id: 'habilitats', nameKey: 'app_habilitats', icon: '⚙️', showInDesktop: false },
     { id: 'contactar', nameKey: 'app_contactar', icon: '✉️', showInDesktop: false },
   ];
@@ -43,8 +44,6 @@ export class Desktop implements OnDestroy {
   private readonly gridW = 100;
   private readonly gridH = 110;
   private readonly gridPadding = 10;
-  /** Nombre de files abans de passar a la columna següent a la graella inicial. */
-  private readonly filesPerColumna = 3;
 
   posicionsIcones = signal<Record<string, { x: number; y: number }>>(
     this.calcularPosicionsInicials()
@@ -69,7 +68,7 @@ export class Desktop implements OnDestroy {
   constructor(private readonly wm: WindowManagerService, readonly ts: TranslationService) {}
 
   /**
-   * Posició inicial de cada icona: graella fixa per columnes (3 files),
+   * Posició inicial de cada icona: la casella (col, fila) de `appDefs`,
    * NOMÉS amb les apps visibles (`showInDesktop`). Calcular-la també amb
    * les apps amagades (com es feia abans) reservava les seves caselles per
    * sempre: `posicionsIcones` les seguia contenint encara que no es
@@ -80,12 +79,10 @@ export class Desktop implements OnDestroy {
   private calcularPosicionsInicials(): Record<string, { x: number; y: number }> {
     const visibles = this.appDefs.filter(a => a.showInDesktop);
     const posicions: Record<string, { x: number; y: number }> = {};
-    for (let i = 0; i < visibles.length; i++) {
-      const columna = Math.floor(i / this.filesPerColumna);
-      const fila = i % this.filesPerColumna;
-      posicions[visibles[i].id] = {
-        x: this.gridPadding + columna * this.gridW,
-        y: this.gridPadding + fila * this.gridH,
+    for (const app of visibles) {
+      posicions[app.id] = {
+        x: this.gridPadding + app.col! * this.gridW,
+        y: this.gridPadding + app.fila! * this.gridH,
       };
     }
     return posicions;
