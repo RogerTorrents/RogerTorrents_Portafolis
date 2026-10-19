@@ -6,6 +6,7 @@ import {
   ViewChild,
   AfterViewInit,
   OnDestroy,
+  HostListener,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { TraduccionService } from './services/traduccions.service';
@@ -26,11 +27,19 @@ interface EducacioItem {
   readonly color: 'cyan' | 'orange' | 'purple' | 'green';
 }
 
-interface TarjetaPersonal {
+interface ElementMapa {
+  readonly id: string;
   readonly titolKey: string;
   readonly textKey: string;
-  readonly emoji: string;
+  readonly fotoCaptionKey: string;
+  readonly imgSrc: string;
+  readonly fotoSrc: string;
   readonly color: 'cyan' | 'orange' | 'purple' | 'green';
+  /** Posició i mida en % respecte el mapa, mesurades sobre "com ha de quedar.png". */
+  readonly left: number;
+  readonly top: number;
+  readonly width: number;
+  readonly height: number;
 }
 
 @Component({
@@ -118,14 +127,61 @@ export class App implements AfterViewInit, OnDestroy {
     { id: 'edu3', titolKey: 'edu3_titol', instKey: 'edu3_inst', datesKey: 'edu3_dates', enCurs: false, imgSrc: 'assets/educaci%C3%B3/montgros.png.png', color: 'green' },
   ];
 
-  protected readonly targetesPesonals: readonly TarjetaPersonal[] = [
-    { titolKey: 'muntanya_titol', textKey: 'muntanya_text', emoji: '⛰', color: 'green' },
-    { titolKey: 'futbol_titol', textKey: 'futbol_text', emoji: '⚽', color: 'orange' },
-    { titolKey: 'ribes_titol', textKey: 'ribes_text', emoji: '🏔', color: 'cyan' },
-    { titolKey: 'esplai_titol', textKey: 'esplai_text', emoji: '🏕', color: 'purple' },
+  private static readonly CAMI_MAPA = 'assets/fora%20del%20teclat/recortades/';
+  private static readonly CAMI_FOTOS = 'assets/fora%20del%20teclat/fotos/';
+
+  protected readonly elementsMapa: readonly ElementMapa[] = [
+    {
+      id: 'montanya', titolKey: 'montanya_titol', textKey: 'montanya_text', fotoCaptionKey: 'montanya_foto',
+      imgSrc: App.CAMI_MAPA + 'montanya.png', fotoSrc: App.CAMI_FOTOS + 'montanya.jpg', color: 'green',
+      left: 13.54, top: 19.00, width: 48.8, height: 26.1,
+    },
+    {
+      id: 'ribes', titolKey: 'ribes_titol', textKey: 'ribes_text', fotoCaptionKey: 'ribes_foto',
+      imgSrc: App.CAMI_MAPA + 'castell.png', fotoSrc: App.CAMI_FOTOS + 'ribes.jpg', color: 'orange',
+      left: 63.2, top: 24.06, width: 24.8, height: 15.1,
+    },
+    {
+      id: 'futbol', titolKey: 'futbol_titol', textKey: 'futbol_text', fotoCaptionKey: 'futbol_foto',
+      imgSrc: App.CAMI_MAPA + 'futbol.png', fotoSrc: App.CAMI_FOTOS + 'futbol.jpg', color: 'purple',
+      left: 37.07, top: 63.54, width: 29, height: 17.1,
+    },
+    {
+      id: 'avio', titolKey: 'avio_titol', textKey: 'avio_text', fotoCaptionKey: 'avio_foto',
+      imgSrc: App.CAMI_MAPA + 'avio.png', fotoSrc: App.CAMI_FOTOS + 'viatjar.jpg', color: 'cyan',
+      left: 61.07, top: 0.86, width: 21.99, height: 11.07,
+    },
+    {
+      id: 'bici', titolKey: 'bici_titol', textKey: 'bici_text', fotoCaptionKey: 'bici_foto',
+      imgSrc: App.CAMI_MAPA + 'bici.png', fotoSrc: App.CAMI_FOTOS + 'bici.jpg', color: 'cyan',
+      left: 5.27, top: 42.84, width: 8.54, height: 7.81,
+    },
+    {
+      id: 'menjar', titolKey: 'menjar_titol', textKey: 'menjar_text', fotoCaptionKey: 'menjar_foto',
+      imgSrc: App.CAMI_MAPA + 'menjar.png', fotoSrc: App.CAMI_FOTOS + 'menjar.jpg', color: 'green',
+      left: 14.20, top: 70.91, width: 8, height: 9.3,
+    },
+    {
+      id: 'esplai', titolKey: 'esplai_titol', textKey: 'esplai_text', fotoCaptionKey: 'esplai_foto',
+      imgSrc: App.CAMI_MAPA + 'esplai.png', fotoSrc: App.CAMI_FOTOS + 'esplai.jpg', color: 'purple',
+      left: 77.50, top: 63.50, width: 12.5, height: 10.1,
+    },
   ];
 
+  protected readonly elementSeleccionat = signal<ElementMapa | null>(null);
+
   constructor(protected readonly ts: TraduccionService) { }
+
+  @HostListener('document:keydown.escape')
+  protected tancarPopup(): void {
+    this.elementSeleccionat.set(null);
+  }
+
+  protected seleccionarElement(element: ElementMapa): void {
+    this.elementSeleccionat.set(
+      this.elementSeleccionat()?.id === element.id ? null : element,
+    );
+  }
 
   ngAfterViewInit(): void {
     this.initScrollReveal();

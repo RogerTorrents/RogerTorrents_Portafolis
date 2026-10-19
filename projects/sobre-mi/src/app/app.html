@@ -218,17 +218,38 @@
         <h2 class="sm-seccio__titol">{{ ts.t('personal_titol') }}</h2>
       </div>
 
-      <div class="sm-personal-list">
-        @for (targeta of targetesPesonals; track targeta.titolKey) {
-          <div class="sm-personal-fila sm-personal-fila--{{ targeta.color }} reveal anim-esq">
-            <div class="sm-personal-fila__esq">
-              <span class="sm-personal-fila__emoji">{{ targeta.emoji }}</span>
-              <h3 class="sm-personal-fila__titol">{{ ts.t(targeta.titolKey) }}</h3>
-            </div>
-            <p class="sm-personal-fila__text">{{ ts.t(targeta.textKey) }}</p>
-          </div>
+      <div class="sm-mapa reveal">
+        <img class="sm-mapa__fons" src="assets/fora%20del%20teclat/fondo_lineas.png" alt="" />
+
+        @for (element of elementsMapa; track element.id) {
+          <button
+            type="button"
+            class="sm-mapa__item sm-mapa__item--{{ element.color }}"
+            [class.sm-mapa__item--actiu]="elementSeleccionat()?.id === element.id"
+            [style.left.%]="element.left"
+            [style.top.%]="element.top"
+            [style.width.%]="element.width"
+            [style.height.%]="element.height"
+            [attr.aria-label]="ts.t(element.titolKey)"
+            (click)="seleccionarElement(element)"
+          >
+            <img class="sm-mapa__img" [src]="element.imgSrc" alt="" />
+          </button>
         }
       </div>
+
+      @if (elementSeleccionat(); as sel) {
+        <div class="sm-mapa-popup-fons" (click)="tancarPopup()"></div>
+        <div class="sm-mapa-popup sm-mapa-popup--{{ sel.color }}" role="dialog" aria-modal="true">
+          <button type="button" class="sm-mapa-popup__tancar" (click)="tancarPopup()" aria-label="Tancar">✕</button>
+          <h3 class="sm-mapa-popup__titol">{{ ts.t(sel.titolKey) }}</h3>
+          <p class="sm-mapa-popup__text">{{ ts.t(sel.textKey) }}</p>
+          <figure class="sm-mapa-popup__figura">
+            <img class="sm-mapa-popup__foto" [src]="sel.fotoSrc" [alt]="ts.t(sel.fotoCaptionKey)" />
+            <figcaption class="sm-mapa-popup__peu">{{ ts.t(sel.fotoCaptionKey) }}</figcaption>
+          </figure>
+        </div>
+      }
     </section>
 
     <!-- ═══════════════════════════════════════════
