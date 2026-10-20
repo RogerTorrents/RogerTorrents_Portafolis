@@ -28,14 +28,14 @@ export class SeientJugador {
 
   /**
    * Cada personatge té una imatge diferent segons les cartes que li queden
-   * a la mà (0-3) per cada pose (`normal/Pere2.png`, `truco/Marina1.png`,
-   * `un-3/Paula3.png`...) — noms capitalitzats tal com es van afegir a
+   * a la mà (0-3) per cada pose (`normal/Pere2.webp`, `truco/Marina1.webp`,
+   * `un-3/Paula3.webp`...) — noms capitalitzats tal com es van afegir a
    * `public/truc/<pose>/`, no en minúscules com la resta d'assets.
    */
   protected readonly rutaImatge = computed(() => {
     const j = this.jugador();
     if (!j) return '';
     const cartes = this.cartesRestants() ?? CARTES_PER_DEFECTE;
-    return `/truc/${this.pose()}/${nomFitxerPersonatge(j.personatge)}${cartes}.png`;
+    return `/truc/${this.pose()}/${nomFitxerPersonatge(j.personatge)}${cartes}.webp`;
   });
 }

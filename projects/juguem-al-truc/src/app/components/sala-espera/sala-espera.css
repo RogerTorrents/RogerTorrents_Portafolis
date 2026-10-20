@@ -4,7 +4,7 @@
   flex-direction: column;
   background:
     linear-gradient(180deg, rgba(16, 54, 42, 0.55), rgba(10, 30, 22, 0.85)),
-    url('/truc/elements/transicio_16_fotogrames/fotograma_01.jpg') center / cover no-repeat;
+    url('/truc/elements/transicio_16_fotogrames/fotograma_01.webp') center / cover no-repeat;
 }
 
 .se-capcalera {

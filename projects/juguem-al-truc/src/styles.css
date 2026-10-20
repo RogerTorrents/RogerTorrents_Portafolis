@@ -71,7 +71,7 @@ img {
 }
 
 /* Llenguatge visual comú: medalló daurat circular, com els botons il·lustrats
-   del propi joc (Botons/*.png) — reutilitzat per a qualsevol acció
+   del propi joc (Botons/*.webp) — reutilitzat per a qualsevol acció
    principal fora de la taula de joc (menú, sala d'espera). */
 .tr-medallo {
   --tr-medallo-mida: 128px;

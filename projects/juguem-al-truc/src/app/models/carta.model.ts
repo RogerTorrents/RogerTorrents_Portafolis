@@ -21,9 +21,9 @@ export function etiquetaValor(valor: number): string {
   return NOMS_FIGURES[valor] ?? String(valor);
 }
 
-/** Imatge real de la carta a `public/truc/baralla-espanyola/` (p.ex. `oros_03.png`). */
+/** Imatge real de la carta a `public/truc/baralla-espanyola/` (p.ex. `oros_03.webp`). */
 export function rutaImatgeCarta(carta: Carta): string {
   const valor = String(carta.valor).padStart(2, '0');
-  return `/truc/baralla-espanyola/${carta.coll}_${valor}.png`;
+  return `/truc/baralla-espanyola/${carta.coll}_${valor}.webp`;
 }
 

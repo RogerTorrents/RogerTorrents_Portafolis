@@ -8,7 +8,7 @@
       [disabled]="esOcupat(personatge)"
       (click)="triar(personatge)"
     >
-      <img [src]="'/truc/no-cadira/' + nomFitxer(personatge) + '.png'" [alt]="ts.t('personatge_' + personatge)" class="sp-imatge" />
+      <img [src]="'/truc/no-cadira/' + nomFitxer(personatge) + '.webp'" [alt]="ts.t('personatge_' + personatge)" class="sp-imatge" />
       <span class="sp-nom">{{ ts.t('personatge_' + personatge) }}</span>
       @if (esOcupat(personatge)) {
         <span class="sp-etiqueta">{{ ts.t('personatge_ocupat') }}</span>

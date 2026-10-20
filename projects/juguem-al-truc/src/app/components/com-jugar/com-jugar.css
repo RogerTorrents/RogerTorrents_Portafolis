@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: url('/truc/elements/transicio_16_fotogrames/fotograma_01.jpg') center / cover no-repeat;
+  background: url('/truc/elements/transicio_16_fotogrames/fotograma_01.webp') center / cover no-repeat;
 }
 
 .cj-vel {

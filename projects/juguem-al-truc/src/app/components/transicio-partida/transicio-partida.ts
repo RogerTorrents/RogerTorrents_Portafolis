@@ -7,7 +7,7 @@ const RUTA_BASE = '/truc/elements/transicio_16_fotogrames/fotograma_';
 const RETARD_ABANS_DE_LA_PARTIDA_MS = 250;
 
 function rutaFotograma(n: number): string {
-  return `${RUTA_BASE}${String(n).padStart(2, '0')}.jpg`;
+  return `${RUTA_BASE}${String(n).padStart(2, '0')}.webp`;
 }
 
 /**

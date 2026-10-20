@@ -16,7 +16,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: url('/truc/elements/transicio_16_fotogrames/fotograma_16.jpg') center / cover no-repeat;
+  background: url('/truc/elements/transicio_16_fotogrames/fotograma_16.webp') center / cover no-repeat;
 }
 
 .tj-pantalla::before {

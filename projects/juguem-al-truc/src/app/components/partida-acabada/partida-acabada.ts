@@ -25,7 +25,7 @@ export class PartidaAcabada {
     return nomEquip(this.trucSocket.estatSala()?.jugadors ?? [], equip);
   });
 
-  /** Retrats dels 2 gegants guanyadors (amb el pernil), en ordre de seient — `public/truc/guanyador/<Personatge>.png`. */
+  /** Retrats dels 2 gegants guanyadors (amb el pernil), en ordre de seient — `public/truc/guanyador/<Personatge>.webp`. */
   protected readonly retratsGuanyadors = computed<readonly string[]>(() => {
     const equip = this.guanyador();
     if (!equip) return [];
@@ -33,7 +33,7 @@ export class PartidaAcabada {
     return seientsDeLEquip(equip)
       .map((seient) => jugadors[seient]?.personatge)
       .filter((personatge) => !!personatge)
-      .map((personatge) => `/truc/guanyador/${nomFitxerPersonatge(personatge)}.png`);
+      .map((personatge) => `/truc/guanyador/${nomFitxerPersonatge(personatge)}.webp`);
   });
 
   /** Torna tothom a la sala d'espera (mateixos seients, mateix codi) — la navegació real la fa `App` en rebre `partida_reiniciada`. */

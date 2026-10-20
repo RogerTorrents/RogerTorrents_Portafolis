@@ -8,7 +8,7 @@
   background:
     radial-gradient(ellipse at 50% 30%, rgba(200, 151, 63, 0.25), transparent 60%),
     linear-gradient(180deg, rgba(16, 54, 42, 0.7), rgba(10, 30, 22, 0.95)),
-    url('/truc/elements/transicio_16_fotogrames/fotograma_16.jpg') center / cover no-repeat;
+    url('/truc/elements/transicio_16_fotogrames/fotograma_16.webp') center / cover no-repeat;
 }
 
 .pa-targeta {
