@@ -22,10 +22,10 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
     tria_mode: 'Tria el mode de joc',
     mode_normal: '4 jugadors',
     mode_normal_desc: 'Tots humans, cadascú des del seu dispositiu.',
-    mode_solo: 'Sol vs IA',
-    mode_solo_desc: 'Tu sol contra 3 jugadors controlats per la IA.',
-    mode_parelles: 'Parelles vs IA',
-    mode_parelles_desc: "Tu i un company humà contra una parella d'IA.",
+    mode_solo: 'Sol vs Bots',
+    mode_solo_desc: 'Tu sol contra 3 jugadors controlats.',
+    mode_parelles: 'Parella vs Bots',
+    mode_parelles_desc: 'Tu i un company humà contra una parella de bots.',
     etiqueta_bot: 'IA',
 
     // Formulari comú (crear/unir)
@@ -150,10 +150,10 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
     tria_mode: 'Elige el modo de juego',
     mode_normal: '4 jugadores',
     mode_normal_desc: 'Todos humanos, cada uno desde su dispositivo.',
-    mode_solo: 'Solo vs IA',
-    mode_solo_desc: 'Tú solo contra 3 jugadores controlados por la IA.',
-    mode_parelles: 'Parejas vs IA',
-    mode_parelles_desc: 'Tú y un compañero humano contra una pareja de IA.',
+    mode_solo: 'Solo vs Bots',
+    mode_solo_desc: 'Tú solo contra 3 jugadores controlados.',
+    mode_parelles: 'Pareja vs Bots',
+    mode_parelles_desc: 'Tú y un compañero humano contra una pareja de bots.',
     etiqueta_bot: 'IA',
 
     // Formulario común (crear/unir)
@@ -278,10 +278,10 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
     tria_mode: 'Choose the game mode',
     mode_normal: '4 players',
     mode_normal_desc: 'All human, each from their own device.',
-    mode_solo: 'Solo vs AI',
-    mode_solo_desc: 'You alone against 3 AI-controlled players.',
-    mode_parelles: 'Pairs vs AI',
-    mode_parelles_desc: 'You and a human teammate against a pair of AI.',
+    mode_solo: 'Solo vs Bots',
+    mode_solo_desc: 'You alone against 3 controlled players.',
+    mode_parelles: 'Pair vs Bots',
+    mode_parelles_desc: 'You and a human teammate against a pair of bots.',
     etiqueta_bot: 'AI',
 
     // Shared form (create/join)

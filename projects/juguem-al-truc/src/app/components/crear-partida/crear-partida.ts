@@ -20,8 +20,8 @@ export class CrearPartida {
   private readonly trucSocket = inject(TrucSocketService);
   private readonly sessio = inject(SessioJugadorService);
 
-  protected readonly modes: readonly ModeSala[] = ['normal', 'solo', 'parelles'];
-  protected readonly mode = signal<ModeSala>('normal');
+  protected readonly modes: readonly ModeSala[] = ['solo', 'parelles', 'normal'];
+  protected readonly mode = signal<ModeSala>('solo');
   protected readonly nom = signal('');
   protected readonly personatge = signal<Personatge | null>(null);
   protected readonly enviant = signal(false);
