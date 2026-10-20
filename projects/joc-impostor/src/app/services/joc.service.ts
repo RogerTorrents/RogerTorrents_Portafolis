@@ -75,10 +75,9 @@ export class JocService {
       this.assignarRols(estatInicial, config);
       this.pantalla.set(2);
     } catch (e) {
-      const missatge = (e instanceof Error && e.message === 'ribes-404')
-        ? "No s'ha pogut llegir ribes.json. Comprova que el fitxer existeix a public/assets/data/."
-        : "No s'ha pogut connectar al servidor. Torna-ho a provar d'aquí a una estona.";
-      this.errorApi.set(missatge);
+      // Es desa la clau de traducció perquè el missatge segueixi l'idioma del Shell
+      const clau = (e instanceof Error && e.message === 'ribes-404') ? 'error_ribes' : 'error_servidor';
+      this.errorApi.set(clau);
     } finally {
       this.carregant.set(false);
     }

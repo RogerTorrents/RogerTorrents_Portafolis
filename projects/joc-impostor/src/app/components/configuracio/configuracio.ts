@@ -1,5 +1,8 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, linkedSignal } from '@angular/core';
 import { JocService, ConfiguracioPartida, ModusJoc, Idioma } from '../../services/joc.service';
+import { TraduccioService, IdiomaUi } from '../../services/traduccio.service';
+
+const IDIOMA_PARAULES: Record<IdiomaUi, Idioma> = { ca: 'català', es: 'castellà', en: 'anglès' };
 
 @Component({
   selector: 'app-configuracio',
@@ -9,12 +12,16 @@ import { JocService, ConfiguracioPartida, ModusJoc, Idioma } from '../../service
 })
 export class Configuracio {
   readonly joc = inject(JocService);
+  readonly ts = inject(TraduccioService);
 
   readonly jugadors = signal<string[]>(['', '', '']);
   readonly nombreImpostors = signal(1);
-  readonly modus = signal<ModusJoc>('manual');
+  readonly modus = signal<ModusJoc>('lliure');
   readonly dificultat = signal(5);
-  readonly idioma = signal<Idioma>('català');
+  // Per defecte segueix l'idioma del Shell; l'usuari el pot canviar igualment
+  readonly idioma = linkedSignal<Idioma>(() => IDIOMA_PARAULES[this.ts.idioma()]);
+  // Els avisos de camps buits només es mostren després d'intentar començar
+  readonly intentatIniciar = signal(false);
   readonly categoria = signal('');
   readonly mostrarPista = signal(true);
   readonly permetCanviarParaula = signal(true);
@@ -43,6 +50,26 @@ export class Configuracio {
     this.categoriaValida() &&
     !this.joc.carregant()
   );
+
+  /** Llista llegible dels camps que falten per poder començar. */
+  readonly campsQueFalten = computed<string[]>(() => {
+    const falten: string[] = [];
+    const buits = this.jugadors()
+      .map((n, i) => (n.trim().length === 0 ? i + 1 : 0))
+      .filter(i => i > 0);
+    if (buits.length === 1) {
+      falten.push(this.ts.t('falta_nom_jugador', [buits[0]]));
+    } else if (buits.length > 1) {
+      falten.push(this.ts.t('falta_noms_jugadors', [buits.join(', ')]));
+    }
+    if (!this.validacioImpostors()) falten.push(this.ts.t('falta_impostors'));
+    if (!this.categoriaValida()) falten.push(this.ts.t('falta_categoria'));
+    return falten;
+  });
+
+  nomBuit(i: number): boolean {
+    return this.intentatIniciar() && this.jugadors()[i].trim().length === 0;
+  }
 
   constructor() {
     const ant = this.joc.configAnterior();
@@ -94,6 +121,8 @@ export class Configuracio {
   }
 
   async comenarJoc(): Promise<void> {
+    if (this.joc.carregant()) return;
+    this.intentatIniciar.set(true);
     if (!this.potIniciar()) return;
     const config: ConfiguracioPartida = {
       jugadors: this.jugadors().map(n => n.trim()),

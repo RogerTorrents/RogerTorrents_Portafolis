@@ -1,13 +1,13 @@
 <div class="pagina">
 
   <header class="capçalera">
-    <p class="etiqueta-fase">REVELACIÓ FINAL</p>
-    <h2>El Veredicte</h2>
+    <p class="etiqueta-fase">{{ ts.t('revelacio_fase') }}</p>
+    <h2>{{ ts.t('revelacio_titol') }}</h2>
   </header>
 
   <!-- Paraula secreta -->
   <div class="card paraula-card">
-    <p class="card-etiqueta">La paraula secreta era</p>
+    <p class="card-etiqueta">{{ ts.t('revelacio_paraula') }}</p>
     <div class="paraula-gran">{{ dadesRonda().paraula }}</div>
     <div class="paraula-meta">
       <span class="meta-categoria">{{ dadesRonda().categoria }}</span>
@@ -22,7 +22,7 @@
   <div class="card impostors-card">
     <p class="card-etiqueta impostor-etiqueta">
       <span class="punt-impostor"></span>
-      @if (impostors().length === 1) { L'Impostor } @else { Els Impostors }
+      {{ impostors().length === 1 ? ts.t('revelacio_impostor') : ts.t('revelacio_impostors') }}
     </p>
     <div class="jugadors-rol">
       @for (jugador of impostors(); track jugador.nom) {
@@ -38,7 +38,7 @@
   <div class="card jugadors-card">
     <p class="card-etiqueta jugador-etiqueta">
       <span class="punt-jugador"></span>
-      Seguidors de la Paraula
+      {{ ts.t('revelacio_seguidors') }}
     </p>
     <div class="jugadors-rol">
       @for (jugador of jugadorsNormals(); track jugador.nom) {
@@ -52,7 +52,7 @@
 
   <!-- Tornar a jugar -->
   <button class="btn-primari btn-tornar" (click)="joc.tornarAJugar()">
-    Tornar a Jugar
+    {{ ts.t('tornar_a_jugar') }}
   </button>
 
 </div>

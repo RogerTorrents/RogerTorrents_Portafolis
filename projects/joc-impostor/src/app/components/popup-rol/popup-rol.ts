@@ -1,5 +1,6 @@
-import { Component, input, output, signal, computed } from '@angular/core';
+import { Component, inject, input, output, signal, computed } from '@angular/core';
 import { JugadorPartida } from '../../services/joc.service';
+import { TraduccioService } from '../../services/traduccio.service';
 
 @Component({
   selector: 'app-popup-rol',
@@ -8,6 +9,8 @@ import { JugadorPartida } from '../../services/joc.service';
   styleUrl: './popup-rol.css',
 })
 export class PopupRol {
+  readonly ts = inject(TraduccioService);
+
   readonly jugador = input.required<JugadorPartida>();
   readonly potCanviar = input<boolean>(false);
   readonly canvisRestants = input<number>(0);
@@ -32,8 +35,8 @@ export class PopupRol {
 
   readonly etiquetaParaula = computed(() => {
     if (this.esImpostorPur()) return '';
-    if (this.esImpostorAmbPista()) return 'La teva pista:';
-    return 'La teva paraula:';
+    if (this.esImpostorAmbPista()) return this.ts.t('popup_la_teva_pista');
+    return this.ts.t('popup_la_teva_paraula');
   });
 
   revelar(): void {

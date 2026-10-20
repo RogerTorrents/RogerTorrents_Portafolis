@@ -1,13 +1,13 @@
 <div class="pagina">
 
   <header class="capçalera">
-    <p class="etiqueta-fase">FASE DE DEBAT</p>
-    <h2>Qui és l'Impostor?</h2>
+    <p class="etiqueta-fase">{{ ts.t('debat_fase') }}</p>
+    <h2>{{ ts.t('debat_titol') }}</h2>
   </header>
 
   <!-- Categoria -->
   <div class="card categoria-card">
-    <p class="card-etiqueta">Categoria</p>
+    <p class="card-etiqueta">{{ ts.t('debat_categoria') }}</p>
     <h3 class="categoria-text">{{ dadesRonda().categoria }}</h3>
     @if (dadesRonda().pista && dadesRonda().pista !== dadesRonda().categoria) {
       <p class="categoria-pista">{{ dadesRonda().pista }}</p>
@@ -16,14 +16,14 @@
 
   <!-- Qui comença -->
   <div class="card comença-card">
-    <p class="card-etiqueta">Comença la ronda</p>
+    <p class="card-etiqueta">{{ ts.t('debat_comenca') }}</p>
     <div class="jugador-inicial">{{ jugadorInicial() }}</div>
-    <p class="comença-hint">Ha de ser el primer en descriure la paraula</p>
+    <p class="comença-hint">{{ ts.t('debat_comenca_hint') }}</p>
   </div>
 
   <!-- Llista de jugadors -->
   <div class="card jugadors-card">
-    <p class="card-etiqueta">Jugadors en joc</p>
+    <p class="card-etiqueta">{{ ts.t('debat_jugadors') }}</p>
     <div class="jugadors-llista">
       @for (jugador of jugadors(); track jugador.nom) {
         <div class="jugador-nom" [class.inicial]="jugador.nom === jugadorInicial()">
@@ -38,7 +38,7 @@
 
   <!-- Botó revelació -->
   <button class="btn-perill btn-revelar-final" (click)="joc.revelarFinal()">
-    Revelar Impostor i Paraula
+    {{ ts.t('debat_revelar') }}
   </button>
 
 </div>

@@ -1,4 +1,5 @@
 import { Component, inject, computed } from '@angular/core';
+import { TraduccioService } from '../../services/traduccio.service';
 import { JocService } from '../../services/joc.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { JocService } from '../../services/joc.service';
 })
 export class Debat {
   readonly joc = inject(JocService);
+  readonly ts = inject(TraduccioService);
 
   readonly dadesRonda = computed(() => this.joc.obtenirDadesRonda());
   readonly jugadors = computed(() => this.joc.estatPartida()?.jugadors ?? []);

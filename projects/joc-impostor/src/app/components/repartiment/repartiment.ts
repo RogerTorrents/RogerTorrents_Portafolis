@@ -1,4 +1,5 @@
 import { Component, inject, signal, computed } from '@angular/core';
+import { TraduccioService } from '../../services/traduccio.service';
 import { JocService, JugadorPartida } from '../../services/joc.service';
 import { PopupRol } from '../popup-rol/popup-rol';
 
@@ -11,6 +12,7 @@ import { PopupRol } from '../popup-rol/popup-rol';
 })
 export class Repartiment {
   readonly joc = inject(JocService);
+  readonly ts = inject(TraduccioService);
 
   readonly jugadorActiuNom = signal<string | null>(null);
 

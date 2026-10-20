@@ -5,10 +5,10 @@
   @if (!revelat()) {
     <div class="estat-prerevelat">
       <div class="icona-privacitat">🔒</div>
-      <p class="missatge-previ">Assegura't que ningú més mira la pantalla</p>
+      <p class="missatge-previ">{{ ts.t('popup_privacitat') }}</p>
       <button class="btn-revelar" (click)="revelar()">
         <span class="ull-icon">👁</span>
-        Prem per veure el teu rol
+        {{ ts.t('popup_revelar') }}
       </button>
     </div>
   } @else {
@@ -25,26 +25,26 @@
       </div>
 
       @if (esImpostorPur()) {
-        <p class="hint-impostor">Intenta endevinar la paraula que saben els altres</p>
+        <p class="hint-impostor">{{ ts.t('popup_hint_impostor') }}</p>
       }
       @if (esImpostorAmbPista()) {
-        <p class="hint-pista">Usa la pista per intentar endevinar la paraula</p>
+        <p class="hint-pista">{{ ts.t('popup_hint_pista') }}</p>
       }
     </div>
 
     <div class="accions">
       @if (potCanviar()) {
         <button class="btn-canviar" (click)="onCanviar()">
-          ↺ Canviar paraula
+          {{ ts.t('popup_canviar') }}
           @if (canvisRestants() > 1) {
-            <span class="canvis-badge">{{ canvisRestants() }} restants</span>
+            <span class="canvis-badge">{{ ts.t('popup_restants', [canvisRestants()]) }}</span>
           } @else {
-            <span class="canvis-badge canvis-ultim">últim canvi</span>
+            <span class="canvis-badge canvis-ultim">{{ ts.t('popup_ultim') }}</span>
           }
         </button>
       }
       <button class="btn-llest" (click)="onTancar()">
-        ✓ He entès el meu rol
+        {{ ts.t('popup_entes') }}
       </button>
     </div>
   }

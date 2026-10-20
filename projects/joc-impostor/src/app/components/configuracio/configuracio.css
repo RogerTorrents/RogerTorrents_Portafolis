@@ -117,12 +117,9 @@ h1 {
 }
 .btn-afegir:hover { background: rgba(124, 58, 237, 0.2); border-color: var(--border-hover); }
 
-.avís-error {
-  margin-top: 0.75rem;
-  font-size: 0.8rem;
-  color: var(--impostor);
-  text-align: center;
-}
+.falten-titol { font-weight: 600; margin-bottom: 0.25rem; }
+.falten-llista { margin: 0; padding-left: 1.1rem; }
+.falten-llista li + li { margin-top: 0.15rem; }
 
 /* Stepper d'impostors */
 .control-stepper {
@@ -169,16 +166,15 @@ h1 {
 
 .btn-modus {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.75rem 0.5rem;
+  justify-content: center;
+  padding: 0.85rem 0.5rem;
   border-radius: var(--radius-sm);
   background: var(--bg-surface);
   border: 1px solid var(--border);
   color: var(--text-2);
-  font-size: 0.78rem;
-  font-weight: 500;
+  font-size: 0.88rem;
+  font-weight: 600;
   transition: background var(--t), border-color var(--t), color var(--t);
 }
 .btn-modus.actiu {
@@ -187,8 +183,6 @@ h1 {
   color: var(--accent-light);
 }
 .btn-modus:hover:not(.actiu) { border-color: var(--border-hover); color: var(--text-1); }
-
-.modus-icon { font-size: 1.25rem; }
 
 /* Opcions modus */
 .opcions-modus {

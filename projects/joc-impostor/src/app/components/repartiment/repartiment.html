@@ -2,8 +2,8 @@
 
   <header class="capçalera">
     <div class="titol-wrap">
-      <h2>Repartiment de Rols</h2>
-      <p class="subtitol">Cada jugador ha de tocar el seu nom per veure el rol</p>
+      <h2>{{ ts.t('repartiment_titol') }}</h2>
+      <p class="subtitol">{{ ts.t('repartiment_subtitol') }}</p>
     </div>
     <div class="progres-badge">
       <span class="progres-num">{{ haVistos() }}</span>
@@ -24,7 +24,7 @@
         @if (jugador.haVist) {
           <span class="badge-vist">✓</span>
         } @else {
-          <span class="badge-pendent">👆 Toca per revelar</span>
+          <span class="badge-pendent">{{ ts.t('toca_revelar') }}</span>
         }
       </button>
     }
@@ -33,7 +33,7 @@
   @if (totHanVist()) {
     <div class="tots-llestos">
       <span class="llestos-icon">✓</span>
-      Tots llestos! Iniciant el debat...
+      {{ ts.t('tots_llestos') }}
     </div>
   }
 
