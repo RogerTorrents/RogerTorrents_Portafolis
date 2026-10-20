@@ -4,8 +4,6 @@ export const environment = {
   produccio: true,
   appsUrls: {
     'sobre-mi': 'https://sobre-mi.rogertorrents.dev',
-    habilitats: 'https://habilitats.rogertorrents.dev',
-    contactar: 'https://contactar.rogertorrents.dev',
     'joc-impostor': 'https://impostor.rogertorrents.dev',
     geoexplorer: 'https://geoexplorer.rogertorrents.dev',
     'mes-que-un-joc': 'https://mes-que-un-joc.rogertorrents.dev',

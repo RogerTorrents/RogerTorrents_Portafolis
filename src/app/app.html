@@ -15,16 +15,6 @@
       <iframe [src]="urlsApps['sobre-mi']" title="Sobre Mi" (load)="onIframeCarregada($event)"></iframe>
     </app-window-wrapper>
   }
-  @if (wm.muntades().has('habilitats')) {
-    <app-window-wrapper id="habilitats" [title]="ts.t('app_habilitats')">
-      <iframe [src]="urlsApps['habilitats']" title="Habilitats"></iframe>
-    </app-window-wrapper>
-  }
-  @if (wm.muntades().has('contactar')) {
-    <app-window-wrapper id="contactar" [title]="ts.t('app_contactar')">
-      <iframe [src]="urlsApps['contactar']" title="Contactar"></iframe>
-    </app-window-wrapper>
-  }
   @if (wm.muntades().has('fons-depantalla')) {
     <app-window-wrapper id="fons-depantalla" [title]="ts.t('app_fons_depantalla')" [initialWidth]="460" [initialHeight]="630" [initialY]="40">
       <app-fons-depantalla></app-fons-depantalla>

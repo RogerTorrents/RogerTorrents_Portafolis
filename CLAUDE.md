@@ -12,8 +12,6 @@ L'ecosistema està dissenyat com un Sistema Operatiu modular on la Web Core engl
 ├── src/ ─────────────────> Aplicació "Shell" (OS Core - Port 4200)
 └── projects/ ────────────> Microserveis / Apps independents
   ├── sobre-mi ───────> Port 4201
-  ├── habilitats ─────> Port 4202
-  ├── contactar ──────> Port 4203
   ├── joc-impostor ──────> Port 4204
   ├── geoexplorer ──────> Port 4205
   ├── mes-que-un-joc ──────> Port 4206
@@ -42,8 +40,6 @@ L'ecosistema està dissenyat com un Sistema Operatiu modular on la Web Core engl
 - `npm run start`: Aixeca únicament l'entorn Shell (Port 4200).
 - `npm run start:all`: Execució paral·lela de tot el monorepo mitjançant `concurrently`. Els ports assignats són estàtics i obligatoris:
   - `sobre-mi` -> `http://localhost:4201`
-  - `habilitats` -> `http://localhost:4202`
-  - `contactar` -> `http://localhost:4203`
   - `joc-impostor` -> `http://localhost:4204`
   - `geoexplorer` -> `http://localhost:4205`
   - `mes-que-un-joc` -> `http://localhost:4206`
@@ -68,8 +64,6 @@ L'ecosistema està dissenyat com un Sistema Operatiu modular on la Web Core engl
 
 ### 4. Per a desenvolupaments dins dels Microserveis (`projects/`):
 - **Sobre Mi:** Llegir `.context/apps/sobre-mi/sobre-mi.md` i `sobre-mi-styles.md`
-- **Habilitats:** Llegir `.context/apps/habilitats/habilitats.md` i `habilitats-styles.md`
-- **Contactar:** Llegir `.context/apps/contactar/contactar.md` i `contactar-styles.md`
 - **Joc Impostor:** Llegir `context/apps/joc-impostor/joc-impostor.md`
 - **GeoExplorer:** Llegir `context/apps/geoexplorer/geoexplorer.md`
 - **Més que un joc:** Llegir `context/apps/mes-que-un-joc/mes-que-un-joc.md`

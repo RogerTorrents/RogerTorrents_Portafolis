@@ -34,18 +34,6 @@
       "path": "./projects/sobre-mi/tsconfig.spec.json"
     },
     {
-      "path": "./projects/contactar/tsconfig.app.json"
-    },
-    {
-      "path": "./projects/contactar/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/habilitats/tsconfig.app.json"
-    },
-    {
-      "path": "./projects/habilitats/tsconfig.spec.json"
-    },
-    {
       "path": "./projects/joc-impostor/tsconfig.app.json"
     },
     {

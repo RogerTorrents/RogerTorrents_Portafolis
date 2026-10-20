@@ -27,8 +27,6 @@ export class Desktop implements OnDestroy {
     { id: 'linkedin', nameKey: 'app_linkedin', icon: 'linkedin/logo.png', showInDesktop: true, col: 0, fila: 2 },
     { id: 'fons-depantalla', nameKey: 'app_fons_depantalla',  icon: 'fons-de-pantalla/logo.png', showInDesktop: true, col: 1, fila: 2 },
     { id: 'altres-projectes', nameKey: 'app_altres_projectes', icon: 'altres-projectes/logo.png', showInDesktop: true, col: 0, fila: 3 },
-    { id: 'habilitats', nameKey: 'app_habilitats', icon: '⚙️', showInDesktop: false },
-    { id: 'contactar', nameKey: 'app_contactar', icon: '✉️', showInDesktop: false },
   ];
 
   private readonly dispositiu = inject(DispositiuService);

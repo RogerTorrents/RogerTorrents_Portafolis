@@ -3,8 +3,6 @@ export const environment = {
   produccio: false,
   appsUrls: {
     'sobre-mi': 'http://localhost:4201',
-    habilitats: 'http://localhost:4202',
-    contactar: 'http://localhost:4203',
     'joc-impostor': 'http://localhost:4204',
     geoexplorer: 'http://localhost:4205',
     'mes-que-un-joc': 'http://localhost:4206',
