@@ -18,7 +18,7 @@ export class Desktop implements OnDestroy {
   //   fila 2: LinkedIn        | Fons de pantalla |
   //   fila 3: Altres projectes
   private readonly appDefs = [
-    { id: 'sobre-mi', nameKey: 'app_sobre_mi', icon: '👤', showInDesktop: true, col: 0, fila: 0 },
+    { id: 'sobre-mi', nameKey: 'app_sobre_mi', icon: 'sobre-mi/logo.png', showInDesktop: true, col: 0, fila: 0 },
     { id: 'juguem-al-truc', nameKey: 'app_juguem_al_truc', icon: 'juguem-al-truc/logo.png', showInDesktop: true, col: 1, fila: 0 },
     { id: 'som-hi', nameKey: 'app_som_hi', icon: 'som-hi/logo.png', showInDesktop: true, col: 2, fila: 0 },
     { id: 'mes-que-un-joc', nameKey: 'app_mes_que_un_joc', icon: 'mes-que-un-joc/logo.png', showInDesktop: true, col: 0, fila: 1 },
