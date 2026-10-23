@@ -27,3 +27,9 @@ html, body {
   height: 100%;
   border: none;
 }
+
+/* LinkedIn: sense marges laterals, el banner arriba a les vores */
+.window-content:has(> app-linkedin) {
+  padding: 0 !important;
+  overflow: hidden;
+}

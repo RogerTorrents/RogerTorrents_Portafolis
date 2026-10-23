@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { VoronoiService, PaletaVoronoi } from '../../services/voronoi.service';
 import { TranslationService } from '../../services/translation.service';
 import { DispositiuService } from '../../services/dispositiu.service';
+import { WindowManagerService } from '../../services/window-manager.service';
 
 @Component({
   selector: 'app-fons-depantalla',
@@ -22,6 +23,7 @@ export class FonsDepantalla implements AfterViewInit, OnDestroy {
   private animId = 0;
   private punts: { x: number; y: number; vx: number; vy: number }[] = [];
   readonly dispositiu = inject(DispositiuService);
+  private readonly wm = inject(WindowManagerService);
 
   /** Mida lògica (px CSS) de la previsualització. A escriptori és sempre
    *  320×200; en tàctil segueix la caixa real del canvas (vegeu
@@ -101,6 +103,8 @@ export class FonsDepantalla implements AfterViewInit, OnDestroy {
 
   acceptar(): void {
     this.voronoi.aplicar(this.nombrePuntsLocal(), this.paletaLocal());
+    // Aplicar el fons tanca la finestra, igual que la X.
+    this.wm.closeWindow('fons-depantalla');
   }
 
   restaurar(): void {
