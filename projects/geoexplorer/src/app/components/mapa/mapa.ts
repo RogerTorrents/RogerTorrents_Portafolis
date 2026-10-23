@@ -10,6 +10,14 @@ import type { Poi } from '../../models/poi.model';
 import type { LlocPersonal } from '../../models/lloc-personal.model';
 import type { CategoriaPersonal } from '../../models/categoria-personal.model';
 
+/**
+ * `leaflet.markercluster` s'enganxa al `L` global (`window.L`). En el build de
+ * producció, `import * as L` és una còpia del mòdul feta per l'empaquetador i
+ * no hi veu `markerClusterGroup`, així que també el busquem al global.
+ */
+const markerClusterGroup: typeof L.markerClusterGroup =
+  L.markerClusterGroup ?? (globalThis as unknown as { L: typeof L }).L.markerClusterGroup;
+
 interface DefinicioCapaBase {
   readonly url: string;
   readonly atribucio: string;
@@ -59,7 +67,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
   private mapa: L.Map | null = null;
   private capaActiva: L.TileLayer | null = null;
-  private readonly grupClusters = L.markerClusterGroup({
+  private readonly grupClusters = markerClusterGroup({
     // `chunkedLoading` trenca l'alta d'un lot gran de marcadors (100+ POIs)
     // en petits blocs via requestAnimationFrame, en lloc de bloquejar el fil
     // principal sencer d'un cop — evita que el mapa es "congeli" un instant
