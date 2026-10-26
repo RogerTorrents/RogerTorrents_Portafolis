@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { CartaJugada, TipusSenyal } from '../../models/joc.model';
+import { CartaJugada, PUNTS_LIMIT_RETRUC, TipusSenyal } from '../../models/joc.model';
 import { Equip, equipDeSeient } from '../../models/personatge.model';
 import { JugadorPublic } from '../../models/sala.model';
 import { nomEquip, PosicioTaula, posicioRelativa } from '../../services/seients.util';
@@ -147,7 +147,9 @@ export class TaulaJoc {
   protected readonly potTrucar = computed(() => {
     const v = this.vista();
     if (!v || !this.esElMeuTorn() || v.aposta?.pendent || v.esMaDels11) return false;
-    return (v.aposta?.valor ?? 1) < 3 && v.aposta?.equipUltimCantador !== this.elMeuEquip();
+    const algunEquipA10 = v.puntuacions.A >= PUNTS_LIMIT_RETRUC || v.puntuacions.B >= PUNTS_LIMIT_RETRUC;
+    const valorMaxim = algunEquipA10 ? 2 : 3;
+    return (v.aposta?.valor ?? 1) < valorMaxim && v.aposta?.equipUltimCantador !== this.elMeuEquip();
   });
 
   protected readonly trucPendent = computed(() => this.vista()?.aposta?.pendent === true);

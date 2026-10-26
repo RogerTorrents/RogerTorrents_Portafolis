@@ -1,6 +1,9 @@
 import { Carta } from './carta.model';
 import { Equip } from './personatge.model';
 
+/** Punts a partir dels quals, si algun equip els té, el Truc no pot pujar a 3 (igual que al servidor). */
+export const PUNTS_LIMIT_RETRUC = 10;
+
 export type ResultatRonda = Equip | 'empat';
 export type TipusSenyal = 'un-1' | 'un-2' | 'un-3' | 'res';
 export type MotiuFiMa = 'normal' | 'truc_rebutjat' | 'ma11_rebutjada' | 'empat_total';

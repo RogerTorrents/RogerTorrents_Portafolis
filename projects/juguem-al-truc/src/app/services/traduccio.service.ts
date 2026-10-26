@@ -120,7 +120,7 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
     cj_dot_na: 'No cal',
     cj_truc_titol: 'El Truc',
     cj_truc_text:
-      'Cada mà val 1 punt d\'entrada. Durant el teu torn pots cantar "Truc" per pujar l\'aposta (1→2, i després 2→3). Només pot respondre l\'altra parella: "Vull!" accepta la pujada, o "No vull" la rebutja i doneu la mà per perduda a l\'instant — però només pel valor que tenia ABANS de la pujada proposada.',
+      'Cada mà val 1 punt d\'entrada. Durant el teu torn pots cantar "Truc" per pujar l\'aposta (1→2, i després 2→3; si algun equip té 10 punts o més, només fins a 2). Només pot respondre l\'altra parella: "Vull!" accepta la pujada, o "No vull" la rebutja i doneu la mà per perduda a l\'instant — però només pel valor que tenia ABANS de la pujada proposada.',
     cj_ma11_titol: 'La mà dels 11',
     cj_ma11_text:
       "Quan una sola parella arriba a exactament 11 punts, abans de tirar cap carta ha de decidir si vol jugar aquesta mà (ja val 2 punts d'entrada) o no — pot mirar les seves pròpies cartes per decidir. Si diu que no, l'altra parella guanya 1 punt sense jugar-se res.",
@@ -249,7 +249,7 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
     cj_dot_na: 'No hace falta',
     cj_truc_titol: 'El Truc',
     cj_truc_text:
-      'Cada mano vale 1 punto de entrada. Durante tu turno puedes cantar "Truc" para subir la apuesta (1→2, y luego 2→3). Solo puede responder la otra pareja: "¡Quiero!" acepta la subida, o "No quiero" la rechaza y dais la mano por perdida al instante — pero solo por el valor que tenía ANTES de la subida propuesta.',
+      'Cada mano vale 1 punto de entrada. Durante tu turno puedes cantar "Truc" para subir la apuesta (1→2, y luego 2→3; si algún equipo tiene 10 puntos o más, solo hasta 2). Solo puede responder la otra pareja: "¡Quiero!" acepta la subida, o "No quiero" la rechaza y dais la mano por perdida al instante — pero solo por el valor que tenía ANTES de la subida propuesta.',
     cj_ma11_titol: 'La mano de los 11',
     cj_ma11_text:
       'Cuando una sola pareja llega a exactamente 11 puntos, antes de tirar ninguna carta debe decidir si quiere jugar esta mano (ya vale 2 puntos de entrada) o no — puede mirar sus propias cartas para decidir. Si dice que no, la otra pareja gana 1 punto sin jugarse nada.',
@@ -377,7 +377,7 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
     cj_dot_na: 'Not needed',
     cj_truc_titol: 'Truc',
     cj_truc_text:
-      'Each hand starts worth 1 point. On your turn you can call "Truc" to raise the stake (1→2, then 2→3). Only the other team can respond: "Accept!" takes the raise, or "Don\'t accept" declines it and you concede the hand immediately — but only for the value it had BEFORE the proposed raise.',
+      'Each hand starts worth 1 point. On your turn you can call "Truc" to raise the stake (1→2, then 2→3; if either team has 10 points or more, only up to 2). Only the other team can respond: "Accept!" takes the raise, or "Don\'t accept" declines it and you concede the hand immediately — but only for the value it had BEFORE the proposed raise.',
     cj_ma11_titol: 'The hand of 11',
     cj_ma11_text:
       'When exactly one team reaches 11 points, before playing any card they must decide whether to play this hand (already worth 2 points) or not — they can look at their own cards to decide. If they decline, the other team wins 1 point without playing anything.',
