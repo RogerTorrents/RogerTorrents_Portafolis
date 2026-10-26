@@ -9,14 +9,24 @@ export type PantallaSessio = 'entrada' | 'login' | 'registre' | 'app';
 interface SessioResponse {
   readonly usuari: Usuari;
   readonly accessToken: string;
-  readonly refreshToken: string;
 }
 
 interface SessioGuardada {
   readonly usuari: Usuari;
   readonly accessToken: string;
-  readonly refreshToken: string;
+  /** Només a sessions desades abans que el refresh token passés a cookie. */
+  readonly refreshToken?: string;
 }
+
+/** Cada app té la seva cookie de sessió a l'API (veure `urlAuth`). */
+const APP_CLIENT = 'som-hi';
+
+/**
+ * Les crides `/auth/*` porten la cookie HttpOnly amb el refresh token: el
+ * navegador la guarda i l'envia sola, i el JavaScript de la pàgina no la pot
+ * llegir (un XSS no la pot robar, a diferència del `localStorage`).
+ */
+const AMB_COOKIE = { withCredentials: true } as const;
 
 const CLAU_STORAGE_SESSIO = 'som_hi_sessio';
 
@@ -48,7 +58,8 @@ export class SessioService {
   readonly errorEliminarCompte = signal<{ readonly missatge: string | null } | null>(null);
 
   private accessToken: string | null = null;
-  private refreshToken: string | null = null;
+  /** Sessió desada amb la versió anterior: el primer refresh el passa a cookie. */
+  private refreshTokenAntic: string | null = null;
 
   readonly esAutenticat = computed(() => this.usuari() !== null);
 
@@ -57,7 +68,7 @@ export class SessioService {
     if (guardada) {
       this.usuari.set(guardada.usuari);
       this.accessToken = guardada.accessToken;
-      this.refreshToken = guardada.refreshToken;
+      this.refreshTokenAntic = guardada.refreshToken ?? null;
       this.pantalla.set('app');
     }
   }
@@ -75,11 +86,11 @@ export class SessioService {
     this.carregant.set(true);
     this.errorSessio.set(null);
     this.http
-      .post<SessioResponse>(`${this.apiUrl}/auth/registre`, {
+      .post<SessioResponse>(this.urlAuth('registre'), {
         nom: nom.trim(),
         email: email.trim(),
         contrasenya,
-      })
+      }, AMB_COOKIE)
       .subscribe({
         next: (resposta) => this.gestionarSessioIniciada(resposta),
         error: (error: HttpErrorResponse) =>
@@ -95,7 +106,7 @@ export class SessioService {
     this.carregant.set(true);
     this.errorSessio.set(null);
     this.http
-      .post<SessioResponse>(`${this.apiUrl}/auth/login`, { email: email.trim(), contrasenya })
+      .post<SessioResponse>(this.urlAuth('login'), { email: email.trim(), contrasenya }, AMB_COOKIE)
       .subscribe({
         next: (resposta) => this.gestionarSessioIniciada(resposta),
         error: (error: HttpErrorResponse) =>
@@ -104,11 +115,12 @@ export class SessioService {
   }
 
   tancarSessio(): void {
-    const refreshToken = this.refreshToken;
+    const estavaAutenticat = this.usuari() !== null;
+    const cos = this.cosAmbTokenAntic();
     this.netejarSessioLocal();
-    if (refreshToken) {
+    if (estavaAutenticat) {
       // Best-effort: si falla (xarxa, token ja caducat) no bloqueja el logout local.
-      this.http.post(`${this.apiUrl}/auth/logout`, { refreshToken }).subscribe({ error: () => undefined });
+      this.http.post(this.urlAuth('logout'), cos, AMB_COOKIE).subscribe({ error: () => undefined });
     }
   }
 
@@ -139,7 +151,7 @@ export class SessioService {
         switchMap((token) => {
           // Sessió caducada: `refrescarToken` ja ha tancat la sessió.
           if (!token) return throwError(() => null);
-          return this.http.delete<void>(`${this.apiUrl}/auth/compte`, { body: { contrasenya } });
+          return this.http.delete<void>(this.urlAuth('compte'), { body: { contrasenya }, ...AMB_COOKIE });
         }),
         switchMap(() =>
           this.http.delete<void>(`${environment.apiUrl}/compte`).pipe(
@@ -176,12 +188,13 @@ export class SessioService {
 
   /** Usat només per `authInterceptor` en rebre un 401: intenta obtenir un access token nou. */
   refrescarToken(): Observable<string | null> {
-    const refreshToken = this.refreshToken;
-    if (!refreshToken) return of(null);
+    if (this.usuari() === null) return of(null);
 
-    return this.http.post<{ accessToken: string }>(`${this.apiUrl}/auth/refresh`, { refreshToken }).pipe(
+    return this.http.post<{ accessToken: string }>(this.urlAuth('refresh'), this.cosAmbTokenAntic(), AMB_COOKIE).pipe(
       tap((resposta) => {
         this.accessToken = resposta.accessToken;
+        // Ja migrat: a partir d'ara només hi ha la cookie.
+        this.refreshTokenAntic = null;
         this.desarSessio();
       }),
       map((resposta) => resposta.accessToken),
@@ -192,10 +205,19 @@ export class SessioService {
     );
   }
 
+  private urlAuth(ruta: string): string {
+    return `${this.apiUrl}/auth/${ruta}?app=${APP_CLIENT}`;
+  }
+
+  /** Cos de refresh/logout: buit (va la cookie) o el token d'una sessió antiga. */
+  private cosAmbTokenAntic(): { refreshToken?: string } {
+    return this.refreshTokenAntic ? { refreshToken: this.refreshTokenAntic } : {};
+  }
+
   private netejarSessioLocal(): void {
     this.usuari.set(null);
     this.accessToken = null;
-    this.refreshToken = null;
+    this.refreshTokenAntic = null;
     localStorage.removeItem(CLAU_STORAGE_SESSIO);
     this.pantalla.set('entrada');
   }
@@ -203,7 +225,7 @@ export class SessioService {
   private gestionarSessioIniciada(resposta: SessioResponse): void {
     this.usuari.set(resposta.usuari);
     this.accessToken = resposta.accessToken;
-    this.refreshToken = resposta.refreshToken;
+    this.refreshTokenAntic = null;
     this.desarSessio();
     this.carregant.set(false);
     this.pantalla.set('app');
@@ -218,8 +240,13 @@ export class SessioService {
 
   private desarSessio(): void {
     const usuari = this.usuari();
-    if (!usuari || !this.accessToken || !this.refreshToken) return;
-    const dades: SessioGuardada = { usuari, accessToken: this.accessToken, refreshToken: this.refreshToken };
+    if (!usuari || !this.accessToken) return;
+    const dades: SessioGuardada = {
+      usuari,
+      accessToken: this.accessToken,
+      // Fins que el primer refresh el passi a cookie, no es pot perdre.
+      ...(this.refreshTokenAntic ? { refreshToken: this.refreshTokenAntic } : {}),
+    };
     localStorage.setItem(CLAU_STORAGE_SESSIO, JSON.stringify(dades));
   }
 

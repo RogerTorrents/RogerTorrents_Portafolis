@@ -14,7 +14,7 @@ export class TranslationService {
   private readonly dict: Record<string, Record<string, string>> = {
     ca: {
       unlock: 'Desbloquejar',
-      lock_message: 'Prem qualsevol tecla per desbloquejar',
+      lock_message: 'Toca o prem una tecla per desbloquejar',
       greeting: 'Benvingut',
       lock_title: 'Roger Torrents',
       lock_subtitle: 'Portafolis Personal',
@@ -69,7 +69,7 @@ export class TranslationService {
     },
     es: {
       unlock: 'Desbloquear',
-      lock_message: 'Pulsa cualquier tecla para desbloquear',
+      lock_message: 'Toca o pulsa una tecla para desbloquear',
       greeting: 'Bienvenido',
       lock_title: 'Roger Torrents',
       lock_subtitle: 'Portafolio Personal',
@@ -124,7 +124,7 @@ export class TranslationService {
     },
     en: {
       unlock: 'Unlock',
-      lock_message: 'Press any key to unlock',
+      lock_message: 'Tap or press any key to unlock',
       greeting: 'Welcome',
       lock_title: 'Roger Torrents',
       lock_subtitle: 'Personal Portfolio',

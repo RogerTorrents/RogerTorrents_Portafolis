@@ -60,7 +60,9 @@ Sense router — navegació 100% amb Signals, mateix patró que GeoExplorer:
   crida `environment.authApiUrl` (geoexplorer-api) per
   `/auth/registre|login|refresh|logout`. `localStorage` amb clau pròpia
   (`som_hi_sessio`, diferent de `geoexplorer_sessio` — sessió activa a
-  totes dues apps alhora sense trepitjar-se). **Sense mode convidat.**
+  totes dues apps alhora sense trepitjar-se) per a l'access token; el
+  refresh token és una cookie HttpOnly pròpia (`refresh_som-hi`, via
+  `?app=som-hi`), separada de la de GeoExplorer pel mateix motiu. **Sense mode convidat.**
 - **`auth.interceptor.ts`** — afegeix `Authorization: Bearer` a peticions
   que comencin per `environment.authApiUrl` **o** `environment.apiUrl`
   (comparteixen `JWT_ACCESS_SECRET`); el refresc de token sempre passa per

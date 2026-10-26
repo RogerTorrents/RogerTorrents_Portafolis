@@ -68,9 +68,12 @@ Vegeu `CONTEXT.md` i `README.md` del repo del backend per a més detall.
   `iniciarSessio`, `registrar`, `tancarSessio` (asíncrons per dins —
   fan la crida HTTP i actualitzen els signals al `next`/`error`, però els
   formularis de login/registre els criden de forma "fire and forget" des
-  d'un `(submit)`, sense esperar cap valor de retorn). Els tokens (access +
-  refresh) es guarden en memòria del servei + localStorage (per sobreviure a
-  un refresc de pàgina); mai el `password`.
+  d'un `(submit)`, sense esperar cap valor de retorn). L'access token es
+  guarda en memòria + localStorage (per sobreviure a un refresc de pàgina);
+  el **refresh token és una cookie HttpOnly** (`refresh_geoexplorer`, path
+  `/auth`) que posa l'API: les crides `/auth/*` van amb `withCredentials` i
+  `?app=geoexplorer`. Sessions antigues amb el refresh al localStorage es
+  migren soles al primer refresh. Mai el `password`.
 - **`ContingutPersonalService`** (`services/contingut-personal.service.ts`) —
   mapa personal de l'usuari autenticat, contra `GET/POST /categories`,
   `GET/POST /llocs`, `DELETE /categories/:id`, `DELETE /llocs/:id`. Es

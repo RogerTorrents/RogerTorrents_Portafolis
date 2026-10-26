@@ -69,5 +69,12 @@ d'aquesta consulta:
 - **Esplai:** Monitor de l'Esplai Ger (ex-infant, ara monitor de lleure)
 
 ## Imatges
-- `public/assets/foto-perfil.jpg` → placeholder "RT" si no existeix (onerror handler)
+- `public/assets/roger-sobre-mi.webp` → placeholder "RT" si no carrega (`(error)` d'Angular
+  + signal `fotoHeroError`; res d'`onerror` inline, que la CSP bloquejaria)
+- Totes en **WebP i a la mida a què es mostren** (×2 per a retina): fotos del popup a 800px,
+  retallades del mapa ≤800px, fons del mapa en dues mides (`fondo_lineas-1100.webp` /
+  `fondo_lineas.webp` 2200px) amb `srcset`. Imatges noves: mateix criteri.
+- Carpetes sense espais ni accents: `assets/fora-del-teclat/{fotos,recortades}`, `assets/educacio/`
+- Imatges del mapa amb `alt` (títol traduït de l'element; el fons, `mapa_alt`). Les dels
+  botons `.sm-mapa-temes` tenen `alt=""` a propòsit: el nom ja és el text del botó
 - Les targetes personals usen emojis com a placeholder fins que l'usuari afegeixi fotos reals

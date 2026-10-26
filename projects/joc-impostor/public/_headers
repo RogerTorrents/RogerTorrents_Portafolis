@@ -1,0 +1,7 @@
+# Capçaleres de seguretat per a Cloudflare Pages (es copia a l'arrel del build).
+# Si l'app comença a fer servir un domini nou (API, imatges, iframe),
+# s'ha d'afegir a la directiva corresponent de la CSP o el navegador el bloquejarà.
+/*
+  Strict-Transport-Security: max-age=31536000
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api-impostor.rogertorrents.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self' https://rogertorrents.com https://www.rogertorrents.com; upgrade-insecure-requests
+  Permissions-Policy: camera=(), microphone=(), payment=(), usb=()

@@ -86,11 +86,12 @@
             <div class="sm-hero__foto-corner sm-hero__foto-corner--br"></div>
             <div class="sm-hero__foto">
               <img
-                src="assets/roger-sobre-mi.jpg"
+                src="assets/roger-sobre-mi.webp"
                 alt="Roger Torrents Gabalda"
                 class="sm-hero__img"
-                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-              <div class="sm-hero__foto-placeholder">RT</div>
+                [style.display]="fotoHeroError() ? 'none' : null"
+                (error)="fotoHeroError.set(true)" />
+              <div class="sm-hero__foto-placeholder" [style.display]="fotoHeroError() ? 'flex' : null">RT</div>
             </div>
           </div>
 
@@ -242,7 +243,13 @@
       </div>
 
       <div class="sm-mapa reveal">
-        <img class="sm-mapa__fons" src="assets/fora%20del%20teclat/fondo_lineas.png" alt="" />
+        <img
+          class="sm-mapa__fons"
+          src="assets/fora-del-teclat/fondo_lineas.webp"
+          srcset="assets/fora-del-teclat/fondo_lineas-1100.webp 1100w, assets/fora-del-teclat/fondo_lineas.webp 2200w"
+          sizes="(max-width: 1100px) 100vw, 1100px"
+          loading="lazy"
+          [alt]="ts.t('mapa_alt')" />
 
         @for (element of elementsMapa; track element.id) {
           <button
@@ -256,7 +263,7 @@
             [attr.aria-label]="ts.t(element.titolKey)"
             (click)="seleccionarElement(element)"
           >
-            <img class="sm-mapa__img" [src]="element.imgSrc" alt="" />
+            <img class="sm-mapa__img" [src]="element.imgSrc" [alt]="ts.t(element.titolKey)" loading="lazy" />
           </button>
         }
       </div>
@@ -267,7 +274,9 @@
       <div class="sm-mapa-temes">
         @for (element of elementsMapa; track element.id) {
           <button type="button" class="sm-mapa-tema sm-mapa-tema--{{ element.color }}" (click)="seleccionarElement(element)">
-            <img class="sm-mapa-tema__img" [src]="element.imgSrc" alt="" />
+            <!-- alt buit a propòsit: el nom del tema ja és el text visible del
+                 botó; amb alt, el lector de pantalla el llegiria dues vegades. -->
+            <img class="sm-mapa-tema__img" [src]="element.imgSrc" alt="" loading="lazy" />
             <span class="sm-mapa-tema__nom">{{ ts.t(element.titolKey) }}</span>
           </button>
         }
