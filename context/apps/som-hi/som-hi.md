@@ -280,10 +280,8 @@ Quatre peticions de l'usuari un cop provada l'app real:
   `trobarExerciciPerNom()` el retroba dins de tot el catàleg per
   re-suggerir grup i foto. Fotos esperades a
   `projects/som-hi/public/exercicis/<nom>.jpg` (llista exacta a
-  `LLEGEIX-ME.txt` dins la mateixa carpeta) — **encara no hi ha fotos
-  reals**, `(error)` a `<img>` mostra un marcador de posició (🏋) en lloc
-  d'una icona trencada; és normal veure 404 a la consola per a cada
-  exercici mentre no s'afegeixin.
+  `fotos-exercicis.md`, en aquesta carpeta). Si en falta alguna, `(error)`
+  a `<img>` mostra un marcador de posició (🏋) en lloc d'una icona trencada.
 
 ## Fotos d'exercicis + pantalla de detall visual (mateix dia, sessió posterior)
 

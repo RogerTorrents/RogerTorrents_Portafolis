@@ -1,23 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 
-describe('App', () => {
+describe('Més que un joc', () => {
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [App],
-    }).compileComponents();
+    await TestBed.configureTestingModule({ imports: [App] }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it('should render title', async () => {
+  it('arrenca directament al menú principal', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, mes-que-un-joc');
+    const html = fixture.nativeElement as HTMLElement;
+    expect(html.querySelector('app-menu-principal')).not.toBeNull();
+    expect(html.querySelector('h1')?.textContent).toContain('Més que un joc');
   });
 });

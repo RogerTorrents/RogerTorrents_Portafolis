@@ -1,5 +1,5 @@
 import {
-  Component, signal, effect, OnDestroy, ElementRef, viewChild, AfterViewInit, inject,
+  Component, signal, effect, OnDestroy, ElementRef, viewChild, AfterViewInit, inject, WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { VoronoiService, PaletaVoronoi } from '../../services/voronoi.service';
@@ -37,9 +37,9 @@ export class FonsDepantalla implements AfterViewInit, OnDestroy {
   readonly proporcioPantalla = signal(window.innerWidth / window.innerHeight);
   private readonly onResize = () => this.proporcioPantalla.set(window.innerWidth / window.innerHeight);
 
-  readonly nombrePuntsLocal: ReturnType<typeof signal<number>>;
+  readonly nombrePuntsLocal: WritableSignal<number>;
   readonly colorBase = signal('#9cc3b0');
-  private paletaLocal: ReturnType<typeof signal<PaletaVoronoi>>;
+  private readonly paletaLocal: WritableSignal<PaletaVoronoi>;
 
   constructor(
     readonly voronoi: VoronoiService,
@@ -48,11 +48,10 @@ export class FonsDepantalla implements AfterViewInit, OnDestroy {
     this.nombrePuntsLocal = signal(voronoi.nombrePunts());
     this.paletaLocal = signal<PaletaVoronoi>({ ...voronoi.paleta() });
 
+    // Un canvi de punts o de paleta torna a generar la previsualització.
     effect(() => {
-      const n = this.nombrePuntsLocal();
-      const paleta = this.paletaLocal();
-      this.inicialitzarPuntsPreview(n);
-      void paleta;
+      this.paletaLocal();
+      this.inicialitzarPuntsPreview(this.nombrePuntsLocal());
     });
   }
 
@@ -68,11 +67,9 @@ export class FonsDepantalla implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Tàctil: el canvas pren la mida de la seva caixa CSS multiplicada per la
-   * densitat de la pantalla (màx. 2×, per no disparar el cost de dibuix) —
-   * a 1 píxel per píxel CSS, en un mòbil 3× es veia borrós. Els punts es
-   * reescalen a la nova mida en lloc de regenerar-se, perquè l'animació no
-   * salti.
+   * Tàctil: el canvas pren la mida de la seva caixa per la densitat de pantalla
+   * (màx. 2×) perquè no es vegi borrós. Els punts es reescalen en lloc de
+   * regenerar-se perquè l'animació no salti.
    */
   private ajustarCanvasTactil(canvas: HTMLCanvasElement): void {
     const w = canvas.clientWidth;
@@ -134,7 +131,9 @@ export class FonsDepantalla implements AfterViewInit, OnDestroy {
 
     const w = this.amplada;
     const h = this.alcada;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
+    // Sense context 2D (navegador sense canvas) no es dibuixa ni s'anima el fons.
+    if (!ctx) return;
     // Escala de píxels lògics a píxels reals del canvas (1 a escriptori).
     ctx.setTransform(canvas.width / w, 0, 0, canvas.height / h, 0, 0);
     const colors = this.paletaLocal().colors;

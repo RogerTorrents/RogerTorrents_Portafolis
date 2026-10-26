@@ -18,6 +18,8 @@ export class TraduccioService {
 
   constructor() {
     window.addEventListener('message', (ev: MessageEvent) => {
+      // Només el Shell (la finestra que incrusta l'app) pot canviar l'idioma.
+      if (ev.source !== window.parent || window.parent === window) return;
       const dades = ev.data as { origen?: unknown; tipus?: unknown; valor?: unknown } | null;
       if (dades?.origen === 'os-shell' && dades.tipus === 'idioma' && esIdiomaValid(dades.valor)) {
         this.establirIdioma(dades.valor);
@@ -71,7 +73,6 @@ export class TraduccioService {
       detall_guardat: 'Refugi guardat',
       detall_lliure: 'Refugi lliure',
       detall_tancar: 'Tancar',
-      detall_altitud: 'Altitud',
       detall_capacitat: 'Capacitat',
       detall_preu: 'Preu',
       detall_gratuit: 'Gratuït',
@@ -79,7 +80,6 @@ export class TraduccioService {
       capacitat_baixa: 'Baixa',
       capacitat_mitjana: 'Mitjana',
       capacitat_alta: 'Alta',
-      idioma_label: 'Idioma',
       carregant_mapa: 'Carregant mapa…',
       mostrar_pois_oficials: 'Mostra els punts oficials del mapa',
       mostrar_pois_oficials_desc: 'Pics, refugis, llacs i pàrquings destacats de la zona.',
@@ -129,7 +129,6 @@ export class TraduccioService {
       eliminar_compte_error: "No s'ha pogut eliminar el compte.",
       tornar: '← Tornar',
       menu_convidat: 'Mode convidat',
-      menu_convidat_cta: 'Registra\'t per guardar el teu mapa',
       menu_tancar_sessio: 'Tancar sessió',
       categories_personals_titol: 'El meu mapa',
       categories_personals_nova: '+ Nova categoria',
@@ -190,7 +189,6 @@ export class TraduccioService {
       detall_guardat: 'Refugio guardado',
       detall_lliure: 'Refugio libre',
       detall_tancar: 'Cerrar',
-      detall_altitud: 'Altitud',
       detall_capacitat: 'Capacidad',
       detall_preu: 'Precio',
       detall_gratuit: 'Gratuito',
@@ -198,7 +196,6 @@ export class TraduccioService {
       capacitat_baixa: 'Baja',
       capacitat_mitjana: 'Media',
       capacitat_alta: 'Alta',
-      idioma_label: 'Idioma',
       carregant_mapa: 'Cargando mapa…',
       mostrar_pois_oficials: 'Mostrar los puntos oficiales del mapa',
       mostrar_pois_oficials_desc: 'Picos, refugios, lagos y aparcamientos destacados de la zona.',
@@ -248,7 +245,6 @@ export class TraduccioService {
       eliminar_compte_error: 'No se ha podido eliminar la cuenta.',
       tornar: '← Volver',
       menu_convidat: 'Modo invitado',
-      menu_convidat_cta: 'Regístrate para guardar tu mapa',
       menu_tancar_sessio: 'Cerrar sesión',
       categories_personals_titol: 'Mi mapa',
       categories_personals_nova: '+ Nueva categoría',
@@ -309,7 +305,6 @@ export class TraduccioService {
       detall_guardat: 'Staffed refuge',
       detall_lliure: 'Unstaffed refuge',
       detall_tancar: 'Close',
-      detall_altitud: 'Altitude',
       detall_capacitat: 'Capacity',
       detall_preu: 'Price',
       detall_gratuit: 'Free',
@@ -317,7 +312,6 @@ export class TraduccioService {
       capacitat_baixa: 'Low',
       capacitat_mitjana: 'Medium',
       capacitat_alta: 'High',
-      idioma_label: 'Language',
       carregant_mapa: 'Loading map…',
       mostrar_pois_oficials: 'Show the official map points',
       mostrar_pois_oficials_desc: 'Featured peaks, refuges, lakes and parking in the area.',
@@ -367,7 +361,6 @@ export class TraduccioService {
       eliminar_compte_error: 'The account could not be deleted.',
       tornar: '← Back',
       menu_convidat: 'Guest mode',
-      menu_convidat_cta: 'Sign up to save your own map',
       menu_tancar_sessio: 'Log out',
       categories_personals_titol: 'My map',
       categories_personals_nova: '+ New category',

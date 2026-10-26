@@ -31,16 +31,8 @@
   display: inline-flex;
 }
 
-/* Els PNG de `botons/` tenen molt marge transparent al voltant del propi
-   cercle il·lustrat (~75% de l'amplada i només ~49% de l'alçada del
-   fitxer és el cercle real, mesurat pintant-los a un canvas) — amb
-   `width:100%` senzill es veien petits dins del botó. Per això `.ba-boto`
-   ara és un quadrat (`aspect-ratio:1`) amb `overflow:hidden` i la imatge
-   es posiciona en `absolute`, ampliada i recentrada perquè el cercle
-   il·lustrat (no el canvas sencer) ompli el botó — mateixos `width`/
-   `left`/`top` per a totes 6 imatges (`tiro`/`truco`/`res`/`un-1/2/3`):
-   comparteixen el mateix patró de plantilla, el marge real varia molt
-   poc entre elles. */
+/* Les imatges dels botons tenen molt de marge transparent: s'amplien i es
+   recentren dins un botó quadrat perquè el cercle il·lustrat l'ompli. */
 .ba-boto {
   position: relative;
   aspect-ratio: 1;

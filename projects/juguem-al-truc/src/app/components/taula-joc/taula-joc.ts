@@ -48,35 +48,26 @@ export class TaulaJoc {
   protected readonly cartaSeleccionada = signal<string | null>(null);
 
   /**
-   * Entrada de la taula en 2 temps: primer només es veu el terra (el fons
-   * estàtic ja hi és, cap element de joc encara), i al cap d'un segon es
-   * revela la resta (gegants des de dalt, mà pròpia des de la dreta,
-   * difuminat verd a poc a poc — tot per CSS, només calen aquests 2
-   * senyals). Mentre no s'ha acabat de revelar, cap "moviment" de jugador
-   * (l'anell pulsant de torn) es mostra — es gestiona al template.
+   * Entrada en dos temps: primer només el terra i després la resta (tot per
+   * CSS). Fins que no s'acaba, no es mostra l'anell de torn.
    */
   protected readonly iniciarRevelacio = signal(false);
   protected readonly entradaCompletada = signal(false);
 
   /** Pose puntual (truco/senyal) per seient, reverteix sola a "normal" al cap d'uns segons. */
   private readonly posePerSeient = signal<Partial<Record<number, PoseJugador>>>({});
+  private readonly temporitzadorsPose = new Map<number, ReturnType<typeof setTimeout>>();
 
   /**
-   * Cartes visibles al centre de la taula. El servidor retarda l'`estat_joc`
-   * que buida `cartesRondaActual` uns segons després de resoldre la ronda
-   * (perquè es vegi l'última carta abans de netejar la taula) — si aquí
-   * s'hagués llegit `vista().cartesRondaActual` directament, la carta del
-   * jugador que tanca la ronda no arribaria mai a mostrar-se (l'estat que
-   * la inclou dins la ronda plena mai es difon: el motor ja la buida en la
-   * mateixa transició). Per això aquesta carta es pinta a l'instant a partir
-   * de la cua `trucSocket.cartesJugades()` (vegeu el seu comentari — mai
-   * es perd cap carta, ni tan sols la que tanca la ronda), i només es
-   * neteja quan arriba la següent vista (que el servidor ja envia amb el
-   * retard oportú) — cap temporitzador propi al frontend.
+   * Cartes del centre de la taula. No es llegeix `vista().cartesRondaActual`
+   * directament perquè cap vista inclou la carta que tanca la ronda (el motor
+   * la buida en la mateixa transició): les cartes s'afegeixen a l'instant des
+   * de `trucSocket.cartesJugades()` i es netegen amb la vista següent, que el
+   * servidor envia amb retard perquè es vegi l'última carta.
    */
   protected readonly cartesTaula = signal<readonly CartaJugada[]>([]);
 
-  /** Quantes entrades de `trucSocket.cartesJugades()` ja s'han afegit a `cartesTaula` — mai es reprocessen, només les noves des de l'últim cop. */
+  /** Entrades de `trucSocket.cartesJugades()` ja afegides a `cartesTaula`. */
   private cartesJugadesProcessades = 0;
 
   constructor() {
@@ -146,13 +137,7 @@ export class TaulaJoc {
 
   protected readonly posicions = POSICIONS;
 
-  /**
-   * Posició (relativa a un mateix) de qui ha jugat una carta — cada carta
-   * es dibuixa a la vora del seu propi gegant perquè s'identifiqui qui
-   * l'ha tirada; l'ordre de capes (qui queda per sobre de qui) ve sol de
-   * l'ordre del `@for` sobre `cartesTaula()`, que ja és l'ordre real de
-   * joc — no cal cap lògica extra per a això.
-   */
+  /** Posició relativa de qui ha jugat la carta: es dibuixa a la vora del seu gegant. */
   protected posicioCarta(seient: number): PosicioTaula {
     const jo = this.elMeuSeient();
     return jo === null ? 'baix' : posicioRelativa(seient, jo);
@@ -193,10 +178,13 @@ export class TaulaJoc {
   }
 
   private mostrarPoseTemporal(seient: number, pose: PoseJugador, duradaMs: number): void {
+    // Una pose nova substitueix l'anterior: el seu temporitzador ja no ha de revertir-la.
+    clearTimeout(this.temporitzadorsPose.get(seient));
     this.posePerSeient.update((p) => ({ ...p, [seient]: pose }));
-    setTimeout(() => {
-      this.posePerSeient.update((p) => ({ ...p, [seient]: 'normal' }));
-    }, duradaMs);
+    this.temporitzadorsPose.set(
+      seient,
+      setTimeout(() => this.posePerSeient.update((p) => ({ ...p, [seient]: 'normal' })), duradaMs),
+    );
   }
 
   protected jugarCartaSeleccionada(): void {

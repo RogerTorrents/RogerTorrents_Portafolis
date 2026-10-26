@@ -8,13 +8,8 @@ import { TraduccioService } from '../../services/traduccio.service';
 import { TrucSocketService } from '../../services/truc-socket.service';
 
 /**
- * `navigator.clipboard.writeText` rebutja silenciosament (sense cap error
- * visible, només la promesa fallida) quan aquesta app es mostra dins un
- * `<iframe>` d'un altre origen sense `allow="clipboard-write"` — exactament
- * el cas del Shell (port 4200) incrustant aquesta app (port 4208). Es prova
- * primer l'API moderna i, si falla, es recorre al mètode clàssic amb un
- * `<textarea>` ocult (`execCommand`), que no depèn de cap política de
- * permisos de l'iframe.
+ * Dins d'un iframe d'un altre origen sense permís `clipboard-write`,
+ * `navigator.clipboard` falla; en aquest cas es recorre a `execCommand('copy')`.
  */
 async function copiarAlPortapapers(text: string): Promise<boolean> {
   try {

@@ -15,6 +15,9 @@ import { Revelacio } from './components/revelacio/revelacio';
 })
 export class App {
   readonly joc = inject(JocService);
-  // S'injecta a l'arrel perquè escolti el missatge d'idioma del Shell des de l'inici
-  private readonly ts = inject(TraduccioService);
+
+  constructor() {
+    // Es crea a l'arrel perquè escolti l'idioma del Shell des de l'inici.
+    inject(TraduccioService);
+  }
 }

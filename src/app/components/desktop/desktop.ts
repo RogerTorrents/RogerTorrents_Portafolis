@@ -1,7 +1,7 @@
 import { Component, computed, signal, OnDestroy, HostListener, inject } from '@angular/core';
-import { WindowManagerService } from '../../services/window-manager.service';
+import { ALCADA_TASKBAR, WindowManagerService } from '../../services/window-manager.service';
 import { TranslationService } from '../../services/translation.service';
-import { AppIcon } from '../base/app-icon/app-icon';
+import { AppEscriptori, AppIcon } from '../base/app-icon/app-icon';
 import { DispositiuService } from '../../services/dispositiu.service';
 
 @Component({
@@ -36,11 +36,6 @@ export class Desktop implements OnDestroy {
     this.appDefs.filter(a => a.showInDesktop).map(a => ({ ...a, name: this.ts.t(a.nameKey) }))
   );
 
-  onTaskbarApps = computed(() => {
-    const wins = Object.values(this.wm.finestres() || {});
-    return wins.filter(w => w.visible || w.state === 'minimized');
-  });
-
   // Quadrícula
   private readonly gridW = 100;
   private readonly gridH = 110;
@@ -63,27 +58,18 @@ export class Desktop implements OnDestroy {
   private lastDragTime = 0;
   private readonly dragThreshold = 5;
 
-  // Selecció rectangular
   private iniciSeleccio = { x: 0, y: 0 };
 
   constructor(private readonly wm: WindowManagerService, readonly ts: TranslationService) {}
 
-  /**
-   * Posició inicial de cada icona: la casella (col, fila) de `appDefs`,
-   * NOMÉS amb les apps visibles (`showInDesktop`). Calcular-la també amb
-   * les apps amagades (com es feia abans) reservava les seves caselles per
-   * sempre: `posicionsIcones` les seguia contenint encara que no es
-   * dibuixessin, així que `trobarLliure` les tractava com a "ocupades" i
-   * no deixava arrossegar-hi cap icona visible — semblava que hi hagués
-   * alguna cosa invisible bloquejant files senceres.
-   */
+  /** Posició inicial de cada icona visible segons la seva casella (col, fila). */
   private calcularPosicionsInicials(): Record<string, { x: number; y: number }> {
     const visibles = this.appDefs.filter(a => a.showInDesktop);
     const posicions: Record<string, { x: number; y: number }> = {};
     for (const app of visibles) {
       posicions[app.id] = {
-        x: this.gridPadding + app.col! * this.gridW,
-        y: this.gridPadding + app.fila! * this.gridH,
+        x: this.gridPadding + app.col * this.gridW,
+        y: this.gridPadding + app.fila * this.gridH,
       };
     }
     return posicions;
@@ -91,7 +77,7 @@ export class Desktop implements OnDestroy {
 
   private snapToGrid(x: number, y: number): { x: number; y: number } {
     const maxX = Math.floor((window.innerWidth - this.gridPadding - this.gridW) / this.gridW) * this.gridW + this.gridPadding;
-    const maxY = Math.floor((window.innerHeight - 40 - this.gridPadding - this.gridH) / this.gridH) * this.gridH + this.gridPadding;
+    const maxY = Math.floor((window.innerHeight - ALCADA_TASKBAR - this.gridPadding - this.gridH) / this.gridH) * this.gridH + this.gridPadding;
     const sx = Math.round((x - this.gridPadding) / this.gridW) * this.gridW + this.gridPadding;
     const sy = Math.round((y - this.gridPadding) / this.gridH) * this.gridH + this.gridPadding;
     return {
@@ -100,13 +86,13 @@ export class Desktop implements OnDestroy {
     };
   }
 
-  openApp(app: any) {
+  openApp(app: AppEscriptori) {
     if (Date.now() - this.lastDragTime < 200) return;
     this.appsSeleccionades.set(new Set());
     this.wm.openWindow(app.id, app.name, app.icon);
   }
 
-  tapApp(app: any) {
+  tapApp(app: AppEscriptori) {
     if (Date.now() - this.lastDragTime < 200) return;
     if (this.isMobile()) {
       this.openApp(app);
@@ -125,7 +111,7 @@ export class Desktop implements OnDestroy {
 
   // --- Drag d'icones (individual o múltiple) ---
 
-  onIconaPointerDown(ev: PointerEvent, app: any) {
+  onIconaPointerDown(ev: PointerEvent, app: AppEscriptori) {
     if (ev.button !== 0) return;
     ev.stopPropagation();
 
@@ -214,7 +200,7 @@ export class Desktop implements OnDestroy {
             y: target.y + dy * this.gridH,
           };
           const maxX = window.innerWidth - this.gridW;
-          const maxY = window.innerHeight - 40 - this.gridH;
+          const maxY = window.innerHeight - ALCADA_TASKBAR - this.gridH;
           if (candidate.x < 0 || candidate.y < 0 || candidate.x > maxX || candidate.y > maxY) continue;
           if (!ocupades.has(`${candidate.x},${candidate.y}`)) return candidate;
         }
@@ -280,7 +266,7 @@ export class Desktop implements OnDestroy {
   @HostListener('window:resize')
   onResize(): void {
     const maxX = Math.floor((window.innerWidth - this.gridPadding - this.gridW) / this.gridW) * this.gridW + this.gridPadding;
-    const maxY = Math.floor((window.innerHeight - 40 - this.gridPadding - this.gridH) / this.gridH) * this.gridH + this.gridPadding;
+    const maxY = Math.floor((window.innerHeight - ALCADA_TASKBAR - this.gridPadding - this.gridH) / this.gridH) * this.gridH + this.gridPadding;
 
     this.posicionsIcones.update(p => {
       const updated: Record<string, { x: number; y: number }> = {};

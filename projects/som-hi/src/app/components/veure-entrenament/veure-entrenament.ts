@@ -6,13 +6,9 @@ import { ritmeMinutsPerKm } from '../../services/entrenament.util';
 import { TraduccioService } from '../../services/traduccio.service';
 
 /**
- * "Pantalla" de detall d'un entrenament assignat — visual i de només
- * lectura (per editar-lo cal l'`editar` de sortida, que obre
- * `editor-entrenament`). S'obre en clicar un entrenament dins de
- * `detall-dia`. Rep només `assignacioId` (no l'objecte sencer) i el busca
- * reactivament a `AssignacionsService.assignacions()` perquè el checkbox
- * de fet/no-fet es mantingui sempre sincronitzat encara que es marqui des
- * d'un altre lloc mentre aquesta pantalla és oberta.
+ * Detall d'un entrenament assignat, de només lectura. Rep l'`assignacioId` i
+ * el busca a `AssignacionsService` perquè l'estat de fet/no fet es mantingui
+ * sincronitzat encara que es marqui des d'un altre lloc.
  */
 @Component({
   selector: 'app-veure-entrenament',
@@ -25,7 +21,6 @@ export class VeureEntrenament {
   protected readonly ts = inject(TraduccioService);
   protected readonly ritmeMinutsPerKm = ritmeMinutsPerKm;
 
-  readonly plaId = input.required<string>();
   readonly assignacioId = input.required<string>();
 
   readonly tancar = output<void>();
@@ -52,7 +47,7 @@ export class VeureEntrenament {
   alternarFet(): void {
     const a = this.assignacio();
     if (!a) return;
-    this.assignacionsService.actualitzar(this.plaId(), a.id, { completat: !a.completat });
+    this.assignacionsService.actualitzar(a.id, { completat: !a.completat });
   }
 
   protected imatgeDe(exercici: ExerciciGym): string | null {

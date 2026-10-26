@@ -18,7 +18,6 @@ export class DetallDia {
   private readonly confirmacio = inject(ConfirmacioService);
   protected readonly ts = inject(TraduccioService);
 
-  readonly plaId = input.required<string>();
   readonly data = input.required<string>();
 
   readonly tancar = output<void>();
@@ -39,7 +38,7 @@ export class DetallDia {
   );
 
   alternarFet(assignacio: AssignacioAmbEntrenament): void {
-    this.assignacionsService.actualitzar(this.plaId(), assignacio.id, { completat: !assignacio.completat });
+    this.assignacionsService.actualitzar(assignacio.id, { completat: !assignacio.completat });
   }
 
   async eliminar(assignacio: AssignacioAmbEntrenament): Promise<void> {

@@ -1,5 +1,11 @@
 import { Component, Input } from '@angular/core';
 
+export interface AppEscriptori {
+  readonly id: string;
+  readonly name: string;
+  readonly icon: string;
+}
+
 @Component({
   selector: 'app-icon',
   standalone: true,
@@ -7,5 +13,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./app-icon.css']
 })
 export class AppIcon {
-  @Input() app: any;
+  @Input({ required: true }) app!: AppEscriptori;
 }

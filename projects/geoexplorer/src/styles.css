@@ -15,12 +15,9 @@
 @import '@fontsource/ibm-plex-mono/600.css';
 
 /*
- * Sistema visual "carta topogràfica": blau nit sobre les muntanyes com a
- * base, taronja senyal de fita de sender (balisa GR/PR) com a accent —
- * deliberadament NO el parell "fons gairebé negre + verd/violeta únic" que
- * és el default genèric. Tipografia condensada tipus segell topogràfic
- * (Big Shoulders Display) + IBM Plex Sans/Mono per a UI i dades (llegibles,
- * amb caràcter d'instrument tècnic).
+ * Estil "carta topogràfica": blau nit de base i el taronja de les fites de
+ * sender com a accent. Tipografia: Big Shoulders Display per a títols i
+ * IBM Plex Sans/Mono per a la interfície i les dades.
  */
 :root {
   --geo-bg: #101823;

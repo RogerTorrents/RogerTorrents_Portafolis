@@ -165,17 +165,9 @@
   transform: translateY(-50%);
 }
 
-/* Panell lateral: marcador + mà pròpia + botons, tot el que calia veure
-   sense fer scroll. `justify-content:flex-start` (no `center`): amb el
-   contingut començant sempre des de dalt, si algun dia n'hi ha massa per
-   a una pantalla molt baixa es retalla per sota (el marcador i els
-   botons, el més importants, queden sempre visibles), mai per sobre.
-   Marges reduïts expressament perquè hi càpiga tot junt. Sense
-   `overflow-y:auto` a posta: Chrome "puja" `overflow-x` a `auto` quan
-   `overflow-y` no és `visible` (encara que no se li digui explícitament),
-   i això tallava el tooltip dels botons (`.ba-tooltip`, que s'obre cap a
-   l'esquerra i surt del contenidor) — com els tests ja confirmaven que
-   mai cal scroll intern aquí, no calia el "per si de cas". */
+/* Panell lateral: marcador, mà pròpia i botons, sense scroll. Comença a dalt
+   perquè, si no hi cap tot, el que es retalli sigui la part de baix. Sense
+   `overflow-y: auto`: forçaria `overflow-x` i tallaria els tooltips dels botons. */
 .tj-lateral {
   flex: 0 0 min(300px, 32vw);
   transition: flex-basis 0.3s ease;
@@ -227,16 +219,9 @@
   color: var(--tr-crema);
 }
 
-/* Pantalles estretes (mòbil): tot ha de cabre en una sola pantalla, sense
-   scroll. Columna de 3 franges: taula (s'emporta tot l'espai sobrant) +
-   panell inferior compacte (marcador en una fila, mà, i TOTS els botons
-   en una fila). La taula és un quadrat tan gran com permeti l'espai que
-   li queda (`cqw`/`cqh` de `.tj-taula-zona`), i la mida dels gegants i de
-   les cartes jugades és proporcional a la taula (`cqw` de `.tj-taula`),
-   no a la pantalla — així mai s'hi solapen ni en surten.
-   S'aplica a pantalles estretes, i en tàctil (`pointer: coarse`, mai a un
-   ordinador) també a tauletes en vertical i a mòbils en horitzontal —
-   aquests últims amb el panell al costat (bloc següent). */
+/* Pantalles estretes, i tauletes o mòbils tàctils: tot en una pantalla sense
+   scroll. La taula és el quadrat més gran que hi cap, i gegants i cartes en
+   són proporcionals (`cqw`), de manera que mai se surten de la taula. */
 @media (max-width: 760px), (pointer: coarse) and (orientation: portrait), (pointer: coarse) and (max-height: 500px) {
   .tj-pantalla {
     min-height: 0;

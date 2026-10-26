@@ -18,6 +18,8 @@ export class TraduccioService {
 
   constructor() {
     window.addEventListener('message', (ev: MessageEvent) => {
+      // Només el Shell (la finestra que incrusta l'app) pot canviar l'idioma.
+      if (ev.source !== window.parent || window.parent === window) return;
       const dades = ev.data as { origen?: unknown; tipus?: unknown; valor?: unknown } | null;
       if (dades?.origen === 'os-shell' && dades.tipus === 'idioma' && esIdiomaValid(dades.valor)) {
         this.establirIdioma(dades.valor);
@@ -76,7 +78,6 @@ export class TraduccioService {
       pla_card_dies_restants: '{0} dies restants',
       pla_card_finalitzat: 'Pla finalitzat',
       pla_card_comenca_en: 'Comença en {0} dies',
-      pla_card_progres: '{0}% completat',
       pla_eliminar_confirmacio: 'Segur que vols eliminar el pla «{0}»? S’esborraran tots els seus entrenaments i el progrés fet.',
 
       // Crear pla
@@ -146,7 +147,6 @@ export class TraduccioService {
       selector_entrenament_buit: 'Encara no has creat cap entrenament en aquest pla.',
       selector_entrenament_afegir: 'Afegir',
       selector_entrenament_assignar_massiu: 'Repetir cada setmana…',
-      selector_entrenament_tornar: '← Tornar',
 
       // Editor d'entrenament
       editor_entrenament_titol_nou: 'Nou entrenament',
@@ -190,9 +190,6 @@ export class TraduccioService {
       gym_exercici_nom_label: 'Exercici',
       gym_series_label: 'Sèries',
       gym_repeticions_label: 'Repeticions',
-      gym_temps_segons_label: 'Temps (segons, opcional)',
-      gym_eliminar_exercici: 'Eliminar',
-      gym_sense_exercicis: 'Afegeix almenys un exercici.',
       camp_grup_muscular_label: 'Part del cos',
       gym_triar_grup: '-- Tria una part del cos --',
       gym_canviar_exercici: 'Canviar',
@@ -220,7 +217,6 @@ export class TraduccioService {
       confirmacio_confirmar: 'Confirmar',
 
       // Genèric
-      error_generic: 'Alguna cosa ha fallat. Torna-ho a provar.',
       carregant: 'Carregant…',
     },
     es: {
@@ -270,7 +266,6 @@ export class TraduccioService {
       pla_card_dies_restants: '{0} días restantes',
       pla_card_finalitzat: 'Plan finalizado',
       pla_card_comenca_en: 'Empieza en {0} días',
-      pla_card_progres: '{0}% completado',
       pla_eliminar_confirmacio: '¿Seguro que quieres eliminar el plan «{0}»? Se borrarán todos sus entrenamientos y el progreso hecho.',
 
       crear_pla_titol: 'Crear un plan nuevo',
@@ -336,7 +331,6 @@ export class TraduccioService {
       selector_entrenament_buit: 'Todavía no has creado ningún entrenamiento en este plan.',
       selector_entrenament_afegir: 'Añadir',
       selector_entrenament_assignar_massiu: 'Repetir cada semana…',
-      selector_entrenament_tornar: '← Volver',
 
       editor_entrenament_titol_nou: 'Nuevo entrenamiento',
       editor_entrenament_titol_editar: 'Editar entrenamiento',
@@ -379,9 +373,6 @@ export class TraduccioService {
       gym_exercici_nom_label: 'Ejercicio',
       gym_series_label: 'Series',
       gym_repeticions_label: 'Repeticiones',
-      gym_temps_segons_label: 'Tiempo (segundos, opcional)',
-      gym_eliminar_exercici: 'Eliminar',
-      gym_sense_exercicis: 'Añade al menos un ejercicio.',
       camp_grup_muscular_label: 'Parte del cuerpo',
       gym_triar_grup: '-- Elige una parte del cuerpo --',
       gym_canviar_exercici: 'Cambiar',
@@ -406,7 +397,6 @@ export class TraduccioService {
       confirmacio_cancelar: 'Cancelar',
       confirmacio_confirmar: 'Confirmar',
 
-      error_generic: 'Algo ha fallado. Vuelve a intentarlo.',
       carregant: 'Cargando…',
     },
     en: {
@@ -456,7 +446,6 @@ export class TraduccioService {
       pla_card_dies_restants: '{0} days left',
       pla_card_finalitzat: 'Plan finished',
       pla_card_comenca_en: 'Starts in {0} days',
-      pla_card_progres: '{0}% complete',
       pla_eliminar_confirmacio: 'Delete the plan «{0}»? All its trainings and progress will be lost.',
 
       crear_pla_titol: 'Create a new plan',
@@ -522,7 +511,6 @@ export class TraduccioService {
       selector_entrenament_buit: "You haven't created any training in this plan yet.",
       selector_entrenament_afegir: 'Add',
       selector_entrenament_assignar_massiu: 'Repeat every week…',
-      selector_entrenament_tornar: '← Back',
 
       editor_entrenament_titol_nou: 'New training',
       editor_entrenament_titol_editar: 'Edit training',
@@ -565,9 +553,6 @@ export class TraduccioService {
       gym_exercici_nom_label: 'Exercise',
       gym_series_label: 'Sets',
       gym_repeticions_label: 'Reps',
-      gym_temps_segons_label: 'Time (seconds, optional)',
-      gym_eliminar_exercici: 'Remove',
-      gym_sense_exercicis: 'Add at least one exercise.',
       camp_grup_muscular_label: 'Body part',
       gym_triar_grup: '-- Choose a body part --',
       gym_canviar_exercici: 'Change',
@@ -592,7 +577,6 @@ export class TraduccioService {
       confirmacio_cancelar: 'Cancel',
       confirmacio_confirmar: 'Confirm',
 
-      error_generic: 'Something went wrong. Please try again.',
       carregant: 'Loading…',
     },
   };

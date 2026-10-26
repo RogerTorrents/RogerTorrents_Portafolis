@@ -42,6 +42,7 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
     error_falta_nom: 'Escriu el teu nom.',
     error_falta_personatge: 'Tria un personatge.',
     error_falta_codi: 'Escriu el codi de la partida.',
+    error_sense_resposta: 'El servidor no respon. Torna-ho a provar.',
 
     // Sala d'espera
     sala_titol: "Sala d'espera",
@@ -170,6 +171,7 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
     error_falta_nom: 'Escribe tu nombre.',
     error_falta_personatge: 'Elige un personaje.',
     error_falta_codi: 'Escribe el código de la partida.',
+    error_sense_resposta: 'El servidor no responde. Vuelve a intentarlo.',
 
     // Sala de espera
     sala_titol: 'Sala de espera',
@@ -298,6 +300,7 @@ const TEXTOS: Record<Idioma, Record<string, string>> = {
     error_falta_nom: 'Enter your name.',
     error_falta_personatge: 'Choose a character.',
     error_falta_codi: 'Enter the game code.',
+    error_sense_resposta: 'The server is not responding. Please try again.',
 
     // Waiting room
     sala_titol: 'Waiting room',
@@ -403,6 +406,8 @@ export class TraduccioService {
 
   constructor() {
     window.addEventListener('message', (ev: MessageEvent) => {
+      // Només el Shell (la finestra que incrusta l'app) pot canviar l'idioma.
+      if (ev.source !== window.parent || window.parent === window) return;
       const dades = ev.data as { origen?: unknown; tipus?: unknown; valor?: unknown } | null;
       if (dades?.origen === 'os-shell' && dades.tipus === 'idioma' && esIdiomaValid(dades.valor)) {
         this.idioma.set(dades.valor);

@@ -98,7 +98,7 @@ serveix des del mateix origen, sense salt de xarxa extra, i és permanent).
   determinista per `id`) — l'app no es trenca mentre no hi hagi cap foto
   real.
 - Llista completa dels 71 ids esperats i instruccions de mida/format:
-  `public/jugadors/README.md`.
+  `fotos-jugadors.md` (en aquesta carpeta).
 - Es poden anar afegint fotos progressivament, jugador a jugador, sense
   tocar cap fitxer de codi.
 
@@ -107,7 +107,7 @@ serveix des del mateix origen, sense salt de xarxa extra, i és permanent).
 Mateix patró que les fotos de jugadors: `public/titols/<id-del-titol>.png`
 (sempre `.png`, per fons transparent), component `IconaTitol`
 (`components/compartit/icona-titol/`), fallback a una icona de trofeu si no
-hi ha imatge. Els 6 ids exactes i instruccions: `public/titols/README.md`.
+hi ha imatge. Els 6 ids exactes i instruccions: `imatges-titols.md` (en aquesta carpeta).
 
 ## Disseny visual
 

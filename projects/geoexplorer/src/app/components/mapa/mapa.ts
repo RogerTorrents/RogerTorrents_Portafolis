@@ -5,7 +5,7 @@ import { GeoExplorerService, type CapaBase } from '../../services/geoexplorer.se
 import { ContingutPersonalService } from '../../services/contingut-personal.service';
 import { DispositiuService } from '../../services/dispositiu.service';
 import { TraduccioService } from '../../services/traduccio.service';
-import { creaIconaCercada, creaIconaLlocPersonal, creaIconaPoi } from '../../services/mapa-icones.util';
+import { creaIconaCercada, creaIconaLlocPersonal, creaIconaPoi, escapaHtml } from '../../services/mapa-icones.util';
 import type { Poi } from '../../models/poi.model';
 import type { LlocPersonal } from '../../models/lloc-personal.model';
 import type { CategoriaPersonal } from '../../models/categoria-personal.model';
@@ -215,10 +215,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
   }
 
   private dibuixarMarcadors(pois: readonly Poi[]): void {
-    // Es construeix l'array sencer i es passa a `addLayers` (API en plural
-    // de leaflet.markercluster) en lloc de cridar `addLayer` marcador a
-    // marcador: amb 100+ punts, `addLayers` recalcula els clústers un cop
-    // per al lot sencer en lloc d'un cop per marcador afegit, molt més ràpid.
+    // `addLayers` en bloc recalcula els clústers un sol cop per a tots els punts.
     this.grupClusters.clearLayers();
     const marcadors = pois.map(poi => {
       const marcador = L.marker(poi.coordenades as [number, number], { icon: creaIconaPoi(poi) });
@@ -226,7 +223,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
         this.contingut.seleccionarLloc(null);
         this.geo.seleccionarPoi(poi);
       });
-      marcador.bindTooltip(poi.nom, { direction: 'top', offset: [0, -26] });
+      marcador.bindTooltip(escapaHtml(poi.nom), { direction: 'top', offset: [0, -26] });
       return marcador;
     });
     this.grupClusters.addLayers(marcadors);
@@ -243,7 +240,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
         this.geo.seleccionarPoi(null);
         this.contingut.seleccionarLloc(lloc);
       });
-      marcador.bindTooltip(lloc.nom, { direction: 'top', offset: [0, -14] });
+      marcador.bindTooltip(escapaHtml(lloc.nom), { direction: 'top', offset: [0, -14] });
       this.grupLlocsPersonals.addLayer(marcador);
       this.marcadorsPersonalsPerId.set(lloc.id, marcador);
     }

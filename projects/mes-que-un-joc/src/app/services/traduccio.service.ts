@@ -18,6 +18,8 @@ export class TraduccioService {
 
   constructor() {
     window.addEventListener('message', (ev: MessageEvent) => {
+      // Només el Shell (la finestra que incrusta l'app) pot canviar l'idioma.
+      if (ev.source !== window.parent || window.parent === window) return;
       const dades = ev.data as { origen?: unknown; tipus?: unknown; valor?: unknown } | null;
       if (dades?.origen === 'os-shell' && dades.tipus === 'idioma' && esIdiomaValid(dades.valor)) {
         this.setIdioma(dades.valor);

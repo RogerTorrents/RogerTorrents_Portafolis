@@ -1,16 +1,8 @@
 /**
- * Catàleg d'exercicis de gym per part del cos, usat pel selector visual de
- * `editor-entrenament` (component `exercici-gym-fila`) i per les vistes de
- * detall (`detall-entrenament-dades`, `veure-entrenament`). Purament dades
- * de UI per ajudar a triar un nom d'exercici — mai es persisteix el grup
- * muscular ni l'id del catàleg, només `ExerciciGym.nom` (text lliure), per
- * no obligar a canviar l'esquema del backend. En tornar a editar/veure un
- * exercici ja creat, `trobarExerciciPerNom` reconstrueix quin grup/foto li
- * pertoquen buscant el nom dins de tot el catàleg.
- *
- * Les imatges viuen a `public/exercicis/<imatge>` (arrel d'aquesta app,
- * NO l'arrel del Shell — es couen amb `ng serve som-hi`/build de l'app).
- * Fotos reals afegides el 2026-08-21 (42, una per exercici).
+ * Catàleg d'exercicis de gym per part del cos, per al selector visual de
+ * l'editor i les vistes de detall. Només és ajuda de UI: el backend guarda
+ * el nom de l'exercici (text lliure), i `trobarExerciciPerNom` en recupera
+ * el grup i la foto (`public/exercicis/<imatge>`).
  */
 
 export type GrupMuscular =

@@ -65,7 +65,7 @@ export class AssignacionsService {
       });
   }
 
-  actualitzar(plaId: string, id: string, payload: ActualitzarAssignacioPayload, alExit?: () => void): void {
+  actualitzar(id: string, payload: ActualitzarAssignacioPayload, alExit?: () => void): void {
     this.http
       .patch<AssignacioAmbEntrenament>(`${this.apiUrl}/assignacions/${id}`, payload)
       .pipe(map((assignacio) => this.normalitzar(assignacio)))

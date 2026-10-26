@@ -1,23 +1,27 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 
-describe('App', () => {
+// jsdom no implementa `IntersectionObserver` (animacions en entrar a la vista).
+beforeAll(() => {
+  globalThis.IntersectionObserver ??= class {
+    observe(): void {}
+    unobserve(): void {}
+    disconnect(): void {}
+  } as unknown as typeof IntersectionObserver;
+});
+
+describe('Sobre mi', () => {
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [App],
-    }).compileComponents();
+    await TestBed.configureTestingModule({ imports: [App] }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it('should render title', async () => {
+  it('mostra les seccions i el mapa "Fora del teclat"', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, sobre-mi');
+    const html = fixture.nativeElement as HTMLElement;
+    for (const id of ['sec-exp', 'sec-form', 'sec-hab', 'sec-per', 'sec-cont']) {
+      expect(html.querySelector(`#${id}`)).not.toBeNull();
+    }
+    expect(html.querySelectorAll('.sm-mapa__item').length).toBe(7);
   });
 });

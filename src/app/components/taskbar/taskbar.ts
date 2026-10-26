@@ -29,7 +29,7 @@ export class Taskbar implements OnInit, OnDestroy {
   private observadorMida?: ResizeObserver;
 
   time = signal(new Date());
-  private timerId: any;
+  private timerId?: ReturnType<typeof setInterval>;
 
   idiomes: { codi: Idioma; nom: string }[] = [
     { codi: 'ca', nom: 'Català' },
@@ -199,7 +199,7 @@ export class Taskbar implements OnInit, OnDestroy {
 
   // Preview al hover
   previewId = signal('');
-  private previewTimeout: any;
+  private previewTimeout?: ReturnType<typeof setTimeout>;
 
   mostrarPreview(id: string) {
     // En tàctil el `mouseenter` salta en tocar la icona: no hi ha hover real.
@@ -212,6 +212,7 @@ export class Taskbar implements OnInit, OnDestroy {
   private renderPreviewMirror(id: string) {
     const container = document.querySelector('.preview-mirror') as HTMLElement;
     if (!container) return;
+    container.replaceChildren();
 
     const wrapper = document.querySelector(
       `app-window-wrapper[id="${id}"] .window-wrapper`
@@ -225,7 +226,9 @@ export class Taskbar implements OnInit, OnDestroy {
     }
 
     const windowContent = wrapper.querySelector('.window-content') as HTMLElement;
-    if (!windowContent || windowContent.offsetWidth === 0) {
+    // Clonar un iframe en tornaria a carregar l'app sencera (i, al Truc, una
+    // segona connexió del mateix jugador): aquestes finestres mostren la icona.
+    if (!windowContent || windowContent.offsetWidth === 0 || windowContent.querySelector('iframe')) {
       if (wasHidden) { wrapper.style.display = 'none'; wrapper.style.visibility = ''; }
       return;
     }
@@ -257,8 +260,7 @@ export class Taskbar implements OnInit, OnDestroy {
     clone.style.pointerEvents = 'none';
     clone.style.boxSizing = 'border-box';
 
-    container.innerHTML = '';
-    container.appendChild(clone);
+    container.replaceChildren(clone);
 
     if (wasHidden) {
       wrapper.style.display = 'none';
@@ -360,10 +362,11 @@ export class Taskbar implements OnInit, OnDestroy {
 
   pantallaCompleta() {
     this.mostrarStart.set(false);
+    // Si el navegador ho rebutja, l'estat es manté tal com estava.
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().then(() => this.esPantallaCompleta.set(true));
+      document.documentElement.requestFullscreen().then(() => this.esPantallaCompleta.set(true), () => undefined);
     } else {
-      document.exitFullscreen().then(() => this.esPantallaCompleta.set(false));
+      document.exitFullscreen().then(() => this.esPantallaCompleta.set(false), () => undefined);
     }
   }
 
@@ -405,8 +408,7 @@ export class Taskbar implements OnInit, OnDestroy {
   onVolumChange(ev: Event) {
     const val = +(ev.target as HTMLInputElement).value;
     this.volum.set(val);
-    if (val === 0) this.isMute.set(true);
-    else this.isMute.set(false);
+    this.isMute.set(val === 0);
   }
 
   iconaVolum(): string {

@@ -12,7 +12,7 @@ import { TranslationService, Idioma } from '../../services/translation.service';
 export class LockScreen implements OnInit, OnDestroy {
   @Output() unlock = new EventEmitter<void>();
   time = new Date();
-  private timerId: any;
+  private timerId?: ReturnType<typeof setInterval>;
 
   idiomes: { codi: Idioma; nom: string }[] = [
     { codi: 'ca', nom: 'CAT' },

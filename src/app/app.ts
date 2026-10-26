@@ -1,6 +1,5 @@
 import { Component, signal, HostListener, OnInit, OnDestroy, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { RouterOutlet } from '@angular/router';
 import { environment } from '../environments/environment';
 import { LockScreen } from './components/lock-screen/lock-screen';
 import { Desktop } from './components/desktop/desktop';
@@ -15,12 +14,11 @@ import { WindowManagerService } from './services/window-manager.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LockScreen, Desktop, Taskbar, WindowWrapper, FonsDepantalla, VoronoiFons, Linkedin, Legal],
+  imports: [LockScreen, Desktop, Taskbar, WindowWrapper, FonsDepantalla, VoronoiFons, Linkedin, Legal],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App implements OnInit, OnDestroy {
-  protected readonly title = signal('RogerTorrents-portafolis');
   protected readonly lock = signal(true);
 
   /** Alçada disponible per a una finestra que ha d'ocupar tota la vertical
@@ -44,8 +42,9 @@ export class App implements OnInit, OnDestroy {
   ngOnInit(): void {
     window.addEventListener('wheel', this.onWheel, { passive: false });
     window.addEventListener('message', this.onMissatgeApp);
-    window.addEventListener('gesturestart', this.onGesture, { passive: false } as any);
-    window.addEventListener('gesturechange', this.onGesture, { passive: false } as any);
+    // Safari (iOS) fa zoom amb el gest de pinça encara que el viewport ho prohibeixi.
+    window.addEventListener('gesturestart', this.onGesture, { passive: false });
+    window.addEventListener('gesturechange', this.onGesture, { passive: false });
   }
 
   ngOnDestroy(): void {
@@ -74,9 +73,7 @@ export class App implements OnInit, OnDestroy {
     this.lock.set(true);
   }
 
-  /** Un iframe d'app just carregat arrenca sempre amb l'idioma per defecte
-   *  del seu propi servei local — cal enviar-li l'idioma actual del Shell
-   *  de seguida perquè no es noti el "flash" a l'idioma equivocat. */
+  /** Cada iframe arrenca amb l'idioma per defecte: se li envia el del Shell en carregar-se. */
   protected onIframeCarregada(ev: Event): void {
     this.ts.enviarIdiomaA(ev.target as HTMLIFrameElement);
   }
@@ -88,6 +85,7 @@ export class App implements OnInit, OnDestroy {
     }
   }
 
+  /** El zoom del navegador (Ctrl + roda o tecles) es desactiva: cada finestra té el seu. */
   private onWheel = (ev: WheelEvent): void => {
     if (ev.ctrlKey) ev.preventDefault();
   };

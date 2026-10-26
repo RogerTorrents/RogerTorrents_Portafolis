@@ -3,13 +3,9 @@ import { SessioService } from '../../services/sessio.service';
 import { TraduccioService } from '../../services/traduccio.service';
 
 /**
- * L'animació de la traça es fa amb la Web Animations API (`.animate()`),
- * NO amb `@keyframes` de CSS: l'encapsulació emulada d'Angular renombra la
- * definició `@keyframes` (p. ex. `_ngcontent-xxx_geo-traçar`) però NO
- * reescriu la referència dins la propietat `animation` dels components
- * (que continua dient `geo-traçar`) — l'animació queda declarada però mai
- * s'executa, sense cap error a consola. `.animate()` no depèn de noms de
- * keyframes CSS, així que no pateix aquest problema.
+ * L'animació de la traça usa la Web Animations API i no `@keyframes`: amb
+ * l'encapsulació emulada d'Angular, la referència a la keyframe del component
+ * no es reescriu i l'animació no s'executa.
  */
 @Component({
   selector: 'app-pantalla-entrada',

@@ -9,7 +9,6 @@
   @if (panell(); as p) {
     @if (p.tipus === 'dia') {
       <app-detall-dia
-        [plaId]="plaId()"
         [data]="p.data"
         (tancar)="tancarPanell()"
         (afegirEntrenament)="obrirSelector()"
@@ -19,7 +18,6 @@
     }
     @if (p.tipus === 'veure') {
       <app-veure-entrenament
-        [plaId]="plaId()"
         [assignacioId]="p.assignacioId"
         (tancar)="onPanellTancat()"
         (editar)="obrirEditorExistent($event)"

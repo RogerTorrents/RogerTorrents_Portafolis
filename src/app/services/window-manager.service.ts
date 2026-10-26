@@ -29,9 +29,11 @@ export class WindowManagerService {
   private readonly _finestres = signal<Record<string, WindowState>>({});
   private readonly _muntades = signal<Set<string>>(new Set());
   private readonly _topZ = signal(100);
-  private readonly _animTimeouts = new Map<string, any>();
+  private readonly _animTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
   private _windowCount = 0;
   private readonly _cascade = 30;
+  /** Després de tantes finestres, la cascada torna a començar perquè no surtin de la pantalla. */
+  private readonly _passosCascada = 8;
   private readonly dispositiu = inject(DispositiuService);
 
   constructor() {
@@ -61,8 +63,8 @@ export class WindowManagerService {
       id,
       title,
       icon: '',
-      x: 120 + this._windowCount * this._cascade,
-      y: 80 + this._windowCount * this._cascade,
+      x: 120 + (this._windowCount % this._passosCascada) * this._cascade,
+      y: 80 + (this._windowCount % this._passosCascada) * this._cascade,
       width: 640,
       height: 360,
       z,

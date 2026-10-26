@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, Signal, signal, computed, ElementRef, viewChild, HostListener, inject } from '@angular/core';
-import { WindowManagerService, WindowState } from '../../services/window-manager.service';
+import { ALCADA_TASKBAR, WindowManagerService, WindowState } from '../../services/window-manager.service';
 import { TranslationService } from '../../services/translation.service';
 import { DispositiuService } from '../../services/dispositiu.service';
 
@@ -52,15 +52,9 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
     if (this.initialY >= 0) props.y = this.initialY;
     this.wm.registerWindow(this.id, this.title || undefined, props);
 
-    // `registerWindow` només aplica `props` si la finestra encara no
-    // existia. Quan s'obre des d'una icona de l'escriptori, `Desktop`
-    // crida `wm.openWindow(id, ...)` ABANS que aquest component es munti,
-    // i `openWindow` ja registra la finestra (sense mida ni posició) per
-    // poder-la marcar visible de seguida — així que quan arribem aquí la
-    // finestra sol ja existir amb la mida per defecte (640×360) i
-    // `registerWindow` no torna a aplicar `props`. Cal forçar-ho aquí
-    // explícitament perquè `initialWidth`/`initialHeight`/`initialY`
-    // tinguin efecte de veritat cada cop que s'obre la finestra.
+    // `openWindow` ja ha registrat la finestra amb la mida per defecte abans
+    // que aquest component es munti, i `registerWindow` no la sobreescriu:
+    // la mida i posició inicials s'han d'aplicar explícitament.
     if (Object.keys(props).length > 0) {
       const actual = this.wm.getWindowSignal(this.id)();
       if (actual) {
@@ -89,6 +83,20 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy(): void {
     const el = this.contentRef()?.nativeElement;
     if (el) el.removeEventListener('wheel', this.onContentWheel);
+    this.deixarDeSeguirPunter();
+  }
+
+  /** Durant un arrossegament o redimensionament, el punter se segueix a tot el document. */
+  private seguirPunter(): void {
+    document.addEventListener('pointermove', this.onPointerMove);
+    document.addEventListener('pointerup', this.onPointerUp);
+    document.addEventListener('pointercancel', this.onPointerUp);
+  }
+
+  private deixarDeSeguirPunter(): void {
+    document.removeEventListener('pointermove', this.onPointerMove);
+    document.removeEventListener('pointerup', this.onPointerUp);
+    document.removeEventListener('pointercancel', this.onPointerUp);
   }
 
   private onContentWheel = (ev: WheelEvent): void => {
@@ -117,7 +125,7 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
   }
 
   onHeaderPointerDown(ev: PointerEvent) {
-    const s = this.wm.getWindowSignal(this.id)();
+    const s = this.state();
     if (!s) return;
     this.wm.bringToFront(this.id);
     this.showSnapAssist.set(false);
@@ -126,25 +134,21 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
       this.pendingUnmaximize = true;
       this.unmaxStartY = ev.clientY;
       this.unmaxMouseX = ev.clientX;
-      (document as any).addEventListener('pointermove', this.onPointerMove);
-      (document as any).addEventListener('pointerup', this.onPointerUp);
-    (document as any).addEventListener('pointercancel', this.onPointerUp);
+      this.seguirPunter();
       return;
     }
 
     this.dragging = true;
     this.dragOffset.x = ev.clientX - s.x;
     this.dragOffset.y = ev.clientY - s.y;
-    (document as any).addEventListener('pointermove', this.onPointerMove);
-    (document as any).addEventListener('pointerup', this.onPointerUp);
-    (document as any).addEventListener('pointercancel', this.onPointerUp);
+    this.seguirPunter();
   }
 
   private onPointerMove = (ev: PointerEvent) => {
     if (this.pendingUnmaximize) {
       if (Math.abs(ev.clientY - this.unmaxStartY) > 5) {
         this.pendingUnmaximize = false;
-        const s = this.wm.getWindowSignal(this.id)();
+        const s = this.state();
         const restoreW = s?.restoreBounds?.width ?? 640;
         const ratio = this.unmaxMouseX / window.innerWidth;
         const nx = this.unmaxMouseX - restoreW * ratio;
@@ -157,11 +161,11 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
       return;
     }
     if (this.dragging) {
-      const s = this.wm.getWindowSignal(this.id)();
+      const s = this.state();
       const w = s?.width ?? 320;
       const minVisible = 100;
       const nx = Math.max(-w + minVisible, Math.min(ev.clientX - this.dragOffset.x, window.innerWidth - minVisible));
-      const ny = Math.max(0, Math.min(ev.clientY - this.dragOffset.y, window.innerHeight - 40 - 32));
+      const ny = Math.max(0, Math.min(ev.clientY - this.dragOffset.y, window.innerHeight - ALCADA_TASKBAR - 32));
       this.wm.moveWindow(this.id, nx, ny);
 
       // En tàctil no hi ha snap lateral: mitja pantalla d'un mòbil és més
@@ -188,7 +192,7 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
       if (h < 240) { if (dir.includes('n')) y = this.resizeStart.winY + this.resizeStart.height - 240; h = 240; }
 
       const maxW = window.innerWidth;
-      const maxH = window.innerHeight - 40;
+      const maxH = window.innerHeight - ALCADA_TASKBAR;
       const minVisible = 100;
 
       if (dir.includes('n') && y < 0) { h += y; y = 0; }
@@ -203,7 +207,7 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
     }
   };
 
-  private onPointerUp = (_ev: PointerEvent) => {
+  private onPointerUp = () => {
     if (this.dragging) {
       const zone = this.snapZone();
       if (zone === 'maximize') {
@@ -216,14 +220,12 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
     this.dragging = false;
     this.resizing = false;
     this.pendingUnmaximize = false;
-    (document as any).removeEventListener('pointermove', this.onPointerMove);
-    (document as any).removeEventListener('pointerup', this.onPointerUp);
-    (document as any).removeEventListener('pointercancel', this.onPointerUp);
+    this.deixarDeSeguirPunter();
   };
 
   private snapToSide(side: 'left' | 'right') {
     const halfW = Math.floor(window.innerWidth / 2);
-    const fullH = window.innerHeight - 40;
+    const fullH = window.innerHeight - ALCADA_TASKBAR;
     const x = side === 'left' ? 0 : halfW;
     this.wm.resizeMoveWindow(this.id, x, 0, halfW, fullH);
 
@@ -237,7 +239,7 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
   seleccionarSnapAssist(id: string) {
     const side = this.snapAssistSide();
     const halfW = Math.floor(window.innerWidth / 2);
-    const fullH = window.innerHeight - 40;
+    const fullH = window.innerHeight - ALCADA_TASKBAR;
     const x = side === 'left' ? 0 : halfW;
     this.wm.openWindow(id);
     // `openWindow` conserva l'estat maximitzat; per encaixar-la a mitja
@@ -276,14 +278,12 @@ export class WindowWrapper implements OnInit, OnDestroy, OnChanges {
 
   onResizePointerDown(ev: PointerEvent, direction: string) {
     ev.stopPropagation();
-    const s = this.wm.getWindowSignal(this.id)();
+    const s = this.state();
     if (!s || s.state === 'maximized') return;
     this.resizing = true;
     this.resizeDirection = direction;
     this.resizeStart = { x: ev.clientX, y: ev.clientY, width: s.width, height: s.height, winX: s.x, winY: s.y };
     this.wm.bringToFront(this.id);
-    (document as any).addEventListener('pointermove', this.onPointerMove);
-    (document as any).addEventListener('pointerup', this.onPointerUp);
-    (document as any).addEventListener('pointercancel', this.onPointerUp);
+    this.seguirPunter();
   }
 }

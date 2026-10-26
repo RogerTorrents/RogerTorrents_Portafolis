@@ -1,16 +1,18 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { JocService } from './joc.service';
 
-import { Joc } from './joc.service';
-
-describe('Joc', () => {
-  let service: Joc;
+describe('JocService', () => {
+  let service: JocService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(Joc);
+    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    service = TestBed.inject(JocService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('comença a la pantalla de configuració i sense errors', () => {
+    expect(service.pantalla()).toBe(1);
+    expect(service.errorApi()).toBeNull();
   });
 });

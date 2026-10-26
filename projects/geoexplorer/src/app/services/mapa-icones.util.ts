@@ -2,6 +2,17 @@ import * as L from 'leaflet';
 import type { Poi, TipusPoi } from '../models/poi.model';
 import type { CategoriaPersonal } from '../models/categoria-personal.model';
 
+/**
+ * Leaflet insereix com a HTML el contingut de `divIcon` i dels tooltips: tot
+ * text que vingui de l'API (noms escrits per l'usuari) s'ha d'escapar.
+ */
+export function escapaHtml(text: string): string {
+  return text.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+}
+
+const COLOR_HEX = /^#[0-9a-fA-F]{6}$/;
+const COLOR_PER_DEFECTE = '#4fa3c7';
+
 interface AparencaTipus {
   readonly color: string;
   readonly simbol: string;
@@ -55,9 +66,10 @@ export function creaIconaCercada(): L.DivIcon {
 
 /** Icona rodona (no en forma de pin) per als llocs propis d'un usuari, en el color de la seva categoria. */
 export function creaIconaLlocPersonal(categoria: CategoriaPersonal): L.DivIcon {
+  const color = COLOR_HEX.test(categoria.color) ? categoria.color : COLOR_PER_DEFECTE;
   return L.divIcon({
     className: '',
-    html: `<div class="geo-marcador-personal" style="background:${categoria.color}"><span>${categoria.icona}</span></div>`,
+    html: `<div class="geo-marcador-personal" style="background:${color}"><span>${escapaHtml(categoria.icona)}</span></div>`,
     iconSize: [26, 26],
     iconAnchor: [13, 13],
     popupAnchor: [0, -14],

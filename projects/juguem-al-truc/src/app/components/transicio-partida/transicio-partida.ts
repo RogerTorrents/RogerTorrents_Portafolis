@@ -11,12 +11,9 @@ function rutaFotograma(n: number): string {
 }
 
 /**
- * Transició "efecte Apple": en fer scroll, es recorren els 16 fotogrames
- * reals (paret → terra vist zenitalment, mateixa seqüència de càmera que
- * abans animava `intro-animacio` amb un crossfade CSS, ara amb fotografia
- * real). El fotograma 1 ja viu a la memòria cau del navegador (és el fons
- * estàtic de `sala-espera`, la pantalla anterior) i el 16 és el fons de la
- * taula de joc — per això aquesta pantalla només n'ha de precarregar 2..16.
+ * Transició amb scroll que recorre 16 fotogrames (de la paret al terra vist
+ * des de dalt). El primer és el fons de la sala d'espera i ja és a la memòria
+ * cau, per això només es precarreguen del 2 al 16.
  */
 @Component({
   selector: 'app-transicio-partida',

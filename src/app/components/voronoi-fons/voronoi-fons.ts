@@ -107,7 +107,9 @@ export class VoronoiFons implements AfterViewInit, OnDestroy {
     this.ampladaLogica = w;
     this.alcadaLogica = h;
 
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
+    // Sense context 2D (navegador sense canvas) no es dibuixa ni s'anima el fons.
+    if (!ctx) return;
     ctx.setTransform(escala, 0, 0, escala, 0, 0);
     const colors = this.voronoi.paleta().colors;
 

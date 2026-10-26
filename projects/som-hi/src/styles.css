@@ -12,18 +12,9 @@
 @import '@fontsource/space-mono/700.css';
 
 /*
- * Sistema visual "quadern d'entrenament": full de llibreta ratllada
- * d'atleta (paper, no pantalla fosca — deliberadament diferent de les
- * altres apps del monorepo, totes fosques) amb el vermell de senyal
- * (#ff3131, el del logotip — tres galons/xebrons apuntant avall, com les
- * insígnies de progressió militars o una fletxa que empeny cap endavant)
- * com a senyal de signatura: una barra vertical vermella al marge
- * esquerre de cada "entrada" (targeta de pla, dia del calendari,
- * entrenament) — la mateixa idea que un llibre de comptes: registres
- * consistents al llarg del temps. El motiu del xebró ("un pas més, un
- * dia més") es repeteix a la barra de progrés i als botons d'acció
- * principal. NO el parell "cream+serif+terracotta" genèric: tipografia
- * grotesca condensada (Archivo Black), no serif.
+ * Estil "quadern d'entrenament": fons de paper i el vermell del logotip com
+ * a accent (barra al marge esquerre de cada entrada, barra de progrés i
+ * botons principals). Tipografia: Archivo Black per a títols.
  */
 :root {
   --sh-paper: #e9ebe1;

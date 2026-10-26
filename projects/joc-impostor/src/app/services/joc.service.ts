@@ -3,6 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+/** Barreja uniforme (Fisher-Yates); `sort` amb un comparador aleatori no ho és. */
+function barrejar<T>(elements: readonly T[]): T[] {
+  const resultat = [...elements];
+  for (let i = resultat.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [resultat[i], resultat[j]] = [resultat[j], resultat[i]];
+  }
+  return resultat;
+}
+
 export type ModusJoc = 'manual' | 'lliure' | 'ribes';
 export type Idioma = 'català' | 'castellà' | 'anglès';
 export type Rol = 'jugador' | 'impostor';
@@ -88,9 +98,7 @@ export class JocService {
       const resp = await fetch('assets/data/ribes.json');
       if (!resp.ok) throw new Error('ribes-404');
       const dades = await resp.json() as LotParaules;
-      const paraules = dades.paraules
-        .filter(p => p.trim().length > 0)
-        .sort(() => Math.random() - 0.5);
+      const paraules = barrejar(dades.paraules.filter(p => p.trim().length > 0));
       return { ...dades, paraules };
     }
     if (config.modus === 'lliure') {
@@ -133,7 +141,7 @@ export class JocService {
     const { paraula, pista } = this.obtenirParaulaActivaDe(estat, config);
 
     // Barreja per determinar qui és impostor, però sense alterar l'ordre de visualització
-    const indexosBarrejats = [...config.jugadors.keys()].sort(() => Math.random() - 0.5);
+    const indexosBarrejats = barrejar([...config.jugadors.keys()]);
     const indexosImpostors = new Set(indexosBarrejats.slice(0, config.nombreImpostors));
 
     // Mantenim l'ordre original de config.jugadors per a la pantalla de repartiment

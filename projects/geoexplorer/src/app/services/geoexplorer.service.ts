@@ -10,17 +10,10 @@ import { SessioService } from './sessio.service';
 export type CapaBase = 'topografic' | 'satelit' | 'estandard';
 
 /**
- * Estat central de GeoExplorer: regió activa, capa base, filtres i selecció.
- * Tots els components consulten aquest servei via signals — sense router,
- * seguint el mateix patró d'estat centralitzat de `JocService` a joc-impostor.
+ * Estat central de GeoExplorer (regió, capa base, filtres i selecció),
+ * exposat amb signals. Els POIs oficials es carreguen de `GET /pois`.
  *
- * El contingut oficial/curat (`totsElsPois`) es carrega de `GET /pois` a
- * `geoexplorer-api` en construir el servei, no d'un fitxer estàtic.
- *
- * La `regioActiva` NOMÉS controla l'enquadrament del mapa (`flyTo` a
- * `Mapa`) — mai filtra quins punts es veuen. Filtrar per regió barrejava dos
- * conceptes diferents (on estic mirant / què vull veure) i feia que els
- * punts apareguessin i desapareguessin en canviar de zona, cosa confusa.
+ * `regioActiva` només enquadra el mapa: no filtra quins punts es veuen.
  */
 @Injectable({ providedIn: 'root' })
 export class GeoExplorerService {

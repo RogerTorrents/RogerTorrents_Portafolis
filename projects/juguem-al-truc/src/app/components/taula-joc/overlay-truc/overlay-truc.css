@@ -19,14 +19,9 @@
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
 }
 
-/* Aquesta targeta tapa TOTA la pantalla (botons i mà inclosos) mentre
-   s'espera una resposta — si l'usuari no la veu de seguida i segueix
-   clicant la seva mà (que ja no rep els clics, tapada per aquest vel),
-   fa la sensació que el joc s'ha penjat. `tr-pols` (keyframe GLOBAL a
-   `styles.css` — mai dins del CSS *scoped* d'un component, no
-   s'executaria) la fa respirar perquè sigui impossible passar-la per
-   alt. Només per a qui ha de decidir de debò (`pucRespondre()`): a qui
-   només espera no li cal cap pols. */
+/* Tapa tota la pantalla mentre s'espera la resposta: el pols (`tr-pols`, a
+   `styles.css` perquè sigui global) fa que no passi desapercebuda. Només
+   per a qui ha de respondre. */
 .ot-targeta--urgent {
   animation: tr-pols 1.6s ease-in-out infinite;
 }

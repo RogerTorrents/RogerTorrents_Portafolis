@@ -31,16 +31,11 @@ const AMB_COOKIE = { withCredentials: true } as const;
 const CLAU_STORAGE_SESSIO = 'som_hi_sessio';
 
 /**
- * Gestió de sessió i navegació entre pantalles d'accés (entrada / login /
- * registre / app) — contra `geoexplorer-api`, NO contra un backend propi:
- * "el mateix compte que GeoExplorer" és literalment la mateixa taula
- * d'usuaris, així que registre/login/refresh/logout criden
- * `environment.authApiUrl`. `som-hi-api` (`environment.apiUrl`) només
- * verifica el token que aquí s'obté, mai n'emet cap de nou.
+ * Sessió i pantalles d'accés (entrada / login / registre / app). El compte és
+ * el de GeoExplorer: l'autenticació va contra `environment.authApiUrl`
+ * (geoexplorer-api) i `som-hi-api` només verifica el token.
  *
- * Clau de `localStorage` pròpia (`som_hi_sessio`, diferent de
- * `geoexplorer_sessio`) perquè un usuari pugui tenir sessió activa a totes
- * dues apps alhora sense que es trepitgin.
+ * Clau de `localStorage` pròpia per poder tenir sessió a totes dues apps alhora.
  */
 @Injectable({ providedIn: 'root' })
 export class SessioService {

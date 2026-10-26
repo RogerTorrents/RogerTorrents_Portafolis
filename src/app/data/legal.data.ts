@@ -1,13 +1,9 @@
 import type { Idioma } from '../services/translation.service';
 
 /**
- * Textos legals del portafolis: Política de privacitat (RGPD art. 13 i
- * LOPDGDD) i Avís legal (LSSI-CE art. 10). Viuen aquí i no al diccionari
- * de `TranslationService` perquè són llargs i estructurats per seccions.
- *
- * ⚠️ En desplegar: afegir el nom del proveïdor d'allotjament a la secció
- * "Destinataris" i actualitzar `DATA_ACTUALITZACIO`. Si es canvia alguna
- * dada que es recull (nou formulari, analítica, etc.), cal revisar-ho tot.
+ * Textos legals: política de privacitat (RGPD art. 13 i LOPDGDD) i avís legal
+ * (LSSI-CE art. 10). Si es comença a recollir alguna dada nova (formulari,
+ * analítica...), s'han de revisar i actualitzar `DATA_ACTUALITZACIO`.
  */
 export type PestanyaLegal = 'privacitat' | 'avis';
 

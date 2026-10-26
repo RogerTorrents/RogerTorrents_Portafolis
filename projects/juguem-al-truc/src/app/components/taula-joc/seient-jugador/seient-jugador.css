@@ -1,17 +1,8 @@
 /*
- * Composició "vista de dalt, tothom mirant al centre": cada gegant és el
- * mateix retrat frontal de sempre, girat l'angle que li toca segons la
- * seva posició perquè el cap apunti SEMPRE cap enfora de la taula i les
- * cames (que ara SÍ es renderitzen senceres) cap al centre — dalt=0°,
- * dreta=90°, baix=180°, esquerra=-90° (sentit horari). Les cames no
- * s'arriben a veure perquè la taula (`.tj-marbre`/`.tj-feltre`), més
- * petita i per davant en l'ordre del DOM, les tapa — vegeu taula-joc.html.
- *
- * `.sj-lloc` reserva l'espai en pantalla JA en l'orientació post-rotació
- * (ample i alt intercanviats als seients laterals); `.sj-figura` es
- * centra i es gira a dins seu amb `position:absolute` perquè un
- * `transform:rotate` no afecta mai la caixa de disposició, només el
- * contingut renderitzat.
+ * Vista zenital: cada gegant es gira segons la seva posició perquè el cap
+ * apunti enfora de la taula (dalt 0°, dreta 90°, baix 180°, esquerra -90°).
+ * `.sj-lloc` reserva l'espai ja girat (ample i alt intercanviats als
+ * laterals) perquè `rotate` no afecta la caixa de disposició.
  */
 .sj-lloc {
   position: absolute;

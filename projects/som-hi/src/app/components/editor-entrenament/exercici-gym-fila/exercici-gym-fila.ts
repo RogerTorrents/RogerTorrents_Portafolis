@@ -10,25 +10,13 @@ import type { ExerciciGym } from '../../../models/entrenament.model';
 import { TraduccioService } from '../../../services/traduccio.service';
 
 /**
- * Una fila d'exercici de gym: dropdown de part del cos → llista visual
- * (amb foto) dels exercicis d'aquell múscul, o un camp de text lliure si
- * el grup és "Altre". Un cop triat, es col·lapsa a un resum amb foto +
- * nom + "Canviar". El grup muscular NOMÉS és estat local de UI — mai es
- * persisteix (`ExerciciGym` només guarda `nom`); en reobrir un exercici
- * per editar-lo, `trobarExerciciPerNom` reconstrueix quin grup/foto li
- * pertoquen buscant el nom dins de tot el catàleg.
+ * Fila d'exercici de gym: part del cos → llista d'exercicis amb foto (o text
+ * lliure per a "Altre"); un cop triat, es col·lapsa a un resum. El grup
+ * muscular és només estat de UI: es reconstrueix del nom amb `trobarExerciciPerNom`.
  *
- * `estatLocal` (via `linkedSignal`, sembrat des de l'input `exercici` però
- * després mutat només localment) és la font de veritat mentre s'edita —
- * NO `exercici()` directament. Bug real trobat i corregit: si cada canvi
- * (triar exercici, després escriure sèries) llegia `exercici()` com a base
- * per fer el merge, dos canvis seguits massa ràpids (abans que el pare
- * confirmés el primer, fent tornar avall el nou valor per l'input) feien
- * que el segon canvi es basés en dades velles i esborrés el primer —
- * p. ex. triar "Sentadilla" i tot seguit escriure "4" a sèries acabava
- * enviant `nom: ''` al backend. Amb `estatLocal` cada canvi es basa sempre
- * en l'últim valor conegut localment, sense dependre de cap volta d'anada
- * i tornada.
+ * `estatLocal` és la font de veritat mentre s'edita: si cada canvi partís de
+ * l'input `exercici()`, dos canvis seguits abans que el pare respongués
+ * podrien trepitjar-se i perdre el primer.
  */
 @Component({
   selector: 'app-exercici-gym-fila',
